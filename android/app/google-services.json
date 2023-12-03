@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1064378824508",
+    "project_id": "icesspool",
+    "storage_bucket": "icesspool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064378824508:android:fac18c4406fac0d3de9039",
+        "android_client_info": {
+          "package_name": "com.icesspool.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064378824508-k7l87uigarh8id9h6p2qsicjqm8nar2f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.icesspool.mobile",
+            "certificate_hash": "a8244ce4249689c7419e9d84f760497623d7639a"
+          }
+        },
+        {
+          "client_id": "1064378824508-mfklao4gvqnaei2l6avajglufgn6iqqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGr7iroeZlvpaWJMoHzYhJZXWNPkxmdkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064378824508-mfklao4gvqnaei2l6avajglufgn6iqqq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1064378824508-cmnhtu8aq3drress9tt615ti3pnscohe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sanitation.report.sanitationReportApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
