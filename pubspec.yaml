@@ -36,6 +36,8 @@ dependencies:
   package_info: ^2.0.2
   upgrader: ^7.1.0
   esys_flutter_share_plus: ^2.2.0
+  google_maps_flutter: ^2.5.0
+  interactive_bottom_sheet: ^1.0.0
 
 
  
@@ -50,7 +52,7 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/images/splash.png
+  image: assets/images/logo.png
 
 
 flutter: 

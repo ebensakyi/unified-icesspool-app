@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
@@ -14,6 +15,7 @@ import 'package:sizer/sizer.dart';
 import 'bindings/initial_binding.dart';
 import 'firebase_options.dart';
 import 'routes/app_pages.dart';
+import 'views/dashboard_view.dart';
 
 bool? isViewed;
 void main() async {
@@ -35,6 +37,7 @@ void main() async {
   });
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isViewed = prefs.getBool('onBoard');
+
   runApp(const MyApp());
 }
 
@@ -48,7 +51,7 @@ class MyApp extends StatelessWidget {
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
         initialBinding: InitialBindings(),
-        title: 'Sanitation Reporter',
+        title: 'iCesspool',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)
@@ -76,7 +79,6 @@ class MyApp extends StatelessWidget {
               : isViewed == false
                   ? OnboardingView()
                   : LoginView(),
-          // Constants.BASIC_INFO_SECTION_ROUTE: (context) => BasicInfoSectionPage(),
         },
       );
     });

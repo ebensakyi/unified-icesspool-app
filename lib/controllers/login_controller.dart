@@ -11,7 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/bindings/home_binding.dart';
 import 'package:icesspool/views/home_view.dart';
-import 'package:icesspool/views/report_view.dart';
+import 'package:icesspool/views/dashboard_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -79,7 +79,7 @@ class LoginController extends GetxController {
       // final User? currentUser = _auth.currentUser;
       // inspect(currentUser);
       // assert(user!.uid == currentUser!.uid);
-      Get.off(() => ReportView()); // navigate to your wanted page
+      Get.off(() => DashboardView()); // navigate to your wanted page
       return;
     } catch (e) {
       throw (e);
@@ -219,7 +219,7 @@ class LoginController extends GetxController {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-                '''SANITATION REPORTER collects location data when the app is open.\nThe reporting feature uses the location of the user.
+                '''iCesspool collects location data when the app is open.\nThe reporting feature uses the location of the user.
                 \nThis enable us know where you are submitting your reported from.\n\nAd permissions are used to provide analytics to improve user experience. App also requires camera and file permissions to be able to take picture or pick picture from phone gallery'''),
             SizedBox(
               height: 10.0,

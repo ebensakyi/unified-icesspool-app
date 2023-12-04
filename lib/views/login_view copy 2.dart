@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 
 import '../controllers/login_controller.dart';
 import '../core/authentication_service.dart';
-import 'report_view.dart';
+import 'dashboard_view.dart';
 
 class LoginView extends StatelessWidget {
   final controller = Get.put(LoginController());
@@ -75,7 +75,7 @@ class LoginView extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.off(() => ReportView());
+                    Get.off(() => DashboardView());
                   },
                   child: Text(
                     "Skip",

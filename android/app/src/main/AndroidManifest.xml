@@ -6,10 +6,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
    <application
-        android:label="Sanitation reporter"
+        android:label="iCesspool"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
          
+           <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCASoJIfdhowhu2y-abeSuidJSvgJZWebM"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

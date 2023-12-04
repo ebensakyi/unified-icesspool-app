@@ -331,8 +331,8 @@ class HomeController extends GetxController {
 
   void shareApplication() async {
     Share.text(
-        'Sanitation Reporter',
-        'Check out this app for sanitation reporting. https://play.google.com/store/apps/details?id=com.icesspool.mobile',
+        'iCesspool',
+        'Check out this app. https://play.google.com/store/apps/details?id=com.icesspool.mobile',
         'text/plain');
 
     // Share.share(

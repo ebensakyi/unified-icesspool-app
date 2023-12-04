@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:icesspool/views/report_view.dart';
+import 'package:icesspool/views/dashboard_view.dart';
 
 import '../controllers/home_controller.dart';
 import '../themes/colors.dart';
@@ -95,7 +95,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget getBody() {
-    List<Widget> pages = [ReportView(), ReportHistoryView(), AboutView()];
+    List<Widget> pages = [DashboardView(), ReportHistoryView(), AboutView()];
     return Obx(() {
       return IndexedStack(
         index: controller.currentIndex.value,
