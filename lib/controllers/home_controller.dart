@@ -331,11 +331,11 @@ class HomeController extends GetxController {
   void shareApplication() async {
     Share.text(
         'iCesspool',
-        'Check out this app. https://play.google.com/store/apps/details?id=com.icesspool.mobile',
+        'Check out this app. https://play.google.com/store/apps/details?id=com.icesspool.unified',
         'text/plain');
 
     // Share.share(
-    //     'Check out this app for sanitation reporting. https://play.google.com/store/apps/details?id=com.icesspool.mobile');
+    //     'Check out this app for sanitation reporting. https://play.google.com/store/apps/details?id=com.icesspool.unified');
   }
 
   @override

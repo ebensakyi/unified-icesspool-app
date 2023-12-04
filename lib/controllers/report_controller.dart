@@ -269,7 +269,7 @@
 
 //   void shareApplication() async {
 //     Share.share(
-//         'Check out this app for sanitation reporting. https://play.google.com/store/apps/details?id=com.icesspool.mobile');
+//         'Check out this app for sanitation reporting. https://play.google.com/store/apps/details?id=com.icesspool.unified');
 //   }
 
 //   @override

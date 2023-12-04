@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1064378824508:android:fac18c4406fac0d3de9039",
         "android_client_info": {
-          "package_name": "com.icesspool.mobile"
+          "package_name": "com.icesspool.unified"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "1064378824508-k7l87uigarh8id9h6p2qsicjqm8nar2f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.icesspool.mobile",
+            "package_name": "com.icesspool.unified",
             "certificate_hash": "a8244ce4249689c7419e9d84f760497623d7639a"
           }
         },
@@ -42,7 +42,7 @@
               "client_id": "1064378824508-cmnhtu8aq3drress9tt615ti3pnscohe.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sanitation.report.sanitationReportApp"
+                "bundle_id": "com.icesspool.unified"
               }
             }
           ]

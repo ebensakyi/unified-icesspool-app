@@ -69,7 +69,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'icesspool.appspot.com',
     iosClientId:
         '1064378824508-cmnhtu8aq3drress9tt615ti3pnscohe.apps.googleusercontent.com',
-    iosBundleId: 'com.sanitation.report.sanitationReportApp',
+    iosBundleId: 'com.icesspool.unified',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -80,6 +80,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'icesspool.appspot.com',
     iosClientId:
         '1064378824508-cmnhtu8aq3drress9tt615ti3pnscohe.apps.googleusercontent.com',
-    iosBundleId: 'com.sanitation.report.sanitationReportApp',
+    iosBundleId: 'com.icesspool.unified',
   );
 }
