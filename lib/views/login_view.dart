@@ -94,7 +94,7 @@ class LoginView extends StatelessWidget {
                   color: const Color(0xFFFFFFFF),
                   child: Column(
                     children: <Widget>[
-                      getImageAsset("assets/images/logo.png", 105.0),
+                      getImageAsset("assets/images/logo_2.png", 105.0),
                       const Padding(
                         padding: EdgeInsets.only(
                             top: _minimumPadding, bottom: _minimumPadding),

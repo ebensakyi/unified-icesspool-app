@@ -15,7 +15,7 @@ import 'package:sizer/sizer.dart';
 import 'bindings/initial_binding.dart';
 import 'firebase_options.dart';
 import 'routes/app_pages.dart';
-import 'views/dashboard_view.dart';
+import 'views/request_view.dart';
 
 bool? isViewed;
 void main() async {
@@ -73,13 +73,15 @@ class MyApp extends StatelessWidget {
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,
 
-        routes: {
-          '/': (context) => isViewed == null
-              ? OnboardingView()
-              : isViewed == false
-                  ? OnboardingView()
-                  : LoginView(),
-        },
+        routes: {"/": (ctx) => LoginView()},
+
+        // {
+        //   '/': (context) => isViewed == null
+        //       ? OnboardingView()
+        //       : isViewed == false
+        //           ? OnboardingView()
+        //           : LoginView(),
+        // },
       );
     });
   }

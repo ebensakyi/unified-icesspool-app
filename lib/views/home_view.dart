@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:icesspool/views/dashboard_view.dart';
+import 'package:icesspool/views/request_view.dart';
 
 import '../controllers/home_controller.dart';
 import '../themes/colors.dart';
@@ -18,38 +18,40 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Obx(() => Text(controller.currentTitle.value)),
-          centerTitle: true,
-          backgroundColor: MyColors.MainColor.asMaterialColor.shade900,
-          actions: [
-            PopupMenuButton(
-                // add icon, by default "3 dot" icon
-                // icon: Icon(Icons.book)
-                itemBuilder: (context) {
-              return [
-                PopupMenuItem<int>(
-                  value: 0,
-                  child: Text("Share"),
-                ),
-                PopupMenuItem<int>(
-                  value: 1,
-                  child: Text("Logout"),
-                ),
-                // PopupMenuItem<int>(
-                //   value: 2,
-                //   child: Text("About"),
-                // ),
-              ];
-            }, onSelected: (value) {
-              if (value == 0) {
-                controller.shareApplication();
-              } else if (value == 1) {
-                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-              }
-            }),
-          ],
-        ),
+        // appBar: AppBar(
+        //   title: Obx(
+        //     () => Text(controller.currentTitle.value),
+        //   ),
+        //   centerTitle: true,
+        //   backgroundColor: MyColors.MainColor.asMaterialColor.shade900,
+        //   actions: [
+        //     PopupMenuButton(
+        //         // add icon, by default "3 dot" icon
+        //         // icon: Icon(Icons.book)
+        //         itemBuilder: (context) {
+        //       return [
+        //         PopupMenuItem<int>(
+        //           value: 0,
+        //           child: Text("Share"),
+        //         ),
+        //         PopupMenuItem<int>(
+        //           value: 1,
+        //           child: Text("Logout"),
+        //         ),
+        //         // PopupMenuItem<int>(
+        //         //   value: 2,
+        //         //   child: Text("About"),
+        //         // ),
+        //       ];
+        //     }, onSelected: (value) {
+        //       if (value == 0) {
+        //         controller.shareApplication();
+        //       } else if (value == 1) {
+        //         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        //       }
+        //     }),
+        //   ],
+        // ),
         body: getBody(),
         bottomNavigationBar: Obx(() {
           return CustomAnimatedBottomBar(
@@ -95,7 +97,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget getBody() {
-    List<Widget> pages = [DashboardView(), ReportHistoryView(), AboutView()];
+    List<Widget> pages = [RequestView(), ReportHistoryView(), AboutView()];
     return Obx(() {
       return IndexedStack(
         index: controller.currentIndex.value,

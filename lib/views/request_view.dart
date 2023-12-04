@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/widgets/service-widget.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:icesspool/themes/colors.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -14,33 +13,32 @@ import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
 
 import '../controllers/home_controller.dart';
 import '../controllers/login_controller.dart';
+import '../controllers/request_controller.dart';
 import '../core/validator.dart';
-import '../widgets/camera-button.dart';
 import '../widgets/dropdown.dart';
 import '../widgets/text-box.dart';
 
-class DashboardView extends StatelessWidget {
+class RequestView extends StatelessWidget {
   final loginController = Get.put(LoginController());
+  final controller = Get.put(RequestController());
 
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    target: LatLng(5.635264, -0.188335),
+    zoom: 12,
+    tilt: 59.440717697143555,
+    bearing: 12.8334901395799,
   );
 
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  // static const CameraPosition _kLake = CameraPosition(
+  //     bearing: 192.8334901395799,
+  //     target: LatLng(37.43296265331129, -122.08832357078792),
+  //     tilt: 59.440717697143555,
+  //     zoom: 19.151926040649414);
 
-//   PersistentTabController persistentTabController;
-
-// persistentTabController = PersistentTabController(initialIndex: 0);
-
-  DashboardView({Key? key}) : super(key: key);
+  RequestView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +82,7 @@ class DashboardView extends StatelessWidget {
                 ),
                 Expanded(
                   child: ServiceWidget(
-                    path: "assets/images/next.png",
+                    path: "assets/images/more.png",
                     size: 32,
                     title: 'More',
                     subTitle: 'Read more',
@@ -95,12 +93,12 @@ class DashboardView extends StatelessWidget {
             ListTile(
               visualDensity: VisualDensity(horizontal: 0, vertical: -4),
               title: Text(
-                'Item 1',
+                'Biogester',
                 style: TextStyle(fontSize: 12),
               ),
               leading: Icon(Icons.history),
               subtitle: Text(
-                'Item 1',
+                'Dansoman - 21/11/2023',
                 style: TextStyle(fontSize: 10),
               ),
             ),
@@ -108,24 +106,36 @@ class DashboardView extends StatelessWidget {
             ListTile(
               visualDensity: VisualDensity(horizontal: 0, vertical: -4),
               title: Text(
-                'Item 2',
+                'Bulk Water',
                 style: TextStyle(fontSize: 12),
               ),
               leading: Icon(Icons.history),
               subtitle: Text(
-                'Item 1',
+                'Sowutuom - 11/01/2023',
                 style: TextStyle(fontSize: 10),
               ),
             ),
           ],
         ),
+        draggableAreaOptions: DraggableAreaOptions(
+          //topBorderRadius: 20,
+          // height: 75,
+          // backgroundColor: Colors.grey,
+          indicatorColor: Color.fromARGB(255, 230, 230, 230),
+          indicatorWidth: 40,
+          indicatorHeight: 5,
+          indicatorRadius: 10,
+        ),
       ),
       body: GoogleMap(
+        mapToolbarEnabled: true,
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+        // onMapCreated: (GoogleMapController controller) {
+        //   _controller.complete(controller);
+        // },
+        onMapCreated: controller.onMapCreated,
+        markers: Set<Marker>.of(controller.markers.values),
       ),
     );
 
@@ -444,36 +454,36 @@ Widget stepperUI(context) {
           subtitle: Text('Capture or select image here'),
           content: Column(
             children: [
-              Obx(
-                () => Visibility(
-                  maintainState: false,
-                  visible: controller.selectedReportType.value == "1",
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CameraButton(
-                      onPressed: () {
-                        controller.getImage(ImageSource.camera);
-                      },
-                      text: "Capture picture from camera *",
-                      icon: Icon(Icons.camera_alt_outlined),
-                    ),
-                  ),
-                ),
-              ),
-              Obx(() => Visibility(
-                    maintainState: false,
-                    visible: controller.selectedReportType.value == "2",
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: CameraButton(
-                        onPressed: () {
-                          controller.getImage(ImageSource.gallery);
-                        },
-                        text: "Add a picture from gallery *",
-                        icon: Icon(Icons.photo),
-                      ),
-                    ),
-                  )),
+              // Obx(
+              //   () => Visibility(
+              //     maintainState: false,
+              //     visible: controller.selectedReportType.value == "1",
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: CameraButton(
+              //         onPressed: () {
+              //           controller.getImage(ImageSource.camera);
+              //         },
+              //         text: "Capture picture from camera *",
+              //         icon: Icon(Icons.camera_alt_outlined),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Obx(() => Visibility(
+              //       maintainState: false,
+              //       visible: controller.selectedReportType.value == "2",
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(16.0),
+              //         child: CameraButton(
+              //           onPressed: () {
+              //             controller.getImage(ImageSource.gallery);
+              //           },
+              //           text: "Add a picture from gallery *",
+              //           icon: Icon(Icons.photo),
+              //         ),
+              //       ),
+              //     )),
               Obx(() => Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Visibility(

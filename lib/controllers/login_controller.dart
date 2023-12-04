@@ -11,7 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/bindings/home_binding.dart';
 import 'package:icesspool/views/home_view.dart';
-import 'package:icesspool/views/dashboard_view.dart';
+import 'package:icesspool/views/request_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -79,7 +79,7 @@ class LoginController extends GetxController {
       // final User? currentUser = _auth.currentUser;
       // inspect(currentUser);
       // assert(user!.uid == currentUser!.uid);
-      Get.off(() => DashboardView()); // navigate to your wanted page
+      Get.off(() => RequestView()); // navigate to your wanted page
       return;
     } catch (e) {
       throw (e);

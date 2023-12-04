@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
 import 'package:icesspool/model/district.dart';
@@ -110,26 +109,26 @@ class HomeController extends GetxController {
     }
   }
 
-  void getImage(ImageSource source) async {
-    final XFile? pickedFile = await ImagePicker().pickImage(
-      source: source,
-      maxWidth: double.infinity,
-      maxHeight: double.infinity,
-    );
+  // void getImage(ImageSource source) async {
+  //   final XFile? pickedFile = await ImagePicker().pickImage(
+  //     source: source,
+  //     maxWidth: double.infinity,
+  //     maxHeight: double.infinity,
+  //   );
 
-    if (pickedFile == null) {
-      Get.snackbar("Error", "No image was picked",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white);
-    } else {
-      selectedImagePath.value = pickedFile.path;
-      selectedImageSize.value =
-          ((File(selectedImagePath.value)).lengthSync() / 1024 / 1024)
-                  .toStringAsFixed(2) +
-              " mb";
-    }
-  }
+  //   if (pickedFile == null) {
+  //     Get.snackbar("Error", "No image was picked",
+  //         snackPosition: SnackPosition.BOTTOM,
+  //         backgroundColor: Colors.red,
+  //         colorText: Colors.white);
+  //   } else {
+  //     selectedImagePath.value = pickedFile.path;
+  //     selectedImageSize.value =
+  //         ((File(selectedImagePath.value)).lengthSync() / 1024 / 1024)
+  //                 .toStringAsFixed(2) +
+  //             " mb";
+  //   }
+  // }
 
   void clearSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
