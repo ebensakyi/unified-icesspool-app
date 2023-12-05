@@ -40,6 +40,8 @@ class RequestView extends StatelessWidget {
 
   RequestView({Key? key}) : super(key: key);
 
+  void lol() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +80,9 @@ class RequestView extends StatelessWidget {
                     size: 32,
                     title: 'Biogester',
                     subTitle: 'Service or build',
+                    onTap: () {
+                      print('Container tapped!');
+                    },
                   ),
                 ),
                 Expanded(
