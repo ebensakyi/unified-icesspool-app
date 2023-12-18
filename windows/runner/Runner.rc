@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.sanitation.report" "\0"
+            VALUE "CompanyName", "com.icesspool.unified" "\0"
             VALUE "FileDescription", "icesspool" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "icesspool" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.sanitation.report. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com.icesspool.unified. All rights reserved." "\0"
             VALUE "OriginalFilename", "icesspool.exe" "\0"
             VALUE "ProductName", "icesspool" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../views/biodigester_main_view.dart';
+
 class RequestController extends GetxController {
   final community = "".obs;
   final Completer<GoogleMapController> _controller = Completer();
@@ -46,4 +48,6 @@ class RequestController extends GetxController {
     _controller.complete(controller);
     await addMarker(); // Add the initial marker when the map is created
   }
+
+
 }

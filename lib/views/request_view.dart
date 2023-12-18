@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:icesspool/widgets/button.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 
 import 'package:icesspool/themes/colors.dart';
@@ -17,6 +18,7 @@ import '../controllers/request_controller.dart';
 import '../core/validator.dart';
 import '../widgets/dropdown.dart';
 import '../widgets/text-box.dart';
+import 'biodigester_main_view.dart';
 
 class RequestView extends StatelessWidget {
   final loginController = Get.put(LoginController());
@@ -75,18 +77,16 @@ class RequestView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: ServiceWidget(
+                  child:  ServiceWidget(
                     path: "assets/images/biodigester.png",
                     size: 32,
-                    title: 'Biogester',
+                    title: 'Biodigester',
                     subTitle: 'Service or build',
-                    onTap: () {
-                      print('Container tapped!');
-                    },
+                    onTap: openBioDigesterMainView,
                   ),
                 ),
                 Expanded(
-                  child: ServiceWidget(
+                  child:ServiceWidget(
                     path: "assets/images/more.png",
                     size: 32,
                     title: 'More',
@@ -98,7 +98,7 @@ class RequestView extends StatelessWidget {
             ListTile(
               visualDensity: VisualDensity(horizontal: 0, vertical: -4),
               title: Text(
-                'Biogester',
+                'Biodigester',
                 style: TextStyle(fontSize: 12),
               ),
               leading: Icon(Icons.history),
@@ -517,3 +517,12 @@ Widget stepperUI(context) {
 // bool completed = false;
 
 
+
+openBioDigesterMainView() {
+  return  Get.to(() => BioDigesterMainView());
+}
+
+
+openEmptyingMainView() {
+  return  Get.to(() => BioDigesterMainView());
+}

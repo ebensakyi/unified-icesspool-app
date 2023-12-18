@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/image-view.dart';
 
-class ServiceWidget extends StatelessWidget {
-  const ServiceWidget(
+class PriceItemWidget extends StatelessWidget {
+  const PriceItemWidget(
       {super.key,
         required this.path,
         required this.size,

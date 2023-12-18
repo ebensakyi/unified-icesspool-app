@@ -19,7 +19,6 @@ class SmallButton extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         height: 30,
-        width: 80,
         child: ElevatedButton(
           onPressed: onPressed,
           // icon: Icon(Icons.send_outlined),
