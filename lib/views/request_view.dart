@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
+import 'package:icesspool/views/water_main_view.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
@@ -49,44 +50,50 @@ class RequestView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(
-                  child: ServiceWidget(
-                    isAvailable: controller.emptyingServiceAvailable.value,
-                    path: "assets/images/toilet-tanker.png",
-                    size: 32,
-                    title: 'Emptying',
-                    subTitle: 'Empty your cesspit',
-                    onTap: openTankerMainView,
-                  ),
-                ),
-                Expanded(
-                  child: ServiceWidget(
-                    isAvailable: controller.waterServiceAvailable.value,
-                    path: "assets/images/water-tanker.png",
-                    size: 32,
-                    title: 'Bulk Water',
-                    subTitle: 'Request for water',
-                    onTap: openWaterMainView,
-                  ),
-                ),
+                Obx(() {
+                  return Expanded(
+                    child: ServiceWidget(
+                      isAvailable: controller.emptyingServiceAvailable.value,
+                      path: "assets/images/toilet-tanker.png",
+                      size: 32,
+                      title: 'Emptying',
+                      subTitle: 'Empty your cesspit',
+                      onTap: openTankerMainView,
+                    ),
+                  );
+                }),
+                Obx(() {
+                  return Expanded(
+                    child: ServiceWidget(
+                      isAvailable: controller.waterServiceAvailable.value,
+                      path: "assets/images/water-tanker.png",
+                      size: 32,
+                      title: 'Bulk Water',
+                      subTitle: 'Request for water',
+                      onTap: openWaterMainView,
+                    ),
+                  );
+                }),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Obx(() {
+                  return Expanded(
+                    child: ServiceWidget(
+                      isAvailable: controller.biodigesterServiceAvailable.value,
+                      path: "assets/images/biodigester.png",
+                      size: 32,
+                      title: 'Biodigester',
+                      subTitle: 'Service or build',
+                      onTap: openBioDigesterMainView,
+                    ),
+                  );
+                }),
                 Expanded(
                   child: ServiceWidget(
-                    isAvailable: controller.biodigesterServiceAvailable.value,
-                    path: "assets/images/biodigester.png",
-                    size: 32,
-                    title: 'Biodigester',
-                    subTitle: 'Service or build',
-                    onTap: openBioDigesterMainView,
-                  ),
-                ),
-                Expanded(
-                  child: ServiceWidget(
-                    isAvailable: false,
+                    isAvailable: true,
                     path: "assets/images/more.png",
                     size: 32,
                     title: 'More',
@@ -472,5 +479,5 @@ openTankerMainView() {
 }
 
 openWaterMainView() {
-  return Get.to(() => BioDigesterMainView());
+  return Get.to(() => WaterMainView());
 }

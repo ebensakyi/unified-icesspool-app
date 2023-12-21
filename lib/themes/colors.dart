@@ -6,8 +6,8 @@ class MyColors {
 
   static const Orange = Color(0xffFF3E00);
 
-  static const MainColor = Color(0xff9C3848);
-  static const SecondaryColor = Color(0xff9C3848);
+  static const MainColor = Color(0xff1B998B);
+  static const SecondaryColor = Color(0xff1B998B);
   static const White = Color(0xfffffffff);
   static const Green = Color.fromARGB(255, 2, 79, 3);
 
@@ -41,6 +41,12 @@ class MyColors {
   static var Green1 = Color(0xff036C79);
 
   static var lightColor = Color(0xffE3F0F9);
+
+  static var SubServiceColor1 = Color(0xffA3333D);
+  static var SubServiceColor2 = Color(0xff477998);
+  static var SubServiceColor3 = Color(0xff445E93);
+  static var SubServiceColor4 = Color(0xffFF9F1C);
+  static var SubServiceColor5 = Color(0xff157A6E);
 }
 
 extension ToMaterialColor on Color {

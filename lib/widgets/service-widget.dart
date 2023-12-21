@@ -27,8 +27,8 @@ class ServiceWidget extends StatelessWidget {
           // color: Colors.indigo,
           decoration: BoxDecoration(
             color: isAvailable
-                ? MyColors.SecondaryColor.asMaterialColor.shade50
-                : MyColors.SecondaryColor.asMaterialColor.shade500,
+                ? MyColors.SecondaryColor.asMaterialColor.shade500
+                : MyColors.SecondaryColor.asMaterialColor.shade50,
             borderRadius: BorderRadius.all(
               Radius.circular(8),
             ),
@@ -52,9 +52,24 @@ class ServiceWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.all(4.0),
-                  child: Text(
-                    title,
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  child: Row(
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(4.0),
+                        child: Visibility(
+                          visible: !isAvailable,
+                          child: Icon(
+                            Icons.lock_outline,
+                            size: 16,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Padding(
