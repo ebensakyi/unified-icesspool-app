@@ -17,7 +17,7 @@ class SubmitButton extends StatelessWidget {
           icon: Icon(Icons.send_outlined),
           label: Text("Submit"),
           style: ElevatedButton.styleFrom(
-            primary: MyColors.BtnDark,
+            backgroundColor: MyColors.Red,
             shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(0.0),
             ),

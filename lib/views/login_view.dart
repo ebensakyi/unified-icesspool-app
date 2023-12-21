@@ -251,7 +251,7 @@ class LoginView extends StatelessWidget {
                                 // errorText: widget.errorText,
                                 labelText: 'Phone Number',
                                 filled: true,
-                                fillColor: MyColors.White,
+                                fillColor: Colors.white,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                   // borderSide: BorderSide.none,

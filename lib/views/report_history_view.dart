@@ -124,8 +124,8 @@ class ReportHistoryView extends GetView<HomeController> {
                                 controller.reports[index].status == 0
                                     ? MyColors.Red
                                     : controller.reports[index].status == 2
-                                        ? MyColors.Yellow
-                                        : MyColors.Green,
+                                        ? MyColors.Red
+                                        : MyColors.Red,
                             child: Text(
                                 controller.reports[index].community[0]
                                     .toUpperCase(),

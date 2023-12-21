@@ -103,7 +103,7 @@ class _TextBoxState extends State<TextBox> {
 
           labelText: widget.labelText,
           filled: true,
-          fillColor: MyColors.White,
+          fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             // borderSide: BorderSide.none,
@@ -160,7 +160,7 @@ class _TextBoxState2 extends State<TextBox2> {
 
           labelText: widget.labelText,
           filled: true,
-          fillColor: MyColors.White,
+          fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
             // borderSide: BorderSide.none,

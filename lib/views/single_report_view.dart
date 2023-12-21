@@ -96,8 +96,8 @@ class SingleReportView extends StatelessWidget {
                                 backgroundColor: controller.status == 0
                                     ? MyColors.Red
                                     : controller.status == 2
-                                        ? MyColors.Yellow
-                                        : MyColors.Green,
+                                        ? MyColors.Red
+                                        : MyColors.Red,
                                 labelStyle: TextStyle(color: Colors.white),
                                 label: Text(
                                   Constants.REPORT_STATUS[

@@ -162,7 +162,7 @@ class LoginController extends GetxController {
               "A server timeout error occured. Please try again later...",
               snackPosition: SnackPosition.TOP,
               backgroundColor: MyColors.Red,
-              colorText: MyColors.White);
+              colorText: Colors.white);
           return http.Response(
               'Error', 408); // Request Timeout response status code
         },
@@ -191,7 +191,7 @@ class LoginController extends GetxController {
             "Error", "Wrong phone number or password. Please try again",
             snackPosition: SnackPosition.TOP,
             backgroundColor: MyColors.Red,
-            colorText: MyColors.White);
+            colorText: Colors.white);
       }
     } catch (e) {
       log(e.toString());
@@ -199,7 +199,7 @@ class LoginController extends GetxController {
       Get.snackbar("Error", "Couldnt connect to the server. Please try again",
           snackPosition: SnackPosition.TOP,
           backgroundColor: MyColors.Red,
-          colorText: MyColors.White);
+          colorText: Colors.white);
     }
   }
 
@@ -238,7 +238,7 @@ class LoginController extends GetxController {
                   label: "Accept",
                 ),
                 SmallButton(
-                  backgroundColor: MyColors.DarkRed,
+                  backgroundColor: MyColors.Red,
                   onPressed: () {
                     if (Platform.isAndroid) {
                       SystemNavigator.pop();

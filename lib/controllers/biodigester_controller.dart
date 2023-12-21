@@ -16,19 +16,16 @@ import '../themes/colors.dart';
 import '../widgets/small-button.dart';
 import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 
-class HomeController extends GetxController {
+class BiodigesterController extends GetxController {
   final formKey = new GlobalKey<FormState>();
-  final AppName = "".obs;
-  final AppVersion = "".obs;
-  final isLoading = false.obs;
 
-  final reports = [].obs;
+  final isLoading = false.obs;
 
   final selectedRegion = "".obs;
   final selectedDistrict = "".obs;
   final selectedDistrictId = "".obs;
   final communityController = TextEditingController();
-  final selectedReportType = "".obs;
+  final selectedRequestType = "".obs;
   final selectedReportCategory = "".obs;
   final selectedVideoPath = "".obs;
 
@@ -70,7 +67,6 @@ class HomeController extends GetxController {
     userId.value = prefs.getInt('userId') ?? 0;
 
     await getAddressFromCoords();
-    await initPackageInfo();
 
     // placemarks =
     //     await placemarkFromCoordinates(latitude.value, longitude.value);
@@ -165,13 +161,6 @@ class HomeController extends GetxController {
             colorText: Colors.white);
       }
 
-      if (selectedReportType.value == "1" && latitude.value == "") {
-        Get.snackbar(
-            "Error", "Location is not available. Please turn on your location",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
       // formKey.currentState!.save();
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -188,7 +177,7 @@ class HomeController extends GetxController {
           descriptionController.text.toString() == ""
               ? " "
               : descriptionController.text.toString();
-      request.fields['reportType'] = selectedReportType.value.toString();
+      request.fields['reportType'] = selectedRequestType.value.toString();
       request.fields['reportCategoryId'] =
           selectedReportCategory.value.toString();
 
@@ -209,7 +198,7 @@ class HomeController extends GetxController {
         isLoading.value = false;
         selectedImagePath.value = "";
         selectedDistrict.value = "";
-        selectedReportType.value = "";
+        selectedRequestType.value = "";
         descriptionController.text = "";
         communityController.text = "";
 
@@ -419,13 +408,6 @@ class HomeController extends GetxController {
   //           _cameraVideoPlayerController.play();
   //         });
   // }
-
-  Future<void> initPackageInfo() async {
-    final _packageInfo = await PackageInfo.fromPlatform();
-
-    AppName.value = _packageInfo.appName;
-    AppVersion.value = _packageInfo.version;
-  }
 
   currentStepperType() {
     return stepperType == StepperType.vertical
