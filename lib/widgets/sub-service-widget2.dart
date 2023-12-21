@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/image-view.dart';
+import 'package:icesspool/widgets/small-button.dart';
+
+import 'small-button2.dart';
 
 class SubServiceWidget2 extends StatelessWidget {
   final String path;
@@ -93,6 +96,15 @@ class SubServiceWidget2 extends StatelessWidget {
                           color: activeTextColor),
                     ),
                   ),
+                  Row(
+                    children: [
+                      SmallButton2(
+                          label: "Learn More",
+                          onPressed: null,
+                          showLoading: false),
+                      Checkbox(value: true, onChanged: null)
+                    ],
+                  )
                 ],
               ),
             ],
