@@ -1,8 +1,10 @@
 class Constants {
-  static const String BASE_URL = "https://dashboard.esicapps.org/api";
+  //static const String BASE_URL = "https://dashboard.esicapps.org/api";
 
-  // static const String BASE_URL = "http://10.0.2.2:3000/api";
-  // static const String REGION_API_URL = "/v1/primary-data/region";
+  static const String BASE_URL = "http://10.0.2.2:3000/api";
+  static const String USER_AREA_API_URL = BASE_URL + "/user/user-area";
+  static const String SERVICES_AVAILABLE_API_URL =
+      BASE_URL + "/user/services-available";
 
   static const String DISTRICT_API_URL = "/sanitation-report/district";
   // static const String REPORT_TYPE_API_URL = "/v1/primary-data/report-type";

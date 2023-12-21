@@ -57,6 +57,7 @@ class RequestView extends StatelessWidget {
               children: [
                 Expanded(
                   child: ServiceWidget(
+                    isAvailable: false,
                     path: "assets/images/toilet-tanker.png",
                     size: 32,
                     title: 'Emptying',
@@ -65,6 +66,7 @@ class RequestView extends StatelessWidget {
                 ),
                 Expanded(
                   child: ServiceWidget(
+                    isAvailable: false,
                     path: "assets/images/water-tanker.png",
                     size: 32,
                     title: 'Bulk Water',
@@ -77,7 +79,8 @@ class RequestView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child:  ServiceWidget(
+                  child: ServiceWidget(
+                    isAvailable: false,
                     path: "assets/images/biodigester.png",
                     size: 32,
                     title: 'Biodigester',
@@ -86,7 +89,8 @@ class RequestView extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child:ServiceWidget(
+                  child: ServiceWidget(
+                    isAvailable: false,
                     path: "assets/images/more.png",
                     size: 32,
                     title: 'More',
@@ -327,59 +331,6 @@ Widget stepperUI(context) {
                         ),
                       ),
                     )),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    height: 50,
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 0,
-                          horizontal: 10,
-                        ),
-                        // errorText: widget.errorText,
-                        labelText: 'Search for district *',
-                        filled: true,
-                        fillColor: MyColors.White,
-
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          // borderSide: BorderSide.none,
-                        ),
-                      ),
-                      child: Obx(
-                        () => DropdownSearch<String>(
-                          popupProps: PopupProps.menu(
-                            showSearchBox: true,
-                            showSelectedItems: true,
-                            // disabledItemFn: (String s) => s.startsWith('I'),
-                          ),
-                          items: controller.districts
-                              .map((element) => element.name)
-                              .toList(),
-                          dropdownDecoratorProps: DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(
-                              border: InputBorder.none,
-                              isDense: true,
-                              labelText: "",
-                              hintText: "Select your MMDA",
-                            ),
-                          ),
-                          onChanged: (value) {
-                            controller.selectedDistrict.value =
-                                value.toString();
-                            controller.selectedDistrictId.value =
-                                controller.getItemId(value);
-                          },
-                          selectedItem: controller.selectedDistrict.value,
-                          validator: (value) {
-                            return Validator.dropdownValidator(value!);
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 TextBox(
                   controller: controller.communityController,
                   labelText: 'Community & Landmark*',
@@ -406,28 +357,28 @@ Widget stepperUI(context) {
             key: formKey2,
             child: Column(
               children: <Widget>[
-                Obx(
-                  () => Dropdown(
-                    onChangedCallback: (newValue) {
-                      controller.selectedReportCategory.value = newValue;
-                    },
-                    value: controller
-                        .returnValue(controller.selectedReportCategory.value),
-                    initialValue: controller
-                        .returnValue(controller.selectedReportCategory.value),
-                    dropdownItems: controller.reportCategories.map((var obj) {
-                      return DropdownMenuItem<String>(
-                        child: Text(obj.name.toString()),
-                        value: obj.id.toString(),
-                      );
-                    }).toList(),
-                    hintText: '',
-                    labelText: "Select category of report *",
-                    validator: (value) {
-                      return Validator.dropdownValidator(value);
-                    },
-                  ),
-                ),
+                // Obx(
+                //   () => Dropdown(
+                //     onChangedCallback: (newValue) {
+                //       controller.selectedReportCategory.value = newValue;
+                //     },
+                //     value: controller
+                //         .returnValue(controller.selectedReportCategory.value),
+                //     initialValue: controller
+                //         .returnValue(controller.selectedReportCategory.value),
+                //     dropdownItems: controller.reportCategories.map((var obj) {
+                //       return DropdownMenuItem<String>(
+                //         child: Text(obj.name.toString()),
+                //         value: obj.id.toString(),
+                //       );
+                //     }).toList(),
+                //     hintText: '',
+                //     labelText: "Select category of report *",
+                //     validator: (value) {
+                //       return Validator.dropdownValidator(value);
+                //     },
+                //   ),
+                // ),
                 TextBox(
                     controller: controller.descriptionController,
                     labelText: 'Description of nuisance ',
@@ -516,13 +467,10 @@ Widget stepperUI(context) {
 // int currentStep = 0;
 // bool completed = false;
 
-
-
 openBioDigesterMainView() {
-  return  Get.to(() => BioDigesterMainView());
+  return Get.to(() => BioDigesterMainView());
 }
 
-
 openEmptyingMainView() {
-  return  Get.to(() => BioDigesterMainView());
+  return Get.to(() => BioDigesterMainView());
 }

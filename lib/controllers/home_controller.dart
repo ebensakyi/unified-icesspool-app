@@ -1,5 +1,5 @@
+import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,13 +7,11 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
-import 'package:icesspool/model/district.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:package_info/package_info.dart';
 
 import '../contants.dart';
-import '../services/data_services.dart';
 import '../themes/colors.dart';
 import '../widgets/small-button.dart';
 import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
@@ -24,12 +22,8 @@ class HomeController extends GetxController {
   final AppVersion = "".obs;
   final isLoading = false.obs;
 
-  final regions = [].obs;
-  final districts = <District>[].obs;
-  final reportTypes = [].obs;
-  final reportCategories = [].obs;
   final reports = [].obs;
-
+  final availableServices = [].obs;
   final selectedRegion = "".obs;
   final selectedDistrict = "".obs;
   final selectedDistrictId = "".obs;
@@ -65,10 +59,8 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+    await getUserArea();
     final prefs = await SharedPreferences.getInstance();
-
-    districts.value = await DataServices.getDistricts();
-    reportCategories.value = await DataServices.getReportCategories();
 
     final position = await LocationService.determinePosition();
     latitude.value = position.latitude;
@@ -96,9 +88,12 @@ class HomeController extends GetxController {
       currentIndex.value = index;
       currentTitle.value = titlesList[index];
 
+      await getUserArea();
+      await getAvailableServices();
+
       if (index == 1) {
         isLoading.value = true;
-        reports.value = await DataServices.getReports(userId);
+        // reports.value = await DataServices.getReports(userId);
         isLoading.value = false;
       }
 
@@ -140,13 +135,13 @@ class HomeController extends GetxController {
     await prefs.remove('photoURL');
   }
 
-  void getDistricts() async {
-    try {
-      districts.value = await DataServices.getDistricts();
-    } catch (e) {
-      log(e.toString());
-    }
-  }
+  // void getDistricts() async {
+  //   try {
+  //     districts.value = await DataServices.getDistricts();
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  // }
 
   Future sendReport() async {
     try {
@@ -328,6 +323,56 @@ class HomeController extends GetxController {
   //   } catch (e) {}
   // }
 
+  Future<void> getUserArea() async {
+    final String apiUrl = Constants.USER_AREA_API_URL;
+    final Map<String, String> params = {
+      'lat': '5.6778',
+      'lng': '0.1645678',
+    };
+
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // Successful response
+        final data = json.decode(response.body);
+        print('Response Data: $data');
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception: $error');
+    }
+  }
+
+  Future<void> getAvailableServices() async {
+    final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
+    final Map<String, String> params = {'serviceAreaId': '1'};
+
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // Successful response
+        final data = json.decode(response.body);
+        availableServices.value = data;
+        print('getAvailableServices Response Data: $data');
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception: $error');
+    }
+  }
+
   void shareApplication() async {
     Share.text(
         'iCesspool',
@@ -356,17 +401,17 @@ class HomeController extends GetxController {
     }
   }
 
-  getItemId(value) {
-    try {
-      var id;
-      for (var i = 0; i < districts.length; i++) {
-        if (districts[i].name.trim() == value.trim()) {
-          id = districts[i].id.toString();
-        }
-      }
-      return id;
-    } catch (e) {}
-  }
+  // getItemId(value) {
+  //   try {
+  //     var id;
+  //     for (var i = 0; i < districts.length; i++) {
+  //       if (districts[i].name.trim() == value.trim()) {
+  //         id = districts[i].id.toString();
+  //       }
+  //     }
+  //     return id;
+  //   } catch (e) {}
+  // }
 
   // void getVideo(ImageSource source) async {
   //   final XFile? pickedFile = await ImagePicker().pickVideo(

@@ -5,16 +5,18 @@ import 'package:icesspool/widgets/image-view.dart';
 class ServiceWidget extends StatelessWidget {
   const ServiceWidget(
       {super.key,
-        required this.path,
-        required this.size,
-        required this.title,
-        required this.subTitle,
-        this.onTap});
+      required this.path,
+      required this.size,
+      required this.title,
+      required this.subTitle,
+      this.onTap,
+      required this.isAvailable});
 
   final String path;
   final double size;
   final String title;
   final String subTitle;
+  final bool isAvailable;
   final GestureTapCallback? onTap;
 
   @override
@@ -28,6 +30,7 @@ class ServiceWidget extends StatelessWidget {
           decoration: BoxDecoration(
               color: MyColors.SecondaryColor.asMaterialColor.shade50,
               borderRadius: BorderRadius.all(Radius.circular(8))),
+
           child: Row(children: [
             Padding(
               padding: EdgeInsets.all(8.0),
@@ -52,6 +55,22 @@ class ServiceWidget extends StatelessWidget {
                     subTitle,
                     style:
                         TextStyle(fontSize: 11, fontWeight: FontWeight.normal),
+                  ),
+                ),
+                Visibility(
+                  visible: isAvailable,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Not available",
+                          style: TextStyle(
+                              fontSize: 11, fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ],

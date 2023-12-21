@@ -13,12 +13,12 @@ class EmptyingMainView extends StatelessWidget {
       body: Column(
         children: [
           Container(),
-          ListView.builder(
-            itemCount: controller.priceList.length,
-            itemBuilder: (context, index) {
-              return     PriceItemWidget(path: path, size: size, title: title, subTitle: subTitle)
-            },
-          ),
+          // ListView.builder(
+          //   itemCount: controller.priceList.length,
+          //   itemBuilder: (context, index) {
+          //     return     PriceItemWidget(path: path, size: size, title: title, subTitle: subTitle)
+          //   },
+          // ),
 
         ],
       ),

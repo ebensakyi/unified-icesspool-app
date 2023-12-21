@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -8,14 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/login_view.dart';
-import 'package:icesspool/views/onboarding_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:sizer/sizer.dart';
 import 'bindings/initial_binding.dart';
 import 'firebase_options.dart';
 import 'routes/app_pages.dart';
-import 'views/request_view.dart';
 
 bool? isViewed;
 void main() async {

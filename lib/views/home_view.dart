@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:icesspool/views/report_history_view.dart';
 import 'package:icesspool/views/request_view.dart';
 
 import '../controllers/home_controller.dart';
 import '../themes/colors.dart';
 import '../widgets/custom-animated-bottom-bar.dart';
 import 'about_view.dart';
-import 'report_history_view.dart';
 
 class HomeView extends StatelessWidget {
   final controller = Get.put(HomeController());
