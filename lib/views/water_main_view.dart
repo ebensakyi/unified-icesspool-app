@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:icesspool/widgets/price-item-widget.dart';
 
-class EmptyingMainView extends StatelessWidget {
-  EmptyingMainView({super.key});
+class WaterMainView extends StatelessWidget {
+  WaterMainView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class EmptyingMainView extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            child: Text("Tanker emptying"),
+            child: Text("Water main"),
           ),
           // ListView.builder(
           //   itemCount: controller.priceList.length,

@@ -1,26 +1,29 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../views/biodigester_main_view.dart';
+import '../contants.dart';
 
 class RequestController extends GetxController {
   final community = "".obs;
   final Completer<GoogleMapController> _controller = Completer();
 
   final Map<MarkerId, Marker> markers = {};
+  var emptyingServiceAvailable = false.obs;
+  var waterServiceAvailable = false.obs;
+  var biodigesterServiceAvailable = false.obs;
+  @override
+  onInit() async {
+    await getAvailableServices();
+    // community.value = Get.arguments['community'];
 
-  // @override
-  // Future<void> onInit() async {
-  //   await _addMarkers();
-  //   // community.value = Get.arguments['community'];
-
-  //   super.onInit();
-  // }
+    super.onInit();
+  }
 
   Future<void> addMarker() async {
     final BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
@@ -49,5 +52,34 @@ class RequestController extends GetxController {
     await addMarker(); // Add the initial marker when the map is created
   }
 
+  Future<void> getAvailableServices() async {
+    final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
+    final Map<String, String> params = {'serviceAreaId': '1'};
 
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // Successful response
+        List<dynamic> data = json.decode(response.body);
+        emptyingServiceAvailable.value = data.contains(1);
+        waterServiceAvailable.value = data.contains(2);
+        biodigesterServiceAvailable.value = data.contains(3);
+
+        inspect(emptyingServiceAvailable.value);
+        inspect(waterServiceAvailable.value);
+        inspect(biodigesterServiceAvailable.value);
+
+        print('getAvailableServices Response Data: $data');
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception: $error');
+    }
+  }
 }

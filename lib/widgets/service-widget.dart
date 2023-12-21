@@ -3,7 +3,13 @@ import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/image-view.dart';
 
 class ServiceWidget extends StatelessWidget {
-  const ServiceWidget(
+  final String path;
+  final double size;
+  final String title;
+  final String subTitle;
+  final bool isAvailable;
+  final GestureTapCallback? onTap;
+  ServiceWidget(
       {super.key,
       required this.path,
       required this.size,
@@ -11,25 +17,27 @@ class ServiceWidget extends StatelessWidget {
       required this.subTitle,
       this.onTap,
       required this.isAvailable});
-
-  final String path;
-  final double size;
-  final String title;
-  final String subTitle;
-  final bool isAvailable;
-  final GestureTapCallback? onTap;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: onTap,
+        onTap: isAvailable ? onTap : null,
         child: Container(
           // color: Colors.indigo,
           decoration: BoxDecoration(
-              color: MyColors.SecondaryColor.asMaterialColor.shade50,
-              borderRadius: BorderRadius.all(Radius.circular(8))),
+            color: isAvailable
+                ? MyColors.SecondaryColor.asMaterialColor.shade50
+                : MyColors.SecondaryColor.asMaterialColor.shade500,
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+            border: Border.all(
+              color: MyColors.SecondaryColor.asMaterialColor
+                  .shade100, // Set the border color here
+              width: 2.0, // Set the border width
+            ),
+          ),
 
           child: Row(children: [
             Padding(
@@ -57,22 +65,6 @@ class ServiceWidget extends StatelessWidget {
                         TextStyle(fontSize: 11, fontWeight: FontWeight.normal),
                   ),
                 ),
-                Visibility(
-                  visible: isAvailable,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Not available",
-                          style: TextStyle(
-                              fontSize: 11, fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             )
           ]),

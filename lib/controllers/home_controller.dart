@@ -23,7 +23,7 @@ class HomeController extends GetxController {
   final isLoading = false.obs;
 
   final reports = [].obs;
-  final availableServices = [].obs;
+
   final selectedRegion = "".obs;
   final selectedDistrict = "".obs;
   final selectedDistrictId = "".obs;
@@ -89,7 +89,6 @@ class HomeController extends GetxController {
       currentTitle.value = titlesList[index];
 
       await getUserArea();
-      await getAvailableServices();
 
       if (index == 1) {
         isLoading.value = true;
@@ -339,30 +338,6 @@ class HomeController extends GetxController {
         // Successful response
         final data = json.decode(response.body);
         print('Response Data: $data');
-      } else {
-        // Handle error
-        print('Error: ${response.statusCode}');
-      }
-    } catch (error) {
-      // Handle exception
-      print('Exception: $error');
-    }
-  }
-
-  Future<void> getAvailableServices() async {
-    final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
-    final Map<String, String> params = {'serviceAreaId': '1'};
-
-    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
-
-    try {
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200) {
-        // Successful response
-        final data = json.decode(response.body);
-        availableServices.value = data;
-        print('getAvailableServices Response Data: $data');
       } else {
         // Handle error
         print('Error: ${response.statusCode}');

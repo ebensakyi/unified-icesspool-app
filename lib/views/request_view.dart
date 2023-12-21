@@ -1,33 +1,29 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:icesspool/widgets/button.dart';
+import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 
-import 'package:icesspool/themes/colors.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
 
-import '../controllers/home_controller.dart';
 import '../controllers/login_controller.dart';
 import '../controllers/request_controller.dart';
-import '../core/validator.dart';
-import '../widgets/dropdown.dart';
-import '../widgets/text-box.dart';
+
 import 'biodigester_main_view.dart';
 
 class RequestView extends StatelessWidget {
   final loginController = Get.put(LoginController());
   final controller = Get.put(RequestController());
+  // final homeController = Get.put(HomeController());
 
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  // final Completer<GoogleMapController> _controller =
+  //     Completer<GoogleMapController>();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
+  static CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(5.635264, -0.188335),
     zoom: 12,
     tilt: 59.440717697143555,
@@ -42,12 +38,10 @@ class RequestView extends StatelessWidget {
 
   RequestView({Key? key}) : super(key: key);
 
-  void lol() {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: const InteractiveBottomSheet(
+      bottomSheet: InteractiveBottomSheet(
         options: InteractiveBottomSheetOptions(
             expand: false, minimumSize: 0.25, maxSize: 0.5),
         child: Column(
@@ -57,20 +51,22 @@ class RequestView extends StatelessWidget {
               children: [
                 Expanded(
                   child: ServiceWidget(
-                    isAvailable: false,
+                    isAvailable: controller.emptyingServiceAvailable.value,
                     path: "assets/images/toilet-tanker.png",
                     size: 32,
                     title: 'Emptying',
                     subTitle: 'Empty your cesspit',
+                    onTap: openTankerMainView,
                   ),
                 ),
                 Expanded(
                   child: ServiceWidget(
-                    isAvailable: false,
+                    isAvailable: controller.waterServiceAvailable.value,
                     path: "assets/images/water-tanker.png",
                     size: 32,
                     title: 'Bulk Water',
                     subTitle: 'Request for water',
+                    onTap: openWaterMainView,
                   ),
                 ),
               ],
@@ -80,7 +76,7 @@ class RequestView extends StatelessWidget {
               children: [
                 Expanded(
                   child: ServiceWidget(
-                    isAvailable: false,
+                    isAvailable: controller.biodigesterServiceAvailable.value,
                     path: "assets/images/biodigester.png",
                     size: 32,
                     title: 'Biodigester',
@@ -180,290 +176,290 @@ Widget transactionHistory() {
       });
 }
 
-Widget stepperUI(context) {
-  final controller = Get.put(HomeController());
-  final formKey1 = new GlobalKey<FormState>();
-  final formKey2 = new GlobalKey<FormState>();
-  final formKey3 = new GlobalKey<FormState>();
+// Widget stepperUI(context) {
+//   final controller = Get.put(HomeController());
+//   final formKey1 = new GlobalKey<FormState>();
+//   final formKey2 = new GlobalKey<FormState>();
+//   final formKey3 = new GlobalKey<FormState>();
 
-  return Obx(
-    () => Stepper(
-      type: MediaQuery.of(context).orientation == Orientation.portrait
-          ? StepperType.vertical
-          : StepperType.horizontal,
-      physics: const ScrollPhysics(),
-      currentStep: controller.currentStep.value,
-      onStepTapped: (step) => controller.tapped(step),
-      onStepContinue: controller.continued,
-      onStepCancel: controller.cancel,
-      controlsBuilder: (context, _) {
-        return Row(
-          children: <Widget>[
-            controller.currentStep == 0
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: MyColors.MainColor,
-                          borderRadius: BorderRadius.circular(6)),
-                      height: 35,
-                      child: TextButton(
-                        onPressed: () {
-                          if (formKey1.currentState!.validate())
-                            controller.continued();
-                        },
-                        child: Text(
-                          'Continue',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  )
-                : controller.currentStep == 1
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: MyColors.MainColor,
-                              borderRadius: BorderRadius.circular(6)),
-                          height: 35,
-                          child: TextButton(
-                            onPressed: () {
-                              if (formKey2.currentState!.validate())
-                                controller.continued();
-                            },
-                            child: Text(
-                              'Continue',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      )
-                    : controller.isLoading.value
-                        ? Obx(() => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Visibility(
-                                visible: controller.isLoading.value,
-                                child: CircularProgressIndicator(),
-                              ),
-                            ))
-                        : Obx(() => Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: MyColors.MainColor,
-                                    borderRadius: BorderRadius.circular(6)),
-                                height: 35,
-                                child: TextButton(
-                                  onPressed: () {
-                                    controller.sendReport();
-                                  },
-                                  child: Text(
-                                    'Submit Report',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            )),
-            Container(
-              decoration: BoxDecoration(
-                  // color: Colors.indigo,
-                  border: Border.all(color: MyColors.SecondaryColor),
-                  borderRadius: BorderRadius.circular(6)),
-              height: 34,
-              child: TextButton(
-                onPressed: () {
-                  controller.cancel();
-                },
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(color: MyColors.SecondaryColor),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-      steps: <Step>[
-        Step(
-          subtitle: Text('Enter location info here'),
-          title: const Text('Location Info'),
-          content: Form(
-            key: formKey1,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              children: <Widget>[
-                Obx(
-                  () => Dropdown(
-                    onChangedCallback: (newValue) {
-                      controller.selectedReportType.value = newValue;
-                      controller.getAddressFromCoords();
-                    },
-                    value: controller
-                        .returnValue(controller.selectedReportType.value),
-                    initialValue: controller
-                        .returnValue(controller.selectedReportType.value),
-                    dropdownItems: [
-                      DropdownMenuItem(
-                        child: Text("I am at the location"),
-                        value: "1",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("I am at a diff. location"),
-                        value: "2",
-                      ),
-                    ],
-                    hintText: '',
-                    labelText: "Where are you reporting from? *",
-                    validator: (value) {
-                      return Validator.dropdownValidator(value);
-                    },
-                  ),
-                ),
-                Obx(() => Visibility(
-                      visible: controller.selectedReportType == "1",
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Text(
-                          "${controller.address.value}",
-                          style: TextStyle(
-                              fontSize: 10, color: Colors.amber.shade700),
-                        ),
-                      ),
-                    )),
-                TextBox(
-                  controller: controller.communityController,
-                  labelText: 'Community & Landmark*',
-                  maxLength: 50,
-                  validator: (value) {
-                    return Validator.textFieldValidator(value);
-                  },
-                ),
-              ],
-            ),
-          ),
-          isActive: controller.currentStep >= 0,
-          state: controller.currentStep >= 0
-              ? StepState.complete
-              : StepState.disabled,
-        ),
-        Step(
-          title: new Text(
-            'Report details',
-          ),
-          subtitle: Text('Enter report here'),
-          content: Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            key: formKey2,
-            child: Column(
-              children: <Widget>[
-                // Obx(
-                //   () => Dropdown(
-                //     onChangedCallback: (newValue) {
-                //       controller.selectedReportCategory.value = newValue;
-                //     },
-                //     value: controller
-                //         .returnValue(controller.selectedReportCategory.value),
-                //     initialValue: controller
-                //         .returnValue(controller.selectedReportCategory.value),
-                //     dropdownItems: controller.reportCategories.map((var obj) {
-                //       return DropdownMenuItem<String>(
-                //         child: Text(obj.name.toString()),
-                //         value: obj.id.toString(),
-                //       );
-                //     }).toList(),
-                //     hintText: '',
-                //     labelText: "Select category of report *",
-                //     validator: (value) {
-                //       return Validator.dropdownValidator(value);
-                //     },
-                //   ),
-                // ),
-                TextBox(
-                    controller: controller.descriptionController,
-                    labelText: 'Description of nuisance ',
-                    maxLines: 3,
-                    // validator: (value) {
-                    //   return Validator.textFieldValidator(value);
-                    // },
-                    maxLength: 120),
-              ],
-            ),
-          ),
-          isActive: controller.currentStep >= 0,
-          state: controller.currentStep >= 1
-              ? StepState.complete
-              : StepState.disabled,
-        ),
-        // Step(
-        //   title: new Text('Item & other detais'),
-        //   content: Column(
-        //     children: <Widget>[
+//   return Obx(
+//     () => Stepper(
+//       type: MediaQuery.of(context).orientation == Orientation.portrait
+//           ? StepperType.vertical
+//           : StepperType.horizontal,
+//       physics: const ScrollPhysics(),
+//       currentStep: controller.currentStep.value,
+//       onStepTapped: (step) => controller.tapped(step),
+//       onStepContinue: controller.continued,
+//       onStepCancel: controller.cancel,
+//       controlsBuilder: (context, _) {
+//         return Row(
+//           children: <Widget>[
+//             controller.currentStep == 0
+//                 ? Padding(
+//                     padding: const EdgeInsets.all(8.0),
+//                     child: Container(
+//                       decoration: BoxDecoration(
+//                           color: MyColors.MainColor,
+//                           borderRadius: BorderRadius.circular(6)),
+//                       height: 35,
+//                       child: TextButton(
+//                         onPressed: () {
+//                           if (formKey1.currentState!.validate())
+//                             controller.continued();
+//                         },
+//                         child: Text(
+//                           'Continue',
+//                           style: TextStyle(color: Colors.white),
+//                         ),
+//                       ),
+//                     ),
+//                   )
+//                 : controller.currentStep == 1
+//                     ? Padding(
+//                         padding: const EdgeInsets.all(8.0),
+//                         child: Container(
+//                           decoration: BoxDecoration(
+//                               color: MyColors.MainColor,
+//                               borderRadius: BorderRadius.circular(6)),
+//                           height: 35,
+//                           child: TextButton(
+//                             onPressed: () {
+//                               if (formKey2.currentState!.validate())
+//                                 controller.continued();
+//                             },
+//                             child: Text(
+//                               'Continue',
+//                               style: TextStyle(color: Colors.white),
+//                             ),
+//                           ),
+//                         ),
+//                       )
+//                     : controller.isLoading.value
+//                         ? Obx(() => Padding(
+//                               padding: const EdgeInsets.all(8.0),
+//                               child: Visibility(
+//                                 visible: controller.isLoading.value,
+//                                 child: CircularProgressIndicator(),
+//                               ),
+//                             ))
+//                         : Obx(() => Padding(
+//                               padding: const EdgeInsets.all(16.0),
+//                               child: Container(
+//                                 decoration: BoxDecoration(
+//                                     color: MyColors.MainColor,
+//                                     borderRadius: BorderRadius.circular(6)),
+//                                 height: 35,
+//                                 child: TextButton(
+//                                   onPressed: () {
+//                                     controller.sendReport();
+//                                   },
+//                                   child: Text(
+//                                     'Submit Report',
+//                                     style: TextStyle(color: Colors.white),
+//                                   ),
+//                                 ),
+//                               ),
+//                             )),
+//             Container(
+//               decoration: BoxDecoration(
+//                   // color: Colors.indigo,
+//                   border: Border.all(color: MyColors.SecondaryColor),
+//                   borderRadius: BorderRadius.circular(6)),
+//               height: 34,
+//               child: TextButton(
+//                 onPressed: () {
+//                   controller.cancel();
+//                 },
+//                 child: const Text(
+//                   'Cancel',
+//                   style: TextStyle(color: MyColors.SecondaryColor),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         );
+//       },
+//       steps: <Step>[
+//         Step(
+//           subtitle: Text('Enter location info here'),
+//           title: const Text('Location Info'),
+//           content: Form(
+//             key: formKey1,
+//             autovalidateMode: AutovalidateMode.onUserInteraction,
+//             child: Column(
+//               children: <Widget>[
+//                 Obx(
+//                   () => Dropdown(
+//                     onChangedCallback: (newValue) {
+//                       controller.selectedReportType.value = newValue;
+//                       controller.getAddressFromCoords();
+//                     },
+//                     value: controller
+//                         .returnValue(controller.selectedReportType.value),
+//                     initialValue: controller
+//                         .returnValue(controller.selectedReportType.value),
+//                     dropdownItems: [
+//                       DropdownMenuItem(
+//                         child: Text("I am at the location"),
+//                         value: "1",
+//                       ),
+//                       DropdownMenuItem(
+//                         child: Text("I am at a diff. location"),
+//                         value: "2",
+//                       ),
+//                     ],
+//                     hintText: '',
+//                     labelText: "Where are you reporting from? *",
+//                     validator: (value) {
+//                       return Validator.dropdownValidator(value);
+//                     },
+//                   ),
+//                 ),
+//                 Obx(() => Visibility(
+//                       visible: controller.selectedReportType == "1",
+//                       child: Padding(
+//                         padding: const EdgeInsets.only(left: 16, right: 16),
+//                         child: Text(
+//                           "${controller.address.value}",
+//                           style: TextStyle(
+//                               fontSize: 10, color: Colors.amber.shade700),
+//                         ),
+//                       ),
+//                     )),
+//                 TextBox(
+//                   controller: controller.communityController,
+//                   labelText: 'Community & Landmark*',
+//                   maxLength: 50,
+//                   validator: (value) {
+//                     return Validator.textFieldValidator(value);
+//                   },
+//                 ),
+//               ],
+//             ),
+//           ),
+//           isActive: controller.currentStep >= 0,
+//           state: controller.currentStep >= 0
+//               ? StepState.complete
+//               : StepState.disabled,
+//         ),
+//         Step(
+//           title: new Text(
+//             'Report details',
+//           ),
+//           subtitle: Text('Enter report here'),
+//           content: Form(
+//             autovalidateMode: AutovalidateMode.onUserInteraction,
+//             key: formKey2,
+//             child: Column(
+//               children: <Widget>[
+//                 // Obx(
+//                 //   () => Dropdown(
+//                 //     onChangedCallback: (newValue) {
+//                 //       controller.selectedReportCategory.value = newValue;
+//                 //     },
+//                 //     value: controller
+//                 //         .returnValue(controller.selectedReportCategory.value),
+//                 //     initialValue: controller
+//                 //         .returnValue(controller.selectedReportCategory.value),
+//                 //     dropdownItems: controller.reportCategories.map((var obj) {
+//                 //       return DropdownMenuItem<String>(
+//                 //         child: Text(obj.name.toString()),
+//                 //         value: obj.id.toString(),
+//                 //       );
+//                 //     }).toList(),
+//                 //     hintText: '',
+//                 //     labelText: "Select category of report *",
+//                 //     validator: (value) {
+//                 //       return Validator.dropdownValidator(value);
+//                 //     },
+//                 //   ),
+//                 // ),
+//                 TextBox(
+//                     controller: controller.descriptionController,
+//                     labelText: 'Description of nuisance ',
+//                     maxLines: 3,
+//                     // validator: (value) {
+//                     //   return Validator.textFieldValidator(value);
+//                     // },
+//                     maxLength: 120),
+//               ],
+//             ),
+//           ),
+//           isActive: controller.currentStep >= 0,
+//           state: controller.currentStep >= 1
+//               ? StepState.complete
+//               : StepState.disabled,
+//         ),
+//         // Step(
+//         //   title: new Text('Item & other detais'),
+//         //   content: Column(
+//         //     children: <Widget>[
 
-        //     ],
-        //   ),
-        //   isActive: _currentStep >= 0,
-        //   state: _currentStep >= 2 ? StepState.complete : StepState.disabled,
-        // ),
-        Step(
-          title: new Text('Choose Picture'),
-          subtitle: Text('Capture or select image here'),
-          content: Column(
-            children: [
-              // Obx(
-              //   () => Visibility(
-              //     maintainState: false,
-              //     visible: controller.selectedReportType.value == "1",
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: CameraButton(
-              //         onPressed: () {
-              //           controller.getImage(ImageSource.camera);
-              //         },
-              //         text: "Capture picture from camera *",
-              //         icon: Icon(Icons.camera_alt_outlined),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Obx(() => Visibility(
-              //       maintainState: false,
-              //       visible: controller.selectedReportType.value == "2",
-              //       child: Padding(
-              //         padding: const EdgeInsets.all(16.0),
-              //         child: CameraButton(
-              //           onPressed: () {
-              //             controller.getImage(ImageSource.gallery);
-              //           },
-              //           text: "Add a picture from gallery *",
-              //           icon: Icon(Icons.photo),
-              //         ),
-              //       ),
-              //     )),
-              Obx(() => Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Visibility(
-                      maintainSize: false,
-                      visible: controller.selectedImagePath.value != "",
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: Image.file(
-                          File(controller.selectedImagePath.value),
-                        ),
-                      ),
-                    ),
-                  )),
-            ],
-          ),
-          isActive: controller.currentStep >= 0,
-          state: controller.currentStep >= 2
-              ? StepState.complete
-              : StepState.disabled,
-        ),
-      ],
-    ),
-  );
-}
+//         //     ],
+//         //   ),
+//         //   isActive: _currentStep >= 0,
+//         //   state: _currentStep >= 2 ? StepState.complete : StepState.disabled,
+//         // ),
+//         Step(
+//           title: new Text('Choose Picture'),
+//           subtitle: Text('Capture or select image here'),
+//           content: Column(
+//             children: [
+//               // Obx(
+//               //   () => Visibility(
+//               //     maintainState: false,
+//               //     visible: controller.selectedReportType.value == "1",
+//               //     child: Padding(
+//               //       padding: const EdgeInsets.all(8.0),
+//               //       child: CameraButton(
+//               //         onPressed: () {
+//               //           controller.getImage(ImageSource.camera);
+//               //         },
+//               //         text: "Capture picture from camera *",
+//               //         icon: Icon(Icons.camera_alt_outlined),
+//               //       ),
+//               //     ),
+//               //   ),
+//               // ),
+//               // Obx(() => Visibility(
+//               //       maintainState: false,
+//               //       visible: controller.selectedReportType.value == "2",
+//               //       child: Padding(
+//               //         padding: const EdgeInsets.all(16.0),
+//               //         child: CameraButton(
+//               //           onPressed: () {
+//               //             controller.getImage(ImageSource.gallery);
+//               //           },
+//               //           text: "Add a picture from gallery *",
+//               //           icon: Icon(Icons.photo),
+//               //         ),
+//               //       ),
+//               //     )),
+//               Obx(() => Padding(
+//                     padding: const EdgeInsets.all(16.0),
+//                     child: Visibility(
+//                       maintainSize: false,
+//                       visible: controller.selectedImagePath.value != "",
+//                       child: ClipRRect(
+//                         borderRadius: BorderRadius.circular(12.0),
+//                         child: Image.file(
+//                           File(controller.selectedImagePath.value),
+//                         ),
+//                       ),
+//                     ),
+//                   )),
+//             ],
+//           ),
+//           isActive: controller.currentStep >= 0,
+//           state: controller.currentStep >= 2
+//               ? StepState.complete
+//               : StepState.disabled,
+//         ),
+//       ],
+//     ),
+//   );
+// }
 // int currentStep = 0;
 // bool completed = false;
 
@@ -471,6 +467,10 @@ openBioDigesterMainView() {
   return Get.to(() => BioDigesterMainView());
 }
 
-openEmptyingMainView() {
+openTankerMainView() {
+  return Get.to(() => EmptyingMainView());
+}
+
+openWaterMainView() {
   return Get.to(() => BioDigesterMainView());
 }
