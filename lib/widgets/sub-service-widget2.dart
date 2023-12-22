@@ -76,9 +76,9 @@ class SubServiceWidget2 extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.all(4.0),
                           child: Visibility(
-                            visible: !isAvailable,
+                            visible: true,
                             child: Icon(
-                              Icons.lock_outline,
+                              Icons.info_outline,
                               size: 16,
                             ),
                           ),
@@ -97,12 +97,20 @@ class SubServiceWidget2 extends StatelessWidget {
                     ),
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SmallButton2(
-                          label: "Learn More",
-                          onPressed: null,
-                          showLoading: false),
-                      Checkbox(value: true, onChanged: null)
+                      // SmallButton2(
+                      //     label: "Learn More",
+                      //     onPressed: null,
+                      //     showLoading: false),
+                      // Checkbox(value: true, onChanged: null)
+                      Text(
+                        "GHS 2231",
+                        style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.normal,
+                            color: activeTextColor),
+                      )
                     ],
                   )
                 ],
