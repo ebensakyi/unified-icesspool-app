@@ -301,7 +301,7 @@ Widget biodigesterServicing() {
         isAvailable: true,
         path: "assets/images/biodigester.png",
         size: 32,
-        title: 'Digester Emptying',
+        title: 'Biodigester Emptying',
         subTitle: 'Service or build',
         onTap: null,
       ),
