@@ -45,6 +45,14 @@ class BiodigesterController extends GetxController {
   final latitude = 0.0.obs;
   final accuracy = 0.0.obs;
   final inactiveColor = Colors.grey.obs;
+
+  final digesterEmptyingAvailable = false.obs;
+  final soakawayServicingAvailable = false.obs;
+  final drainfieldServicingAvailable = false.obs;
+  final biodigesterAvailable = false.obs;
+  final biodigesterWithSeatAvailable = false.obs;
+  final standaloneAvailable = false.obs;
+
   var currentIndex = 0.obs;
   var currentTitle = "Report".obs;
   List<String> titlesList = ["Home", "Report Status", "About"];
@@ -57,6 +65,7 @@ class BiodigesterController extends GetxController {
   @override
   void onInit() async {
     await getUserArea();
+    await getAvailableBiodigesterServices();
     final prefs = await SharedPreferences.getInstance();
 
     final position = await LocationService.determinePosition();
@@ -326,6 +335,47 @@ class BiodigesterController extends GetxController {
       if (response.statusCode == 200) {
         // Successful response
         final data = json.decode(response.body);
+        print('Response Data: $data');
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception: $error');
+    }
+  }
+
+  Future<void> getAvailableBiodigesterServices() async {
+    final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
+    final Map<String, String> params = {
+      'serviceAreaId': '1',
+    };
+
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // Successful response
+        final data = json.decode(response.body);
+
+        digesterEmptyingAvailable.value = data.contains(1);
+        soakawayServicingAvailable.value = data.contains(2);
+        drainfieldServicingAvailable.value = data.contains(3);
+
+        biodigesterAvailable.value = data.contains(4);
+        biodigesterWithSeatAvailable.value = data.contains(5);
+        standaloneAvailable.value = data.contains(6);
+
+        inspect(digesterEmptyingAvailable.value);
+        inspect(soakawayServicingAvailable.value);
+        inspect(drainfieldServicingAvailable.value);
+
+        inspect(biodigesterAvailable.value);
+        inspect(biodigesterWithSeatAvailable.value);
+        inspect(standaloneAvailable.value);
         print('Response Data: $data');
       } else {
         // Handle error
