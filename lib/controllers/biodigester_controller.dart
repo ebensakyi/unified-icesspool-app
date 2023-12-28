@@ -21,14 +21,7 @@ class BiodigesterController extends GetxController {
 
   final isLoading = false.obs;
 
-  final selectedRegion = "".obs;
-  final selectedDistrict = "".obs;
-  final selectedDistrictId = "".obs;
-  final communityController = TextEditingController();
   final selectedRequestType = "".obs;
-  final selectedReportCategory = "".obs;
-  final selectedVideoPath = "".obs;
-
   final selectedImagePath = "".obs;
   final selectedImageSize = "".obs;
   final count = 0.obs;
@@ -66,6 +59,7 @@ class BiodigesterController extends GetxController {
   void onInit() async {
     await getUserArea();
     await getAvailableBiodigesterServices();
+    await getBiodigesterPricing();
     final prefs = await SharedPreferences.getInstance();
 
     final position = await LocationService.determinePosition();
@@ -147,88 +141,88 @@ class BiodigesterController extends GetxController {
   //   }
   // }
 
-  Future sendReport() async {
-    try {
-      bool result = await InternetConnectionChecker().hasConnection;
-      if (result == false) {
-        isLoading.value = false;
-        return Get.snackbar(
-            "Internet Error", "Poor internet access. Please try again later...",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: MyColors.Red,
-            colorText: Colors.white);
-      }
+  Future send() async {
+    // try {
+    //   bool result = await InternetConnectionChecker().hasConnection;
+    //   if (result == false) {
+    //     isLoading.value = false;
+    //     return Get.snackbar(
+    //         "Internet Error", "Poor internet access. Please try again later...",
+    //         snackPosition: SnackPosition.TOP,
+    //         backgroundColor: MyColors.Red,
+    //         colorText: Colors.white);
+    //   }
 
-      // final isValid = formKey.currentState!.validate();
-      // if (!isValid) {
-      //   return;
-      // }
-      if (selectedImagePath == "") {
-        Get.snackbar("Error", "No image was picked",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
+    //   // final isValid = formKey.currentState!.validate();
+    //   // if (!isValid) {
+    //   //   return;
+    //   // }
+    //   if (selectedImagePath == "") {
+    //     Get.snackbar("Error", "No image was picked",
+    //         snackPosition: SnackPosition.BOTTOM,
+    //         backgroundColor: Colors.red,
+    //         colorText: Colors.white);
+    //   }
 
-      // formKey.currentState!.save();
+    //   // formKey.currentState!.save();
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var userId = prefs.getInt('userId');
+    //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   var userId = prefs.getInt('userId');
 
-      var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
+    //   var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
 
-      var request = http.MultipartRequest('POST', uri);
-      // request.fields['fullName'] = displayName.value.toString();
-      // request.fields['email'] = email.value.toString();
-      request.fields["userId"] = userId.toString();
-      request.fields['districtId'] = selectedDistrictId.value.toString();
-      request.fields['description'] =
-          descriptionController.text.toString() == ""
-              ? " "
-              : descriptionController.text.toString();
-      request.fields['reportType'] = selectedRequestType.value.toString();
-      request.fields['reportCategoryId'] =
-          selectedReportCategory.value.toString();
+    //   var request = http.MultipartRequest('POST', uri);
+    //   // request.fields['fullName'] = displayName.value.toString();
+    //   // request.fields['email'] = email.value.toString();
+    //   request.fields["userId"] = userId.toString();
+    //   request.fields['districtId'] = selectedDistrictId.value.toString();
+    //   request.fields['description'] =
+    //       descriptionController.text.toString() == ""
+    //           ? " "
+    //           : descriptionController.text.toString();
+    //   request.fields['reportType'] = selectedRequestType.value.toString();
+    //   request.fields['reportCategoryId'] =
+    //       selectedReportCategory.value.toString();
 
-      request.fields['latitude'] = latitude.value.toString();
-      request.fields['longitude'] = longitude.value.toString();
-      request.fields['communityLandmark'] = communityController.text;
-      request.fields['address'] = address.value;
-      request.fields['accuracy'] = accuracy.value.toString();
+    //   request.fields['latitude'] = latitude.value.toString();
+    //   request.fields['longitude'] = longitude.value.toString();
+    //   request.fields['communityLandmark'] = communityController.text;
+    //   request.fields['address'] = address.value;
+    //   request.fields['accuracy'] = accuracy.value.toString();
 
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-          'nuisancePicture', File(selectedImagePath.value.toString()).path);
-      request.files.add(multipartFile);
+    //   http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+    //       'nuisancePicture', File(selectedImagePath.value.toString()).path);
+    //   request.files.add(multipartFile);
 
-      var res = await request.send();
-      isLoading.value = true;
+    //   var res = await request.send();
+    //   isLoading.value = true;
 
-      if (res.statusCode == 200) {
-        isLoading.value = false;
-        selectedImagePath.value = "";
-        selectedDistrict.value = "";
-        selectedRequestType.value = "";
-        descriptionController.text = "";
-        communityController.text = "";
+    //   if (res.statusCode == 200) {
+    //     isLoading.value = false;
+    //     selectedImagePath.value = "";
+    //     selectedDistrict.value = "";
+    //     selectedRequestType.value = "";
+    //     descriptionController.text = "";
+    //     communityController.text = "";
 
-        showSubmissionReport();
-      } else {
-        isLoading.value = false;
-        Get.snackbar("Error", "A error occurred. Please try again.",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 5),
-            colorText: Colors.white);
-      }
-    } catch (e) {
-      isLoading.value = false;
-      log(e.toString());
-      Get.snackbar("Connection Error",
-          "Connection to server refused. Please try again later...",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: MyColors.Red,
-          colorText: Colors.white);
-    }
+    //     showSubmissionReport();
+    //   } else {
+    //     isLoading.value = false;
+    //     Get.snackbar("Error", "A error occurred. Please try again.",
+    //         snackPosition: SnackPosition.TOP,
+    //         backgroundColor: Colors.red,
+    //         duration: Duration(seconds: 5),
+    //         colorText: Colors.white);
+    //   }
+    // } catch (e) {
+    //   isLoading.value = false;
+    //   log(e.toString());
+    //   Get.snackbar("Connection Error",
+    //       "Connection to server refused. Please try again later...",
+    //       snackPosition: SnackPosition.TOP,
+    //       backgroundColor: MyColors.Red,
+    //       colorText: Colors.white);
+    // }
   }
 
   showSubmissionReport() async {
@@ -368,15 +362,33 @@ class BiodigesterController extends GetxController {
         biodigesterAvailable.value = data.contains(4);
         biodigesterWithSeatAvailable.value = data.contains(5);
         standaloneAvailable.value = data.contains(6);
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception: $error');
+    }
+  }
 
-        inspect(digesterEmptyingAvailable.value);
-        inspect(soakawayServicingAvailable.value);
-        inspect(drainfieldServicingAvailable.value);
+  Future<void> getBiodigesterPricing() async {
+    final String apiUrl = Constants.BIODIGESTER_PRICING_API_URL;
+    final Map<String, String> params = {
+      'platform': '2',
+      'serviceAreaId': '1',
+    };
 
-        inspect(biodigesterAvailable.value);
-        inspect(biodigesterWithSeatAvailable.value);
-        inspect(standaloneAvailable.value);
-        print('Response Data: $data');
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // Successful response
+        final data = json.decode(response.body);
+
+        print('data>>>: ${data}');
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -414,50 +426,6 @@ class BiodigesterController extends GetxController {
       return exp;
     }
   }
-
-  // getItemId(value) {
-  //   try {
-  //     var id;
-  //     for (var i = 0; i < districts.length; i++) {
-  //       if (districts[i].name.trim() == value.trim()) {
-  //         id = districts[i].id.toString();
-  //       }
-  //     }
-  //     return id;
-  //   } catch (e) {}
-  // }
-
-  // void getVideo(ImageSource source) async {
-  //   final XFile? pickedFile = await ImagePicker().pickVideo(
-  //     source: source,
-  //   );
-
-  //   if (pickedFile == null) {
-  //     Get.snackbar("Error", "No video was reccorded",
-  //         snackPosition: SnackPosition.BOTTOM,
-  //         backgroundColor: Colors.red,
-  //         colorText: Colors.white);
-  //   } else {
-  //     selectedVideoPath.value = pickedFile.path;
-  //     selectedImageSize.value =
-  //         ((File(selectedVideoPath.value)).lengthSync() / 1024 / 1024)
-  //                 .toStringAsFixed(2) +
-  //             " mb";
-  //   }
-  // }
-
-  // pickVideoFromCamera(ImageSource source) async {
-  //   XFile? video = await ImagePicker().pickVideo(
-  //     source: source,
-  //   );
-  //   _cameraVideo = video.toString();
-
-  //   _cameraVideoPlayerController =
-  //       VideoPlayerController.file(File(_cameraVideo))
-  //         ..initialize().then((_) {
-  //           _cameraVideoPlayerController.play();
-  //         });
-  // }
 
   currentStepperType() {
     return stepperType == StepperType.vertical

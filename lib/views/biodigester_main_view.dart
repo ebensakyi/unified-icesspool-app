@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/themes/colors.dart';
@@ -93,7 +95,7 @@ class BioDigesterMainView extends StatelessWidget {
                                       height: 35,
                                       child: TextButton(
                                         onPressed: () {
-                                          controller.sendReport();
+                                          controller.send();
                                         },
                                         child: Text(
                                           'Submit Report',
@@ -280,116 +282,116 @@ class BioDigesterMainView extends StatelessWidget {
 
         );
   }
-}
 
-Widget biodigesterServicing() {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      // Padding(
-      //   padding: const EdgeInsets.all(8.0),
-      //   child: Expanded(
-      //     child: Container(
-      //       child: Text("SERVICE YOUR BIODIGESTER TOILET"),
-      //     ),
-      //   ),
-      // ),
-      SubServiceWidget2(
-        activeBgColor: MyColors.SubServiceColor2,
-        inactiveBgColor: MyColors.DarkBlue,
-        activeTextColor: Colors.white,
-        isAvailable: true,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: 'Biodigester Emptying',
-        subTitle: 'Service or build',
-        onTap: null,
-      ),
-      SubServiceWidget2(
-        activeTextColor: Colors.white,
-        activeBgColor: MyColors.SubServiceColor2,
-        inactiveBgColor: MyColors.DarkBlue,
-        isAvailable: true,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: 'Soakaway Servicing',
-        subTitle: 'Service or build',
-        onTap: null,
-      ),
-      SubServiceWidget2(
-        activeTextColor: Colors.white,
-        activeBgColor: MyColors.SubServiceColor2,
-        inactiveBgColor: MyColors.DarkBlue,
-        isAvailable: true,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: 'Drainfield Servicing',
-        subTitle: 'Service or build',
-        onTap: null,
-      ),
-      // SubServiceWidget2(
-      //   activeTextColor: Colors.white,
-      //   activeBgColor: MyColors.SubServiceColor1,
-      //   inactiveBgColor: MyColors.DarkBlue,
-      //   isAvailable: true,
-      //   path: "assets/images/vidmore.png",
-      //   size: 32,
-      //   title: 'Learn More',
-      //   subTitle: 'Read & watch videos',
-      //   onTap: null,
-      // ),
-    ],
-  );
-}
+  Widget biodigesterServicing() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: Expanded(
+        //     child: Container(
+        //       child: Text("SERVICE YOUR BIODIGESTER TOILET"),
+        //     ),
+        //   ),
+        // ),
+        SubServiceWidget2(
+          activeBgColor: MyColors.DarkBlue,
+          inactiveBgColor: MyColors.SubServiceColor2,
+          activeTextColor: Colors.white,
+          isAvailable: controller.digesterEmptyingAvailable.value,
+          path: "assets/images/biodigester.png",
+          size: 32,
+          title: 'Biodigester Emptying',
+          subTitle: 'Service or build',
+          onTap: null,
+        ),
+        SubServiceWidget2(
+          activeTextColor: Colors.white,
+          activeBgColor: MyColors.DarkBlue,
+          inactiveBgColor: MyColors.SubServiceColor2,
+          isAvailable: controller.soakawayServicingAvailable.value,
+          path: "assets/images/biodigester.png",
+          size: 32,
+          title: 'Soakaway Servicing',
+          subTitle: 'Service or build',
+          onTap: null,
+        ),
+        SubServiceWidget2(
+          activeTextColor: Colors.white,
+          activeBgColor: MyColors.DarkBlue,
+          inactiveBgColor: MyColors.SubServiceColor2,
+          isAvailable: controller.drainfieldServicingAvailable.value,
+          path: "assets/images/biodigester.png",
+          size: 32,
+          title: 'Drainfield Servicing',
+          subTitle: 'Service or build',
+          onTap: null,
+        ),
+        // SubServiceWidget2(
+        //   activeTextColor: Colors.white,
+        //   activeBgColor: MyColors.SubServiceColor1,
+        //   inactiveBgColor: MyColors.DarkBlue,
+        //   isAvailable: true,
+        //   path: "assets/images/vidmore.png",
+        //   size: 32,
+        //   title: 'Learn More',
+        //   subTitle: 'Read & watch videos',
+        //   onTap: null,
+        // ),
+      ],
+    );
+  }
 
-Widget biodigesterConstruction() {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      SubServiceWidget2(
-        activeBgColor: MyColors.SubServiceColor5,
-        inactiveBgColor: MyColors.DarkBlue,
-        activeTextColor: Colors.white,
-        isAvailable: true,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: 'Biodigester Only',
-        subTitle: 'Service or build',
-        onTap: null,
-      ),
-      SubServiceWidget2(
-        activeTextColor: Colors.white,
-        activeBgColor: MyColors.SubServiceColor5,
-        inactiveBgColor: MyColors.DarkBlue,
-        isAvailable: true,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: 'Biodigester With Seat',
-        subTitle: 'Service or build',
-        onTap: null,
-      ),
-      SubServiceWidget2(
-        activeTextColor: Colors.white,
-        activeBgColor: MyColors.SubServiceColor5,
-        inactiveBgColor: MyColors.DarkBlue,
-        isAvailable: true,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: 'Standalone Toilet',
-        subTitle: 'Service or build',
-        onTap: null,
-      ),
-      // SubServiceWidget2(
-      //   activeTextColor: Colors.white,
-      //   activeBgColor: MyColors.SubServiceColor1,
-      //   inactiveBgColor: MyColors.DarkBlue,
-      //   isAvailable: true,
-      //   path: "assets/images/vidmore.png",
-      //   size: 32,
-      //   title: 'Learn More',
-      //   subTitle: 'Read & watch videos',
-      //   onTap: null,
-      // ),
-    ],
-  );
+  Widget biodigesterConstruction() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SubServiceWidget2(
+          activeBgColor: MyColors.DarkBlue,
+          inactiveBgColor: MyColors.SubServiceColor2,
+          activeTextColor: Colors.white,
+          isAvailable: controller.biodigesterAvailable.value,
+          path: "assets/images/biodigester.png",
+          size: 32,
+          title: 'Biodigester Only',
+          subTitle: 'Service or build',
+          onTap: null,
+        ),
+        SubServiceWidget2(
+          activeTextColor: Colors.white,
+          activeBgColor: MyColors.DarkBlue,
+          inactiveBgColor: MyColors.SubServiceColor2,
+          isAvailable: controller.biodigesterWithSeatAvailable.value,
+          path: "assets/images/biodigester.png",
+          size: 32,
+          title: 'Biodigester With Seat',
+          subTitle: 'Service or build',
+          onTap: null,
+        ),
+        SubServiceWidget2(
+          activeTextColor: Colors.white,
+          activeBgColor: MyColors.DarkBlue,
+          inactiveBgColor: MyColors.SubServiceColor2,
+          isAvailable: controller.standaloneAvailable.value,
+          path: "assets/images/biodigester.png",
+          size: 32,
+          title: 'Standalone Toilet',
+          subTitle: 'Service or build',
+          onTap: null,
+        ),
+        // SubServiceWidget2(
+        //   activeTextColor: Colors.white,
+        //   activeBgColor: MyColors.SubServiceColor1,
+        //   inactiveBgColor: MyColors.DarkBlue,
+        //   isAvailable: true,
+        //   path: "assets/images/vidmore.png",
+        //   size: 32,
+        //   title: 'Learn More',
+        //   subTitle: 'Read & watch videos',
+        //   onTap: null,
+        // ),
+      ],
+    );
+  }
 }
