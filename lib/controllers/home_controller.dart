@@ -434,7 +434,6 @@ class HomeController extends GetxController {
   }
 
   tapped(int step) {
-    inspect(step);
     currentStep.value = step;
   }
 

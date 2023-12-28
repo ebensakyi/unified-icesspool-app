@@ -41,8 +41,6 @@ class RequestController extends GetxController {
       icon: customIcon,
     );
 
-    inspect(marker);
-
     markers[markerId] = marker;
     update(); // Update the UI with the new marker
   }
@@ -67,10 +65,6 @@ class RequestController extends GetxController {
         emptyingServiceAvailable.value = data.contains(1);
         waterServiceAvailable.value = data.contains(2);
         biodigesterServiceAvailable.value = data.contains(3);
-
-        inspect(emptyingServiceAvailable.value);
-        inspect(waterServiceAvailable.value);
-        inspect(biodigesterServiceAvailable.value);
 
         print('getAvailableServices Response Data: $data');
       } else {

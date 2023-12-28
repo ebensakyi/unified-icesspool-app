@@ -167,7 +167,6 @@ class LoginController extends GetxController {
               'Error', 408); // Request Timeout response status code
         },
       );
-      inspect(response);
       isLoading.value = false;
 
       if (response.statusCode == 200) {

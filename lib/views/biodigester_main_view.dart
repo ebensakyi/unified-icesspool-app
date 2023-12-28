@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icesspool/model/biodigester_pricing.dart';
 import 'package:icesspool/themes/colors.dart';
 
 import '../controllers/biodigester_controller.dart';
@@ -378,8 +379,6 @@ class BioDigesterMainView extends StatelessWidget {
           )
         });
 
-    inspect(controller.biodigesterPricings);
-    inspect(wd);
     return Column(children: wd);
 
     // SubServiceWidget2(

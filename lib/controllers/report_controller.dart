@@ -46,8 +46,6 @@ class ReportController extends GetxController {
   var tabIndex = 0;
   late List<Placemark> placemarks = [];
 
-
-
   // void getImage(ImageSource source) async {
   //   final XFile? pickedFile = await ImagePicker().pickImage(
   //     source: source,
@@ -110,8 +108,6 @@ class ReportController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
 
     userId.value = prefs.getInt('userId') ?? 0;
-
-    inspect(userId);
 
     // var data = Get.arguments;
     // userId.value = data["0"];

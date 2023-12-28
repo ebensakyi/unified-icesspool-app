@@ -23,7 +23,7 @@ class BiodigesterPricing {
 
   int id;
   String name;
-  int cost;
+  double cost;
   // int deleted;
   // DateTime createdAt;
   // DateTime updatedAt;

@@ -41,7 +41,6 @@ class DataServices {
       }
       return [];
     } catch (e) {
-      inspect(e.toString());
       return [];
     }
   }
@@ -61,7 +60,6 @@ class DataServices {
       }
       return [];
     } catch (e) {
-      inspect(e);
       return [];
     }
   }
@@ -73,7 +71,6 @@ class DataServices {
           Uri.parse(Constants.BASE_URL + Constants.REPORT_CATEGORY_API_URL);
 
       var response = await client.get(uri);
-      inspect(response);
       if (response.statusCode == 200) {
         var json = response.body;
 
@@ -81,7 +78,6 @@ class DataServices {
       }
       return [];
     } catch (e) {
-      inspect(e);
       return [];
     }
   }

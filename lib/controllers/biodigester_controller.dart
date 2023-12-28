@@ -47,7 +47,9 @@ class BiodigesterController extends GetxController {
   final biodigesterWithSeatAvailable = false.obs;
   final standaloneAvailable = false.obs;
 
-  final biodigesterPricings = <BiodigesterPricing>[].obs;
+  // final biodigesterPricings = <BiodigesterPricing>[].obs;
+  final RxList<BiodigesterPricing> biodigesterPricings =
+      <BiodigesterPricing>[].obs;
 
   var currentIndex = 0.obs;
   var currentTitle = "Report".obs;
@@ -61,8 +63,9 @@ class BiodigesterController extends GetxController {
   @override
   void onInit() async {
     await getUserArea();
-    await getAvailableBiodigesterPricing();
+    // await getAvailableBiodigesterPricing();
     await getBiodigesterPricing();
+
     final prefs = await SharedPreferences.getInstance();
 
     final position = await LocationService.determinePosition();
@@ -339,45 +342,45 @@ class BiodigesterController extends GetxController {
       }
     } catch (error) {
       // Handle exception
-      print('Exception: $error');
+      print('Exception getUserArea: $error');
     }
   }
 
-  Future<void> getAvailableBiodigesterPricing() async {
-    final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
-    final Map<String, String> params = {
-      'serviceAreaId': '1',
-    };
+  // Future<void> getAvailableBiodigesterPricing() async {
+  //   final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
+  //   final Map<String, String> params = {
+  //     'serviceAreaId': '1',
+  //   };
 
-    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+  //   final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
 
-    try {
-      final response = await http.get(uri);
+  //   try {
+  //     final response = await http.get(uri);
 
-      if (response.statusCode == 200) {
-        // Successful response
-        final data = json.decode(response.body);
+  //     if (response.statusCode == 200) {
+  //       // Successful response
+  //       final data = json.decode(response.body);
 
-        biodigesterPricings.value = data;
+  //       biodigesterPricings.value = data;
 
-        // digesterEmptyingAvailable.value = data.contains(1);
-        // soakawayServicingAvailable.value = data.contains(2);
-        // drainfieldServicingAvailable.value = data.contains(3);
+  //       // digesterEmptyingAvailable.value = data.contains(1);
+  //       // soakawayServicingAvailable.value = data.contains(2);
+  //       // drainfieldServicingAvailable.value = data.contains(3);
 
-        // biodigesterAvailable.value = data.contains(4);
-        // biodigesterWithSeatAvailable.value = data.contains(5);
-        // standaloneAvailable.value = data.contains(6);
-      } else {
-        // Handle error
-        print('Error: ${response.statusCode}');
-      }
-    } catch (error) {
-      // Handle exception
-      print('Exception: $error');
-    }
-  }
+  //       // biodigesterAvailable.value = data.contains(4);
+  //       // biodigesterWithSeatAvailable.value = data.contains(5);
+  //       // standaloneAvailable.value = data.contains(6);
+  //     } else {
+  //       // Handle error
+  //       print('Error: ${response.statusCode}');
+  //     }
+  //   } catch (error) {
+  //     // Handle exception
+  //     print('Exception getAvailableBiodigesterPricing: $error');
+  //   }
+  // }
 
-  Future<void> getBiodigesterPricing() async {
+  Future getBiodigesterPricing() async {
     final String apiUrl = Constants.BIODIGESTER_PRICING_API_URL;
     final Map<String, String> params = {
       'platform': '2',
@@ -392,25 +395,45 @@ class BiodigesterController extends GetxController {
       if (response.statusCode == 200) {
         // Successful response
         //final data = json.decode(response.body);
-        final data = json.decode(response.body);
-        inspect(data);
+        List data = json.decode(response.body);
+        List<Map<String, dynamic>> typedData =
+            List<Map<String, dynamic>>.from(data);
 
-        biodigesterPricings.value = data.isNotEmpty
-            ? data.map((c) => BiodigesterPricing.fromJson(c)).toList()
-            : [];
-        log(">>>>here");
-        inspect(data);
-        biodigesterPricings.value = data;
+        // print('Success data $data');
 
-        inspect(biodigesterPricings);
+        // print(parseData(typedData));
+
+        // var x = data
+        //     .map((item) => BiodigesterPricing(
+        //           id: item['id'],
+        //           name: item['name'],
+        //           cost: item['cost'].toDouble(),
+        //         ))
+        //     .toList();
+
+        // log(x);
+
+        biodigesterPricings.value = parseData(typedData);
+
+        // return data;
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
       }
     } catch (error) {
       // Handle exception
-      print('Exception: $error');
+      print('Exception>>: $error');
     }
+  }
+
+  List<BiodigesterPricing> parseData(List<Map<String, dynamic>> data) {
+    return data
+        .map((item) => BiodigesterPricing(
+              id: item['id'],
+              name: item['name'],
+              cost: item['cost'].toDouble(),
+            ))
+        .toList();
   }
 
   void shareApplication() async {
@@ -448,13 +471,10 @@ class BiodigesterController extends GetxController {
   }
 
   tapped(int step) {
-    inspect(step);
     currentStep.value = step;
   }
 
   continued() {
-    log(">>> $currentStep");
-
     if (currentStep < 2) {
       currentStep.value += 1;
     } else {

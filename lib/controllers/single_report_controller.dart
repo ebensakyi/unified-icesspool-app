@@ -51,7 +51,6 @@ class SingleReportController extends GetxController {
       });
       // request.body = jsonEncode({});
       final response = await request.send();
-      inspect(response.statusCode);
       if (response.statusCode == 200) {
         Get.back();
         controller.changeTabIndex(0);
@@ -66,7 +65,6 @@ class SingleReportController extends GetxController {
 
       return Future.error("error: status code ${response.statusCode}");
     } catch (e) {
-      inspect(e);
       return 0;
     }
   }
