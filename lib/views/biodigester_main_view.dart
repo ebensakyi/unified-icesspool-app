@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -344,54 +345,88 @@ class BioDigesterMainView extends StatelessWidget {
   }
 
   Widget biodigesterConstruction() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SubServiceWidget2(
-          activeBgColor: MyColors.DarkBlue,
-          inactiveBgColor: MyColors.SubServiceColor2,
-          activeTextColor: Colors.white,
-          isAvailable: controller.biodigesterAvailable.value,
-          path: "assets/images/biodigester.png",
-          size: 32,
-          title: 'Biodigester Only',
-          subTitle: 'Service or build',
-          onTap: null,
-        ),
-        SubServiceWidget2(
-          activeTextColor: Colors.white,
-          activeBgColor: MyColors.DarkBlue,
-          inactiveBgColor: MyColors.SubServiceColor2,
-          isAvailable: controller.biodigesterWithSeatAvailable.value,
-          path: "assets/images/biodigester.png",
-          size: 32,
-          title: 'Biodigester With Seat',
-          subTitle: 'Service or build',
-          onTap: null,
-        ),
-        SubServiceWidget2(
-          activeTextColor: Colors.white,
-          activeBgColor: MyColors.DarkBlue,
-          inactiveBgColor: MyColors.SubServiceColor2,
-          isAvailable: controller.standaloneAvailable.value,
-          path: "assets/images/biodigester.png",
-          size: 32,
-          title: 'Standalone Toilet',
-          subTitle: 'Service or build',
-          onTap: null,
-        ),
-        // SubServiceWidget2(
-        //   activeTextColor: Colors.white,
-        //   activeBgColor: MyColors.SubServiceColor1,
-        //   inactiveBgColor: MyColors.DarkBlue,
-        //   isAvailable: true,
-        //   path: "assets/images/vidmore.png",
-        //   size: 32,
-        //   title: 'Learn More',
-        //   subTitle: 'Read & watch videos',
-        //   onTap: null,
-        // ),
-      ],
-    );
+    List<Widget> wd = [];
+    // for (List obj in controller.biodigesterPricings) {
+    //   wd.add(
+    //     SubServiceWidget2(
+    //       activeBgColor: MyColors.DarkBlue,
+    //       inactiveBgColor: MyColors.SubServiceColor2,
+    //       activeTextColor: Colors.white,
+    //       isAvailable: false,
+    //       path: "assets/images/biodigester.png",
+    //       size: 32,
+    //       title: "obj['name']",
+    //       subTitle: 'Service or build',
+    //       onTap: null,
+    //     ),
+    //   );
+    // }
+
+    controller.biodigesterPricings.map((element) => {
+          wd.add(
+            SubServiceWidget2(
+              activeBgColor: MyColors.DarkBlue,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              activeTextColor: Colors.white,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title: element.name,
+              subTitle: 'Service or build',
+              onTap: null,
+            ),
+          )
+        });
+
+    inspect(controller.biodigesterPricings);
+    inspect(wd);
+    return Column(children: wd);
+
+    // SubServiceWidget2(
+    //   activeBgColor: MyColors.DarkBlue,
+    //   inactiveBgColor: MyColors.SubServiceColor2,
+    //   activeTextColor: Colors.white,
+    //   isAvailable: controller.biodigesterAvailable.value,
+    //   path: "assets/images/biodigester.png",
+    //   size: 32,
+    //   title: 'Biodigester Only',
+    //   subTitle: 'Service or build',
+    //   onTap: null,
+    // ),
+    // SubServiceWidget2(
+    //   activeTextColor: Colors.white,
+    //   activeBgColor: MyColors.DarkBlue,
+    //   inactiveBgColor: MyColors.SubServiceColor2,
+    //   isAvailable: controller.biodigesterWithSeatAvailable.value,
+    //   path: "assets/images/biodigester.png",
+    //   size: 32,
+    //   title: 'Biodigester With Seat',
+    //   subTitle: 'Service or build',
+    //   onTap: null,
+    // ),
+    // SubServiceWidget2(
+    //   activeTextColor: Colors.white,
+    //   activeBgColor: MyColors.DarkBlue,
+    //   inactiveBgColor: MyColors.SubServiceColor2,
+    //   isAvailable: controller.standaloneAvailable.value,
+    //   path: "assets/images/biodigester.png",
+    //   size: 32,
+    //   title: 'Standalone Toilet',
+    //   subTitle: 'Service or build',
+    //   onTap: null,
+    // ),
+    // SubServiceWidget2(
+    //   activeTextColor: Colors.white,
+    //   activeBgColor: MyColors.SubServiceColor1,
+    //   inactiveBgColor: MyColors.DarkBlue,
+    //   isAvailable: true,
+    //   path: "assets/images/vidmore.png",
+    //   size: 32,
+    //   title: 'Learn More',
+    //   subTitle: 'Read & watch videos',
+    //   onTap: null,
+    // ),
+    //   ],
+    // );
   }
 }

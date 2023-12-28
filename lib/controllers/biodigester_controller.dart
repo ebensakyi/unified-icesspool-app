@@ -12,6 +12,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:package_info/package_info.dart';
 
 import '../contants.dart';
+import '../model/biodigester_pricing.dart';
 import '../themes/colors.dart';
 import '../widgets/small-button.dart';
 import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
@@ -46,6 +47,8 @@ class BiodigesterController extends GetxController {
   final biodigesterWithSeatAvailable = false.obs;
   final standaloneAvailable = false.obs;
 
+  final biodigesterPricings = <BiodigesterPricing>[].obs;
+
   var currentIndex = 0.obs;
   var currentTitle = "Report".obs;
   List<String> titlesList = ["Home", "Report Status", "About"];
@@ -58,7 +61,7 @@ class BiodigesterController extends GetxController {
   @override
   void onInit() async {
     await getUserArea();
-    await getAvailableBiodigesterServices();
+    await getAvailableBiodigesterPricing();
     await getBiodigesterPricing();
     final prefs = await SharedPreferences.getInstance();
 
@@ -340,7 +343,7 @@ class BiodigesterController extends GetxController {
     }
   }
 
-  Future<void> getAvailableBiodigesterServices() async {
+  Future<void> getAvailableBiodigesterPricing() async {
     final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
     final Map<String, String> params = {
       'serviceAreaId': '1',
@@ -355,13 +358,15 @@ class BiodigesterController extends GetxController {
         // Successful response
         final data = json.decode(response.body);
 
-        digesterEmptyingAvailable.value = data.contains(1);
-        soakawayServicingAvailable.value = data.contains(2);
-        drainfieldServicingAvailable.value = data.contains(3);
+        biodigesterPricings.value = data;
 
-        biodigesterAvailable.value = data.contains(4);
-        biodigesterWithSeatAvailable.value = data.contains(5);
-        standaloneAvailable.value = data.contains(6);
+        // digesterEmptyingAvailable.value = data.contains(1);
+        // soakawayServicingAvailable.value = data.contains(2);
+        // drainfieldServicingAvailable.value = data.contains(3);
+
+        // biodigesterAvailable.value = data.contains(4);
+        // biodigesterWithSeatAvailable.value = data.contains(5);
+        // standaloneAvailable.value = data.contains(6);
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -386,9 +391,18 @@ class BiodigesterController extends GetxController {
 
       if (response.statusCode == 200) {
         // Successful response
+        //final data = json.decode(response.body);
         final data = json.decode(response.body);
+        inspect(data);
 
-        print('data>>>: ${data}');
+        biodigesterPricings.value = data.isNotEmpty
+            ? data.map((c) => BiodigesterPricing.fromJson(c)).toList()
+            : [];
+        log(">>>>here");
+        inspect(data);
+        biodigesterPricings.value = data;
+
+        inspect(biodigesterPricings);
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
