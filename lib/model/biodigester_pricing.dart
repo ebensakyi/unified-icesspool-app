@@ -16,6 +16,9 @@ class BiodigesterPricing {
     required this.id,
     required this.name,
     required this.cost,
+    required this.type,
+    required this.desc,
+
     // required this.deleted,
     // required this.createdAt,
     // required this.updatedAt,
@@ -24,6 +27,9 @@ class BiodigesterPricing {
   int id;
   String name;
   double cost;
+  String type;
+  String desc;
+
   // int deleted;
   // DateTime createdAt;
   // DateTime updatedAt;
@@ -33,6 +39,9 @@ class BiodigesterPricing {
         id: json["id"],
         name: json["name"],
         cost: json["cost"],
+        type: json["type"],
+        desc: json["desc"],
+
         // deleted: json["deleted"],
         // createdAt: DateTime.parse(json["createdAt"]),
         // updatedAt: DateTime.parse(json["updatedAt"]),
@@ -42,6 +51,8 @@ class BiodigesterPricing {
         "id": id,
         "name": name,
         "cost": cost,
+        "type": type,
+        "desc": desc,
         // "deleted": deleted,
         // "createdAt": createdAt.toIso8601String(),
         // "updatedAt": updatedAt.toIso8601String(),

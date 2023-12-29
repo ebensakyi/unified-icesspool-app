@@ -431,6 +431,8 @@ class BiodigesterController extends GetxController {
         .map((item) => BiodigesterPricing(
               id: item['id'],
               name: item['name'],
+              desc: item['desc'],
+              type: item['type'],
               cost: item['cost'].toDouble(),
             ))
         .toList();

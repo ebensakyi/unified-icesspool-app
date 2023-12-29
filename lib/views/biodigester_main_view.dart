@@ -347,37 +347,38 @@ class BioDigesterMainView extends StatelessWidget {
 
   Widget biodigesterConstruction() {
     List<Widget> wd = [];
-    // for (List obj in controller.biodigesterPricings) {
-    //   wd.add(
-    //     SubServiceWidget2(
-    //       activeBgColor: MyColors.DarkBlue,
-    //       inactiveBgColor: MyColors.SubServiceColor2,
-    //       activeTextColor: Colors.white,
-    //       isAvailable: false,
-    //       path: "assets/images/biodigester.png",
-    //       size: 32,
-    //       title: "obj['name']",
-    //       subTitle: 'Service or build',
-    //       onTap: null,
-    //     ),
-    //   );
-    // }
+    inspect(controller.biodigesterPricings);
+    for (BiodigesterPricing obj in controller.biodigesterPricings) {
+      wd.add(
+        SubServiceWidget2(
+          activeBgColor: MyColors.DarkBlue,
+          inactiveBgColor: MyColors.SubServiceColor2,
+          activeTextColor: Colors.white,
+          isAvailable: false,
+          path: "assets/images/biodigester.png",
+          size: 32,
+          title: obj.name,
+          subTitle: 'Service or build',
+          onTap: null,
+        ),
+      );
+    }
 
-    controller.biodigesterPricings.map((element) => {
-          wd.add(
-            SubServiceWidget2(
-              activeBgColor: MyColors.DarkBlue,
-              inactiveBgColor: MyColors.SubServiceColor2,
-              activeTextColor: Colors.white,
-              isAvailable: false,
-              path: "assets/images/biodigester.png",
-              size: 32,
-              title: element.name,
-              subTitle: 'Service or build',
-              onTap: null,
-            ),
-          )
-        });
+    // controller.biodigesterPricings.map((element) => {
+    //       wd.add(
+    //         SubServiceWidget2(
+    //           activeBgColor: MyColors.DarkBlue,
+    //           inactiveBgColor: MyColors.SubServiceColor2,
+    //           activeTextColor: Colors.white,
+    //           isAvailable: false,
+    //           path: "assets/images/biodigester.png",
+    //           size: 32,
+    //           title: element.name,
+    //           subTitle: 'Service or build',
+    //           onTap: null,
+    //         ),
+    //       )
+    //     });
 
     return Column(children: wd);
 
