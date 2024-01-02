@@ -399,7 +399,7 @@ class BiodigesterController extends GetxController {
         List<Map<String, dynamic>> typedData =
             List<Map<String, dynamic>>.from(data);
 
-        // print('Success data $data');
+        log('Success data $data');
 
         // print(parseData(typedData));
 
@@ -415,6 +415,8 @@ class BiodigesterController extends GetxController {
 
         biodigesterPricings.value = parseData(typedData);
 
+        inspect(biodigesterPricings);
+
         // return data;
       } else {
         // Handle error
@@ -427,7 +429,7 @@ class BiodigesterController extends GetxController {
   }
 
   List<BiodigesterPricing> parseData(List<Map<String, dynamic>> data) {
-    return data
+    var formattedData = data
         .map((item) => BiodigesterPricing(
               id: item['id'],
               name: item['name'],
@@ -436,6 +438,9 @@ class BiodigesterController extends GetxController {
               cost: item['cost'].toDouble(),
             ))
         .toList();
+    inspect("formattedData");
+
+    return formattedData;
   }
 
   void shareApplication() async {

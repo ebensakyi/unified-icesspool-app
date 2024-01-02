@@ -5,6 +5,7 @@ import 'package:icesspool/widgets/image-view.dart';
 class SubServiceWidget2 extends StatelessWidget {
   final String path;
   final double size;
+  final double price;
   final String title;
   final String subTitle;
   final bool isAvailable;
@@ -25,6 +26,7 @@ class SubServiceWidget2 extends StatelessWidget {
     required this.inactiveBgColor,
     this.activeTextColor = Colors.black,
     this.inactiveTextColor = Colors.white,
+    required this.price,
   });
   @override
   Widget build(BuildContext context) {
@@ -102,7 +104,7 @@ class SubServiceWidget2 extends StatelessWidget {
                       //     showLoading: false),
                       // Checkbox(value: true, onChanged: null)
                       Text(
-                        "GHS 2231",
+                        price.toString(),
                         style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.normal,

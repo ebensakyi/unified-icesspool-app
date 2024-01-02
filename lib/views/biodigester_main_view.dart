@@ -22,6 +22,7 @@ class BioDigesterMainView extends StatelessWidget {
   final formKey3 = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    inspect("controller.biodigesterPricings");
     return Scaffold(
         appBar: AppBar(
           title: Text("Bio-digester"),
@@ -285,69 +286,68 @@ class BioDigesterMainView extends StatelessWidget {
         );
   }
 
-  Widget biodigesterServicing() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: Expanded(
-        //     child: Container(
-        //       child: Text("SERVICE YOUR BIODIGESTER TOILET"),
-        //     ),
-        //   ),
-        // ),
-        SubServiceWidget2(
-          activeBgColor: MyColors.DarkBlue,
-          inactiveBgColor: MyColors.SubServiceColor2,
-          activeTextColor: Colors.white,
-          isAvailable: controller.digesterEmptyingAvailable.value,
-          path: "assets/images/biodigester.png",
-          size: 32,
-          title: 'Biodigester Emptying',
-          subTitle: 'Service or build',
-          onTap: null,
-        ),
-        SubServiceWidget2(
-          activeTextColor: Colors.white,
-          activeBgColor: MyColors.DarkBlue,
-          inactiveBgColor: MyColors.SubServiceColor2,
-          isAvailable: controller.soakawayServicingAvailable.value,
-          path: "assets/images/biodigester.png",
-          size: 32,
-          title: 'Soakaway Servicing',
-          subTitle: 'Service or build',
-          onTap: null,
-        ),
-        SubServiceWidget2(
-          activeTextColor: Colors.white,
-          activeBgColor: MyColors.DarkBlue,
-          inactiveBgColor: MyColors.SubServiceColor2,
-          isAvailable: controller.drainfieldServicingAvailable.value,
-          path: "assets/images/biodigester.png",
-          size: 32,
-          title: 'Drainfield Servicing',
-          subTitle: 'Service or build',
-          onTap: null,
-        ),
-        // SubServiceWidget2(
-        //   activeTextColor: Colors.white,
-        //   activeBgColor: MyColors.SubServiceColor1,
-        //   inactiveBgColor: MyColors.DarkBlue,
-        //   isAvailable: true,
-        //   path: "assets/images/vidmore.png",
-        //   size: 32,
-        //   title: 'Learn More',
-        //   subTitle: 'Read & watch videos',
-        //   onTap: null,
-        // ),
-      ],
-    );
-  }
+  // Widget biodigesterServicing() {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.start,
+  //     children: [
+  //       // Padding(
+  //       //   padding: const EdgeInsets.all(8.0),
+  //       //   child: Expanded(
+  //       //     child: Container(
+  //       //       child: Text("SERVICE YOUR BIODIGESTER TOILET"),
+  //       //     ),
+  //       //   ),
+  //       // ),
+  //       SubServiceWidget2(
+  //         activeBgColor: MyColors.DarkBlue,
+  //         inactiveBgColor: MyColors.SubServiceColor2,
+  //         activeTextColor: Colors.white,
+  //         isAvailable: controller.digesterEmptyingAvailable.value,
+  //         path: "assets/images/biodigester.png",
+  //         size: 32,
+  //         title: 'Biodigester Emptying',
+  //         subTitle: 'Service or build',
+  //         onTap: null,
+  //       ),
+  //       SubServiceWidget2(
+  //         activeTextColor: Colors.white,
+  //         activeBgColor: MyColors.DarkBlue,
+  //         inactiveBgColor: MyColors.SubServiceColor2,
+  //         isAvailable: controller.soakawayServicingAvailable.value,
+  //         path: "assets/images/biodigester.png",
+  //         size: 32,
+  //         title: 'Soakaway Servicing',
+  //         subTitle: 'Service or build',
+  //         onTap: null,
+  //       ),
+  //       SubServiceWidget2(
+  //         activeTextColor: Colors.white,
+  //         activeBgColor: MyColors.DarkBlue,
+  //         inactiveBgColor: MyColors.SubServiceColor2,
+  //         isAvailable: controller.drainfieldServicingAvailable.value,
+  //         path: "assets/images/biodigester.png",
+  //         size: 32,
+  //         title: 'Drainfield Servicing',
+  //         subTitle: 'Service or build',
+  //         onTap: null, price: null,
+  //       ),
+  //       // SubServiceWidget2(
+  //       //   activeTextColor: Colors.white,
+  //       //   activeBgColor: MyColors.SubServiceColor1,
+  //       //   inactiveBgColor: MyColors.DarkBlue,
+  //       //   isAvailable: true,
+  //       //   path: "assets/images/vidmore.png",
+  //       //   size: 32,
+  //       //   title: 'Learn More',
+  //       //   subTitle: 'Read & watch videos',
+  //       //   onTap: null,
+  //       // ),
+  //     ],
+  //   );
+  // }
 
-  Widget biodigesterConstruction() {
+  Widget biodigesterServicing() {
     List<Widget> wd = [];
-    inspect(controller.biodigesterPricings);
     for (BiodigesterPricing obj in controller.biodigesterPricings) {
       wd.add(
         SubServiceWidget2(
@@ -360,6 +360,28 @@ class BioDigesterMainView extends StatelessWidget {
           title: obj.name,
           subTitle: 'Service or build',
           onTap: null,
+          price: 9.09,
+        ),
+      );
+    }
+    return Column(children: wd);
+  }
+
+  Widget biodigesterConstruction() {
+    List<Widget> wd = [];
+    for (BiodigesterPricing obj in controller.biodigesterPricings) {
+      wd.add(
+        SubServiceWidget2(
+          activeBgColor: MyColors.DarkBlue,
+          inactiveBgColor: MyColors.SubServiceColor2,
+          activeTextColor: Colors.white,
+          isAvailable: false,
+          path: "assets/images/biodigester.png",
+          size: 32,
+          title: obj.name,
+          subTitle: 'Service or build',
+          onTap: null,
+          price: 9.09,
         ),
       );
     }
