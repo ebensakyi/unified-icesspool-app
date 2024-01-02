@@ -360,7 +360,7 @@ class BioDigesterMainView extends StatelessWidget {
           title: obj.name,
           subTitle: 'Service or build',
           onTap: null,
-          price: 9.09,
+          price: obj.cost.toDouble(),
         ),
       );
     }

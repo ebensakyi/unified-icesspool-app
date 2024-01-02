@@ -335,7 +335,6 @@ class BiodigesterController extends GetxController {
       if (response.statusCode == 200) {
         // Successful response
         final data = json.decode(response.body);
-        print('Response Data: $data');
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -433,7 +432,8 @@ class BiodigesterController extends GetxController {
         .map((item) => BiodigesterPricing(
               id: item['id'],
               name: item['name'],
-              desc: item['desc'],
+              shortDesc: item['shortDesc'],
+              fullDesc: item['fullDesc'],
               type: item['type'],
               cost: item['cost'].toDouble(),
             ))

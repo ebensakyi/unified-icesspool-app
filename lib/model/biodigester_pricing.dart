@@ -17,7 +17,8 @@ class BiodigesterPricing {
     required this.name,
     required this.cost,
     required this.type,
-    required this.desc,
+    this.shortDesc,
+    this.fullDesc,
 
     // required this.deleted,
     // required this.createdAt,
@@ -28,7 +29,8 @@ class BiodigesterPricing {
   String name;
   double cost;
   String type;
-  String desc;
+  String? shortDesc;
+  String? fullDesc;
 
   // int deleted;
   // DateTime createdAt;
@@ -40,7 +42,8 @@ class BiodigesterPricing {
         name: json["name"],
         cost: json["cost"],
         type: json["type"],
-        desc: json["desc"],
+        shortDesc: json["shortDesc"],
+        fullDesc: json["fullDesc"],
 
         // deleted: json["deleted"],
         // createdAt: DateTime.parse(json["createdAt"]),
@@ -52,7 +55,8 @@ class BiodigesterPricing {
         "name": name,
         "cost": cost,
         "type": type,
-        "desc": desc,
+        "shortDesc": shortDesc,
+        "fullDesc": fullDesc,
         // "deleted": deleted,
         // "createdAt": createdAt.toIso8601String(),
         // "updatedAt": updatedAt.toIso8601String(),
