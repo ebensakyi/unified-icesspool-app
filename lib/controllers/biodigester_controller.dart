@@ -47,7 +47,9 @@ class BiodigesterController extends GetxController {
   final biodigesterWithSeatAvailable = false.obs;
   final standaloneAvailable = false.obs;
 
-  final bgColor = MyColors.DarkBlue.obs;
+  final selectedColor1 = Colors.grey.obs;
+  final selectedColor2 = Colors.grey.obs;
+  final selectedServices = [].obs;
 
   // final biodigesterPricings = <BiodigesterPricing>[].obs;
   final RxList<BiodigesterPricing> biodigesterPricings =

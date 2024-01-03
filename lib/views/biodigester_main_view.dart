@@ -347,7 +347,6 @@ class BioDigesterMainView extends StatelessWidget {
   // }
 
   Widget biodigesterServicing() {
-    inspect("==>${controller.biodigesterPricings[0].cost}");
     // List<Widget> wd = [];
     // for (BiodigesterPricing obj in controller.biodigesterPricings) {
     //   wd.add(
@@ -372,32 +371,50 @@ class BioDigesterMainView extends StatelessWidget {
 
     return Column(children: [
       Obx(() => SubServiceWidget2(
-            activeBgColor: controller.bgColor.value,
+            activeBgColor: MyColors.DarkBlue,
             inactiveBgColor: MyColors.SubServiceColor2,
-            activeTextColor: Colors.white,
+            selectedColor: controller.selectedColor1.value,
             isAvailable: false,
             path: "assets/images/biodigester.png",
             size: 32,
             title: controller.biodigesterPricings[0].name,
             subTitle: controller.biodigesterPricings[0].shortDesc.toString(),
             onPressed: () {
-              controller.bgColor.value = MyColors.Red;
-              log("Tapped");
+              controller.selectedColor1.value =
+                  controller.selectedColor1.value == Colors.grey
+                      ? Colors.teal
+                      : Colors.grey;
+
+              addOrRemoveItem(controller.selectedServices,
+                  controller.biodigesterPricings[0].id.toString());
             },
             price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
           )),
-      SubServiceWidget2(
-        activeBgColor: MyColors.DarkBlue,
-        inactiveBgColor: MyColors.SubServiceColor2,
-        activeTextColor: Colors.white,
-        isAvailable: false,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: controller.biodigesterPricings[1].name,
-        subTitle: controller.biodigesterPricings[1].shortDesc.toString(),
-        onPressed: () {},
-        price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
-      ),
+      Obx(() => SubServiceWidget2(
+            activeBgColor: MyColors.DarkBlue,
+            inactiveBgColor: MyColors.SubServiceColor2,
+            selectedColor: controller.selectedColor2.value,
+            isAvailable: false,
+            path: "assets/images/biodigester.png",
+            size: 32,
+            title: controller.biodigesterPricings[1].name,
+            subTitle: controller.biodigesterPricings[1].shortDesc.toString(),
+            onPressed: () {
+              controller.selectedColor2.value =
+                  controller.selectedColor2.value == Colors.grey
+                      ? Colors.teal
+                      : Colors.grey;
+
+              addOrRemoveItem(controller.selectedServices,
+                  controller.biodigesterPricings[1].id.toString());
+
+              // controller.selectedServices.value
+              //     .add(controller.biodigesterPricings[1].id);
+
+              inspect(controller.selectedServices.value);
+            },
+            price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+          )),
     ]);
   }
 
@@ -486,5 +503,18 @@ class BioDigesterMainView extends StatelessWidget {
     // ),
     //   ],
     // );
+  }
+
+  void addOrRemoveItem(
+    myArray,
+    String newItem,
+  ) {
+    if (myArray.contains(newItem)) {
+      myArray.remove(newItem);
+      print("Removed: $newItem");
+    } else {
+      myArray.add(newItem);
+      print("Added: $newItem");
+    }
   }
 }

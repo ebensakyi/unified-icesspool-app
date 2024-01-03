@@ -16,7 +16,7 @@ class SubServiceWidget2 extends StatelessWidget {
   final Color activeBgColor;
   final Color inactiveBgColor;
   final Color activeTextColor;
-  final Color inactiveTextColor;
+  final Color selectedColor;
   SubServiceWidget2({
     super.key,
     required this.path,
@@ -28,7 +28,7 @@ class SubServiceWidget2 extends StatelessWidget {
     required this.activeBgColor,
     required this.inactiveBgColor,
     this.activeTextColor = Colors.black,
-    this.inactiveTextColor = Colors.white,
+    this.selectedColor = const Color.fromARGB(255, 230, 225, 225),
     required this.price,
   });
   @override
@@ -40,9 +40,10 @@ class SubServiceWidget2 extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(10)), // No rounded borders
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            side: BorderSide(color: selectedColor), // No rounded borders
           ),
+          // backgroundColor: this.activeBgColor
         ),
         child: Row(
           // mainAxisSize: MainAxisSize.min,
