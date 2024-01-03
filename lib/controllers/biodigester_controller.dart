@@ -47,6 +47,8 @@ class BiodigesterController extends GetxController {
   final biodigesterWithSeatAvailable = false.obs;
   final standaloneAvailable = false.obs;
 
+  final bgColor = MyColors.DarkBlue.obs;
+
   // final biodigesterPricings = <BiodigesterPricing>[].obs;
   final RxList<BiodigesterPricing> biodigesterPricings =
       <BiodigesterPricing>[].obs;
@@ -438,7 +440,6 @@ class BiodigesterController extends GetxController {
               cost: item['cost'].toDouble(),
             ))
         .toList();
-    inspect("formattedData");
 
     return formattedData;
   }

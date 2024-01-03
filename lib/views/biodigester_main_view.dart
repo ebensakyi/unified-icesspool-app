@@ -183,9 +183,9 @@ class BioDigesterMainView extends StatelessWidget {
               ),
               Step(
                 title: new Text(
-                  'Report details',
+                  'Details',
                 ),
-                subtitle: Text('Enter report here'),
+                subtitle: Text('Select service'),
                 content: Form(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   key: formKey2,
@@ -347,24 +347,58 @@ class BioDigesterMainView extends StatelessWidget {
   // }
 
   Widget biodigesterServicing() {
-    List<Widget> wd = [];
-    for (BiodigesterPricing obj in controller.biodigesterPricings) {
-      wd.add(
-        SubServiceWidget2(
-          activeBgColor: MyColors.DarkBlue,
-          inactiveBgColor: MyColors.SubServiceColor2,
-          activeTextColor: Colors.white,
-          isAvailable: false,
-          path: "assets/images/biodigester.png",
-          size: 32,
-          title: obj.name,
-          subTitle: 'Service or build',
-          onTap: null,
-          price: obj.cost.toDouble(),
-        ),
-      );
-    }
-    return Column(children: wd);
+    inspect("==>${controller.biodigesterPricings[0].cost}");
+    // List<Widget> wd = [];
+    // for (BiodigesterPricing obj in controller.biodigesterPricings) {
+    //   wd.add(
+    //     SubServiceWidget2(
+    //       activeBgColor: MyColors.DarkBlue,
+    //       inactiveBgColor: MyColors.SubServiceColor2,
+    //       activeTextColor: Colors.white,
+    //       isAvailable: false,
+    //       path: "assets/images/biodigester.png",
+    //       size: 32,
+    //       title: obj.name,
+    //       subTitle: obj.shortDesc.toString(),
+    //       onTap: () {
+    //         print(obj.cost.toString());
+
+    //       },
+    //       price: "GHS " + obj.cost.toString(), selectedBgColor: null,
+    //     ),
+    //   );
+    // }
+    // return Column(children: wd);
+
+    return Column(children: [
+      Obx(() => SubServiceWidget2(
+            activeBgColor: controller.bgColor.value,
+            inactiveBgColor: MyColors.SubServiceColor2,
+            activeTextColor: Colors.white,
+            isAvailable: false,
+            path: "assets/images/biodigester.png",
+            size: 32,
+            title: controller.biodigesterPricings[0].name,
+            subTitle: controller.biodigesterPricings[0].shortDesc.toString(),
+            onPressed: () {
+              controller.bgColor.value = MyColors.Red;
+              log("Tapped");
+            },
+            price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
+          )),
+      SubServiceWidget2(
+        activeBgColor: MyColors.DarkBlue,
+        inactiveBgColor: MyColors.SubServiceColor2,
+        activeTextColor: Colors.white,
+        isAvailable: false,
+        path: "assets/images/biodigester.png",
+        size: 32,
+        title: controller.biodigesterPricings[1].name,
+        subTitle: controller.biodigesterPricings[1].shortDesc.toString(),
+        onPressed: () {},
+        price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+      ),
+    ]);
   }
 
   Widget biodigesterConstruction() {
@@ -379,9 +413,11 @@ class BioDigesterMainView extends StatelessWidget {
           path: "assets/images/biodigester.png",
           size: 32,
           title: obj.name,
-          subTitle: 'Service or build',
-          onTap: null,
-          price: 9.09,
+          subTitle: obj.shortDesc.toString(),
+          onPressed: () {
+            print(obj.cost.toString());
+          },
+          price: "GHS " + obj.cost.toString(),
         ),
       );
     }
