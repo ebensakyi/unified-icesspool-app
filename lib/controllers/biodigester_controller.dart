@@ -49,7 +49,7 @@ class BiodigesterController extends GetxController {
 
   final selectedColor1 = Colors.grey.obs;
   final selectedColor2 = Colors.grey.obs;
-  final selectedServices = [].obs;
+  final selectedServices = <Map<String, dynamic>>[].obs;
 
   // final biodigesterPricings = <BiodigesterPricing>[].obs;
   final RxList<BiodigesterPricing> biodigesterPricings =
@@ -153,15 +153,16 @@ class BiodigesterController extends GetxController {
 
   Future send() async {
     // try {
-    //   bool result = await InternetConnectionChecker().hasConnection;
-    //   if (result == false) {
-    //     isLoading.value = false;
-    //     return Get.snackbar(
-    //         "Internet Error", "Poor internet access. Please try again later...",
-    //         snackPosition: SnackPosition.TOP,
-    //         backgroundColor: MyColors.Red,
-    //         colorText: Colors.white);
-    //   }
+    bool result = await InternetConnectionChecker().hasConnection;
+    isLoading.value = false;
+    if (!result) {
+      isLoading.value = false;
+      return Get.snackbar(
+          "Internet Error", "Poor internet access. Please try again later...",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: MyColors.Red,
+          colorText: Colors.white);
+    }
 
     //   // final isValid = formKey.currentState!.validate();
     //   // if (!isValid) {
@@ -179,9 +180,19 @@ class BiodigesterController extends GetxController {
     //   SharedPreferences prefs = await SharedPreferences.getInstance();
     //   var userId = prefs.getInt('userId');
 
-    //   var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
+    var uri = Uri.parse(
+        Constants.BASE_URL + Constants.BIODIGESTER_TRANSACTION_API_URL);
 
-    //   var request = http.MultipartRequest('POST', uri);
+    var request = http.MultipartRequest('POST', uri);
+
+    for (int i = 0; i < selectedServices.length; i++) {
+      Map<String, dynamic> item = selectedServices[i];
+      print("Item ${i + 1}: ${item['name']}, Cost: ${item['cost']}");
+      request.fields["id"] = item['id'].toString();
+      request.fields["cost"] = item['cost'].toString();
+
+      var res = await request.send();
+    }
     //   // request.fields['fullName'] = displayName.value.toString();
     //   // request.fields['email'] = email.value.toString();
     //   request.fields["userId"] = userId.toString();
@@ -204,8 +215,8 @@ class BiodigesterController extends GetxController {
     //       'nuisancePicture', File(selectedImagePath.value.toString()).path);
     //   request.files.add(multipartFile);
 
-    //   var res = await request.send();
-    //   isLoading.value = true;
+    // var res = await request.send();
+    // isLoading.value = true;
 
     //   if (res.statusCode == 200) {
     //     isLoading.value = false;

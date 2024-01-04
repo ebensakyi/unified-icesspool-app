@@ -6,11 +6,14 @@ class Constants {
   static const String SERVICES_AVAILABLE_API_URL =
       BASE_URL + "/user/services-available";
 
+  static const String BIODIGESTER_TRANSACTION_API_URL =
+      BASE_URL + "/services/biodigester/transaction";
+
   static const String BIODIGESTER_SERVICES_AVAILABLE_API_URL =
       BASE_URL + "/user/biodigester-services-available";
 
   static const String BIODIGESTER_PRICING_API_URL =
-      BASE_URL + "/pricing/biodigester";
+      BASE_URL + "/services/biodigester/pricing";
 
   static const String DISTRICT_API_URL = "/sanitation-report/district";
   // static const String REPORT_TYPE_API_URL = "/v1/primary-data/report-type";

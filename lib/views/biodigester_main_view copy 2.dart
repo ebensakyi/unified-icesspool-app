@@ -81,31 +81,32 @@ class BioDigesterMainView extends StatelessWidget {
                               ),
                             )
                           : controller.isLoading.value
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Visibility(
-                                    visible: controller.isLoading.value,
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: MyColors.MainColor,
-                                        borderRadius: BorderRadius.circular(6)),
-                                    height: 35,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        controller.send();
-                                      },
-                                      child: Text(
-                                        'Make Payment',
-                                        style: TextStyle(color: Colors.white),
+                              ? Obx(() => Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Visibility(
+                                      visible: controller.isLoading.value,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ))
+                              : Obx(() => Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: MyColors.MainColor,
+                                          borderRadius:
+                                              BorderRadius.circular(6)),
+                                      height: 35,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          controller.send();
+                                        },
+                                        child: Text(
+                                          'Submit Report',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
+                                  )),
                   Container(
                     decoration: BoxDecoration(
                         // color: Colors.indigo,
@@ -234,47 +235,40 @@ class BioDigesterMainView extends StatelessWidget {
               //   state: _currentStep >= 2 ? StepState.complete : StepState.disabled,
               // ),
               Step(
-                title: new Text('Payment'),
-                subtitle: Text('Make payment'),
+                title: new Text('Choose Picture'),
+                subtitle: Text('Capture or select image here'),
                 content: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Invoice for Selected Services',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    // Use ListView.builder to loop through myArray and display in a Column
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.selectedServices.length,
-                      itemBuilder: (context, index) {
-                        final item = controller.selectedServices[index];
-                        return Column(
-                          children: [
-                            ListTile(
-                              title: Text('${item["name"]}'),
-                              subtitle: Text('GHS ${item["cost"]}'),
-                            ),
-                            Divider(
-                              height: 1,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "Total Bill: GHS ${calculateTotalCost(controller.selectedServices)}",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    )
+                    // Obx(
+                    //   () => Visibility(
+                    //     maintainState: false,
+                    //     visible: controller.selectedReportType.value == "1",
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.all(8.0),
+                    //       child: CameraButton(
+                    //         onPressed: () {
+                    //           controller.getImage(ImageSource.camera);
+                    //         },
+                    //         text: "Capture picture from camera *",
+                    //         icon: Icon(Icons.camera_alt_outlined),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // Obx(() => Visibility(
+                    //       maintainState: false,
+                    //       visible: controller.selectedReportType.value == "2",
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.all(16.0),
+                    //         child: CameraButton(
+                    //           onPressed: () {
+                    //             controller.getImage(ImageSource.gallery);
+                    //           },
+                    //           text: "Add a picture from gallery *",
+                    //           icon: Icon(Icons.photo),
+                    //         ),
+                    //       ),
+                    //     )),
                   ],
                 ),
                 isActive: controller.currentStep >= 0,
@@ -292,59 +286,135 @@ class BioDigesterMainView extends StatelessWidget {
         );
   }
 
+  // Widget biodigesterServicing() {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.start,
+  //     children: [
+  //       // Padding(
+  //       //   padding: const EdgeInsets.all(8.0),
+  //       //   child: Expanded(
+  //       //     child: Container(
+  //       //       child: Text("SERVICE YOUR BIODIGESTER TOILET"),
+  //       //     ),
+  //       //   ),
+  //       // ),
+  //       SubServiceWidget2(
+  //         activeBgColor: MyColors.DarkBlue,
+  //         inactiveBgColor: MyColors.SubServiceColor2,
+  //         activeTextColor: Colors.white,
+  //         isAvailable: controller.digesterEmptyingAvailable.value,
+  //         path: "assets/images/biodigester.png",
+  //         size: 32,
+  //         title: 'Biodigester Emptying',
+  //         subTitle: 'Service or build',
+  //         onTap: null,
+  //       ),
+  //       SubServiceWidget2(
+  //         activeTextColor: Colors.white,
+  //         activeBgColor: MyColors.DarkBlue,
+  //         inactiveBgColor: MyColors.SubServiceColor2,
+  //         isAvailable: controller.soakawayServicingAvailable.value,
+  //         path: "assets/images/biodigester.png",
+  //         size: 32,
+  //         title: 'Soakaway Servicing',
+  //         subTitle: 'Service or build',
+  //         onTap: null,
+  //       ),
+  //       SubServiceWidget2(
+  //         activeTextColor: Colors.white,
+  //         activeBgColor: MyColors.DarkBlue,
+  //         inactiveBgColor: MyColors.SubServiceColor2,
+  //         isAvailable: controller.drainfieldServicingAvailable.value,
+  //         path: "assets/images/biodigester.png",
+  //         size: 32,
+  //         title: 'Drainfield Servicing',
+  //         subTitle: 'Service or build',
+  //         onTap: null, price: null,
+  //       ),
+  //       // SubServiceWidget2(
+  //       //   activeTextColor: Colors.white,
+  //       //   activeBgColor: MyColors.SubServiceColor1,
+  //       //   inactiveBgColor: MyColors.DarkBlue,
+  //       //   isAvailable: true,
+  //       //   path: "assets/images/vidmore.png",
+  //       //   size: 32,
+  //       //   title: 'Learn More',
+  //       //   subTitle: 'Read & watch videos',
+  //       //   onTap: null,
+  //       // ),
+  //     ],
+  //   );
+  // }
+
   Widget biodigesterServicing() {
+    // List<Widget> wd = [];
+    // for (BiodigesterPricing obj in controller.biodigesterPricings) {
+    //   wd.add(
+    //     SubServiceWidget2(
+    //       activeBgColor: MyColors.DarkBlue,
+    //       inactiveBgColor: MyColors.SubServiceColor2,
+    //       activeTextColor: Colors.white,
+    //       isAvailable: false,
+    //       path: "assets/images/biodigester.png",
+    //       size: 32,
+    //       title: obj.name,
+    //       subTitle: obj.shortDesc.toString(),
+    //       onTap: () {
+    //         print(obj.cost.toString());
+
+    //       },
+    //       price: "GHS " + obj.cost.toString(), selectedBgColor: null,
+    //     ),
+    //   );
+    // }
+    // return Column(children: wd);
+
     return Column(children: [
-      SubServiceWidget2(
-        activeBgColor: MyColors.DarkBlue,
-        inactiveBgColor: MyColors.SubServiceColor2,
-        selectedColor: controller.selectedColor1.value,
-        isAvailable: false,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: controller.biodigesterPricings[0].name,
-        subTitle: controller.biodigesterPricings[0].shortDesc.toString(),
-        onPressed: () {
-          controller.selectedColor1.value =
-              controller.selectedColor1.value == Colors.grey
-                  ? Colors.teal
-                  : Colors.grey;
+      Obx(() => SubServiceWidget2(
+            activeBgColor: MyColors.DarkBlue,
+            inactiveBgColor: MyColors.SubServiceColor2,
+            selectedColor: controller.selectedColor1.value,
+            isAvailable: false,
+            path: "assets/images/biodigester.png",
+            size: 32,
+            title: controller.biodigesterPricings[0].name,
+            subTitle: controller.biodigesterPricings[0].shortDesc.toString(),
+            onPressed: () {
+              controller.selectedColor1.value =
+                  controller.selectedColor1.value == Colors.grey
+                      ? Colors.teal
+                      : Colors.grey;
 
-          addOrRemoveItem(controller.selectedServices, {
-            "id": controller.biodigesterPricings[0].id.toString(),
-            "cost": controller.biodigesterPricings[0].cost.toString(),
-            "name": controller.biodigesterPricings[0].name.toString()
-          });
-        },
-        price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
-      ),
-      SubServiceWidget2(
-        activeBgColor: MyColors.DarkBlue,
-        inactiveBgColor: MyColors.SubServiceColor2,
-        selectedColor: controller.selectedColor2.value,
-        isAvailable: false,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: controller.biodigesterPricings[1].name,
-        subTitle: controller.biodigesterPricings[1].shortDesc.toString(),
-        onPressed: () {
-          controller.selectedColor2.value =
-              controller.selectedColor2.value == Colors.grey
-                  ? Colors.teal
-                  : Colors.grey;
+              addOrRemoveItem(controller.selectedServices,
+                  controller.biodigesterPricings[0].id.toString());
+            },
+            price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
+          )),
+      Obx(() => SubServiceWidget2(
+            activeBgColor: MyColors.DarkBlue,
+            inactiveBgColor: MyColors.SubServiceColor2,
+            selectedColor: controller.selectedColor2.value,
+            isAvailable: false,
+            path: "assets/images/biodigester.png",
+            size: 32,
+            title: controller.biodigesterPricings[1].name,
+            subTitle: controller.biodigesterPricings[1].shortDesc.toString(),
+            onPressed: () {
+              controller.selectedColor2.value =
+                  controller.selectedColor2.value == Colors.grey
+                      ? Colors.teal
+                      : Colors.grey;
 
-          addOrRemoveItem(controller.selectedServices, {
-            "id": controller.biodigesterPricings[1].id.toString(),
-            "cost": controller.biodigesterPricings[1].cost.toString(),
-            "name": controller.biodigesterPricings[1].name.toString()
-          });
+              addOrRemoveItem(controller.selectedServices,
+                  controller.biodigesterPricings[1].id.toString());
 
-          // controller.selectedServices.value
-          //     .add(controller.biodigesterPricings[1].id);
+              // controller.selectedServices.value
+              //     .add(controller.biodigesterPricings[1].id);
 
-          inspect(controller.selectedServices.value);
-        },
-        price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
-      ),
+              inspect(controller.selectedServices.value);
+            },
+            price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+          )),
     ]);
   }
 
@@ -369,36 +439,82 @@ class BioDigesterMainView extends StatelessWidget {
       );
     }
 
+    // controller.biodigesterPricings.map((element) => {
+    //       wd.add(
+    //         SubServiceWidget2(
+    //           activeBgColor: MyColors.DarkBlue,
+    //           inactiveBgColor: MyColors.SubServiceColor2,
+    //           activeTextColor: Colors.white,
+    //           isAvailable: false,
+    //           path: "assets/images/biodigester.png",
+    //           size: 32,
+    //           title: element.name,
+    //           subTitle: 'Service or build',
+    //           onTap: null,
+    //         ),
+    //       )
+    //     });
+
     return Column(children: wd);
+
+    // SubServiceWidget2(
+    //   activeBgColor: MyColors.DarkBlue,
+    //   inactiveBgColor: MyColors.SubServiceColor2,
+    //   activeTextColor: Colors.white,
+    //   isAvailable: controller.biodigesterAvailable.value,
+    //   path: "assets/images/biodigester.png",
+    //   size: 32,
+    //   title: 'Biodigester Only',
+    //   subTitle: 'Service or build',
+    //   onTap: null,
+    // ),
+    // SubServiceWidget2(
+    //   activeTextColor: Colors.white,
+    //   activeBgColor: MyColors.DarkBlue,
+    //   inactiveBgColor: MyColors.SubServiceColor2,
+    //   isAvailable: controller.biodigesterWithSeatAvailable.value,
+    //   path: "assets/images/biodigester.png",
+    //   size: 32,
+    //   title: 'Biodigester With Seat',
+    //   subTitle: 'Service or build',
+    //   onTap: null,
+    // ),
+    // SubServiceWidget2(
+    //   activeTextColor: Colors.white,
+    //   activeBgColor: MyColors.DarkBlue,
+    //   inactiveBgColor: MyColors.SubServiceColor2,
+    //   isAvailable: controller.standaloneAvailable.value,
+    //   path: "assets/images/biodigester.png",
+    //   size: 32,
+    //   title: 'Standalone Toilet',
+    //   subTitle: 'Service or build',
+    //   onTap: null,
+    // ),
+    // SubServiceWidget2(
+    //   activeTextColor: Colors.white,
+    //   activeBgColor: MyColors.SubServiceColor1,
+    //   inactiveBgColor: MyColors.DarkBlue,
+    //   isAvailable: true,
+    //   path: "assets/images/vidmore.png",
+    //   size: 32,
+    //   title: 'Learn More',
+    //   subTitle: 'Read & watch videos',
+    //   onTap: null,
+    // ),
+    //   ],
+    // );
   }
 
-  void addOrRemoveItem(myArray, Map<String, dynamic> newItem) {
-    int indexOfExistingItem = myArray.indexWhere(
-      (item) => item["id"] == newItem["id"],
-    );
-
-    if (indexOfExistingItem != -1) {
-      // Remove the existing item
-      myArray.removeAt(indexOfExistingItem);
+  void addOrRemoveItem(
+    myArray,
+    String newItem,
+  ) {
+    if (myArray.contains(newItem)) {
+      myArray.remove(newItem);
       print("Removed: $newItem");
     } else {
-      // Add the item
       myArray.add(newItem);
       print("Added: $newItem");
     }
-  }
-
-  calculateTotalCost(myArray) {
-    double totalCost = controller.selectedServices.fold(0, (sum, item) {
-      if (item["cost"] is double) {
-        return sum + (item["cost"] as double? ?? 0);
-      } else if (item["cost"] is String) {
-        return sum + double.parse(item["cost"] as String);
-      } else {
-        return sum;
-      }
-    });
-
-    return totalCost;
   }
 }
