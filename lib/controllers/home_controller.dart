@@ -24,13 +24,9 @@ class HomeController extends GetxController {
 
   final reports = [].obs;
 
-  final selectedRegion = "".obs;
-  final selectedDistrict = "".obs;
-  final selectedDistrictId = "".obs;
-  final communityController = TextEditingController();
-  final selectedReportType = "".obs;
-  final selectedReportCategory = "".obs;
-  final selectedVideoPath = "".obs;
+  var emptyingServiceAvailable = false.obs;
+  var waterServiceAvailable = false.obs;
+  var biodigesterServiceAvailable = false.obs;
 
   final selectedImagePath = "".obs;
   final selectedImageSize = "".obs;
@@ -70,6 +66,8 @@ class HomeController extends GetxController {
     userId.value = prefs.getInt('userId') ?? 0;
 
     await getAddressFromCoords();
+    await getAvailableServices();
+
     await initPackageInfo();
 
     // placemarks =
@@ -142,96 +140,96 @@ class HomeController extends GetxController {
   //   }
   // }
 
-  Future sendReport() async {
-    try {
-      bool result = await InternetConnectionChecker().hasConnection;
-      if (result == false) {
-        isLoading.value = false;
-        return Get.snackbar(
-            "Internet Error", "Poor internet access. Please try again later...",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: MyColors.Red,
-            colorText: Colors.white);
-      }
+  // Future sendReport() async {
+  //   try {
+  //     bool result = await InternetConnectionChecker().hasConnection;
+  //     if (result == false) {
+  //       isLoading.value = false;
+  //       return Get.snackbar(
+  //           "Internet Error", "Poor internet access. Please try again later...",
+  //           snackPosition: SnackPosition.TOP,
+  //           backgroundColor: MyColors.Red,
+  //           colorText: Colors.white);
+  //     }
 
-      // final isValid = formKey.currentState!.validate();
-      // if (!isValid) {
-      //   return;
-      // }
-      if (selectedImagePath == "") {
-        Get.snackbar("Error", "No image was picked",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
+  //     // final isValid = formKey.currentState!.validate();
+  //     // if (!isValid) {
+  //     //   return;
+  //     // }
+  //     if (selectedImagePath == "") {
+  //       Get.snackbar("Error", "No image was picked",
+  //           snackPosition: SnackPosition.BOTTOM,
+  //           backgroundColor: Colors.red,
+  //           colorText: Colors.white);
+  //     }
 
-      if (selectedReportType.value == "1" && latitude.value == "") {
-        Get.snackbar(
-            "Error", "Location is not available. Please turn on your location",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
-      // formKey.currentState!.save();
+  //     if (selectedReportType.value == "1" && latitude.value == "") {
+  //       Get.snackbar(
+  //           "Error", "Location is not available. Please turn on your location",
+  //           snackPosition: SnackPosition.BOTTOM,
+  //           backgroundColor: Colors.red,
+  //           colorText: Colors.white);
+  //     }
+  //     // formKey.currentState!.save();
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var userId = prefs.getInt('userId');
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     var userId = prefs.getInt('userId');
 
-      var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
+  //     var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
 
-      var request = http.MultipartRequest('POST', uri);
-      // request.fields['fullName'] = displayName.value.toString();
-      // request.fields['email'] = email.value.toString();
-      request.fields["userId"] = userId.toString();
-      request.fields['districtId'] = selectedDistrictId.value.toString();
-      request.fields['description'] =
-          descriptionController.text.toString() == ""
-              ? " "
-              : descriptionController.text.toString();
-      request.fields['reportType'] = selectedReportType.value.toString();
-      request.fields['reportCategoryId'] =
-          selectedReportCategory.value.toString();
+  //     var request = http.MultipartRequest('POST', uri);
+  //     // request.fields['fullName'] = displayName.value.toString();
+  //     // request.fields['email'] = email.value.toString();
+  //     request.fields["userId"] = userId.toString();
+  //     request.fields['districtId'] = selectedDistrictId.value.toString();
+  //     request.fields['description'] =
+  //         descriptionController.text.toString() == ""
+  //             ? " "
+  //             : descriptionController.text.toString();
+  //     request.fields['reportType'] = selectedReportType.value.toString();
+  //     request.fields['reportCategoryId'] =
+  //         selectedReportCategory.value.toString();
 
-      request.fields['latitude'] = latitude.value.toString();
-      request.fields['longitude'] = longitude.value.toString();
-      request.fields['communityLandmark'] = communityController.text;
-      request.fields['address'] = address.value;
-      request.fields['accuracy'] = accuracy.value.toString();
+  //     request.fields['latitude'] = latitude.value.toString();
+  //     request.fields['longitude'] = longitude.value.toString();
+  //     request.fields['communityLandmark'] = communityController.text;
+  //     request.fields['address'] = address.value;
+  //     request.fields['accuracy'] = accuracy.value.toString();
 
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-          'nuisancePicture', File(selectedImagePath.value.toString()).path);
-      request.files.add(multipartFile);
+  //     http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+  //         'nuisancePicture', File(selectedImagePath.value.toString()).path);
+  //     request.files.add(multipartFile);
 
-      var res = await request.send();
-      isLoading.value = true;
+  //     var res = await request.send();
+  //     isLoading.value = true;
 
-      if (res.statusCode == 200) {
-        isLoading.value = false;
-        selectedImagePath.value = "";
-        selectedDistrict.value = "";
-        selectedReportType.value = "";
-        descriptionController.text = "";
-        communityController.text = "";
+  //     if (res.statusCode == 200) {
+  //       isLoading.value = false;
+  //       selectedImagePath.value = "";
+  //       selectedDistrict.value = "";
+  //       selectedReportType.value = "";
+  //       descriptionController.text = "";
+  //       communityController.text = "";
 
-        showSubmissionReport();
-      } else {
-        isLoading.value = false;
-        Get.snackbar("Error", "A error occurred. Please try again.",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            duration: Duration(seconds: 5),
-            colorText: Colors.white);
-      }
-    } catch (e) {
-      isLoading.value = false;
-      log(e.toString());
-      Get.snackbar("Connection Error",
-          "Connection to server refused. Please try again later...",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: MyColors.Red,
-          colorText: Colors.white);
-    }
-  }
+  //       showSubmissionReport();
+  //     } else {
+  //       isLoading.value = false;
+  //       Get.snackbar("Error", "A error occurred. Please try again.",
+  //           snackPosition: SnackPosition.TOP,
+  //           backgroundColor: Colors.red,
+  //           duration: Duration(seconds: 5),
+  //           colorText: Colors.white);
+  //     }
+  //   } catch (e) {
+  //     isLoading.value = false;
+  //     log(e.toString());
+  //     Get.snackbar("Connection Error",
+  //         "Connection to server refused. Please try again later...",
+  //         snackPosition: SnackPosition.TOP,
+  //         backgroundColor: MyColors.Red,
+  //         colorText: Colors.white);
+  //   }
+  // }
 
   showSubmissionReport() async {
     Get.dialog(
@@ -453,5 +451,32 @@ class HomeController extends GetxController {
 
   cancel() {
     currentStep.value > 0 ? currentStep.value -= 1 : null;
+  }
+
+  Future<void> getAvailableServices() async {
+    final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
+    final Map<String, String> params = {'serviceAreaId': '1'};
+
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // Successful response
+        List<dynamic> data = json.decode(response.body);
+        emptyingServiceAvailable.value = data.contains(1);
+        waterServiceAvailable.value = data.contains(2);
+        biodigesterServiceAvailable.value = data.contains(3);
+
+        log('getAvailableServices Response Data: $data');
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception: $error');
+    }
   }
 }

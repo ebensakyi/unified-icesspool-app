@@ -100,7 +100,7 @@ class BioDigesterMainView extends StatelessWidget {
                                         controller.send();
                                       },
                                       child: Text(
-                                        'Make Payment',
+                                        'Submit Request',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ),
@@ -234,8 +234,8 @@ class BioDigesterMainView extends StatelessWidget {
               //   state: _currentStep >= 2 ? StepState.complete : StepState.disabled,
               // ),
               Step(
-                title: new Text('Payment'),
-                subtitle: Text('Make payment'),
+                title: new Text('Submit'),
+                subtitle: Text('Submit request'),
                 content: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,7 +312,10 @@ class BioDigesterMainView extends StatelessWidget {
           addOrRemoveItem(controller.selectedServices, {
             "id": controller.biodigesterPricings[0].id.toString(),
             "cost": controller.biodigesterPricings[0].cost.toString(),
-            "name": controller.biodigesterPricings[0].name.toString()
+            "name": controller.biodigesterPricings[0].name.toString(),
+            "userId": 1,
+            "lat": 9.9,
+            "lng": 9
           });
         },
         price: "GHS " + controller.biodigesterPricings[0].cost.toString(),

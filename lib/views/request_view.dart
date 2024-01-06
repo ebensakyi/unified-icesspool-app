@@ -11,6 +11,7 @@ import 'package:icesspool/widgets/service-widget.dart';
 
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
 
+import '../controllers/home_controller.dart';
 import '../controllers/login_controller.dart';
 import '../controllers/request_controller.dart';
 
@@ -19,7 +20,7 @@ import 'biodigester_main_view.dart';
 class RequestView extends StatelessWidget {
   final loginController = Get.put(LoginController());
   final controller = Get.put(RequestController());
-  // final homeController = Get.put(HomeController());
+  final homeController = Get.put(HomeController());
 
   // final Completer<GoogleMapController> _controller =
   //     Completer<GoogleMapController>();
@@ -53,7 +54,8 @@ class RequestView extends StatelessWidget {
                 Obx(() {
                   return Expanded(
                     child: ServiceWidget(
-                      isAvailable: controller.emptyingServiceAvailable.value,
+                      isAvailable:
+                          homeController.emptyingServiceAvailable.value,
                       path: "assets/images/toilet-tanker.png",
                       size: 32,
                       title: 'Emptying',
@@ -65,7 +67,7 @@ class RequestView extends StatelessWidget {
                 Obx(() {
                   return Expanded(
                     child: ServiceWidget(
-                      isAvailable: controller.waterServiceAvailable.value,
+                      isAvailable: homeController.waterServiceAvailable.value,
                       path: "assets/images/water-tanker.png",
                       size: 32,
                       title: 'Bulk Water',
@@ -82,7 +84,8 @@ class RequestView extends StatelessWidget {
                 Obx(() {
                   return Expanded(
                     child: ServiceWidget(
-                      isAvailable: controller.biodigesterServiceAvailable.value,
+                      isAvailable:
+                          homeController.biodigesterServiceAvailable.value,
                       path: "assets/images/biodigester.png",
                       size: 32,
                       title: 'Biodigester',

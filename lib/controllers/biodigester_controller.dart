@@ -180,40 +180,52 @@ class BiodigesterController extends GetxController {
     //   SharedPreferences prefs = await SharedPreferences.getInstance();
     //   var userId = prefs.getInt('userId');
 
-    var uri = Uri.parse(
-        Constants.BASE_URL + Constants.BIODIGESTER_TRANSACTION_API_URL);
+    var uri = Uri.parse(Constants.BIODIGESTER_TRANSACTION_API_URL);
 
-    var request = http.MultipartRequest('POST', uri);
+    // var request = http.MultipartRequest('POST', uri);
 
-    for (int i = 0; i < selectedServices.length; i++) {
-      Map<String, dynamic> item = selectedServices[i];
-      print("Item ${i + 1}: ${item['name']}, Cost: ${item['cost']}");
-      request.fields["id"] = item['id'].toString();
-      request.fields["cost"] = item['cost'].toString();
+    // for (int i = 0; i < selectedServices.length; i++) {
+    //   Map<String, dynamic> item = selectedServices[i];
+    //   // request.fields["id"] = item['id'].toString();
+    //   // request.fields["cost"] = item['cost'].toString();
 
-      var res = await request.send();
+    //   inspect(item);
+
+    //   final Map<String, dynamic> data = {
+    //     'id': item['id'].toString(),
+    //     'cost': item['cost'].toString(),
+    //     'userId': 1,
+    //   };
+
+    //   final response = await http.post(
+    //     uri,
+    //     headers: <String, String>{
+    //       'Content-Type': 'application/json; charset=UTF-8',
+    //     },
+    //     body: jsonEncode(data),
+    //   );
+
+    //   if (response.statusCode == 201) {
+    //     print('Post request successful! Response: ${response.body}');
+    //   } else {
+    //     print(
+    //         'Failed to send POST request. Status code: ${response.statusCode}');
+    //   }
+    // }
+
+    final response = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(selectedServices),
+    );
+
+    if (response.statusCode == 201) {
+      print('Post request successful! Response: ${response.body}');
+    } else {
+      print('Failed to send POST request. Status code: ${response.statusCode}');
     }
-    //   // request.fields['fullName'] = displayName.value.toString();
-    //   // request.fields['email'] = email.value.toString();
-    //   request.fields["userId"] = userId.toString();
-    //   request.fields['districtId'] = selectedDistrictId.value.toString();
-    //   request.fields['description'] =
-    //       descriptionController.text.toString() == ""
-    //           ? " "
-    //           : descriptionController.text.toString();
-    //   request.fields['reportType'] = selectedRequestType.value.toString();
-    //   request.fields['reportCategoryId'] =
-    //       selectedReportCategory.value.toString();
-
-    //   request.fields['latitude'] = latitude.value.toString();
-    //   request.fields['longitude'] = longitude.value.toString();
-    //   request.fields['communityLandmark'] = communityController.text;
-    //   request.fields['address'] = address.value;
-    //   request.fields['accuracy'] = accuracy.value.toString();
-
-    //   http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-    //       'nuisancePicture', File(selectedImagePath.value.toString()).path);
-    //   request.files.add(multipartFile);
 
     // var res = await request.send();
     // isLoading.value = true;
