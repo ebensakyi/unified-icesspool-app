@@ -51,7 +51,7 @@ class BiodigesterController extends GetxController {
   final selectedColor2 = Colors.grey.obs;
   final selectedServices = <Map<String, dynamic>>[].obs;
 
-  // final biodigesterPricings = <BiodigesterPricing>[].obs;
+  final biodigesterServicesAvailable = [].obs;
   final RxList<BiodigesterPricing> biodigesterPricings =
       <BiodigesterPricing>[].obs;
 
@@ -67,7 +67,7 @@ class BiodigesterController extends GetxController {
   @override
   void onInit() async {
     await getUserArea();
-    // await getAvailableBiodigesterPricing();
+    await getAvailableBiodigesterServices();
     await getBiodigesterPricing();
 
     final prefs = await SharedPreferences.getInstance();
@@ -372,39 +372,41 @@ class BiodigesterController extends GetxController {
     }
   }
 
-  // Future<void> getAvailableBiodigesterPricing() async {
-  //   final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
-  //   final Map<String, String> params = {
-  //     'serviceAreaId': '1',
-  //   };
+  Future<void> getAvailableBiodigesterServices() async {
+    final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
+    final Map<String, String> params = {
+      'serviceAreaId': '1',
+    };
 
-  //   final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
 
-  //   try {
-  //     final response = await http.get(uri);
+    try {
+      final response = await http.get(uri);
 
-  //     if (response.statusCode == 200) {
-  //       // Successful response
-  //       final data = json.decode(response.body);
+      if (response.statusCode == 200) {
+        // Successful response
+        final data = json.decode(response.body);
 
-  //       biodigesterPricings.value = data;
+        biodigesterServicesAvailable.value = data;
 
-  //       // digesterEmptyingAvailable.value = data.contains(1);
-  //       // soakawayServicingAvailable.value = data.contains(2);
-  //       // drainfieldServicingAvailable.value = data.contains(3);
+        inspect(data);
 
-  //       // biodigesterAvailable.value = data.contains(4);
-  //       // biodigesterWithSeatAvailable.value = data.contains(5);
-  //       // standaloneAvailable.value = data.contains(6);
-  //     } else {
-  //       // Handle error
-  //       print('Error: ${response.statusCode}');
-  //     }
-  //   } catch (error) {
-  //     // Handle exception
-  //     print('Exception getAvailableBiodigesterPricing: $error');
-  //   }
-  // }
+        // digesterEmptyingAvailable.value = data.contains(1);
+        // soakawayServicingAvailable.value = data.contains(2);
+        // drainfieldServicingAvailable.value = data.contains(3);
+
+        // biodigesterAvailable.value = data.contains(4);
+        // biodigesterWithSeatAvailable.value = data.contains(5);
+        // standaloneAvailable.value = data.contains(6);
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception getAvailableBiodigesterPricing: $error');
+    }
+  }
 
   Future getBiodigesterPricing() async {
     final String apiUrl = Constants.BIODIGESTER_PRICING_API_URL;
