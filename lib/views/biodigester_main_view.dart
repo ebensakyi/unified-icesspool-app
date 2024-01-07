@@ -294,60 +294,84 @@ class BioDigesterMainView extends StatelessWidget {
 
   Widget biodigesterServicing() {
     return Column(children: [
-      SubServiceWidget2(
-        activeBgColor: MyColors.DarkBlue,
-        inactiveBgColor: MyColors.SubServiceColor2,
-        selectedColor: controller.selectedColor1.value,
-        isAvailable: false,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: controller.biodigesterPricings[0].name,
-        subTitle: controller.biodigesterPricings[0].shortDesc.toString(),
-        onPressed: () {
-          controller.selectedColor1.value =
-              controller.selectedColor1.value == Colors.grey
-                  ? Colors.teal
-                  : Colors.grey;
+      controller.biodigesterPricings[0].id == 1
+          ? SubServiceWidget2(
+              activeBgColor: MyColors.DarkBlue,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              selectedColor: controller.selectedColor1.value,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title: controller.biodigesterPricings[0].name,
+              subTitle: controller.biodigesterPricings[0].shortDesc.toString(),
+              onPressed: () {
+                controller.selectedColor1.value =
+                    controller.selectedColor1.value == Colors.grey
+                        ? Colors.teal
+                        : Colors.grey;
 
-          addOrRemoveItem(controller.selectedServices, {
-            "id": controller.biodigesterPricings[0].id.toString(),
-            "cost": controller.biodigesterPricings[0].cost.toString(),
-            "name": controller.biodigesterPricings[0].name.toString(),
-            "userId": 1,
-            "lat": 9.9,
-            "lng": 9
-          });
-        },
-        price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
-      ),
-      SubServiceWidget2(
-        activeBgColor: MyColors.DarkBlue,
-        inactiveBgColor: MyColors.SubServiceColor2,
-        selectedColor: controller.selectedColor2.value,
-        isAvailable: false,
-        path: "assets/images/biodigester.png",
-        size: 32,
-        title: controller.biodigesterPricings[1].name,
-        subTitle: controller.biodigesterPricings[1].shortDesc.toString(),
-        onPressed: () {
-          controller.selectedColor2.value =
-              controller.selectedColor2.value == Colors.grey
-                  ? Colors.teal
-                  : Colors.grey;
+                addOrRemoveItem(controller.selectedServices, {
+                  "id": controller.biodigesterPricings[0].id.toString(),
+                  "cost": controller.biodigesterPricings[0].cost.toString(),
+                  "name": controller.biodigesterPricings[0].name.toString(),
+                  "userId": 1,
+                  "lat": 9.9,
+                  "lng": 9
+                });
+              },
+              price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
+            )
+          : SizedBox.shrink(),
+      controller.biodigesterPricings[0].id == 2
+          ? SubServiceWidget2(
+              activeBgColor: MyColors.DarkBlue,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              selectedColor: controller.selectedColor2.value,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title: controller.biodigesterPricings[1].name,
+              subTitle: controller.biodigesterPricings[1].shortDesc.toString(),
+              onPressed: () {
+                controller.selectedColor2.value =
+                    controller.selectedColor2.value == Colors.grey
+                        ? Colors.teal
+                        : Colors.grey;
 
-          addOrRemoveItem(controller.selectedServices, {
-            "id": controller.biodigesterPricings[1].id.toString(),
-            "cost": controller.biodigesterPricings[1].cost.toString(),
-            "name": controller.biodigesterPricings[1].name.toString()
-          });
+                addOrRemoveItem(controller.selectedServices, {
+                  "id": controller.biodigesterPricings[1].id.toString(),
+                  "cost": controller.biodigesterPricings[1].cost.toString(),
+                  "name": controller.biodigesterPricings[1].name.toString()
+                });
+              },
+              price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+            )
+          : SizedBox.shrink(),
+      controller.biodigesterPricings[0].id == 3
+          ? SubServiceWidget2(
+              activeBgColor: MyColors.DarkBlue,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              selectedColor: controller.selectedColor2.value,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title: controller.biodigesterPricings[2].name,
+              subTitle: controller.biodigesterPricings[2].shortDesc.toString(),
+              onPressed: () {
+                controller.selectedColor2.value =
+                    controller.selectedColor2.value == Colors.grey
+                        ? Colors.teal
+                        : Colors.grey;
 
-          // controller.selectedServices.value
-          //     .add(controller.biodigesterPricings[1].id);
-
-          inspect(controller.selectedServices.value);
-        },
-        price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
-      ),
+                addOrRemoveItem(controller.selectedServices, {
+                  "id": controller.biodigesterPricings[2].id.toString(),
+                  "cost": controller.biodigesterPricings[2].cost.toString(),
+                  "name": controller.biodigesterPricings[2].name.toString()
+                });
+              },
+              price: "GHS " + controller.biodigesterPricings[2].cost.toString(),
+            )
+          : SizedBox.shrink(),
     ]);
   }
 
