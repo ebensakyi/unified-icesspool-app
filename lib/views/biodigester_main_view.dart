@@ -294,7 +294,7 @@ class BioDigesterMainView extends StatelessWidget {
 
   Widget biodigesterServicing() {
     return Column(children: [
-      controller.biodigesterPricings[0].id == 1
+      controller.biodigesterServicesAvailable.contains(1)
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
@@ -322,7 +322,7 @@ class BioDigesterMainView extends StatelessWidget {
               price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
             )
           : SizedBox.shrink(),
-      controller.biodigesterPricings[0].id == 2
+      controller.biodigesterServicesAvailable.contains(2)
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
@@ -347,7 +347,7 @@ class BioDigesterMainView extends StatelessWidget {
               price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
             )
           : SizedBox.shrink(),
-      controller.biodigesterPricings[0].id == 3
+      controller.biodigesterServicesAvailable.contains(3)
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,

@@ -390,6 +390,7 @@ class BiodigesterController extends GetxController {
         biodigesterServicesAvailable.value = data;
 
         inspect(data);
+        log("biodigesterServicesAvailable==> $data");
 
         // digesterEmptyingAvailable.value = data.contains(1);
         // soakawayServicingAvailable.value = data.contains(2);
