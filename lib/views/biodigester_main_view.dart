@@ -302,8 +302,11 @@ class BioDigesterMainView extends StatelessWidget {
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title: controller.biodigesterPricings[0].name,
-              subTitle: controller.biodigesterPricings[0].shortDesc.toString(),
+              title:
+                  controller.biodigesterPricings[controller.getIndex(1)].name,
+              subTitle: controller
+                  .biodigesterPricings[controller.getIndex(1)].shortDesc
+                  .toString(),
               onPressed: () {
                 controller.selectedColor1.value =
                     controller.selectedColor1.value == Colors.grey
@@ -311,9 +314,15 @@ class BioDigesterMainView extends StatelessWidget {
                         : Colors.grey;
 
                 addOrRemoveItem(controller.selectedServices, {
-                  "id": controller.biodigesterPricings[0].id.toString(),
-                  "cost": controller.biodigesterPricings[0].cost.toString(),
-                  "name": controller.biodigesterPricings[0].name.toString(),
+                  "id": controller
+                      .biodigesterPricings[controller.getIndex(1)].id
+                      .toString(),
+                  "cost": controller
+                      .biodigesterPricings[controller.getIndex(1)].cost
+                      .toString(),
+                  "name": controller
+                      .biodigesterPricings[controller.getIndex(1)].name
+                      .toString(),
                   "userId": 1,
                   "lat": 9.9,
                   "lng": 9
@@ -330,8 +339,11 @@ class BioDigesterMainView extends StatelessWidget {
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title: controller.biodigesterPricings[1].name,
-              subTitle: controller.biodigesterPricings[1].shortDesc.toString(),
+              title:
+                  controller.biodigesterPricings[controller.getIndex(2)].name,
+              subTitle: controller
+                  .biodigesterPricings[controller.getIndex(2)].shortDesc
+                  .toString(),
               onPressed: () {
                 controller.selectedColor2.value =
                     controller.selectedColor2.value == Colors.grey
@@ -339,9 +351,15 @@ class BioDigesterMainView extends StatelessWidget {
                         : Colors.grey;
 
                 addOrRemoveItem(controller.selectedServices, {
-                  "id": controller.biodigesterPricings[1].id.toString(),
-                  "cost": controller.biodigesterPricings[1].cost.toString(),
-                  "name": controller.biodigesterPricings[1].name.toString()
+                  "id": controller
+                      .biodigesterPricings[controller.getIndex(2)].id
+                      .toString(),
+                  "cost": controller
+                      .biodigesterPricings[controller.getIndex(2)].cost
+                      .toString(),
+                  "name": controller
+                      .biodigesterPricings[controller.getIndex(2)].name
+                      .toString()
                 });
               },
               price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
@@ -355,8 +373,11 @@ class BioDigesterMainView extends StatelessWidget {
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title: controller.biodigesterPricings[2].name,
-              subTitle: controller.biodigesterPricings[2].shortDesc.toString(),
+              title:
+                  controller.biodigesterPricings[controller.getIndex(3)].name,
+              subTitle: controller
+                  .biodigesterPricings[controller.getIndex(3)].shortDesc
+                  .toString(),
               onPressed: () {
                 controller.selectedColor2.value =
                     controller.selectedColor2.value == Colors.grey
@@ -364,12 +385,20 @@ class BioDigesterMainView extends StatelessWidget {
                         : Colors.grey;
 
                 addOrRemoveItem(controller.selectedServices, {
-                  "id": controller.biodigesterPricings[2].id.toString(),
-                  "cost": controller.biodigesterPricings[2].cost.toString(),
-                  "name": controller.biodigesterPricings[2].name.toString()
+                  "id": controller
+                      .biodigesterPricings[controller.getIndex(3)].id
+                      .toString(),
+                  "cost": controller
+                      .biodigesterPricings[controller.getIndex(3)].cost
+                      .toString(),
+                  "name": controller
+                      .biodigesterPricings[controller.getIndex(3)].name
+                      .toString()
                 });
               },
-              price: "GHS " + controller.biodigesterPricings[2].cost.toString(),
+              price: "GHS " +
+                  controller.biodigesterPricings[controller.getIndex(3)].cost
+                      .toString(),
             )
           : SizedBox.shrink(),
     ]);

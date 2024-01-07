@@ -457,6 +457,21 @@ class BiodigesterController extends GetxController {
     }
   }
 
+  getIndex(int targetId) {
+    inspect(biodigesterPricings);
+    int index =
+        biodigesterPricings.indexWhere((service) => service.id == targetId);
+
+    log("-------->$index");
+
+    if (index != -1) {
+      log('Index of object with id $targetId: $index');
+    } else {
+      log('Object with id $targetId not found in the list.');
+    }
+    return index;
+  }
+
   List<BiodigesterPricing> parseData(List<Map<String, dynamic>> data) {
     var formattedData = data
         .map((item) => BiodigesterPricing(
