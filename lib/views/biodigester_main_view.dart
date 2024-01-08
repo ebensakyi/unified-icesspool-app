@@ -369,7 +369,7 @@ class BioDigesterMainView extends StatelessWidget {
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
-              selectedColor: controller.selectedColor2.value,
+              selectedColor: controller.selectedColor3.value,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
@@ -379,8 +379,8 @@ class BioDigesterMainView extends StatelessWidget {
                   .biodigesterPricings[controller.getIndex(3)].shortDesc
                   .toString(),
               onPressed: () {
-                controller.selectedColor2.value =
-                    controller.selectedColor2.value == Colors.grey
+                controller.selectedColor3.value =
+                    controller.selectedColor3.value == Colors.grey
                         ? Colors.teal
                         : Colors.grey;
 
@@ -429,6 +429,7 @@ class BioDigesterMainView extends StatelessWidget {
   }
 
   void addOrRemoveItem(myArray, Map<String, dynamic> newItem) {
+    inspect(myArray);
     int indexOfExistingItem = myArray.indexWhere(
       (item) => item["id"] == newItem["id"],
     );

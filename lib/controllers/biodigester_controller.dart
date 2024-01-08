@@ -49,6 +49,8 @@ class BiodigesterController extends GetxController {
 
   final selectedColor1 = Colors.grey.obs;
   final selectedColor2 = Colors.grey.obs;
+  final selectedColor3 = Colors.grey.obs;
+
   final selectedServices = <Map<String, dynamic>>[].obs;
 
   final biodigesterServicesAvailable = [].obs;
