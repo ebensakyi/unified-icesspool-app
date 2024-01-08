@@ -323,9 +323,6 @@ class BioDigesterMainView extends StatelessWidget {
                   "name": controller
                       .biodigesterPricings[controller.getIndex(1)].name
                       .toString(),
-                  "userId": 1,
-                  "lat": 9.9,
-                  "lng": 9
                 });
               },
               price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
@@ -359,7 +356,7 @@ class BioDigesterMainView extends StatelessWidget {
                       .toString(),
                   "name": controller
                       .biodigesterPricings[controller.getIndex(2)].name
-                      .toString()
+                      .toString(),
                 });
               },
               price: "GHS " + controller.biodigesterPricings[1].cost.toString(),

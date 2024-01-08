@@ -12,6 +12,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:package_info/package_info.dart';
 
 import '../contants.dart';
+import '../core/random.dart';
 import '../model/biodigester_pricing.dart';
 import '../themes/colors.dart';
 import '../widgets/small-button.dart';
@@ -214,13 +215,22 @@ class BiodigesterController extends GetxController {
     //         'Failed to send POST request. Status code: ${response.statusCode}');
     //   }
     // }
+    inspect(selectedServices);
+
+    final Map<String, dynamic> data = {
+      'requestDetails': selectedServices,
+      'transactionId': generateTransactionCode(),
+      'userId': 1,
+      'lng': 123,
+      'lat': 321
+    };
 
     final response = await http.post(
       uri,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(selectedServices),
+      body: jsonEncode(data),
     );
 
     if (response.statusCode == 201) {
