@@ -32,6 +32,7 @@ class HomeController extends GetxController {
   final selectedImageSize = "".obs;
   final count = 0.obs;
   final userId = 0.obs;
+  final serviceAreaId = "".obs;
 
   final displayName = "".obs;
   final email = "".obs;
@@ -55,7 +56,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
-    await getUserArea();
+    await getUserServiceArea();
     final prefs = await SharedPreferences.getInstance();
 
     final position = await LocationService.determinePosition();
@@ -63,7 +64,7 @@ class HomeController extends GetxController {
     longitude.value = position.longitude;
     accuracy.value = position.accuracy;
 
-    userId.value = prefs.getInt('userId') ?? 0;
+    userId.value = 1; //prefs.getInt('userId') ?? 0;
 
     await getAddressFromCoords();
     await getAvailableServices();
@@ -86,7 +87,7 @@ class HomeController extends GetxController {
       currentIndex.value = index;
       currentTitle.value = titlesList[index];
 
-      await getUserArea();
+      await getUserServiceArea();
 
       if (index == 1) {
         isLoading.value = true;
@@ -320,8 +321,8 @@ class HomeController extends GetxController {
   //   } catch (e) {}
   // }
 
-  Future<void> getUserArea() async {
-    final String apiUrl = Constants.USER_AREA_API_URL;
+  Future<void> getUserServiceArea() async {
+    final String apiUrl = Constants.USER_SERVICE_AREA_API_URL;
     final Map<String, String> params = {
       'lat': '5.6778',
       'lng': '0.1645678',
@@ -335,14 +336,15 @@ class HomeController extends GetxController {
       if (response.statusCode == 200) {
         // Successful response
         final data = json.decode(response.body);
-        print('Response Data: $data');
+        log('2getUserArea Response Data: $data');
+        serviceAreaId.value = data;
       } else {
         // Handle error
-        print('Error: ${response.statusCode}');
+        log('getUserArea Error: ${response.statusCode}');
       }
     } catch (error) {
       // Handle exception
-      print('Exception: $error');
+      print('getUserArea Exception: $error');
     }
   }
 
@@ -455,7 +457,7 @@ class HomeController extends GetxController {
 
   Future<void> getAvailableServices() async {
     final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
-    final Map<String, String> params = {'serviceAreaId': '1'};
+    final Map<String, String> params = {'serviceAreaId': serviceAreaId.value};
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
 

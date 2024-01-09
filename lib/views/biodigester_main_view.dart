@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/model/biodigester_pricing.dart';
@@ -22,7 +19,6 @@ class BioDigesterMainView extends StatelessWidget {
   final formKey3 = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    inspect("controller.biodigesterPricings");
     return Scaffold(
         appBar: AppBar(
           title: Text("Bio-digester"),
@@ -256,7 +252,7 @@ class BioDigesterMainView extends StatelessWidget {
                           children: [
                             ListTile(
                               title: Text('${item["name"]}'),
-                              subtitle: Text('GHS ${item["cost"]}'),
+                              subtitle: Text('GHS ${item["unitCost"]}'),
                             ),
                             Divider(
                               height: 1,
@@ -269,7 +265,7 @@ class BioDigesterMainView extends StatelessWidget {
                     Align(
                       alignment: Alignment.topRight,
                       child: Text(
-                        "Total Bill: GHS ${calculateTotalCost(controller.selectedServices)}",
+                        "Total Bill: GHS ${controller.calculateTotalCost(controller.selectedServices)}",
                         style: TextStyle(
                           fontSize: 16,
                         ),
@@ -313,11 +309,11 @@ class BioDigesterMainView extends StatelessWidget {
                         ? Colors.teal
                         : Colors.grey;
 
-                addOrRemoveItem(controller.selectedServices, {
+                controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
                       .biodigesterPricings[controller.getIndex(1)].id
-                      .toString(),
-                  "cost": controller
+                      .toInt(),
+                  "unitCost": controller
                       .biodigesterPricings[controller.getIndex(1)].cost
                       .toString(),
                   "name": controller
@@ -347,11 +343,11 @@ class BioDigesterMainView extends StatelessWidget {
                         ? Colors.teal
                         : Colors.grey;
 
-                addOrRemoveItem(controller.selectedServices, {
+                controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
                       .biodigesterPricings[controller.getIndex(2)].id
-                      .toString(),
-                  "cost": controller
+                      .toInt(),
+                  "unitCost": controller
                       .biodigesterPricings[controller.getIndex(2)].cost
                       .toString(),
                   "name": controller
@@ -381,11 +377,11 @@ class BioDigesterMainView extends StatelessWidget {
                         ? Colors.teal
                         : Colors.grey;
 
-                addOrRemoveItem(controller.selectedServices, {
+                controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
                       .biodigesterPricings[controller.getIndex(3)].id
-                      .toString(),
-                  "cost": controller
+                      .toInt(),
+                  "unitCost": controller
                       .biodigesterPricings[controller.getIndex(3)].cost
                       .toString(),
                   "name": controller
@@ -423,36 +419,5 @@ class BioDigesterMainView extends StatelessWidget {
     }
 
     return Column(children: wd);
-  }
-
-  void addOrRemoveItem(myArray, Map<String, dynamic> newItem) {
-    inspect(myArray);
-    int indexOfExistingItem = myArray.indexWhere(
-      (item) => item["id"] == newItem["id"],
-    );
-
-    if (indexOfExistingItem != -1) {
-      // Remove the existing item
-      myArray.removeAt(indexOfExistingItem);
-      print("Removed: $newItem");
-    } else {
-      // Add the item
-      myArray.add(newItem);
-      print("Added: $newItem");
-    }
-  }
-
-  calculateTotalCost(myArray) {
-    double totalCost = controller.selectedServices.fold(0, (sum, item) {
-      if (item["cost"] is double) {
-        return sum + (item["cost"] as double? ?? 0);
-      } else if (item["cost"] is String) {
-        return sum + double.parse(item["cost"] as String);
-      } else {
-        return sum;
-      }
-    });
-
-    return totalCost;
   }
 }

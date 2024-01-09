@@ -410,8 +410,6 @@ class BioDigesterMainView extends StatelessWidget {
 
               // controller.selectedServices.value
               //     .add(controller.biodigesterPricings[1].id);
-
-              inspect(controller.selectedServices.value);
             },
             price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
           )),
@@ -431,9 +429,7 @@ class BioDigesterMainView extends StatelessWidget {
           size: 32,
           title: obj.name,
           subTitle: obj.shortDesc.toString(),
-          onPressed: () {
-            print(obj.cost.toString());
-          },
+          onPressed: () {},
           price: "GHS " + obj.cost.toString(),
         ),
       );

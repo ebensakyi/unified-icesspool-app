@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:icesspool/controllers/home_controller.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,8 @@ import '../widgets/small-button.dart';
 import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 
 class BiodigesterController extends GetxController {
+  final controller = Get.put(HomeController());
+
   final formKey = new GlobalKey<FormState>();
 
   final isLoading = false.obs;
@@ -69,7 +72,7 @@ class BiodigesterController extends GetxController {
 
   @override
   void onInit() async {
-    await getUserArea();
+    // await getUserArea();
     await getAvailableBiodigesterServices();
     await getBiodigesterPricing();
 
@@ -100,7 +103,7 @@ class BiodigesterController extends GetxController {
       currentIndex.value = index;
       currentTitle.value = titlesList[index];
 
-      await getUserArea();
+      //await getUserArea();
 
       if (index == 1) {
         isLoading.value = true;
@@ -215,14 +218,16 @@ class BiodigesterController extends GetxController {
     //         'Failed to send POST request. Status code: ${response.statusCode}');
     //   }
     // }
-    inspect(selectedServices);
 
     final Map<String, dynamic> data = {
       'requestDetails': selectedServices,
       'transactionId': generateTransactionCode(),
-      'userId': 1,
-      'lng': 123,
-      'lat': 321
+      'userId': controller.userId.value,
+      'lng': controller.longitude.value,
+      'lat': controller.longitude.value,
+      'accuracy': controller.accuracy.value,
+      'totalCost': calculateTotalCost(selectedServices),
+      'serviceAreaId': controller.serviceAreaId.value
     };
 
     final response = await http.post(
@@ -359,30 +364,32 @@ class BiodigesterController extends GetxController {
   //   } catch (e) {}
   // }
 
-  Future<void> getUserArea() async {
-    final String apiUrl = Constants.USER_AREA_API_URL;
-    final Map<String, String> params = {
-      'lat': '5.6778',
-      'lng': '0.1645678',
-    };
+  // Future<void> getUserArea() async {
+  //   final String apiUrl = Constants.USER_SERVICE_AREA_API_URL;
+  //   final Map<String, String> params = {
+  //     'lat': '5.6778',
+  //     'lng': '0.1645678',
+  //   };
 
-    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+  //   final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
 
-    try {
-      final response = await http.get(uri);
+  //   try {
+  //     final response = await http.get(uri);
 
-      if (response.statusCode == 200) {
-        // Successful response
-        final data = json.decode(response.body);
-      } else {
-        // Handle error
-        print('Error: ${response.statusCode}');
-      }
-    } catch (error) {
-      // Handle exception
-      print('Exception getUserArea: $error');
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       // Successful response
+  //       final data = json.decode(response.body);
+
+  //       print('Response getUserArea: $data');
+  //     } else {
+  //       // Handle error
+  //       print('Error: ${response.statusCode}');
+  //     }
+  //   } catch (error) {
+  //     // Handle exception
+  //     print('Exception getUserArea: $error');
+  //   }
+  // }
 
   Future<void> getAvailableBiodigesterServices() async {
     final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
@@ -470,11 +477,8 @@ class BiodigesterController extends GetxController {
   }
 
   getIndex(int targetId) {
-    inspect(biodigesterPricings);
     int index =
         biodigesterPricings.indexWhere((service) => service.id == targetId);
-
-    log("-------->$index");
 
     if (index != -1) {
       log('Index of object with id $targetId: $index');
@@ -551,5 +555,36 @@ class BiodigesterController extends GetxController {
 
   cancel() {
     currentStep.value > 0 ? currentStep.value -= 1 : null;
+  }
+
+  void addOrRemoveItem(myArray, Map<String, dynamic> newItem) {
+    inspect(myArray);
+    int indexOfExistingItem = myArray.indexWhere(
+      (item) => item["id"] == newItem["id"],
+    );
+
+    if (indexOfExistingItem != -1) {
+      // Remove the existing item
+      myArray.removeAt(indexOfExistingItem);
+      print("Removed: $newItem");
+    } else {
+      // Add the item
+      myArray.add(newItem);
+      print("Added: $newItem");
+    }
+  }
+
+  calculateTotalCost(myArray) {
+    double totalCost = selectedServices.fold(0, (sum, item) {
+      if (item["unitCost"] is double) {
+        return sum + (item["unitCost"] as double? ?? 0);
+      } else if (item["unitCost"] is String) {
+        return sum + double.parse(item["unitCost"] as String);
+      } else {
+        return sum;
+      }
+    });
+
+    return totalCost;
   }
 }
