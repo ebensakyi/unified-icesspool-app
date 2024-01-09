@@ -32,7 +32,7 @@ class HomeController extends GetxController {
   final selectedImageSize = "".obs;
   final count = 0.obs;
   final userId = 0.obs;
-  final serviceAreaId = "".obs;
+  final serviceAreaId = 0.obs;
 
   final displayName = "".obs;
   final email = "".obs;
@@ -67,7 +67,6 @@ class HomeController extends GetxController {
     userId.value = 1; //prefs.getInt('userId') ?? 0;
 
     await getAddressFromCoords();
-    await getAvailableServices();
 
     await initPackageInfo();
 
@@ -78,6 +77,7 @@ class HomeController extends GetxController {
     email.value = prefs.getString('email') ?? "";
     photoURL.value = prefs.getString('photoURL') ?? "";
     phoneNumber.value = prefs.getString('phoneNumber') ?? "";
+    // await getAvailableServices();
 
     super.onInit();
   }
@@ -338,6 +338,8 @@ class HomeController extends GetxController {
         final data = json.decode(response.body);
         log('2getUserArea Response Data: $data');
         serviceAreaId.value = data;
+
+        await getAvailableServices(data);
       } else {
         // Handle error
         log('getUserArea Error: ${response.statusCode}');
@@ -455,14 +457,17 @@ class HomeController extends GetxController {
     currentStep.value > 0 ? currentStep.value -= 1 : null;
   }
 
-  Future<void> getAvailableServices() async {
+  Future<void> getAvailableServices(serviceAreaId) async {
     final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
-    final Map<String, String> params = {'serviceAreaId': serviceAreaId.value};
+    final Map<String, int> params = {'serviceAreaId': serviceAreaId};
+
+    log("PARAMSS $params");
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
 
     try {
       final response = await http.get(uri);
+      log("response===> $response");
 
       if (response.statusCode == 200) {
         // Successful response
@@ -474,11 +479,11 @@ class HomeController extends GetxController {
         log('getAvailableServices Response Data: $data');
       } else {
         // Handle error
-        print('Error: ${response.statusCode}');
+        log('getAvailableServices Error: ${response.statusCode}');
       }
     } catch (error) {
       // Handle exception
-      print('Exception: $error');
+      log('getAvailableServices Exception: $error');
     }
   }
 }
