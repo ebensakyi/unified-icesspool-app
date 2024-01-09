@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -21,11 +22,13 @@ import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 
 class BiodigesterController extends GetxController {
   final controller = Get.put(HomeController());
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final formKey = new GlobalKey<FormState>();
 
   final isLoading = false.obs;
 
+  final transactionId = "".obs;
   final selectedRequestType = "".obs;
   final selectedImagePath = "".obs;
   final selectedImageSize = "".obs;
@@ -75,6 +78,8 @@ class BiodigesterController extends GetxController {
     // await getUserArea();
     await getAvailableBiodigesterServices();
     await getBiodigesterPricing();
+
+    addData();
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -361,7 +366,7 @@ class BiodigesterController extends GetxController {
     final String apiUrl = Constants.BIODIGESTER_PRICING_API_URL;
     final Map<String, String> params = {
       'platform': '2',
-      'serviceAreaId': '1',
+      'serviceAreaId': controller.serviceAreaId.value.toString(),
     };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
@@ -511,5 +516,23 @@ class BiodigesterController extends GetxController {
     });
 
     return totalCost;
+  }
+
+  void addData() {
+    // Add data to Firestore collection
+    _firestore.collection('transaction').add({
+      'transactionId': transactionId.value,
+      'userId': controller.userId.value,
+      'lng': controller.longitude.value,
+      'lat': controller.longitude.value,
+      'accuracy': controller.accuracy.value,
+      'totalCost': calculateTotalCost(selectedServices),
+      'serviceAreaId': controller.serviceAreaId.value
+      // Add more fields as needed
+    }).then((value) {
+      print('Data added successfully!');
+    }).catchError((error) {
+      print('Failed to add data: $error');
+    });
   }
 }

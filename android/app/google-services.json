@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "86328208371",
-    "project_id": "unified-icesspool-1fa87",
-    "storage_bucket": "unified-icesspool-1fa87.appspot.com"
+    "project_number": "314314044157",
+    "project_id": "unified-icesspool-app",
+    "storage_bucket": "unified-icesspool-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:86328208371:android:5d07374023ca2e5a90c086",
+        "mobilesdk_app_id": "1:314314044157:android:b01674239539afdb664494",
         "android_client_info": {
           "package_name": "com.icesspool.unified"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAfVMbO06VCW9SHin3QfAIZWOXwnqj_TLU"
+          "current_key": "AIzaSyBZ_Q4dtZahhty9p5C36TCphOUMg31xFZw"
         }
       ],
       "services": {

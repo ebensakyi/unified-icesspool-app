@@ -16,9 +16,12 @@ import 'routes/app_pages.dart';
 bool? isViewed;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+      name: "dev project", options: DefaultFirebaseOptions.currentPlatform);
 
   ByteData data =
       await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
