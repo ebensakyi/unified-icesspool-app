@@ -322,74 +322,6 @@ class BiodigesterController extends GetxController {
 
     return address.value;
   }
-  // void sendReport1() async {
-  //   try {
-  //     // var client = http.Client();
-  //     var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
-
-  //     var request = http.MultipartRequest('POST', uri);
-  //     request.fields['fullName'] = displayName.value.toString();
-  //     request.fields['email'] = email.value.toString();
-  //     request.fields['district'] = selectedDistrict.value.toString();
-  //     request.fields['description'] = descriptionController.text.toString();
-  //     request.fields['reportType'] = selectedReportType.value.toString();
-  //     request.fields['phoneNumber'] = phoneNumber.value.toString();
-  //     request.fields['latitude'] = latitude.value.toString();
-  //     request.fields['longitude'] = longitude.value.toString();
-
-  //     request.files.add(http.MultipartFile.fromBytes(
-  //         'picture', File(selectedImagePath.toString()).readAsBytesSync(),
-  //         filename: "file!.path"));
-
-  //     var res = await request.send();
-
-  //     // var response = await client.post(
-  //     //   uri,
-  //     //   headers: <String, String>{
-  //     //     'Content-Type': 'application/json; charset=UTF-8',
-  //     //   },
-  //     //   body: jsonEncode(<String, String>{
-  //     //     'fullName': displayName.value,
-  //     //     'email': email.value.toString(),
-  //     //     'district': selectedDistrict.value.toString(),
-  //     //     'description': description.value.toString(),
-  //     //     'reportType': selectedReportType.value.toString(),
-  //     //     'phoneNumber': phoneNumber.value.toString(),
-  //     //     'latitude': latitude.value.toString(),
-  //     //     'longitude': longitude.value.toString(),
-  //     //   }),
-  //     // );
-
-  //     // if (response.statusCode == 200) {}
-  //   } catch (e) {}
-  // }
-
-  // Future<void> getUserArea() async {
-  //   final String apiUrl = Constants.USER_SERVICE_AREA_API_URL;
-  //   final Map<String, String> params = {
-  //     'lat': '5.6778',
-  //     'lng': '0.1645678',
-  //   };
-
-  //   final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
-
-  //   try {
-  //     final response = await http.get(uri);
-
-  //     if (response.statusCode == 200) {
-  //       // Successful response
-  //       final data = json.decode(response.body);
-
-  //       print('Response getUserArea: $data');
-  //     } else {
-  //       // Handle error
-  //       print('Error: ${response.statusCode}');
-  //     }
-  //   } catch (error) {
-  //     // Handle exception
-  //     print('Exception getUserArea: $error');
-  //   }
-  // }
 
   Future<void> getAvailableBiodigesterServices() async {
     final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
@@ -407,9 +339,6 @@ class BiodigesterController extends GetxController {
         final data = json.decode(response.body);
 
         biodigesterServicesAvailable.value = data;
-
-        inspect(data);
-        log("biodigesterServicesAvailable==> $data");
 
         // digesterEmptyingAvailable.value = data.contains(1);
         // soakawayServicingAvailable.value = data.contains(2);
@@ -462,8 +391,6 @@ class BiodigesterController extends GetxController {
         // log(x);
 
         biodigesterPricings.value = parseData(typedData);
-
-        inspect(biodigesterPricings);
 
         // return data;
       } else {
@@ -558,7 +485,6 @@ class BiodigesterController extends GetxController {
   }
 
   void addOrRemoveItem(myArray, Map<String, dynamic> newItem) {
-    inspect(myArray);
     int indexOfExistingItem = myArray.indexWhere(
       (item) => item["id"] == newItem["id"],
     );
@@ -566,7 +492,6 @@ class BiodigesterController extends GetxController {
     if (indexOfExistingItem != -1) {
       // Remove the existing item
       myArray.removeAt(indexOfExistingItem);
-      print("Removed: $newItem");
     } else {
       // Add the item
       myArray.add(newItem);

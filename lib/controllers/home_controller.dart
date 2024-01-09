@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -53,6 +54,7 @@ class HomeController extends GetxController {
 
   final currentStep = 0.obs;
   StepperType stepperType = StepperType.vertical;
+  var db = FirebaseFirestore.instance;
 
   @override
   void onInit() async {
@@ -346,7 +348,7 @@ class HomeController extends GetxController {
       }
     } catch (error) {
       // Handle exception
-      print('getUserArea Exception: $error');
+      log('getUserArea Exception: $error');
     }
   }
 
@@ -459,15 +461,14 @@ class HomeController extends GetxController {
 
   Future<void> getAvailableServices(serviceAreaId) async {
     final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
-    final Map<String, int> params = {'serviceAreaId': serviceAreaId};
-
-    log("PARAMSS $params");
+    final Map<String, String> params = {
+      'serviceAreaId': serviceAreaId.toString()
+    };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
 
     try {
       final response = await http.get(uri);
-      log("response===> $response");
 
       if (response.statusCode == 200) {
         // Successful response
@@ -475,8 +476,6 @@ class HomeController extends GetxController {
         emptyingServiceAvailable.value = data.contains(1);
         waterServiceAvailable.value = data.contains(2);
         biodigesterServiceAvailable.value = data.contains(3);
-
-        log('getAvailableServices Response Data: $data');
       } else {
         // Handle error
         log('getAvailableServices Error: ${response.statusCode}');
