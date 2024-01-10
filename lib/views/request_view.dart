@@ -32,127 +32,137 @@ class RequestView extends StatelessWidget {
     bearing: 12.8334901395799,
   );
 
-  // static const CameraPosition _kLake = CameraPosition(
-  //     bearing: 192.8334901395799,
-  //     target: LatLng(37.43296265331129, -122.08832357078792),
-  //     tilt: 59.440717697143555,
-  //     zoom: 19.151926040649414);
+//  static CameraPosition _kGooglePlex = CameraPosition(
+//     target: LatLng(homeController.latitude.value, homeController.longitude.value),
+//     zoom: 12,
+//     tilt: 59.440717697143555,
+//     bearing: 12.8334901395799,
+//   );
 
   RequestView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomSheet: InteractiveBottomSheet(
-        options: InteractiveBottomSheetOptions(
-            expand: false, minimumSize: 0.25, maxSize: 0.5),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Obx(() {
-                  return Expanded(
-                    child: ServiceWidget(
-                      isAvailable:
-                          homeController.emptyingServiceAvailable.value,
-                      path: "assets/images/toilet-tanker.png",
-                      size: 32,
-                      title: 'Emptying',
-                      subTitle: 'Empty your cesspit',
-                      onTap: openTankerMainView,
+    return Obx(() => Scaffold(
+          bottomSheet: InteractiveBottomSheet(
+            options: InteractiveBottomSheetOptions(
+                expand: false, minimumSize: 0.25, maxSize: 0.5),
+            child: controller.pendingTransaction.value
+                ? Container(
+                    child: Column(
+                      children: [Text("Pending request")],
                     ),
-                  );
-                }),
-                Obx(() {
-                  return Expanded(
-                    child: ServiceWidget(
-                      isAvailable: homeController.waterServiceAvailable.value,
-                      path: "assets/images/water-tanker.png",
-                      size: 32,
-                      title: 'Bulk Water',
-                      subTitle: 'Request for water',
-                      onTap: openWaterMainView,
-                    ),
-                  );
-                }),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Obx(() {
-                  return Expanded(
-                    child: ServiceWidget(
-                      isAvailable:
-                          homeController.biodigesterServiceAvailable.value,
-                      path: "assets/images/biodigester.png",
-                      size: 32,
-                      title: 'Biodigester',
-                      subTitle: 'Service or build',
-                      onTap: openBioDigesterMainView,
-                    ),
-                  );
-                }),
-                Expanded(
-                  child: ServiceWidget(
-                    isAvailable: true,
-                    path: "assets/images/more.png",
-                    size: 32,
-                    title: 'More',
-                    subTitle: 'Read more',
+                  )
+                : Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Obx(() {
+                            return Expanded(
+                              child: ServiceWidget(
+                                isAvailable: homeController
+                                    .emptyingServiceAvailable.value,
+                                path: "assets/images/toilet-tanker.png",
+                                size: 32,
+                                title: 'Emptying',
+                                subTitle: 'Empty your cesspit',
+                                onTap: openTankerMainView,
+                              ),
+                            );
+                          }),
+                          Obx(() {
+                            return Expanded(
+                              child: ServiceWidget(
+                                isAvailable:
+                                    homeController.waterServiceAvailable.value,
+                                path: "assets/images/water-tanker.png",
+                                size: 32,
+                                title: 'Tanker Water',
+                                subTitle: 'Request for water',
+                                onTap: openWaterMainView,
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Obx(() {
+                            return Expanded(
+                              child: ServiceWidget(
+                                isAvailable: homeController
+                                    .biodigesterServiceAvailable.value,
+                                path: "assets/images/biodigester.png",
+                                size: 32,
+                                title: 'Biodigester',
+                                subTitle: 'Service or build',
+                                onTap: openBioDigesterMainView,
+                              ),
+                            );
+                          }),
+                          Expanded(
+                            child: ServiceWidget(
+                              isAvailable: true,
+                              path: "assets/images/more.png",
+                              size: 32,
+                              title: 'More',
+                              subTitle: 'Read more',
+                            ),
+                          ),
+                        ],
+                      ),
+                      ListTile(
+                        visualDensity:
+                            VisualDensity(horizontal: 0, vertical: -4),
+                        title: Text(
+                          'Biodigester',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        leading: Icon(Icons.history),
+                        subtitle: Text(
+                          'Dansoman - 21/11/2023',
+                          style: TextStyle(fontSize: 10),
+                        ),
+                      ),
+                      Divider(),
+                      ListTile(
+                        visualDensity:
+                            VisualDensity(horizontal: 0, vertical: -4),
+                        title: Text(
+                          'Tanker Water',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        leading: Icon(Icons.history),
+                        subtitle: Text(
+                          'Sowutuom - 11/01/2023',
+                          style: TextStyle(fontSize: 10),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+            draggableAreaOptions: DraggableAreaOptions(
+              //topBorderRadius: 20,
+              // height: 75,
+              // backgroundColor: Colors.grey,
+              indicatorColor: Color.fromARGB(255, 230, 230, 230),
+              indicatorWidth: 40,
+              indicatorHeight: 5,
+              indicatorRadius: 10,
             ),
-            ListTile(
-              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-              title: Text(
-                'Biodigester',
-                style: TextStyle(fontSize: 12),
-              ),
-              leading: Icon(Icons.history),
-              subtitle: Text(
-                'Dansoman - 21/11/2023',
-                style: TextStyle(fontSize: 10),
-              ),
-            ),
-            Divider(),
-            ListTile(
-              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-              title: Text(
-                'Bulk Water',
-                style: TextStyle(fontSize: 12),
-              ),
-              leading: Icon(Icons.history),
-              subtitle: Text(
-                'Sowutuom - 11/01/2023',
-                style: TextStyle(fontSize: 10),
-              ),
-            ),
-          ],
-        ),
-        draggableAreaOptions: DraggableAreaOptions(
-          //topBorderRadius: 20,
-          // height: 75,
-          // backgroundColor: Colors.grey,
-          indicatorColor: Color.fromARGB(255, 230, 230, 230),
-          indicatorWidth: 40,
-          indicatorHeight: 5,
-          indicatorRadius: 10,
-        ),
-      ),
-      body: GoogleMap(
-        mapToolbarEnabled: true,
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        // onMapCreated: (GoogleMapController controller) {
-        //   _controller.complete(controller);
-        // },
-        onMapCreated: controller.onMapCreated,
-        markers: Set<Marker>.of(controller.markers.values),
-      ),
-    );
+          ),
+          body: GoogleMap(
+            mapToolbarEnabled: true,
+            mapType: MapType.normal,
+            initialCameraPosition: _kGooglePlex,
+            // onMapCreated: (GoogleMapController controller) {
+            //   _controller.complete(controller);
+            // },
+            onMapCreated: controller.onMapCreated,
+            markers: Set<Marker>.of(controller.markers.values),
+          ),
+        ));
 
     // GoogleMap(
     //   mapType: MapType.hybrid,

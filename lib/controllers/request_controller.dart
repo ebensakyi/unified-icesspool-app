@@ -8,12 +8,15 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../contants.dart';
+import 'home_controller.dart';
 
 class RequestController extends GetxController {
   final community = "".obs;
   final Completer<GoogleMapController> _controller = Completer();
+  final controller = Get.put(HomeController());
 
   final Map<MarkerId, Marker> markers = {};
+  final pendingTransaction = false.obs;
 
   @override
   onInit() async {
@@ -24,7 +27,7 @@ class RequestController extends GetxController {
 
   Future<void> addMarker() async {
     final BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(48, 48)),
+        ImageConfiguration(size: Size(0, 0)),
         "assets/images/toilet-tanker.png");
 
     final MarkerId markerId = MarkerId('marker1');
@@ -32,7 +35,7 @@ class RequestController extends GetxController {
       markerId: markerId,
       position: LatLng(5.648931, -0.185246),
       infoWindow: InfoWindow(
-        title: 'Marker 1',
+        title: 'Service',
         snippet: 'This is the first marker.',
       ),
       icon: customIcon,
@@ -46,4 +49,11 @@ class RequestController extends GetxController {
     _controller.complete(controller);
     await addMarker(); // Add the initial marker when the map is created
   }
+
+  //   static CameraPosition _kGooglePlex = CameraPosition(
+  //   target: LatLng(controller.latitude.value, controller.longitude.value),
+  //   zoom: 12,
+  //   tilt: 59.440717697143555,
+  //   bearing: 12.8334901395799,
+  // );
 }

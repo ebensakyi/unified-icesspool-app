@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/controllers/home_controller.dart';
+import 'package:icesspool/controllers/request_controller.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:package_info/package_info.dart';
 
 import '../contants.dart';
 import '../core/random.dart';
@@ -22,6 +22,8 @@ import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 
 class BiodigesterController extends GetxController {
   final controller = Get.put(HomeController());
+  final requestController = Get.put(RequestController());
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final formKey = new GlobalKey<FormState>();
@@ -161,128 +163,131 @@ class BiodigesterController extends GetxController {
   // }
 
   Future sendRequest() async {
-    // try {
-    bool result = await InternetConnectionChecker().hasConnection;
-    if (!result) {
+    try {
+      bool result = await InternetConnectionChecker().hasConnection;
+      if (!result) {
+        isLoading.value = false;
+        return Get.snackbar(
+            "Internet Error", "Poor internet access. Please try again later...",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: MyColors.Red,
+            colorText: Colors.white);
+      }
+      isLoading.value = true;
+
+      //   // final isValid = formKey.currentState!.validate();
+      //   // if (!isValid) {
+      //   //   return;
+      //   // }
+      //   if (selectedImagePath == "") {
+      //     Get.snackbar("Error", "No image was picked",
+      //         snackPosition: SnackPosition.BOTTOM,
+      //         backgroundColor: Colors.red,
+      //         colorText: Colors.white);
+      //   }
+
+      //   // formKey.currentState!.save();
+
+      //   SharedPreferences prefs = await SharedPreferences.getInstance();
+      //   var userId = prefs.getInt('userId');
+
+      var uri = Uri.parse(Constants.BIODIGESTER_TRANSACTION_API_URL);
+
+      // var request = http.MultipartRequest('POST', uri);
+
+      // for (int i = 0; i < selectedServices.length; i++) {
+      //   Map<String, dynamic> item = selectedServices[i];
+      //   // request.fields["id"] = item['id'].toString();
+      //   // request.fields["cost"] = item['cost'].toString();
+
+      //   inspect(item);
+
+      //   final Map<String, dynamic> data = {
+      //     'id': item['id'].toString(),
+      //     'cost': item['cost'].toString(),
+      //     'userId': 1,
+      //   };
+
+      //   final response = await http.post(
+      //     uri,
+      //     headers: <String, String>{
+      //       'Content-Type': 'application/json; charset=UTF-8',
+      //     },
+      //     body: jsonEncode(data),
+      //   );
+
+      //   if (response.statusCode == 201) {
+      //     print('Post request successful! Response: ${response.body}');
+      //   } else {
+      //     print(
+      //         'Failed to send POST request. Status code: ${response.statusCode}');
+      //   }
+      // }
+
+      var transactionId = controller.serviceAreaId.value.toString() +
+          "3" +
+          generateTransactionCode();
+
+      final Map<String, dynamic> data = {
+        'requestDetails': selectedServices,
+        'transactionId': transactionId,
+        'userId': controller.userId.value,
+        'lng': controller.longitude.value,
+        'lat': controller.latitude.value,
+        'accuracy': controller.accuracy.value,
+        'totalCost': calculateTotalCost(selectedServices),
+        'serviceAreaId': controller.serviceAreaId.value
+      };
+
+      final response = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 200) {
+        print('Post request successful! Response: ${response.body}');
+        isLoading.value = false;
+        requestController.pendingTransaction.value = true;
+        saveTransactionFirestore();
+        Get.back();
+      } else {
+        isLoading.value = false;
+        print(
+            'Failed to send POST request. Status code: ${response.statusCode}');
+      }
+
+      // var res = await request.send();
+      // isLoading.value = true;
+
+      //   if (res.statusCode == 200) {
+      //     isLoading.value = false;
+      //     selectedImagePath.value = "";
+      //     selectedDistrict.value = "";
+      //     selectedRequestType.value = "";
+      //     descriptionController.text = "";
+      //     communityController.text = "";
+
+      //     showSubmissionReport();
+      //   } else {
+      //     isLoading.value = false;
+      //     Get.snackbar("Error", "A error occurred. Please try again.",
+      //         snackPosition: SnackPosition.TOP,
+      //         backgroundColor: Colors.red,
+      //         duration: Duration(seconds: 5),
+      //         colorText: Colors.white);
+      //   }
+    } catch (e) {
       isLoading.value = false;
-      return Get.snackbar(
-          "Internet Error", "Poor internet access. Please try again later...",
+      log(e.toString());
+      Get.snackbar("Connection Error",
+          "Connection to server refused. Please try again later...",
           snackPosition: SnackPosition.TOP,
           backgroundColor: MyColors.Red,
           colorText: Colors.white);
     }
-    isLoading.value = true;
-
-    //   // final isValid = formKey.currentState!.validate();
-    //   // if (!isValid) {
-    //   //   return;
-    //   // }
-    //   if (selectedImagePath == "") {
-    //     Get.snackbar("Error", "No image was picked",
-    //         snackPosition: SnackPosition.BOTTOM,
-    //         backgroundColor: Colors.red,
-    //         colorText: Colors.white);
-    //   }
-
-    //   // formKey.currentState!.save();
-
-    //   SharedPreferences prefs = await SharedPreferences.getInstance();
-    //   var userId = prefs.getInt('userId');
-
-    var uri = Uri.parse(Constants.BIODIGESTER_TRANSACTION_API_URL);
-
-    // var request = http.MultipartRequest('POST', uri);
-
-    // for (int i = 0; i < selectedServices.length; i++) {
-    //   Map<String, dynamic> item = selectedServices[i];
-    //   // request.fields["id"] = item['id'].toString();
-    //   // request.fields["cost"] = item['cost'].toString();
-
-    //   inspect(item);
-
-    //   final Map<String, dynamic> data = {
-    //     'id': item['id'].toString(),
-    //     'cost': item['cost'].toString(),
-    //     'userId': 1,
-    //   };
-
-    //   final response = await http.post(
-    //     uri,
-    //     headers: <String, String>{
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //     },
-    //     body: jsonEncode(data),
-    //   );
-
-    //   if (response.statusCode == 201) {
-    //     print('Post request successful! Response: ${response.body}');
-    //   } else {
-    //     print(
-    //         'Failed to send POST request. Status code: ${response.statusCode}');
-    //   }
-    // }
-
-    var transactionId = controller.serviceAreaId.value.toString() +
-        "3" +
-        generateTransactionCode();
-
-    final Map<String, dynamic> data = {
-      'requestDetails': selectedServices,
-      'transactionId': transactionId,
-      'userId': controller.userId.value,
-      'lng': controller.longitude.value,
-      'lat': controller.latitude.value,
-      'accuracy': controller.accuracy.value,
-      'totalCost': calculateTotalCost(selectedServices),
-      'serviceAreaId': controller.serviceAreaId.value
-    };
-
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
-
-    if (response.statusCode == 201) {
-      print('Post request successful! Response: ${response.body}');
-      isLoading.value = false;
-      saveTransactionFirestore();
-      Get.back();
-    } else {
-      print('Failed to send POST request. Status code: ${response.statusCode}');
-    }
-
-    // var res = await request.send();
-    // isLoading.value = true;
-
-    //   if (res.statusCode == 200) {
-    //     isLoading.value = false;
-    //     selectedImagePath.value = "";
-    //     selectedDistrict.value = "";
-    //     selectedRequestType.value = "";
-    //     descriptionController.text = "";
-    //     communityController.text = "";
-
-    //     showSubmissionReport();
-    //   } else {
-    //     isLoading.value = false;
-    //     Get.snackbar("Error", "A error occurred. Please try again.",
-    //         snackPosition: SnackPosition.TOP,
-    //         backgroundColor: Colors.red,
-    //         duration: Duration(seconds: 5),
-    //         colorText: Colors.white);
-    //   }
-    // } catch (e) {
-    //   isLoading.value = false;
-    //   log(e.toString());
-    //   Get.snackbar("Connection Error",
-    //       "Connection to server refused. Please try again later...",
-    //       snackPosition: SnackPosition.TOP,
-    //       backgroundColor: MyColors.Red,
-    //       colorText: Colors.white);
-    // }
   }
 
   showSubmissionReport() async {

@@ -57,7 +57,7 @@ class ServiceWidget extends StatelessWidget {
                       Text(
                         title,
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                            fontSize: 13, fontWeight: FontWeight.bold),
                       ),
                       Padding(
                         padding: EdgeInsets.all(4.0),
