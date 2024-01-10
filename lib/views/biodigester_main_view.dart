@@ -9,6 +9,7 @@ import '../core/validator.dart';
 import '../widgets/dropdown.dart';
 import '../widgets/sub-service-widget.dart';
 import '../widgets/sub-service-widget2.dart';
+import '../widgets/text-button.dart';
 
 class BioDigesterMainView extends StatelessWidget {
   final controller = Get.put(BiodigesterController());
@@ -35,73 +36,113 @@ class BioDigesterMainView extends StatelessWidget {
             onStepContinue: controller.continued,
             onStepCancel: controller.cancel,
             controlsBuilder: (context, _) {
-              return Row(
-                children: <Widget>[
-                  controller.currentStep == 0
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: MyColors.MainColor,
-                                borderRadius: BorderRadius.circular(6)),
-                            height: 35,
-                            child: TextButton(
-                              onPressed: () {
-                                if (formKey1.currentState!.validate())
+              return Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Row(
+                  children: <Widget>[
+                    controller.currentStep == 0
+                        // ? Padding(
+                        //     padding: const EdgeInsets.all(8.0),
+                        //     child: Container(
+                        //       decoration: BoxDecoration(
+                        //           color: MyColors.MainColor,
+                        //           borderRadius: BorderRadius.circular(6)),
+                        //       height: 35,
+                        //       child: TextButton(
+                        //         onPressed: () {
+                        //           if (formKey1.currentState!.validate())
+                        //             controller.continued();
+                        //         },
+                        //         child: Text(
+                        //           'Continue',
+                        //           style: TextStyle(color: Colors.white),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   )
+                        ? ProgressTextButton(
+                            onPressed: () {
+                              if (formKey1.currentState!.validate())
+                                controller.continued();
+                            },
+                            isLoading: false,
+                            label: 'Continue')
+                        : controller.currentStep == 1
+                            ? ProgressTextButton(
+                                onPressed: () {
                                   controller.continued();
-                              },
-                              child: Text(
-                                'Continue',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        )
-                      : controller.currentStep == 1
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: MyColors.MainColor,
-                                    borderRadius: BorderRadius.circular(6)),
-                                height: 35,
-                                child: TextButton(
+                                },
+                                isLoading: false,
+                                label: 'Continue',
+                              )
+                            // ? Padding(
+                            //     padding: const EdgeInsets.all(10.0),
+                            //     child: Container(
+                            //       decoration: BoxDecoration(
+                            //           color: MyColors.MainColor,
+                            //           borderRadius: BorderRadius.circular(6)),
+                            //       height: 35,
+                            //       child: TextButton(
+                            //         onPressed: () {
+                            //           if (formKey2.currentState!.validate())
+                            //             controller.continued();
+                            //         },
+                            //         child: Text(
+                            //           'Continue',
+                            //           style: TextStyle(color: Colors.white),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   )
+                            : Obx(() => ProgressButton(
                                   onPressed: () {
-                                    if (formKey2.currentState!.validate())
-                                      controller.continued();
+                                    controller.sendRequest();
                                   },
-                                  child: Text(
-                                    'Continue',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : ProgressButton(
-                              onPressed: () {
-                                controller.sendRequest();
-                              },
-                              isLoading: controller.isLoading.value,
-                              iconData: Icons.send,
-                              label: 'Submit',
-                            ),
-                  Container(
-                    decoration: BoxDecoration(
-                        // color: Colors.indigo,
-                        border: Border.all(color: MyColors.SecondaryColor),
-                        borderRadius: BorderRadius.circular(6)),
-                    height: 34,
-                    child: TextButton(
+                                  isLoading: controller.isLoading.value,
+                                  iconData: Icons.send,
+                                  label: 'Submit',
+                                  iconColor: Colors.white,
+                                  progressColor: Colors.white,
+                                  textColor: Colors.white,
+                                  backgroundColor: controller.isLoading.value
+                                      ? Colors.teal
+                                      : Colors.teal,
+                                  borderColor: Colors.teal,
+                                )),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    ProgressButton(
                       onPressed: () {
                         controller.cancel();
                       },
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(color: MyColors.SecondaryColor),
-                      ),
-                    ),
-                  ),
-                ],
+                      isLoading: false,
+                      iconData: Icons.cancel,
+                      label: "Cancel",
+                      iconColor: Colors.white,
+                      progressColor: Colors.white,
+                      textColor: Colors.white,
+                      backgroundColor: Colors.teal,
+                      borderColor: Colors.teal,
+                    )
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //       // color: Colors.indigo,
+                    //       border: Border.all(color: MyColors.SecondaryColor),
+                    //       borderRadius: BorderRadius.circular(6)),
+                    //   height: 34,
+                    //   child: TextButton(
+                    //     onPressed: () {
+                    //       controller.cancel();
+                    //     },
+                    //     child: const Text(
+                    //       'Cancel',
+                    //       style: TextStyle(color: MyColors.SecondaryColor),
+                    //     ),
+                    //   ),
+                    // ),
+                  ],
+                ),
               );
             },
             steps: <Step>[

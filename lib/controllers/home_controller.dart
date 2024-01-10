@@ -62,6 +62,8 @@ class HomeController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
 
     final position = await LocationService.determinePosition();
+
+    inspect(position);
     latitude.value = position.latitude;
     longitude.value = position.longitude;
     accuracy.value = position.accuracy;

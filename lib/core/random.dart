@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:intl/intl.dart';
+
 int generateRandom() {
   Random rnd;
   int min = 5;
@@ -12,6 +14,9 @@ int generateRandom() {
 }
 
 String generateTransactionCode() {
+  DateTime today = DateTime.now();
+  String formattedDate = DateFormat('ddMMyy').format(today);
+
   final random = Random();
   StringBuffer codeBuffer = StringBuffer();
 
@@ -20,9 +25,9 @@ String generateTransactionCode() {
       .write(random.nextInt(9) + 1); // Generates a random digit between 1 and 9
 
   // Generate the remaining 11 digits
-  for (int i = 0; i < 11; i++) {
-    codeBuffer.write(random.nextInt(10));
+  for (int i = 0; i < 4; i++) {
+    codeBuffer.write(random.nextInt(9));
   }
 
-  return codeBuffer.toString();
+  return formattedDate + codeBuffer.toString();
 }

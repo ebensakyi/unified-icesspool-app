@@ -222,12 +222,16 @@ class BiodigesterController extends GetxController {
     //   }
     // }
 
+    var transactionId = controller.serviceAreaId.value.toString() +
+        "3" +
+        generateTransactionCode();
+
     final Map<String, dynamic> data = {
       'requestDetails': selectedServices,
-      'transactionId': generateTransactionCode(),
+      'transactionId': transactionId,
       'userId': controller.userId.value,
       'lng': controller.longitude.value,
-      'lat': controller.longitude.value,
+      'lat': controller.latitude.value,
       'accuracy': controller.accuracy.value,
       'totalCost': calculateTotalCost(selectedServices),
       'serviceAreaId': controller.serviceAreaId.value
@@ -245,6 +249,7 @@ class BiodigesterController extends GetxController {
       print('Post request successful! Response: ${response.body}');
       isLoading.value = false;
       saveTransactionFirestore();
+      Get.back();
     } else {
       print('Failed to send POST request. Status code: ${response.statusCode}');
     }
