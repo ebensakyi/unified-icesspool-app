@@ -79,8 +79,6 @@ class BiodigesterController extends GetxController {
     await getAvailableBiodigesterServices();
     await getBiodigesterPricing();
 
-    addData();
-
     final prefs = await SharedPreferences.getInstance();
 
     final position = await LocationService.determinePosition();
@@ -162,10 +160,9 @@ class BiodigesterController extends GetxController {
   //   }
   // }
 
-  Future send() async {
+  Future sendRequest() async {
     // try {
     bool result = await InternetConnectionChecker().hasConnection;
-    isLoading.value = false;
     if (!result) {
       isLoading.value = false;
       return Get.snackbar(
@@ -174,6 +171,7 @@ class BiodigesterController extends GetxController {
           backgroundColor: MyColors.Red,
           colorText: Colors.white);
     }
+    isLoading.value = true;
 
     //   // final isValid = formKey.currentState!.validate();
     //   // if (!isValid) {
@@ -245,6 +243,8 @@ class BiodigesterController extends GetxController {
 
     if (response.statusCode == 201) {
       print('Post request successful! Response: ${response.body}');
+      isLoading.value = false;
+      saveTransactionFirestore();
     } else {
       print('Failed to send POST request. Status code: ${response.statusCode}');
     }
@@ -518,7 +518,7 @@ class BiodigesterController extends GetxController {
     return totalCost;
   }
 
-  void addData() {
+  void saveTransactionFirestore() {
     // Add data to Firestore collection
     _firestore.collection('transaction').add({
       'transactionId': transactionId.value,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/model/biodigester_pricing.dart';
 import 'package:icesspool/themes/colors.dart';
+import 'package:icesspool/widgets/progress-button.dart';
 
 import '../controllers/biodigester_controller.dart';
 import '../core/validator.dart';
@@ -76,32 +77,14 @@ class BioDigesterMainView extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : controller.isLoading.value
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Visibility(
-                                    visible: controller.isLoading.value,
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: MyColors.MainColor,
-                                        borderRadius: BorderRadius.circular(6)),
-                                    height: 35,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        controller.send();
-                                      },
-                                      child: Text(
-                                        'Submit Request',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                          : ProgressButton(
+                              onPressed: () {
+                                controller.sendRequest();
+                              },
+                              isLoading: controller.isLoading.value,
+                              iconData: Icons.send,
+                              label: 'Submit',
+                            ),
                   Container(
                     decoration: BoxDecoration(
                         // color: Colors.indigo,
