@@ -3,8 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:icesspool/views/account_view.dart';
 import 'package:icesspool/views/report_history_view.dart';
 import 'package:icesspool/views/request_view.dart';
+import 'package:icesspool/views/service_description_view.dart';
+import 'package:icesspool/widgets/service-description-cards.dart';
 
 import '../controllers/home_controller.dart';
 import '../themes/colors.dart';
@@ -97,7 +100,12 @@ class HomeView extends StatelessWidget {
   }
 
   Widget getBody() {
-    List<Widget> pages = [RequestView(), ReportHistoryView(), AboutView()];
+    List<Widget> pages = [
+      RequestView(),
+      ReportHistoryView(),
+      ServiceDescriptionView(),
+      AccountView()
+    ];
     return Obx(() {
       return IndexedStack(
         index: controller.currentIndex.value,

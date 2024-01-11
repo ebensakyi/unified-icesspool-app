@@ -422,26 +422,135 @@ class BioDigesterMainView extends StatelessWidget {
   }
 
   Widget biodigesterConstruction() {
-    List<Widget> wd = [];
-    for (BiodigesterPricing obj in controller.biodigesterPricings) {
-      wd.add(
-        SubServiceWidget2(
-          activeBgColor: MyColors.DarkBlue,
-          inactiveBgColor: MyColors.SubServiceColor2,
-          activeTextColor: Colors.white,
-          isAvailable: false,
-          path: "assets/images/biodigester.png",
-          size: 32,
-          title: obj.name,
-          subTitle: obj.shortDesc.toString(),
-          onPressed: () {
-            print(obj.cost.toString());
-          },
-          price: "GHS " + obj.cost.toString(),
-        ),
-      );
-    }
+    return Column(children: [
+      controller.biodigesterServicesAvailable.contains(4)
+          ? SubServiceWidget2(
+              activeBgColor: MyColors.DarkBlue,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              selectedColor: controller.selectedColor1.value,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title:
+                  controller.biodigesterPricings[controller.getIndex(1)].name,
+              subTitle: controller
+                  .biodigesterPricings[controller.getIndex(1)].shortDesc
+                  .toString(),
+              onPressed: () {
+                controller.selectedColor1.value =
+                    controller.selectedColor1.value == Colors.grey
+                        ? Colors.teal
+                        : Colors.grey;
 
-    return Column(children: wd);
+                controller.addOrRemoveItem(controller.selectedServices, {
+                  "id": controller
+                      .biodigesterPricings[controller.getIndex(1)].id
+                      .toInt(),
+                  "unitCost": controller
+                      .biodigesterPricings[controller.getIndex(1)].cost
+                      .toString(),
+                  "name": controller
+                      .biodigesterPricings[controller.getIndex(1)].name
+                      .toString(),
+                });
+              },
+              price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
+            )
+          : SizedBox.shrink(),
+      controller.biodigesterServicesAvailable.contains(5)
+          ? SubServiceWidget2(
+              activeBgColor: MyColors.DarkBlue,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              selectedColor: controller.selectedColor2.value,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title:
+                  controller.biodigesterPricings[controller.getIndex(2)].name,
+              subTitle: controller
+                  .biodigesterPricings[controller.getIndex(2)].shortDesc
+                  .toString(),
+              onPressed: () {
+                controller.selectedColor2.value =
+                    controller.selectedColor2.value == Colors.grey
+                        ? Colors.teal
+                        : Colors.grey;
+
+                controller.addOrRemoveItem(controller.selectedServices, {
+                  "id": controller
+                      .biodigesterPricings[controller.getIndex(2)].id
+                      .toInt(),
+                  "unitCost": controller
+                      .biodigesterPricings[controller.getIndex(2)].cost
+                      .toString(),
+                  "name": controller
+                      .biodigesterPricings[controller.getIndex(2)].name
+                      .toString(),
+                });
+              },
+              price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+            )
+          : SizedBox.shrink(),
+      controller.biodigesterServicesAvailable.contains(6)
+          ? SubServiceWidget2(
+              activeBgColor: MyColors.DarkBlue,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              selectedColor: controller.selectedColor3.value,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title:
+                  controller.biodigesterPricings[controller.getIndex(3)].name,
+              subTitle: controller
+                  .biodigesterPricings[controller.getIndex(3)].shortDesc
+                  .toString(),
+              onPressed: () {
+                controller.selectedColor3.value =
+                    controller.selectedColor3.value == Colors.grey
+                        ? Colors.teal
+                        : Colors.grey;
+
+                controller.addOrRemoveItem(controller.selectedServices, {
+                  "id": controller
+                      .biodigesterPricings[controller.getIndex(3)].id
+                      .toInt(),
+                  "unitCost": controller
+                      .biodigesterPricings[controller.getIndex(3)].cost
+                      .toString(),
+                  "name": controller
+                      .biodigesterPricings[controller.getIndex(3)].name
+                      .toString()
+                });
+              },
+              price: "GHS " +
+                  controller.biodigesterPricings[controller.getIndex(3)].cost
+                      .toString(),
+            )
+          : SizedBox.shrink(),
+    ]);
   }
+
+//   Widget biodigesterConstruction() {
+//     List<Widget> wd = [];
+//     for (BiodigesterPricing obj in controller.biodigesterPricings) {
+//       wd.add(
+//         SubServiceWidget2(
+//           activeBgColor: MyColors.DarkBlue,
+//           inactiveBgColor: MyColors.SubServiceColor2,
+//           activeTextColor: Colors.white,
+//           isAvailable: false,
+//           path: "assets/images/biodigester.png",
+//           size: 32,
+//           title: obj.name,
+//           subTitle: obj.shortDesc.toString(),
+//           onPressed: () {
+//             print(obj.cost.toString());
+//           },
+//           price: "GHS " + obj.cost.toString(),
+//         ),
+//       );
+//     }
+
+//     return Column(children: wd);
+//   }
 }

@@ -30,7 +30,7 @@ class ReportHistoryView extends GetView<HomeController> {
             )
           : controller.reports.length == 0
               ? Center(
-                  child: Text("No report"),
+                  child: Text("No history"),
                 )
               : ListView.builder(
                   itemCount: controller.reports.length,

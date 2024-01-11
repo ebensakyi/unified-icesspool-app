@@ -50,7 +50,31 @@ class RequestView extends StatelessWidget {
             child: controller.pendingTransaction.value
                 ? Container(
                     child: Column(
-                      children: [Text("Pending request")],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Container(
+                            color: Colors.teal.shade100,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.teal),
+                                  ),
+                                  SizedBox(width: 16.0),
+                                  Text(
+                                    'We are searching for a service provider',
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 : Column(
@@ -65,8 +89,8 @@ class RequestView extends StatelessWidget {
                                     .emptyingServiceAvailable.value,
                                 path: "assets/images/toilet-tanker.png",
                                 size: 32,
-                                title: 'Emptying',
-                                subTitle: 'Empty your cesspit',
+                                title: 'Septic Tank',
+                                subTitle: 'Empty Septic tank',
                                 onTap: openTankerMainView,
                               ),
                             );

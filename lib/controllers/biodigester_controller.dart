@@ -251,7 +251,6 @@ class BiodigesterController extends GetxController {
         print('Post request successful! Response: ${response.body}');
         isLoading.value = false;
         requestController.pendingTransaction.value = true;
-        saveTransactionFirestore();
         Get.back();
       } else {
         isLoading.value = false;
@@ -528,21 +527,21 @@ class BiodigesterController extends GetxController {
     return totalCost;
   }
 
-  void saveTransactionFirestore() {
-    // Add data to Firestore collection
-    _firestore.collection('transaction').add({
-      'transactionId': transactionId.value,
-      'userId': controller.userId.value,
-      'lng': controller.longitude.value,
-      'lat': controller.longitude.value,
-      'accuracy': controller.accuracy.value,
-      'totalCost': calculateTotalCost(selectedServices),
-      'serviceAreaId': controller.serviceAreaId.value
-      // Add more fields as needed
-    }).then((value) {
-      print('Data added successfully!');
-    }).catchError((error) {
-      print('Failed to add data: $error');
-    });
-  }
+  // void saveTransactionFirestore() {
+  //   // Add data to Firestore collection
+  //   _firestore.collection('transaction').add({
+  //     'transactionId': transactionId.value,
+  //     'userId': controller.userId.value,
+  //     'lng': controller.longitude.value,
+  //     'lat': controller.longitude.value,
+  //     'accuracy': controller.accuracy.value,
+  //     'totalCost': calculateTotalCost(selectedServices),
+  //     'serviceAreaId': controller.serviceAreaId.value
+  //     // Add more fields as needed
+  //   }).then((value) {
+  //     print('Data added successfully!');
+  //   }).catchError((error) {
+  //     print('Failed to add data: $error');
+  //   });
+  // }
 }
