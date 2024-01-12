@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/image-view.dart';
+import 'package:line_icons/line_icons.dart';
 
 class ServiceWidget extends StatelessWidget {
   final String path;
@@ -43,7 +44,7 @@ class ServiceWidget extends StatelessWidget {
             border: Border.all(
               color: MyColors.SecondaryColor.asMaterialColor
                   .shade200, // Set the border color here
-              width: 2.0, // Set the border width
+              width: 1.0, // Set the border width
             ),
           ),
 
@@ -59,14 +60,25 @@ class ServiceWidget extends StatelessWidget {
                       size: 32,
                     ),
                   ),
+                  // Padding(
+                  //   padding: EdgeInsets.all(4.0),
+                  //   child: Visibility(
+                  //     visible: !isAvailable,
+                  //     child: Icon(
+                  //       Icons.lock_outline,
+                  //       color: Colors.teal,
+                  //       size: 16,
+                  //     ),
+                  //   ),
+                  // )
                   Padding(
                     padding: EdgeInsets.all(4.0),
                     child: Visibility(
                       visible: !isAvailable,
                       child: Icon(
-                        Icons.lock_outline,
-                        color: Colors.teal,
-                        size: 16,
+                        LineIcons.lock,
+                        size: 18.0,
+                        color: Colors.grey,
                       ),
                     ),
                   )
