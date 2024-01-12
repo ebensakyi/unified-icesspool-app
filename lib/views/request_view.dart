@@ -46,7 +46,10 @@ class RequestView extends StatelessWidget {
     return Obx(() => Scaffold(
           bottomSheet: InteractiveBottomSheet(
             options: InteractiveBottomSheetOptions(
-                expand: false, minimumSize: 0.25, maxSize: 0.5),
+                expand: false,
+                maxSize: 0.8,
+                initialSize: 0.5,
+                minimumSize: 0.3),
             child: controller.pendingTransaction.value
                 ? Container(
                     child: Column(
@@ -90,7 +93,7 @@ class RequestView extends StatelessWidget {
                                 path: "assets/images/toilet-tanker.png",
                                 size: 32,
                                 title: 'Septic Tank',
-                                subTitle: 'Empty Septic tank',
+                                subTitle: 'Empty your Septic tank',
                                 onTap: openTankerMainView,
                               ),
                             );
@@ -103,7 +106,7 @@ class RequestView extends StatelessWidget {
                                 path: "assets/images/water-tanker.png",
                                 size: 32,
                                 title: 'Tanker Water',
-                                subTitle: 'Request for water',
+                                subTitle: 'Request for bulk water',
                                 onTap: openWaterMainView,
                               ),
                             );
@@ -121,7 +124,7 @@ class RequestView extends StatelessWidget {
                                 path: "assets/images/biodigester.png",
                                 size: 32,
                                 title: 'Biodigester',
-                                subTitle: 'Service or build',
+                                subTitle: 'Service or build a new biodigester',
                                 onTap: openBioDigesterMainView,
                               ),
                             );
@@ -131,8 +134,8 @@ class RequestView extends StatelessWidget {
                               isAvailable: true,
                               path: "assets/images/more.png",
                               size: 32,
-                              title: 'More',
-                              subTitle: 'Read more',
+                              title: 'Read More',
+                              subTitle: 'Read more about our services',
                             ),
                           ),
                         ],
