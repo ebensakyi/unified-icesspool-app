@@ -24,283 +24,289 @@ class BioDigesterMainView extends StatelessWidget {
           title: Text("Bio-digester"),
         ),
         body: Obx(
-          () => Stepper(
-            type: MediaQuery.of(context).orientation == Orientation.portrait
-                ? StepperType.vertical
-                : StepperType.horizontal,
-            physics: const ScrollPhysics(),
-            currentStep: controller.currentStep.value,
-            onStepTapped: (step) => controller.tapped(step),
-            onStepContinue: controller.continued,
-            onStepCancel: controller.cancel,
-            controlsBuilder: (context, _) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Row(
-                  children: <Widget>[
-                    controller.currentStep == 0
-                        // ? Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Container(
-                        //       decoration: BoxDecoration(
-                        //           color: MyColors.MainColor,
-                        //           borderRadius: BorderRadius.circular(6)),
-                        //       height: 35,
-                        //       child: TextButton(
-                        //         onPressed: () {
-                        //           if (formKey1.currentState!.validate())
-                        //             controller.continued();
-                        //         },
-                        //         child: Text(
-                        //           'Continue',
-                        //           style: TextStyle(color: Colors.white),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   )
-                        ? ProgressTextButton(
-                            onPressed: () {
-                              if (formKey1.currentState!.validate())
-                                controller.continued();
-                            },
-                            isLoading: false,
-                            label: 'Continue')
-                        : controller.currentStep == 1
-                            ? ProgressTextButton(
-                                onPressed: () {
+          () => Theme(
+            data: ThemeData(
+                // accentColor: Colors.orange,
+                primarySwatch: Colors.teal,
+                colorScheme: ColorScheme.light(primary: Colors.teal)),
+            child: Stepper(
+              type: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? StepperType.vertical
+                  : StepperType.horizontal,
+              physics: const ScrollPhysics(),
+              currentStep: controller.currentStep.value,
+              onStepTapped: (step) => controller.tapped(step),
+              onStepContinue: controller.continued,
+              onStepCancel: controller.cancel,
+              controlsBuilder: (context, _) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Row(
+                    children: <Widget>[
+                      controller.currentStep == 0
+                          // ? Padding(
+                          //     padding: const EdgeInsets.all(8.0),
+                          //     child: Container(
+                          //       decoration: BoxDecoration(
+                          //           color: MyColors.MainColor,
+                          //           borderRadius: BorderRadius.circular(6)),
+                          //       height: 35,
+                          //       child: TextButton(
+                          //         onPressed: () {
+                          //           if (formKey1.currentState!.validate())
+                          //             controller.continued();
+                          //         },
+                          //         child: Text(
+                          //           'Continue',
+                          //           style: TextStyle(color: Colors.white),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   )
+                          ? ProgressTextButton(
+                              onPressed: () {
+                                if (formKey1.currentState!.validate())
                                   controller.continued();
-                                },
-                                isLoading: false,
-                                label: 'Continue',
-                              )
-                            // ? Padding(
-                            //     padding: const EdgeInsets.all(10.0),
-                            //     child: Container(
-                            //       decoration: BoxDecoration(
-                            //           color: MyColors.MainColor,
-                            //           borderRadius: BorderRadius.circular(6)),
-                            //       height: 35,
-                            //       child: TextButton(
-                            //         onPressed: () {
-                            //           if (formKey2.currentState!.validate())
-                            //             controller.continued();
-                            //         },
-                            //         child: Text(
-                            //           'Continue',
-                            //           style: TextStyle(color: Colors.white),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   )
-                            : Obx(() => ProgressButton(
+                              },
+                              isLoading: false,
+                              label: 'Continue')
+                          : controller.currentStep == 1
+                              ? ProgressTextButton(
                                   onPressed: () {
-                                    controller.sendRequest();
+                                    controller.continued();
                                   },
-                                  isLoading: controller.isLoading.value,
-                                  iconData: Icons.send,
-                                  label: 'Submit',
-                                  iconColor: Colors.white,
-                                  progressColor: Colors.white,
-                                  textColor: Colors.white,
-                                  backgroundColor: controller.isLoading.value
-                                      ? Colors.teal
-                                      : Colors.teal,
-                                  borderColor: Colors.teal,
-                                )),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    ProgressButton(
-                      onPressed: () {
-                        controller.cancel();
-                      },
-                      isLoading: false,
-                      iconData: Icons.cancel,
-                      label: "Cancel",
-                      iconColor: Colors.white,
-                      progressColor: Colors.white,
-                      textColor: Colors.white,
-                      backgroundColor: Colors.teal,
-                      borderColor: Colors.teal,
-                    )
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //       // color: Colors.indigo,
-                    //       border: Border.all(color: MyColors.SecondaryColor),
-                    //       borderRadius: BorderRadius.circular(6)),
-                    //   height: 34,
-                    //   child: TextButton(
-                    //     onPressed: () {
-                    //       controller.cancel();
-                    //     },
-                    //     child: const Text(
-                    //       'Cancel',
-                    //       style: TextStyle(color: MyColors.SecondaryColor),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-              );
-            },
-            steps: <Step>[
-              Step(
-                subtitle: Text('Make a selection here'),
-                title: const Text('Bio-digester needs'),
-                content: Form(
-                  key: formKey1,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    children: <Widget>[
-                      Obx(
-                        () => Dropdown(
-                          onChangedCallback: (newValue) {
-                            controller.selectedRequestType.value = newValue;
-                          },
-                          value: controller.returnValue(
-                              controller.selectedRequestType.value),
-                          initialValue: controller.returnValue(
-                              controller.selectedRequestType.value),
-                          dropdownItems: [
-                            DropdownMenuItem(
-                              child: Text("Biodigester Maintenance"),
-                              value: "1",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("New Toilet Construction"),
-                              value: "2",
-                            ),
-                          ],
-                          hintText: '',
-                          labelText: "What is your need? *",
-                          validator: (value) {
-                            return Validator.dropdownValidator(value);
-                          },
-                        ),
+                                  isLoading: false,
+                                  label: 'Continue',
+                                )
+                              // ? Padding(
+                              //     padding: const EdgeInsets.all(10.0),
+                              //     child: Container(
+                              //       decoration: BoxDecoration(
+                              //           color: MyColors.MainColor,
+                              //           borderRadius: BorderRadius.circular(6)),
+                              //       height: 35,
+                              //       child: TextButton(
+                              //         onPressed: () {
+                              //           if (formKey2.currentState!.validate())
+                              //             controller.continued();
+                              //         },
+                              //         child: Text(
+                              //           'Continue',
+                              //           style: TextStyle(color: Colors.white),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   )
+                              : Obx(() => ProgressButton(
+                                    onPressed: () {
+                                      controller.sendRequest();
+                                    },
+                                    isLoading: controller.isLoading.value,
+                                    iconData: Icons.send,
+                                    label: 'Submit',
+                                    iconColor: Colors.white,
+                                    progressColor: Colors.white,
+                                    textColor: Colors.white,
+                                    backgroundColor: controller.isLoading.value
+                                        ? Colors.teal
+                                        : Colors.teal,
+                                    borderColor: Colors.teal,
+                                  )),
+                      SizedBox(
+                        width: 20,
                       ),
-                      // Obx(() => Visibility(
-                      //       visible: controller.selectedReportType == "1",
-                      //       child: Padding(
-                      //         padding:
-                      //             const EdgeInsets.only(left: 16, right: 16),
-                      //         child: Text(
-                      //           "${controller.address.value}",
-                      //           style: TextStyle(
-                      //               fontSize: 10, color: Colors.amber.shade700),
-                      //         ),
-                      //       ),
-                      //     )),
-                    ],
-                  ),
-                ),
-                isActive: controller.currentStep >= 0,
-                state: controller.currentStep >= 0
-                    ? StepState.complete
-                    : StepState.disabled,
-              ),
-              Step(
-                title: new Text(
-                  'Details',
-                ),
-                subtitle: Text('Select service'),
-                content: Form(
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  key: formKey2,
-                  child: Column(
-                    children: <Widget>[
-                      controller.selectedRequestType.value == "1"
-                          ? biodigesterServicing()
-                          : biodigesterConstruction()
-                      // Obx(
-                      //   () => Dropdown(
-                      //     onChangedCallback: (newValue) {
-                      //       controller.selectedReportCategory.value = newValue;
+                      ProgressButton(
+                        onPressed: () {
+                          controller.cancel();
+                        },
+                        isLoading: false,
+                        iconData: Icons.cancel,
+                        label: "Cancel",
+                        iconColor: Colors.white,
+                        progressColor: Colors.white,
+                        textColor: Colors.white,
+                        backgroundColor: Colors.teal,
+                        borderColor: Colors.teal,
+                      )
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //       // color: Colors.indigo,
+                      //       border: Border.all(color: MyColors.SecondaryColor),
+                      //       borderRadius: BorderRadius.circular(6)),
+                      //   height: 34,
+                      //   child: TextButton(
+                      //     onPressed: () {
+                      //       controller.cancel();
                       //     },
-                      //     value: controller
-                      //         .returnValue(controller.selectedReportCategory.value),
-                      //     initialValue: controller
-                      //         .returnValue(controller.selectedReportCategory.value),
-                      //     dropdownItems: controller.reportCategories.map((var obj) {
-                      //       return DropdownMenuItem<String>(
-                      //         child: Text(obj.name.toString()),
-                      //         value: obj.id.toString(),
-                      //       );
-                      //     }).toList(),
-                      //     hintText: '',
-                      //     labelText: "Select category of report *",
-                      //     validator: (value) {
-                      //       return Validator.dropdownValidator(value);
-                      //     },
+                      //     child: const Text(
+                      //       'Cancel',
+                      //       style: TextStyle(color: MyColors.SecondaryColor),
+                      //     ),
                       //   ),
                       // ),
                     ],
                   ),
-                ),
-                isActive: controller.currentStep >= 0,
-                state: controller.currentStep >= 1
-                    ? StepState.complete
-                    : StepState.disabled,
-              ),
-              // Step(
-              //   title: new Text('Item & other detais'),
-              //   content: Column(
-              //     children: <Widget>[
-
-              //     ],
-              //   ),
-              //   isActive: _currentStep >= 0,
-              //   state: _currentStep >= 2 ? StepState.complete : StepState.disabled,
-              // ),
-              Step(
-                title: new Text('Submit'),
-                subtitle: Text('Submit request'),
-                content: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Invoice for Selected Services',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    // Use ListView.builder to loop through myArray and display in a Column
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.selectedServices.length,
-                      itemBuilder: (context, index) {
-                        final item = controller.selectedServices[index];
-                        return Column(
-                          children: [
-                            ListTile(
-                              title: Text('${item["name"]}'),
-                              subtitle: Text('GHS ${item["unitCost"]}'),
-                            ),
-                            Divider(
-                              height: 1,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        "Total Bill: GHS ${controller.calculateTotalCost(controller.selectedServices)}",
-                        style: TextStyle(
-                          fontSize: 16,
+                );
+              },
+              steps: <Step>[
+                Step(
+                  subtitle: Text('Make a selection here'),
+                  title: const Text('Bio-digester needs'),
+                  content: Form(
+                    key: formKey1,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      children: <Widget>[
+                        Obx(
+                          () => Dropdown(
+                            onChangedCallback: (newValue) {
+                              controller.selectedRequestType.value = newValue;
+                            },
+                            value: controller.returnValue(
+                                controller.selectedRequestType.value),
+                            initialValue: controller.returnValue(
+                                controller.selectedRequestType.value),
+                            dropdownItems: [
+                              DropdownMenuItem(
+                                child: Text("Biodigester Maintenance"),
+                                value: "1",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("New Toilet Construction"),
+                                value: "2",
+                              ),
+                            ],
+                            hintText: '',
+                            labelText: "What is your need? *",
+                            validator: (value) {
+                              return Validator.dropdownValidator(value);
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                        // Obx(() => Visibility(
+                        //       visible: controller.selectedReportType == "1",
+                        //       child: Padding(
+                        //         padding:
+                        //             const EdgeInsets.only(left: 16, right: 16),
+                        //         child: Text(
+                        //           "${controller.address.value}",
+                        //           style: TextStyle(
+                        //               fontSize: 10, color: Colors.amber.shade700),
+                        //         ),
+                        //       ),
+                        //     )),
+                      ],
+                    ),
+                  ),
+                  isActive: controller.currentStep >= 0,
+                  state: controller.currentStep >= 0
+                      ? StepState.complete
+                      : StepState.disabled,
                 ),
-                isActive: controller.currentStep >= 0,
-                state: controller.currentStep >= 2
-                    ? StepState.complete
-                    : StepState.disabled,
-              ),
-            ],
+                Step(
+                  title: new Text(
+                    'Details',
+                  ),
+                  subtitle: Text('Select service'),
+                  content: Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    key: formKey2,
+                    child: Column(
+                      children: <Widget>[
+                        controller.selectedRequestType.value == "1"
+                            ? biodigesterServicing()
+                            : biodigesterConstruction()
+                        // Obx(
+                        //   () => Dropdown(
+                        //     onChangedCallback: (newValue) {
+                        //       controller.selectedReportCategory.value = newValue;
+                        //     },
+                        //     value: controller
+                        //         .returnValue(controller.selectedReportCategory.value),
+                        //     initialValue: controller
+                        //         .returnValue(controller.selectedReportCategory.value),
+                        //     dropdownItems: controller.reportCategories.map((var obj) {
+                        //       return DropdownMenuItem<String>(
+                        //         child: Text(obj.name.toString()),
+                        //         value: obj.id.toString(),
+                        //       );
+                        //     }).toList(),
+                        //     hintText: '',
+                        //     labelText: "Select category of report *",
+                        //     validator: (value) {
+                        //       return Validator.dropdownValidator(value);
+                        //     },
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                  isActive: controller.currentStep >= 0,
+                  state: controller.currentStep >= 1
+                      ? StepState.complete
+                      : StepState.disabled,
+                ),
+                // Step(
+                //   title: new Text('Item & other detais'),
+                //   content: Column(
+                //     children: <Widget>[
+
+                //     ],
+                //   ),
+                //   isActive: _currentStep >= 0,
+                //   state: _currentStep >= 2 ? StepState.complete : StepState.disabled,
+                // ),
+                Step(
+                  title: new Text('Submit'),
+                  subtitle: Text('Submit request'),
+                  content: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Invoice for Selected Services',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      // Use ListView.builder to loop through myArray and display in a Column
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.selectedServices.length,
+                        itemBuilder: (context, index) {
+                          final item = controller.selectedServices[index];
+                          return Column(
+                            children: [
+                              ListTile(
+                                title: Text('${item["name"]}'),
+                                subtitle: Text('GHS ${item["unitCost"]}'),
+                              ),
+                              Divider(
+                                height: 1,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          "Total Bill: GHS ${controller.calculateTotalCost(controller.selectedServices)}",
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  isActive: controller.currentStep >= 0,
+                  state: controller.currentStep >= 2
+                      ? StepState.complete
+                      : StepState.disabled,
+                ),
+              ],
+            ),
           ),
         )
 

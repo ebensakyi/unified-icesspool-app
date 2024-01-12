@@ -53,22 +53,24 @@ class MyApp extends StatelessWidget {
         initialBinding: InitialBindings(),
         title: 'iCesspool',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)
-          //     .copyWith(secondary: Colors.amber),
-          // inputDecorationTheme: const InputDecorationTheme(
-          //   enabledBorder: OutlineInputBorder(
-          //     borderSide: BorderSide(width: 3, color: Colors.greenAccent),
-          //   ),
-          //   focusedBorder: OutlineInputBorder(
-          //     borderSide: BorderSide(width: 3, color: Colors.amberAccent),
-          //   ),
-          // ),
-          primarySwatch: MyColors.MainColor.asMaterialColor,
-          // inputDecorationTheme: InputDecorationTheme(
-          //   labelStyle: TextStyle(color: Colors.redAccent),
-          // ),
-        ),
+        theme: ThemeData(primarySwatch: Colors.red),
+
+        // theme: ThemeData(
+        //   // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)
+        //   //     .copyWith(secondary: Colors.amber),
+        //   // inputDecorationTheme: const InputDecorationTheme(
+        //   //   enabledBorder: OutlineInputBorder(
+        //   //     borderSide: BorderSide(width: 3, color: Colors.greenAccent),
+        //   //   ),
+        //   //   focusedBorder: OutlineInputBorder(
+        //   //     borderSide: BorderSide(width: 3, color: Colors.amberAccent),
+        //   //   ),
+        //   // ),
+        //   primarySwatch: MyColors.MainColor.asMaterialColor,
+        //   // inputDecorationTheme: InputDecorationTheme(
+        //   //   labelStyle: TextStyle(color: Colors.redAccent),
+        //   // ),
+        // ),
         //home: HomePage(),
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,

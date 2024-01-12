@@ -36,38 +36,55 @@ class SubServiceWidget2 extends StatelessWidget {
     return Container(
       width: double.infinity, // Make the container fill the width of the screen
       padding: EdgeInsets.all(16.0), // Add padding as needed
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            side: BorderSide(color: selectedColor), // No rounded borders
-          ),
-          // backgroundColor: this.activeBgColor
-        ),
-        child: Row(
-          // mainAxisSize: MainAxisSize.min,
-          children: [
-            ImageView(path: path, size: size),
-            // Icon(Icons.add), // Replace with your desired icon
-            SizedBox(width: 8), // Adjust the spacing between icon and text
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        children: [
+          ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                side: BorderSide(color: selectedColor), // No rounded borders
+              ),
+              // backgroundColor: this.activeBgColor
+            ),
+            child: Row(
+              // mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    title,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(price),
-                ),
+                // ImageView(path: path, size: size),
+                Icon(Icons.list_alt_sharp),
+                SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                          Icon(Icons.abc_outlined)
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        price,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ), // Replace with your desired text
               ],
-            ), // Replace with your desired text
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
