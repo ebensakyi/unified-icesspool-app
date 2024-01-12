@@ -16,7 +16,7 @@ class SubServiceWidget2 extends StatelessWidget {
   final Color activeBgColor;
   final Color inactiveBgColor;
   final Color activeTextColor;
-  final Color selectedColor;
+  final bool isSelected;
   SubServiceWidget2({
     super.key,
     required this.path,
@@ -28,7 +28,7 @@ class SubServiceWidget2 extends StatelessWidget {
     required this.activeBgColor,
     required this.inactiveBgColor,
     this.activeTextColor = Colors.black,
-    this.selectedColor = const Color.fromARGB(255, 230, 225, 225),
+    required this.isSelected,
     required this.price,
   });
   @override
@@ -43,9 +43,9 @@ class SubServiceWidget2 extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                side: BorderSide(color: selectedColor), // No rounded borders
+                side: BorderSide(color: Colors.teal), // No rounded borders
               ),
-              // backgroundColor: this.activeBgColor
+              backgroundColor: Colors.white,
             ),
             child: Row(
               // mainAxisSize: MainAxisSize.min,
@@ -58,15 +58,21 @@ class SubServiceWidget2 extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            title,
-                            style: TextStyle(color: Colors.black87),
-                          ),
-                          Icon(Icons.abc_outlined)
-                        ],
+                      child: Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(color: Colors.black87),
+                            ),
+                            SizedBox(width: 24.0),
+                            Visibility(
+                              visible: isSelected,
+                              child: Icon(Icons.check_box_outlined),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     Padding(

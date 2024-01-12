@@ -47,7 +47,6 @@ class BiodigesterController extends GetxController {
   final longitude = 0.0.obs;
   final latitude = 0.0.obs;
   final accuracy = 0.0.obs;
-  final inactiveColor = Colors.grey.obs;
 
   final digesterEmptyingAvailable = false.obs;
   final soakawayServicingAvailable = false.obs;
@@ -56,9 +55,12 @@ class BiodigesterController extends GetxController {
   final biodigesterWithSeatAvailable = false.obs;
   final standaloneAvailable = false.obs;
 
-  final selectedColor1 = Colors.grey.obs;
-  final selectedColor2 = Colors.grey.obs;
-  final selectedColor3 = Colors.grey.obs;
+  final isSelected1 = false.obs;
+  final isSelected2 = false.obs;
+  final isSelected3 = false.obs;
+  final isSelected4 = false.obs;
+  final isSelected5 = false.obs;
+  final isSelected6 = false.obs;
 
   final selectedServices = <Map<String, dynamic>>[].obs;
 

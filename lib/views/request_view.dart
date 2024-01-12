@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:gif/gif.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
@@ -51,124 +53,8 @@ class RequestView extends StatelessWidget {
                 initialSize: 0.5,
                 minimumSize: 0.3),
             child: controller.pendingTransaction.value
-                ? Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            color: Colors.teal.shade100,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.teal),
-                                  ),
-                                  SizedBox(width: 16.0),
-                                  Text(
-                                    'We are searching for a service provider',
-                                    style: TextStyle(fontSize: 16.0),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Obx(() {
-                            return Expanded(
-                              child: ServiceWidget(
-                                isAvailable: homeController
-                                    .biodigesterServiceAvailable.value,
-                                path: "assets/images/biodigester.png",
-                                size: 32,
-                                title: 'Biodigester',
-                                subTitle: 'Service or build a new biodigester',
-                                onTap: openBioDigesterMainView,
-                              ),
-                            );
-                          }),
-                          Obx(() {
-                            return Expanded(
-                              child: ServiceWidget(
-                                isAvailable: homeController
-                                    .emptyingServiceAvailable.value,
-                                path: "assets/images/toilet-tanker.png",
-                                size: 32,
-                                title: 'Septic Tank',
-                                subTitle: 'Empty your Septic tank',
-                                onTap: openTankerMainView,
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Obx(() {
-                            return Expanded(
-                              child: ServiceWidget(
-                                isAvailable:
-                                    homeController.waterServiceAvailable.value,
-                                path: "assets/images/water-tanker.png",
-                                size: 32,
-                                title: 'Tanker Water',
-                                subTitle: 'Request for bulk water',
-                                onTap: openWaterMainView,
-                              ),
-                            );
-                          }),
-                          Expanded(
-                            child: ServiceWidget(
-                              isAvailable: true,
-                              path: "assets/images/more.png",
-                              size: 32,
-                              title: 'Read More',
-                              subTitle: 'Read more about our services',
-                            ),
-                          ),
-                        ],
-                      ),
-                      ListTile(
-                        visualDensity:
-                            VisualDensity(horizontal: 0, vertical: -4),
-                        title: Text(
-                          'Biodigester',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        leading: Icon(Icons.history),
-                        subtitle: Text(
-                          'Dansoman - 21/11/2023',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ),
-                      Divider(),
-                      ListTile(
-                        visualDensity:
-                            VisualDensity(horizontal: 0, vertical: -4),
-                        title: Text(
-                          'Tanker Water',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        leading: Icon(Icons.history),
-                        subtitle: Text(
-                          'Sowutuom - 11/01/2023',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ),
-                    ],
-                  ),
+                ? searchingForSP()
+                : servicesView(),
             draggableAreaOptions: DraggableAreaOptions(
               //topBorderRadius: 20,
               // height: 75,
@@ -199,30 +85,167 @@ class RequestView extends StatelessWidget {
     //   },
     // );
   }
-}
 
-Widget transactionHistory() {
-  return ListView.builder(
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-          child: Card(
-            child: ListTile(
-              onTap: () {
-                // print(data[index]);
-              },
-              title: Text("data[index].name"),
-              leading: Icon(Icons.history),
-              // leading: CircleAvatar(
-              //   backgroundImage: AssetImage('assets/${data[index].avatar}'),
-              // ),
+  Widget transactionHistory() {
+    return ListView.builder(
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+            child: Card(
+              child: ListTile(
+                onTap: () {
+                  // print(data[index]);
+                },
+                title: Text("data[index].name"),
+                leading: Icon(Icons.history),
+                // leading: CircleAvatar(
+                //   backgroundImage: AssetImage('assets/${data[index].avatar}'),
+                // ),
+              ),
+            ),
+          );
+        });
+  }
+
+  Widget searchingForSP() {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              // color: Colors.teal.shade100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    SvgPicture.asset('assets/images/searching.svg',
+                        height: 200, semanticsLabel: 'Searching'),
+                    // CircularProgressIndicator(
+                    //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                    // ),
+                    // SizedBox(width: 16.0),
+                    Text(
+                      'Looking for a service provider',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Connecting to available service providers',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black54),
+                    ),
+                    // GifController _controller = GifController(vsync: this);
+                    SizedBox(width: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: LinearProgressIndicator(
+                        minHeight: 10,
+                        backgroundColor: Colors
+                            .grey[200], // Background color of the progress bar
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.teal), // Color of the progress indicator
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-        );
-      });
-}
+        ],
+      ),
+    );
+  }
 
+  Widget servicesView() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Obx(() {
+              return Expanded(
+                child: ServiceWidget(
+                  isAvailable: homeController.biodigesterServiceAvailable.value,
+                  path: "assets/images/biodigester.png",
+                  size: 32,
+                  title: 'Biodigester',
+                  subTitle: 'Service or build a new biodigester',
+                  onTap: openBioDigesterMainView,
+                ),
+              );
+            }),
+            Obx(() {
+              return Expanded(
+                child: ServiceWidget(
+                  isAvailable: homeController.emptyingServiceAvailable.value,
+                  path: "assets/images/toilet-tanker.png",
+                  size: 32,
+                  title: 'Septic Tank',
+                  subTitle: 'Empty your Septic tank',
+                  onTap: openTankerMainView,
+                ),
+              );
+            }),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Obx(() {
+              return Expanded(
+                child: ServiceWidget(
+                  isAvailable: homeController.waterServiceAvailable.value,
+                  path: "assets/images/water-tanker.png",
+                  size: 32,
+                  title: 'Tanker Water',
+                  subTitle: 'Request for bulk water',
+                  onTap: openWaterMainView,
+                ),
+              );
+            }),
+            Expanded(
+              child: ServiceWidget(
+                isAvailable: true,
+                path: "assets/images/more.png",
+                size: 32,
+                title: 'Read More',
+                subTitle: 'Read more about our services',
+              ),
+            ),
+          ],
+        ),
+        ListTile(
+          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+          title: Text(
+            'Biodigester',
+            style: TextStyle(fontSize: 12),
+          ),
+          leading: Icon(Icons.history),
+          subtitle: Text(
+            'Dansoman - 21/11/2023',
+            style: TextStyle(fontSize: 10),
+          ),
+        ),
+        Divider(),
+        ListTile(
+          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+          title: Text(
+            'Tanker Water',
+            style: TextStyle(fontSize: 12),
+          ),
+          leading: Icon(Icons.history),
+          subtitle: Text(
+            'Sowutuom - 11/01/2023',
+            style: TextStyle(fontSize: 10),
+          ),
+        ),
+      ],
+    );
+  }
+}
 // Widget stepperUI(context) {
 //   final controller = Get.put(HomeController());
 //   final formKey1 = new GlobalKey<FormState>();

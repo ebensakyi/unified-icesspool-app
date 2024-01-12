@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/themes/colors.dart';
@@ -322,7 +324,6 @@ class BioDigesterMainView extends StatelessWidget {
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
-              selectedColor: controller.selectedColor1.value,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
@@ -332,10 +333,7 @@ class BioDigesterMainView extends StatelessWidget {
                   .biodigesterPricings[controller.getIndex(1)].shortDesc
                   .toString(),
               onPressed: () {
-                controller.selectedColor1.value =
-                    controller.selectedColor1.value == Colors.grey
-                        ? Colors.teal
-                        : Colors.grey;
+                controller.isSelected1.value = !controller.isSelected1.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
@@ -350,13 +348,13 @@ class BioDigesterMainView extends StatelessWidget {
                 });
               },
               price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
+              isSelected: controller.isSelected1.value,
             )
           : SizedBox.shrink(),
       controller.biodigesterServicesAvailable.contains(2)
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
-              selectedColor: controller.selectedColor2.value,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
@@ -366,10 +364,7 @@ class BioDigesterMainView extends StatelessWidget {
                   .biodigesterPricings[controller.getIndex(2)].shortDesc
                   .toString(),
               onPressed: () {
-                controller.selectedColor2.value =
-                    controller.selectedColor2.value == Colors.grey
-                        ? Colors.teal
-                        : Colors.grey;
+                controller.isSelected2.value = !controller.isSelected2.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
@@ -384,13 +379,13 @@ class BioDigesterMainView extends StatelessWidget {
                 });
               },
               price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+              isSelected: controller.isSelected2.value,
             )
           : SizedBox.shrink(),
       controller.biodigesterServicesAvailable.contains(3)
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
-              selectedColor: controller.selectedColor3.value,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
@@ -400,10 +395,7 @@ class BioDigesterMainView extends StatelessWidget {
                   .biodigesterPricings[controller.getIndex(3)].shortDesc
                   .toString(),
               onPressed: () {
-                controller.selectedColor3.value =
-                    controller.selectedColor3.value == Colors.grey
-                        ? Colors.teal
-                        : Colors.grey;
+                controller.isSelected3.value = !controller.isSelected3.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
@@ -420,6 +412,7 @@ class BioDigesterMainView extends StatelessWidget {
               price: "GHS " +
                   controller.biodigesterPricings[controller.getIndex(3)].cost
                       .toString(),
+              isSelected: controller.isSelected3.value,
             )
           : SizedBox.shrink(),
     ]);
@@ -431,7 +424,6 @@ class BioDigesterMainView extends StatelessWidget {
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
-              selectedColor: controller.selectedColor1.value,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
@@ -441,10 +433,7 @@ class BioDigesterMainView extends StatelessWidget {
                   .biodigesterPricings[controller.getIndex(1)].shortDesc
                   .toString(),
               onPressed: () {
-                controller.selectedColor1.value =
-                    controller.selectedColor1.value == Colors.grey
-                        ? Colors.teal
-                        : Colors.grey;
+                controller.isSelected4.value = !controller.isSelected4.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
@@ -459,13 +448,13 @@ class BioDigesterMainView extends StatelessWidget {
                 });
               },
               price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
+              isSelected: controller.isSelected4.value,
             )
           : SizedBox.shrink(),
       controller.biodigesterServicesAvailable.contains(5)
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
-              selectedColor: controller.selectedColor2.value,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
@@ -475,10 +464,7 @@ class BioDigesterMainView extends StatelessWidget {
                   .biodigesterPricings[controller.getIndex(2)].shortDesc
                   .toString(),
               onPressed: () {
-                controller.selectedColor2.value =
-                    controller.selectedColor2.value == Colors.grey
-                        ? Colors.teal
-                        : Colors.grey;
+                controller.isSelected5.value = !controller.isSelected5.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
@@ -493,13 +479,13 @@ class BioDigesterMainView extends StatelessWidget {
                 });
               },
               price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+              isSelected: controller.isSelected5.value,
             )
           : SizedBox.shrink(),
       controller.biodigesterServicesAvailable.contains(6)
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
-              selectedColor: controller.selectedColor3.value,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
@@ -509,10 +495,11 @@ class BioDigesterMainView extends StatelessWidget {
                   .biodigesterPricings[controller.getIndex(3)].shortDesc
                   .toString(),
               onPressed: () {
-                controller.selectedColor3.value =
-                    controller.selectedColor3.value == Colors.grey
-                        ? Colors.teal
-                        : Colors.grey;
+                controller.isSelected6.value = !controller.isSelected6.value;
+                // controller.selectedColor3.value =
+                //     controller.selectedColor3.value == Colors.grey
+                //         ? Colors.teal
+                //         : Colors.grey;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
                   "id": controller
@@ -529,6 +516,7 @@ class BioDigesterMainView extends StatelessWidget {
               price: "GHS " +
                   controller.biodigesterPricings[controller.getIndex(3)].cost
                       .toString(),
+              isSelected: controller.isSelected6.value,
             )
           : SizedBox.shrink(),
     ]);
