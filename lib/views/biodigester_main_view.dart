@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:icesspool/model/biodigester_pricing.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/progress-button.dart';
 
 import '../controllers/biodigester_controller.dart';
 import '../core/validator.dart';
 import '../widgets/dropdown.dart';
-import '../widgets/sub-service-widget.dart';
 import '../widgets/sub-service-widget2.dart';
 import '../widgets/text-button.dart';
 
