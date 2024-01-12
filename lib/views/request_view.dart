@@ -89,25 +89,25 @@ class RequestView extends StatelessWidget {
                             return Expanded(
                               child: ServiceWidget(
                                 isAvailable: homeController
-                                    .emptyingServiceAvailable.value,
-                                path: "assets/images/toilet-tanker.png",
+                                    .biodigesterServiceAvailable.value,
+                                path: "assets/images/biodigester.png",
                                 size: 32,
-                                title: 'Septic Tank',
-                                subTitle: 'Empty your Septic tank',
-                                onTap: openTankerMainView,
+                                title: 'Biodigester',
+                                subTitle: 'Service or build a new biodigester',
+                                onTap: openBioDigesterMainView,
                               ),
                             );
                           }),
                           Obx(() {
                             return Expanded(
                               child: ServiceWidget(
-                                isAvailable:
-                                    homeController.waterServiceAvailable.value,
-                                path: "assets/images/water-tanker.png",
+                                isAvailable: homeController
+                                    .emptyingServiceAvailable.value,
+                                path: "assets/images/toilet-tanker.png",
                                 size: 32,
-                                title: 'Tanker Water',
-                                subTitle: 'Request for bulk water',
-                                onTap: openWaterMainView,
+                                title: 'Septic Tank',
+                                subTitle: 'Empty your Septic tank',
+                                onTap: openTankerMainView,
                               ),
                             );
                           }),
@@ -119,13 +119,13 @@ class RequestView extends StatelessWidget {
                           Obx(() {
                             return Expanded(
                               child: ServiceWidget(
-                                isAvailable: homeController
-                                    .biodigesterServiceAvailable.value,
-                                path: "assets/images/biodigester.png",
+                                isAvailable:
+                                    homeController.waterServiceAvailable.value,
+                                path: "assets/images/water-tanker.png",
                                 size: 32,
-                                title: 'Biodigester',
-                                subTitle: 'Service or build a new biodigester',
-                                onTap: openBioDigesterMainView,
+                                title: 'Tanker Water',
+                                subTitle: 'Request for bulk water',
+                                onTap: openWaterMainView,
                               ),
                             );
                           }),

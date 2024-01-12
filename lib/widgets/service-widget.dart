@@ -57,7 +57,7 @@ class ServiceWidget extends StatelessWidget {
                     padding: EdgeInsets.all(4.0),
                     child: ImageView(
                       path: path,
-                      size: 32,
+                      size: 40,
                     ),
                   ),
                   // Padding(
