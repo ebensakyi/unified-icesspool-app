@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/themes/colors.dart';
@@ -317,99 +320,100 @@ class BioDigesterMainView extends StatelessWidget {
   }
 
   Widget biodigesterServicing() {
+    // inspect("biodigesterServicing selected");
+    final int index1 = controller.getBiodigesterServiceIndex(1);
+    final int index2 = controller.getBiodigesterServiceIndex(2);
+    final int index3 = controller.getBiodigesterServiceIndex(3);
+    final int index4 = controller.getBiodigesterServiceIndex(4);
+    final int index5 = controller.getBiodigesterServiceIndex(5);
+    final int index6 = controller.getBiodigesterServiceIndex(6);
+
+    // log("index1 $index1" as num);
+
+    inspect("index1 >>>> $index1");
+    inspect("index2 >>>> $index2");
+    inspect("index3 >>>> $index3");
+    inspect("index4 >>>> $index4");
+    inspect("index5 >>>> $index5");
+    inspect("index6 >>>> $index6");
+
+    // inspect(controller.biodigesterServicesAvailable.value);
+
     return Column(children: [
-      controller.biodigesterServicesAvailable.contains(1)
+      controller.biodigesterServicesAvailable.contains(1) && index1 != -1
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title:
-                  controller.biodigesterPricings[controller.getIndex(1)].name,
-              subTitle: controller
-                  .biodigesterPricings[controller.getIndex(1)].shortDesc
-                  .toString(),
+              title: controller.biodigesterPricings[index1].name,
+              subTitle:
+                  controller.biodigesterPricings[index1].shortDesc.toString(),
               onPressed: () {
                 controller.isSelected1.value = !controller.isSelected1.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
-                  "id": controller
-                      .biodigesterPricings[controller.getIndex(1)].id
-                      .toInt(),
-                  "unitCost": controller
-                      .biodigesterPricings[controller.getIndex(1)].cost
-                      .toString(),
-                  "name": controller
-                      .biodigesterPricings[controller.getIndex(1)].name
-                      .toString(),
+                  "id": controller.biodigesterPricings[index1].id.toInt(),
+                  "unitCost":
+                      controller.biodigesterPricings[index1].cost.toString(),
+                  "name":
+                      controller.biodigesterPricings[index1].name.toString(),
                 });
               },
-              price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
+              price: "GHS " +
+                  controller.biodigesterPricings[index1].cost.toString(),
               isSelected: controller.isSelected1.value,
             )
           : SizedBox.shrink(),
-      controller.biodigesterServicesAvailable.contains(2)
+      controller.biodigesterServicesAvailable.contains(2) && index2 != -1
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title:
-                  controller.biodigesterPricings[controller.getIndex(2)].name,
-              subTitle: controller
-                  .biodigesterPricings[controller.getIndex(2)].shortDesc
-                  .toString(),
+              title: controller.biodigesterPricings[index2].name,
+              subTitle:
+                  controller.biodigesterPricings[index2].shortDesc.toString(),
               onPressed: () {
                 controller.isSelected2.value = !controller.isSelected2.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
-                  "id": controller
-                      .biodigesterPricings[controller.getIndex(2)].id
-                      .toInt(),
-                  "unitCost": controller
-                      .biodigesterPricings[controller.getIndex(2)].cost
-                      .toString(),
-                  "name": controller
-                      .biodigesterPricings[controller.getIndex(2)].name
-                      .toString(),
+                  "id": controller.biodigesterPricings[index2].id.toInt(),
+                  "unitCost":
+                      controller.biodigesterPricings[index2].cost.toString(),
+                  "name":
+                      controller.biodigesterPricings[index2].name.toString(),
                 });
               },
-              price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+              price: "GHS " +
+                  controller.biodigesterPricings[index2].cost.toString(),
               isSelected: controller.isSelected2.value,
             )
           : SizedBox.shrink(),
-      controller.biodigesterServicesAvailable.contains(3)
+      controller.biodigesterServicesAvailable.contains(3) && index3 != -1
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title:
-                  controller.biodigesterPricings[controller.getIndex(3)].name,
-              subTitle: controller
-                  .biodigesterPricings[controller.getIndex(3)].shortDesc
-                  .toString(),
+              title: controller.biodigesterPricings[index3].name,
+              subTitle:
+                  controller.biodigesterPricings[index3].shortDesc.toString(),
               onPressed: () {
                 controller.isSelected3.value = !controller.isSelected3.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
-                  "id": controller
-                      .biodigesterPricings[controller.getIndex(3)].id
-                      .toInt(),
-                  "unitCost": controller
-                      .biodigesterPricings[controller.getIndex(3)].cost
-                      .toString(),
-                  "name": controller
-                      .biodigesterPricings[controller.getIndex(3)].name
-                      .toString()
+                  "id": controller.biodigesterPricings[index3].id.toInt(),
+                  "unitCost":
+                      controller.biodigesterPricings[index3].cost.toString(),
+                  "name": controller.biodigesterPricings[index3].name.toString()
                 });
               },
               price: "GHS " +
-                  controller.biodigesterPricings[controller.getIndex(3)].cost
-                      .toString(),
+                  controller.biodigesterPricings[index3].cost.toString(),
               isSelected: controller.isSelected3.value,
             )
           : SizedBox.shrink(),
@@ -417,81 +421,74 @@ class BioDigesterMainView extends StatelessWidget {
   }
 
   Widget biodigesterConstruction() {
+    // inspect("biodigesterConstruction selected");
+
+    final int index4 = controller.getBiodigesterServiceIndex(4);
+    final int index5 = controller.getBiodigesterServiceIndex(5);
+    final int index6 = controller.getBiodigesterServiceIndex(6);
+
     return Column(children: [
-      controller.biodigesterServicesAvailable.contains(4)
+      controller.biodigesterServicesAvailable.contains(4) && index4 != -1
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title:
-                  controller.biodigesterPricings[controller.getIndex(1)].name,
-              subTitle: controller
-                  .biodigesterPricings[controller.getIndex(1)].shortDesc
-                  .toString(),
+              title: controller.biodigesterPricings[index4].name,
+              subTitle:
+                  controller.biodigesterPricings[index4].shortDesc.toString(),
               onPressed: () {
                 controller.isSelected4.value = !controller.isSelected4.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
-                  "id": controller
-                      .biodigesterPricings[controller.getIndex(1)].id
-                      .toInt(),
-                  "unitCost": controller
-                      .biodigesterPricings[controller.getIndex(1)].cost
-                      .toString(),
-                  "name": controller
-                      .biodigesterPricings[controller.getIndex(1)].name
-                      .toString(),
+                  "id": controller.biodigesterPricings[index4].id.toInt(),
+                  "unitCost":
+                      controller.biodigesterPricings[index4].cost.toString(),
+                  "name":
+                      controller.biodigesterPricings[index4].name.toString(),
                 });
               },
               price: "GHS " + controller.biodigesterPricings[0].cost.toString(),
               isSelected: controller.isSelected4.value,
             )
           : SizedBox.shrink(),
-      controller.biodigesterServicesAvailable.contains(5)
+      controller.biodigesterServicesAvailable.contains(5) && index5 != -1
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title:
-                  controller.biodigesterPricings[controller.getIndex(2)].name,
-              subTitle: controller
-                  .biodigesterPricings[controller.getIndex(2)].shortDesc
-                  .toString(),
+              title: controller.biodigesterPricings[index5].name,
+              subTitle:
+                  controller.biodigesterPricings[index5].shortDesc.toString(),
               onPressed: () {
                 controller.isSelected5.value = !controller.isSelected5.value;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
-                  "id": controller
-                      .biodigesterPricings[controller.getIndex(2)].id
-                      .toInt(),
-                  "unitCost": controller
-                      .biodigesterPricings[controller.getIndex(2)].cost
-                      .toString(),
-                  "name": controller
-                      .biodigesterPricings[controller.getIndex(2)].name
-                      .toString(),
+                  "id": controller.biodigesterPricings[index5].id.toInt(),
+                  "unitCost":
+                      controller.biodigesterPricings[index5].cost.toString(),
+                  "name":
+                      controller.biodigesterPricings[index5].name.toString(),
                 });
               },
-              price: "GHS " + controller.biodigesterPricings[1].cost.toString(),
+              price: "GHS " +
+                  controller.biodigesterPricings[index5].cost.toString(),
               isSelected: controller.isSelected5.value,
             )
           : SizedBox.shrink(),
-      controller.biodigesterServicesAvailable.contains(6)
+      controller.biodigesterServicesAvailable.contains(6) && index6 != -1
           ? SubServiceWidget2(
               activeBgColor: MyColors.DarkBlue,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title:
-                  controller.biodigesterPricings[controller.getIndex(3)].name,
-              subTitle: controller
-                  .biodigesterPricings[controller.getIndex(3)].shortDesc
-                  .toString(),
+              title: controller.biodigesterPricings[index6].name,
+              subTitle:
+                  controller.biodigesterPricings[index6].shortDesc.toString(),
               onPressed: () {
                 controller.isSelected6.value = !controller.isSelected6.value;
                 // controller.selectedColor3.value =
@@ -500,20 +497,14 @@ class BioDigesterMainView extends StatelessWidget {
                 //         : Colors.grey;
 
                 controller.addOrRemoveItem(controller.selectedServices, {
-                  "id": controller
-                      .biodigesterPricings[controller.getIndex(3)].id
-                      .toInt(),
-                  "unitCost": controller
-                      .biodigesterPricings[controller.getIndex(3)].cost
-                      .toString(),
-                  "name": controller
-                      .biodigesterPricings[controller.getIndex(3)].name
-                      .toString()
+                  "id": controller.biodigesterPricings[index6].id.toInt(),
+                  "unitCost":
+                      controller.biodigesterPricings[index6].cost.toString(),
+                  "name": controller.biodigesterPricings[index6].name.toString()
                 });
               },
               price: "GHS " +
-                  controller.biodigesterPricings[controller.getIndex(3)].cost
-                      .toString(),
+                  controller.biodigesterPricings[index6].cost.toString(),
               isSelected: controller.isSelected6.value,
             )
           : SizedBox.shrink(),

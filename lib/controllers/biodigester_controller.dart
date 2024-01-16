@@ -29,6 +29,7 @@ class BiodigesterController extends GetxController {
   final formKey = new GlobalKey<FormState>();
 
   final isLoading = false.obs;
+  final isVisble = true.obs;
 
   final transactionId = "".obs;
   final selectedRequestType = "".obs;
@@ -392,8 +393,6 @@ class BiodigesterController extends GetxController {
         List<Map<String, dynamic>> typedData =
             List<Map<String, dynamic>>.from(data);
 
-        log('Success data $data');
-
         // print(parseData(typedData));
 
         // var x = data
@@ -419,9 +418,12 @@ class BiodigesterController extends GetxController {
     }
   }
 
-  getIndex(int targetId) {
-    int index =
-        biodigesterPricings.indexWhere((service) => service.id == targetId);
+  getBiodigesterServiceIndex(int targetId) {
+    inspect(biodigesterPricings);
+    print(biodigesterPricings);
+
+    int index = biodigesterPricings
+        .indexWhere((service) => service.biodigesterServiceId == targetId);
 
     if (index != -1) {
       log('Index of object with id $targetId: $index');
@@ -435,6 +437,7 @@ class BiodigesterController extends GetxController {
     var formattedData = data
         .map((item) => BiodigesterPricing(
               id: item['id'],
+              biodigesterServiceId: item['biodigesterServiceId'],
               name: item['name'],
               shortDesc: item['shortDesc'],
               fullDesc: item['fullDesc'],

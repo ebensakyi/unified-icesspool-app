@@ -17,6 +17,7 @@ class BiodigesterPricing {
     required this.name,
     required this.cost,
     required this.type,
+    required this.biodigesterServiceId,
     this.shortDesc,
     this.fullDesc,
 
@@ -26,6 +27,7 @@ class BiodigesterPricing {
   });
 
   int id;
+  int biodigesterServiceId;
   String name;
   double cost;
   String type;
@@ -39,6 +41,7 @@ class BiodigesterPricing {
   factory BiodigesterPricing.fromJson(Map<String, dynamic> json) =>
       BiodigesterPricing(
         id: json["id"],
+        biodigesterServiceId: json["biodigesterServiceId"],
         name: json["name"],
         cost: json["cost"],
         type: json["type"],
@@ -52,6 +55,7 @@ class BiodigesterPricing {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "biodigesterServiceId": biodigesterServiceId,
         "name": name,
         "cost": cost,
         "type": type,
