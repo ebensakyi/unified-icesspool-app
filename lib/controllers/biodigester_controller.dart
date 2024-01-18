@@ -419,9 +419,6 @@ class BiodigesterController extends GetxController {
   }
 
   getBiodigesterServiceIndex(int targetId) {
-    inspect(biodigesterPricings);
-    print(biodigesterPricings);
-
     int index = biodigesterPricings
         .indexWhere((service) => service.biodigesterServiceId == targetId);
 
