@@ -8,8 +8,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:icesspool/core/random.dart';
+import 'package:icesspool/views/payment_view.dart';
 
+import '../bindings/payment_binding.dart';
 import '../contants.dart';
 import 'home_controller.dart';
 
@@ -37,6 +38,7 @@ class RequestController extends GetxController {
   @override
   onInit() async {
     log("RequestController created");
+    await checkAvailableRequest();
 
     if (box.hasData('countdownDuration')) {
       countdownDuration.value =
@@ -45,9 +47,7 @@ class RequestController extends GetxController {
 
     startCountdown();
     // community.value = Get.arguments['community'];
-    paymentId.value = await generatePaymentCode(12);
     amount.value = "0.10";
-    await checkAvailableRequest();
 
     super.onInit();
   }
@@ -141,6 +141,8 @@ class RequestController extends GetxController {
   }
 
   void initiateTellerPayment() async {
+    paymentId.value = "170543132080"; //generatePaymentCode(12);
+
     String url = Constants.INITIATE_PAYMENT_URL +
         "?transactionId=" +
         transactionId.value +
@@ -155,21 +157,27 @@ class RequestController extends GetxController {
 
       isLoading.value = true;
       if (response.statusCode == 200) {
-        Map<String, dynamic> data = json.decode(response.body);
+        Map<String, dynamic> jsonMap = json.decode(response.body);
 
         // int code = data['data']['code'];
-        log('initiateTellerPayment> $data');
 
-        // if (code == 200) {
-        //   String checkOutUrl = data['data']['checkout_url'];
+        String token = jsonMap['response']['token'];
+        String checkoutUrl = jsonMap['response']['checkout_url'];
+        int code = jsonMap['response']['code'];
 
-        //   log("checkOutUrl===> $checkOutUrl");
+        log("checkoutUrl===> $checkoutUrl");
+        log("code===> $code");
 
-        //   ///Open checkout page with url
-        // } else if (code == 900) {
-        //   Get.snackbar("Error message",
-        //       "Payment already initiated. Please wait for it to be processed");
-        // }
+        if (code == 200) {
+          // log("checkOutUrl===> $checkOutUrl");
+          Get.off(() => PaymentView(),
+              binding: PaymentBinding(), arguments: [checkoutUrl]);
+
+          ///Open checkout page with url
+        } else if (code == 900) {
+          Get.snackbar("Error message",
+              "Payment already initiated. Please wait for it to be processed");
+        }
       } else {
         print('initiateTellerPayment> Error: ${response.reasonPhrase}');
       }
