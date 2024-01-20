@@ -12,6 +12,7 @@ import 'package:icesspool/views/payment_view.dart';
 
 import '../bindings/payment_binding.dart';
 import '../contants.dart';
+import '../core/random.dart';
 import 'home_controller.dart';
 
 class RequestController extends GetxController {
@@ -140,8 +141,10 @@ class RequestController extends GetxController {
     }
   }
 
-  void initiateTellerPayment() async {
-    paymentId.value = "170543132080"; //generatePaymentCode(12);
+  Future initiateTellerPayment() async {
+    paymentId.value = generatePaymentCode(12);
+
+    log("paymentId.value ${paymentId.value}");
 
     String url = Constants.INITIATE_PAYMENT_URL +
         "?transactionId=" +
@@ -165,11 +168,7 @@ class RequestController extends GetxController {
         String checkoutUrl = jsonMap['response']['checkout_url'];
         int code = jsonMap['response']['code'];
 
-        log("checkoutUrl===> $checkoutUrl");
-        log("code===> $code");
-
         if (code == 200) {
-          // log("checkOutUrl===> $checkOutUrl");
           Get.off(() => PaymentView(),
               binding: PaymentBinding(), arguments: [checkoutUrl]);
 

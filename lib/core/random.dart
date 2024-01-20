@@ -33,13 +33,15 @@ String generateTransactionCode() {
 
 String generatePaymentCode(count) {
   Random random = Random();
-  List<String> result = [];
+  String randomString = '';
 
-  for (int i = 0; i < count; i++) {
-    int randomNumber = random.nextInt(9000000000) +
-        1000000000; // To ensure it doesn't start with 0
-    result.add(randomNumber.toString());
+  // Ensure that the first digit is not 0
+  randomString += (1 + random.nextInt(9)).toString();
+
+  // Add the remaining 11 digits
+  for (int i = 0; i < 11; i++) {
+    randomString += random.nextInt(10).toString();
   }
 
-  return result.toString();
+  return randomString;
 }

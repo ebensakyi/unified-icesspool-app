@@ -17,3 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 
 
 flutter build appbundle --build-name=1.0.3 --build-number=3
+
+
+
+!W/, !D/, !E/
