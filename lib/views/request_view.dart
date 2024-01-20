@@ -9,6 +9,7 @@ import 'package:gif/gif.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
+import 'package:icesspool/widgets/progress-button.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
@@ -50,11 +51,15 @@ class RequestView extends StatelessWidget {
             options: InteractiveBottomSheetOptions(
                 expand: false,
                 maxSize: 0.8,
-                initialSize: 0.5,
+                initialSize: controller.initialSize.value,
                 minimumSize: 0.3),
-            child: controller.pendingTransaction.value
+            child: controller.transactionStatus.value == 1
                 ? searchingForSP()
-                : servicesView(),
+                : controller.transactionStatus.value == 2
+                    ? spFound()
+                    : controller.transactionStatus.value == 2
+                        ? searchingForSP()
+                        : servicesView(),
             draggableAreaOptions: DraggableAreaOptions(
               //topBorderRadius: 20,
               // height: 75,
@@ -149,6 +154,21 @@ class RequestView extends StatelessWidget {
                             Colors.teal), // Color of the progress indicator
                       ),
                     ),
+                    ProgressButton(
+                      onPressed: () {
+                        controller.cancelRequest("controller.transactionId");
+                      },
+                      isLoading: controller.isLoading.value,
+                      iconData: Icons.cancel_outlined,
+                      label: 'Cancel',
+                      iconColor: Colors.white,
+                      progressColor: Colors.white,
+                      textColor: Colors.white,
+                      backgroundColor: controller.isLoading.value
+                          ? Colors.teal
+                          : Colors.teal,
+                      borderColor: Colors.teal,
+                    )
                   ],
                 ),
               ),
@@ -156,6 +176,124 @@ class RequestView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget spFound() {
+    //SP found, show details of sp with image make payment
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              // color: Colors.teal.shade100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Service Provider found',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    SvgPicture.asset('assets/images/payment.svg',
+                        height: 200, semanticsLabel: 'Searching'),
+
+                    SizedBox(height: 20.0),
+                    Text(
+                      'Make payment to confirm the job.',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black54),
+                    ),
+                    SizedBox(height: 10.0),
+
+                    Text(
+                      'Job will automatically be cancelled if payment is not done within the expiry time',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black),
+                    ),
+                    // GifController _controller = GifController(vsync: this);
+                    SizedBox(height: 20.0),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: LinearProgressIndicator(
+                    //     minHeight: 10,
+                    //     backgroundColor: Colors
+                    //         .grey[200], // Background color of the progress bar
+                    //     valueColor: AlwaysStoppedAnimation<Color>(
+                    //         Colors.teal), // Color of the progress indicator
+                    //   ),
+                    // ),
+                    Divider(),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: buildListTile(
+                              'Fee', 'GHS ${controller.amount.value}'),
+                        ),
+                        // Expanded(
+                        //   child: buildListTile('Wait Time', '10 minutes'),
+                        // ),
+                        Expanded(
+                          child: ListTile(
+                            //leading: Icon(Icons.history_toggle_off),
+                            leading: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.teal,
+                              ),
+                            ),
+                            title: Text(
+                              "Expires in",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Obx(() {
+                              return Text(
+                                controller.formatDuration(
+                                    controller.countdownDuration.value),
+                                // style: TextStyle(fontSize: 24),
+                              );
+                            }),
+                          ),
+                        )
+                      ],
+                    ),
+                    ProgressButton(
+                      onPressed: () {
+                        controller.initiateTellerPayment();
+                      },
+                      isLoading: controller.isLoading.value,
+                      iconData: Icons.payment_sharp,
+                      label: 'Pay',
+                      iconColor: Colors.white,
+                      progressColor: Colors.white,
+                      textColor: Colors.white,
+                      backgroundColor: controller.isLoading.value
+                          ? Colors.teal
+                          : Colors.teal,
+                      borderColor: Colors.teal,
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildListTile(String title, String value) {
+    return ListTile(
+      title: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(value),
     );
   }
 

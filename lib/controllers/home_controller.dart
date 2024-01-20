@@ -18,6 +18,8 @@ import '../widgets/small-button.dart';
 import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 
 class HomeController extends GetxController {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   final formKey = new GlobalKey<FormState>();
   final AppName = "".obs;
   final AppVersion = "".obs;
@@ -32,7 +34,7 @@ class HomeController extends GetxController {
   final selectedImagePath = "".obs;
   final selectedImageSize = "".obs;
   final count = 0.obs;
-  final userId = 0.obs;
+  final userId = 1.obs;
   final serviceAreaId = 0.obs;
 
   final displayName = "".obs;
@@ -58,6 +60,8 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+    log("HomeController created");
+
     await getUserServiceArea();
     final prefs = await SharedPreferences.getInstance();
 

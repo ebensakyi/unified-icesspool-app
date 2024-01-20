@@ -328,15 +328,6 @@ class BioDigesterMainView extends StatelessWidget {
     final int index5 = controller.getBiodigesterServiceIndex(5);
     final int index6 = controller.getBiodigesterServiceIndex(6);
 
-    // log("index1 $index1" as num);
-
-    inspect("index1 >>>> $index1");
-    inspect("index2 >>>> $index2");
-    inspect("index3 >>>> $index3");
-    inspect("index4 >>>> $index4");
-    inspect("index5 >>>> $index5");
-    inspect("index6 >>>> $index6");
-
     // inspect(controller.biodigesterServicesAvailable.value);
 
     return Column(children: [
