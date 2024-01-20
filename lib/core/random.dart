@@ -31,21 +31,15 @@ String generateTransactionCode() {
   return formattedDate + codeBuffer.toString();
 }
 
-String generatePaymentCode() {
-  DateTime today = DateTime.now();
-  String formattedDate = DateFormat('ddMMyy').format(today);
+String generatePaymentCode(count) {
+  Random random = Random();
+  List<String> result = [];
 
-  final random = Random();
-  StringBuffer codeBuffer = StringBuffer();
-
-  // Ensure the first digit is not 0
-  codeBuffer
-      .write(random.nextInt(9) + 1); // Generates a random digit between 1 and 9
-
-  // Generate the remaining 11 digits
-  for (int i = 0; i < 4; i++) {
-    codeBuffer.write(random.nextInt(9));
+  for (int i = 0; i < count; i++) {
+    int randomNumber = random.nextInt(9000000000) +
+        1000000000; // To ensure it doesn't start with 0
+    result.add(randomNumber.toString());
   }
 
-  return formattedDate + codeBuffer.toString();
+  return result.toString();
 }

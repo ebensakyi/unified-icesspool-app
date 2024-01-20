@@ -45,7 +45,7 @@ class RequestController extends GetxController {
 
     startCountdown();
     // community.value = Get.arguments['community'];
-    paymentId.value = generatePaymentCode();
+    paymentId.value = await generatePaymentCode(12);
     amount.value = "0.10";
     await checkAvailableRequest();
 
@@ -157,19 +157,19 @@ class RequestController extends GetxController {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = json.decode(response.body);
 
-        int code = data['data']['code'];
-        print('initiateTellerPayment> $data');
+        // int code = data['data']['code'];
+        log('initiateTellerPayment> $data');
 
-        if (code == 200) {
-          String checkOutUrl = data['data']['checkout_url'];
+        // if (code == 200) {
+        //   String checkOutUrl = data['data']['checkout_url'];
 
-          log("checkOutUrl===> $checkOutUrl");
+        //   log("checkOutUrl===> $checkOutUrl");
 
-          ///Open checkout page with url
-        } else if (code == 900) {
-          Get.snackbar("Error message",
-              "Payment already initiated. Please wait for it to be processed");
-        }
+        //   ///Open checkout page with url
+        // } else if (code == 900) {
+        //   Get.snackbar("Error message",
+        //       "Payment already initiated. Please wait for it to be processed");
+        // }
       } else {
         print('initiateTellerPayment> Error: ${response.reasonPhrase}');
       }
