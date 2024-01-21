@@ -12,7 +12,9 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME; //Routes.LOGIN;
+  // static const INITIAL = Routes.HOME; //Routes.LOGIN;
+  static const INITIAL = Routes.LOGIN;
+
   static const HOME = Routes.HOME;
   static const SINGLE_REPORT = Routes.SINGLE_REPORT;
 
