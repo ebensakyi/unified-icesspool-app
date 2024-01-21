@@ -21,3 +21,9 @@ flutter build appbundle --build-name=1.0.3 --build-number=3
 
 
 !W/, !D/, !E/
+
+
+////Morning
+1. activate one time login.
+2. update all userIds and phone numbers to actual dynamic ones
+3. work on login for sp
