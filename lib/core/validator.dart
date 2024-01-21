@@ -57,4 +57,15 @@ class Validator {
 
     return null;
   }
+
+  static String? confirmPasswordValidator(String password, String cpassword) {
+    if ((password.trim().length < 8 || password.trim().length == 0)) {
+      return "Password should be at least 8 characters";
+    }
+    if (password != cpassword) {
+      return "Passwords do no match";
+    }
+
+    return null;
+  }
 }

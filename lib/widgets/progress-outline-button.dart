@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-class ProgressButton extends StatelessWidget {
+class ProgressOutlineButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
   final IconData iconData;
   final String label;
-  final Color borderColor;
-  final Color backgroundColor;
-  final Color iconColor;
-  final Color textColor;
-  final Color progressColor;
+  // final Color borderColor;
+  // final Color backgroundColor;
+  // final Color iconColor;
+  // final Color textColor;
+  // final Color progressColor;
 
-  ProgressButton({
+  ProgressOutlineButton({
     required this.onPressed,
     required this.isLoading,
     required this.iconData,
     required this.label,
-    required this.borderColor,
-    required this.backgroundColor,
-    required this.iconColor,
-    required this.textColor,
-    required this.progressColor,
+    // required this.borderColor,
+    // required this.backgroundColor,
+    // required this.iconColor,
+    // required this.textColor,
+    // required this.progressColor,
   });
 
   @override
@@ -33,9 +33,9 @@ class ProgressButton extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
-              side: BorderSide(color: borderColor),
+              side: BorderSide(color: Colors.teal),
             ),
-            backgroundColor: Colors.teal),
+            backgroundColor: Colors.white),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -45,14 +45,14 @@ class ProgressButton extends StatelessWidget {
                     height: 20.0,
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.teal,
-                      valueColor: AlwaysStoppedAnimation<Color>(progressColor),
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
                     ),
                   )
-                : Icon(iconData, color: iconColor),
+                : Icon(iconData, color: Colors.teal),
             SizedBox(width: 8.0),
             Text(
               label,
-              style: TextStyle(color: isLoading ? Colors.teal : textColor),
+              style: TextStyle(color: isLoading ? Colors.teal : Colors.teal),
             ),
           ],
         ),

@@ -20,7 +20,10 @@ class Constants {
   // static const String REPORT_TYPE_API_URL = "/v1/primary-data/report-type";
 
   static String SANITATION_API_URL = "/sanitation-report";
-  static String LOGIN_API_URL = "/sanitation-report/signup-login";
+  static String LOGIN_API_URL = BASE_URL + "/sanitation-report/signup-login";
+  static String SIGNUP_API_URL = BASE_URL + "/auth/signup";
+  static String VALIDATE_ACCOUNT_API_URL = BASE_URL + "/auth/validate-user";
+
   static String AWS_S3_URL =
       "https://esicapps-images.s3.eu-west-2.amazonaws.com/";
 

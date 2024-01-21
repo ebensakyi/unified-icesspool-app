@@ -6,25 +6,21 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:icesspool/views/signup_view.dart';
-import 'package:icesspool/widgets/progress-outline-button.dart';
-import 'package:icesspool/widgets/text-button.dart';
 
-import '../controllers/login_controller.dart';
+import '../controllers/signup_controller.dart';
 import '../core/mask_formatter.dart';
 import '../core/validator.dart';
 import '../themes/colors.dart';
-import '../widgets/loading-button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:upgrader/upgrader.dart';
 
 import '../widgets/progress-button.dart';
 
-class LoginView extends StatelessWidget {
-  final controller = Get.put(LoginController());
+class SignupView extends StatelessWidget {
+  final controller = Get.put(SignupController());
   final formKey = new GlobalKey<FormState>();
 
-  LoginView({Key? key}) : super(key: key);
+  SignupView({Key? key}) : super(key: key);
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -45,7 +41,6 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _formKey = GlobalKey<FormState>();
-    const _minimumPadding = 5.0;
 
     return UpgradeAlert(
       child: Theme(
@@ -70,30 +65,10 @@ class LoginView extends StatelessWidget {
             scaffoldBackgroundColor: const Color(0xFFFFFFFF),
           ),
           home: Scaffold(
-            // appBar: AppBar(
-            //   forceMaterialTransparency: true,
-            //   elevation: 0,
-            //   title: Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.end,
-            //       children: [
-            //         InkWell(
-            //           onTap: () {
-            //             Get.off(() => ReportView());
-            //           },
-            //           child: Text(
-            //             "Skip",
-            //             style: TextStyle(
-            //               fontSize: 15,
-            //               color: Colors.black54,
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            appBar: AppBar(
+                forceMaterialTransparency: true,
+                elevation: 0,
+                title: Text("Sign up")),
             body: Form(
               key: _formKey,
               child: ListView(
@@ -103,126 +78,72 @@ class LoginView extends StatelessWidget {
                     child: Container(
                       child: Column(
                         children: [
-                          getImageAsset("assets/images/logo_2.png", 200.0),
-                          // Container(
-                          //   child: const Padding(
-                          //     padding: EdgeInsets.only(top: 5, bottom: 20),
-                          //     child: Align(
-                          //       alignment: Alignment.center,
-                          //       child: Text(
-                          //         "The sanitation experts",
-                          //         style: TextStyle(
-                          //           color: Colors.black54,
-                          //           fontWeight: FontWeight.normal,
-                          //           fontSize: 15,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 16, bottom: 16),
+                            child: TextFormField(
+                              controller: controller.firstNameController,
+                              keyboardType: TextInputType.name,
+                              maxLengthEnforcement:
+                                  MaxLengthEnforcement.enforced,
+                              onSaved: (value) {
+                                controller.firstNameController.text = value!;
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
 
-                          // Container(
-                          //   margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                          //   height: maxLines * 8.0,
-                          //   child: TextField(
-                          //     controller: controller.phoneNumberController,
-                          //     maxLines: maxLines,
-                          //     decoration: InputDecoration(
-                          //       hintText: "Enter your phone",
-                          //       fillColor: Colors.grey[300],
-                          //       filled: false,
-                          //       contentPadding: const EdgeInsets.symmetric(
-                          //           vertical: 10.0, horizontal: 20.0),
-                          //       border: const OutlineInputBorder(
-                          //         borderRadius:
-                          //             BorderRadius.all(Radius.circular(15.0)),
-                          //       ),
-                          //       enabledBorder: const OutlineInputBorder(
-                          //         borderSide: BorderSide(
-                          //             color: Color.fromARGB(255, 2, 88, 128),
-                          //             width: 1.0),
-                          //         borderRadius:
-                          //             BorderRadius.all(Radius.circular(15.0)),
-                          //       ),
-                          //       focusedBorder: const OutlineInputBorder(
-                          //         borderSide: BorderSide(
-                          //             color: Color.fromARGB(255, 2, 88, 128),
-                          //             width: 2.0),
-                          //         borderRadius:
-                          //             BorderRadius.all(Radius.circular(15.0)),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          // Container(
-                          //   margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                          //   height: maxLines * 8.0,
-                          //   child: TextField(
-                          //     controller: controller.passwordController,
-                          //     maxLines: maxLines,
-                          //     decoration: InputDecoration(
-                          //       hintText: "Enter your passwoord",
-                          //       fillColor: Colors.grey[300],
-                          //       filled: false,
-                          //       contentPadding: const EdgeInsets.symmetric(
-                          //           vertical: 10.0, horizontal: 20.0),
-                          //       border: const OutlineInputBorder(
-                          //         borderRadius:
-                          //             BorderRadius.all(Radius.circular(15.0)),
-                          //       ),
-                          //       enabledBorder: const OutlineInputBorder(
-                          //         borderSide: BorderSide(
-                          //             color: Color.fromARGB(255, 2, 88, 128),
-                          //             width: 1.0),
-                          //         borderRadius:
-                          //             BorderRadius.all(Radius.circular(15.0)),
-                          //       ),
-                          //       focusedBorder: const OutlineInputBorder(
-                          //         borderSide: BorderSide(
-                          //             color: Color.fromARGB(255, 2, 88, 128),
-                          //             width: 2.0),
-                          //         borderRadius:
-                          //             BorderRadius.all(Radius.circular(15.0)),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          // Container(
-                          //   margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                          //   child: ElevatedButton(
-                          //       child: Row(
-                          //         children: const [
-                          //           // getSmallImageAsset(
-                          //           //     "assets/images/google.png", 24.0),
-                          //           Expanded(
-                          //             child: Align(
-                          //               alignment: Alignment.center,
-                          //               child: Text(
-                          //                 "Sign up",
-                          //                 style: TextStyle(
-                          //                     color: Colors.white,
-                          //                     fontWeight: FontWeight.w600,
-                          //                     fontSize: 14),
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //       style: flatBtnStyle2,
-                          //       onPressed: () {
-                          //         controller.signUp(
-                          //             email: emailController.text,
-                          //             password: passwordController.text);
-                          //       }),
-                          // ),
-                          // Divider(),
+                                // errorText: widget.errorText,
+                                labelText: 'First name',
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  // borderSide: BorderSide.none,
+                                ),
+                                prefixIcon: Icon(Icons.tag_faces_outlined),
+                              ),
+                              validator: (value) {
+                                return Validator.textFieldValidator(value!);
+                              },
+                            ),
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16, right: 16, bottom: 16),
+                              child: TextFormField(
+                                controller: controller.lastNameController,
+                                keyboardType: TextInputType.name,
+                                maxLengthEnforcement:
+                                    MaxLengthEnforcement.enforced,
+                                onSaved: (value) {
+                                  controller.lastNameController.text = value!;
+                                },
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+
+                                  // errorText: widget.errorText,
+                                  labelText: 'Last name',
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    // borderSide: BorderSide.none,
+                                  ),
+                                  prefixIcon: Icon(Icons.tag_faces_outlined),
+                                ),
+                                validator: (value) {
+                                  return Validator.textFieldValidator(value!);
+                                },
+                              )),
 
                           Padding(
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, bottom: 16),
                               child: TextFormField(
                                 controller: controller.phoneNumberController,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.phone,
                                 maxLengthEnforcement:
                                     MaxLengthEnforcement.enforced,
                                 onSaved: (value) {
@@ -253,13 +174,12 @@ class LoginView extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, bottom: 16),
                               child: TextFormField(
-                                controller: controller.phoneNumberController,
-                                keyboardType: TextInputType.number,
+                                controller: controller.passwordController,
+                                keyboardType: TextInputType.text,
                                 maxLengthEnforcement:
                                     MaxLengthEnforcement.enforced,
                                 onSaved: (value) {
-                                  controller.phoneNumberController.text =
-                                      value!;
+                                  controller.passwordController.text = value!;
                                 },
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
@@ -275,9 +195,48 @@ class LoginView extends StatelessWidget {
                                   ),
                                   prefixIcon: Icon(Icons.password_outlined),
                                 ),
-                                inputFormatters: [inputMasker.phoneMask],
                                 validator: (value) {
                                   return Validator.passwordValidator(value!);
+                                },
+                              )),
+
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16, right: 16, bottom: 16),
+                              child: TextFormField(
+                                controller: controller.cpasswordController,
+                                keyboardType: TextInputType.text,
+                                maxLengthEnforcement:
+                                    MaxLengthEnforcement.enforced,
+                                onSaved: (value) {
+                                  controller.cpasswordController.text = value!;
+                                },
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+
+                                  // errorText: widget.errorText,
+                                  labelText: 'Confirm Password',
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    // borderSide: BorderSide.none,
+                                  ),
+                                  prefixIcon: Icon(Icons.password_outlined),
+                                ),
+                                validator: (value) {
+                                  // return Validator.confirmPasswordValidator(
+                                  //     value!,
+                                  //     controller.passwordController.text);
+                                  if (value == null || value.isEmpty) {
+                                    return 'Confirm Password is required';
+                                  }
+                                  if (value !=
+                                      controller.passwordController.text) {
+                                    return 'Passwords do not match';
+                                  }
+                                  return null;
                                 },
                               )),
                           // Obx(
@@ -316,11 +275,11 @@ class LoginView extends StatelessWidget {
                                     controller.isLoading.value = false;
                                     return;
                                   }
-                                  controller.login();
+                                  controller.signup();
                                 },
                                 isLoading: controller.isLoading.value,
-                                iconData: Icons.login_outlined,
-                                label: 'Login',
+                                iconData: Icons.verified_user_outlined,
+                                label: 'Signup',
                                 iconColor: Colors.white,
                                 progressColor: Colors.white,
                                 textColor: Colors.white,
@@ -331,31 +290,10 @@ class LoginView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text("Or"),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: ProgressOutlineButton(
-                                onPressed: () {
-                                  Get.to(() => SignupView());
-                                },
-                                isLoading: controller.isLoading.value,
-                                iconData: Icons.verified_user_outlined,
-                                label: 'Signup',
-                                // iconColor: Colors.white,
-                                // progressColor: Colors.white,
-                                // textColor: Colors.white,
-                                // backgroundColor: controller.isLoading.value
-                                //     ? Colors.teal
-                                //     : Colors.teal,
-                                // borderColor: Colors.teal,
-                              ),
-                            ),
-                          ),
+
                           Text.rich(
                             TextSpan(
-                              text: 'By logging in you accept the',
+                              text: 'By signing up  you accept the',
                               style: TextStyle(
                                 fontSize: 12,
                               ),

@@ -129,7 +129,7 @@ class LoginController extends GetxController {
     Get.back(); // navigate to your wanted page after logout.
   }
 
-  Future signUpLogin() async {
+  Future login() async {
     try {
       // bool result = await InternetConnectionChecker().hasConnection;
       // if (result == false) {
