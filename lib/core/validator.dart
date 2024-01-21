@@ -49,4 +49,12 @@ class Validator {
 
     return null;
   }
+
+  static String? passwordValidator(String value) {
+    if ((value.trim().length < 8 || value.trim().length == 0)) {
+      return "Password should be at least 8 characters";
+    }
+
+    return null;
+  }
 }

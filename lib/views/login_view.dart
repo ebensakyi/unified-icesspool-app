@@ -102,22 +102,22 @@ class LoginView extends StatelessWidget {
                       child: Column(
                         children: [
                           getImageAsset("assets/images/logo_2.png", 200.0),
-                          Container(
-                            child: const Padding(
-                              padding: EdgeInsets.only(top: 5, bottom: 20),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "The sanitation experts",
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          // Container(
+                          //   child: const Padding(
+                          //     padding: EdgeInsets.only(top: 5, bottom: 20),
+                          //     child: Align(
+                          //       alignment: Alignment.center,
+                          //       child: Text(
+                          //         "The sanitation experts",
+                          //         style: TextStyle(
+                          //           color: Colors.black54,
+                          //           fontWeight: FontWeight.normal,
+                          //           fontSize: 15,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
 
                           // Container(
                           //   margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
@@ -275,7 +275,7 @@ class LoginView extends StatelessWidget {
                                 ),
                                 inputFormatters: [inputMasker.phoneMask],
                                 validator: (value) {
-                                  return Validator.phoneValidator(value!);
+                                  return Validator.passwordValidator(value!);
                                 },
                               )),
                           // Obx(
