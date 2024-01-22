@@ -93,9 +93,13 @@ class SignupController extends GetxController {
         var userId = user["id"];
         // var email = user["email"];
         var phoneNumber = user["phoneNumber"];
+        var firstName = user["firstName"];
+        var lastName = user["lastName"];
 
         prefs.setInt('userId', userId);
         prefs.setString('phoneNumber', phoneNumber);
+        prefs.setString('firstName', firstName);
+        prefs.setString('lastName', lastName);
 
         // Get.off(() => HomeView(),
         //     binding: HomeBinding(), arguments: [userId, phoneNumber]);

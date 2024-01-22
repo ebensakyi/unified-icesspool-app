@@ -68,6 +68,7 @@ class TextBox extends StatefulWidget {
   final dynamic validator;
   final dynamic keyboardType;
   final dynamic maxLines;
+  final dynamic initialValue;
   TextBox(
       {Key? key,
       required this.labelText,
@@ -79,7 +80,8 @@ class TextBox extends StatefulWidget {
       this.onSaved,
       this.keyboardType,
       this.validator,
-      this.maxLines})
+      this.maxLines,
+      this.initialValue})
       : super(key: key);
 
   @override
@@ -92,6 +94,7 @@ class _TextBoxState extends State<TextBox> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: TextFormField(
+        initialValue: widget.initialValue,
         controller: widget.controller,
         keyboardType: widget.fieldType,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,

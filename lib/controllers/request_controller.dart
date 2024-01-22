@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/views/payment_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../bindings/payment_binding.dart';
 import '../contants.dart';
@@ -20,13 +21,14 @@ class RequestController extends GetxController {
 
   final community = "".obs;
   final Completer<GoogleMapController> _controller = Completer();
-  final controller = Get.put(HomeController());
+  // final controller = Get.put(HomeController());
   final isLoading = false.obs;
   final initialSize = 0.5.obs;
 
   final Map<MarkerId, Marker> markers = {};
   final pendingTransaction = false.obs;
   final transactionStatus = 0.obs;
+  final userId = 0.obs;
   final transactionId = "".obs;
   final paymentId = "".obs;
   final amount = "".obs;
@@ -38,7 +40,8 @@ class RequestController extends GetxController {
 
   @override
   onInit() async {
-    log("RequestController created");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId.value = prefs.getInt('userId')!;
     await checkAvailableRequest();
 
     if (box.hasData('countdownDuration')) {
@@ -85,13 +88,21 @@ class RequestController extends GetxController {
   //   bearing: 12.8334901395799,
   // );
 
-  void cancelRequest(transactionId) {
-    final data = {"deleted": true};
+  void cancelRequest() {
+    //   final data = {"deleted": true};
 
-    _firestore
-        .collection("transaction")
-        .doc(transactionId)
-        .set(data, SetOptions(merge: true));
+    //   _firestore
+    //       .collection("transaction")
+    //       .doc(transactionId)
+    //       .set(data, SetOptions(merge: true));
+
+    _firestore.collection("transaction").doc(transactionId.value).delete().then(
+          (doc) => () {
+            print("Document deleted");
+            checkAvailableRequest();
+          },
+          onError: (e) => print("Error updating document $e"),
+        );
   }
 
   Future checkAvailableRequest() async {
@@ -99,12 +110,13 @@ class RequestController extends GetxController {
       QuerySnapshot querySnapshot = await _firestore
           .collection(
               'transaction') // Replace 'your_collection' with your actual collection name
-          .where('customerId',
-              isEqualTo: controller.userId.value) // Add your where clause
+          .where('customerId', isEqualTo: userId.value) // Add your where clause
           .where('deleted', isEqualTo: false) // Add your where clause
 
           .limit(1) // Limit the result to 1 document
           .get();
+
+      inspect(querySnapshot);
 
       if (querySnapshot.docs.isNotEmpty) {
         pendingTransaction.value = true;

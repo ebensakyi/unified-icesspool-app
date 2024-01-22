@@ -5,6 +5,7 @@ class ProgressOutlineButton extends StatelessWidget {
   final bool isLoading;
   final IconData iconData;
   final String label;
+  final Color primaryColor;
   // final Color borderColor;
   // final Color backgroundColor;
   // final Color iconColor;
@@ -16,6 +17,7 @@ class ProgressOutlineButton extends StatelessWidget {
     required this.isLoading,
     required this.iconData,
     required this.label,
+    required this.primaryColor,
     // required this.borderColor,
     // required this.backgroundColor,
     // required this.iconColor,
@@ -33,7 +35,7 @@ class ProgressOutlineButton extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
-              side: BorderSide(color: Colors.teal),
+              side: BorderSide(color: primaryColor),
             ),
             backgroundColor: Colors.white),
         child: Row(
@@ -44,15 +46,15 @@ class ProgressOutlineButton extends StatelessWidget {
                     width: 20.0,
                     height: 20.0,
                     child: CircularProgressIndicator(
-                      backgroundColor: Colors.teal,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                      backgroundColor: primaryColor,
+                      valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
                     ),
                   )
-                : Icon(iconData, color: Colors.teal),
+                : Icon(iconData, color: primaryColor),
             SizedBox(width: 8.0),
             Text(
               label,
-              style: TextStyle(color: isLoading ? Colors.teal : Colors.teal),
+              style: TextStyle(color: isLoading ? primaryColor : primaryColor),
             ),
           ],
         ),

@@ -68,6 +68,11 @@ class SignupView extends StatelessWidget {
             appBar: AppBar(
                 forceMaterialTransparency: true,
                 elevation: 0,
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Get.back();
+                    }),
                 title: Text("Sign up")),
             body: Form(
               key: _formKey,

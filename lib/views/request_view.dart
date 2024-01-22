@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:gif/gif.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
 import 'package:icesspool/widgets/progress-button.dart';
+import 'package:icesspool/widgets/progress-outline-button.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
@@ -54,11 +54,11 @@ class RequestView extends StatelessWidget {
                 initialSize: controller.initialSize.value,
                 minimumSize: 0.3),
             child: controller.transactionStatus.value == 1
-                ? searchingForSP()
+                ? searchingForSP(context)
                 : controller.transactionStatus.value == 2
-                    ? spFound()
+                    ? spFound(context)
                     : controller.transactionStatus.value == 2
-                        ? searchingForSP()
+                        ? searchingForSP(context)
                         : servicesView(),
             draggableAreaOptions: DraggableAreaOptions(
               //topBorderRadius: 20,
@@ -113,7 +113,7 @@ class RequestView extends StatelessWidget {
         });
   }
 
-  Widget searchingForSP() {
+  Widget searchingForSP(context) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -154,21 +154,61 @@ class RequestView extends StatelessWidget {
                             Colors.teal), // Color of the progress indicator
                       ),
                     ),
-                    ProgressButton(
-                      onPressed: () {
-                        controller.cancelRequest("controller.transactionId");
-                      },
-                      isLoading: controller.isLoading.value,
-                      iconData: Icons.cancel_outlined,
-                      label: 'Cancel',
-                      iconColor: Colors.white,
-                      progressColor: Colors.white,
-                      textColor: Colors.white,
-                      backgroundColor: controller.isLoading.value
-                          ? Colors.teal
-                          : Colors.teal,
-                      borderColor: Colors.teal,
-                    )
+                    SizedBox(height: 20.0),
+                    ProgressOutlineButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              String contentText =
+                                  "Are you sure you want to cancel this request?";
+                              return StatefulBuilder(
+                                builder: (context, setState) {
+                                  return AlertDialog(
+                                    title: Text("Cancel Request"),
+                                    content: Text(contentText),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text("Cancel"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          controller.cancelRequest();
+                                          Navigator.pop(context);
+                                          // setState(() {
+                                          //   contentText =
+                                          //       "Changed Content of Dialog";
+                                          // });
+                                        },
+                                        child: Text("Ok"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                        isLoading: controller.isLoading.value,
+                        iconData: Icons.cancel_outlined,
+                        label: "Cancel",
+                        primaryColor: Colors.red)
+                    // ProgressButton(
+                    //   onPressed: () {
+                    //     controller.cancelRequest("controller.transactionId");
+                    //   },
+                    //   isLoading: controller.isLoading.value,
+                    //   iconData: Icons.cancel_outlined,
+                    //   label: 'Cancel',
+                    //   iconColor: Colors.white,
+                    //   progressColor: Colors.white,
+                    //   textColor: Colors.white,
+                    //   backgroundColor: controller.isLoading.value
+                    //       ? Colors.teal
+                    //       : Colors.teal,
+                    //   borderColor: Colors.teal,
+                    // )
                   ],
                 ),
               ),
@@ -179,7 +219,7 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  Widget spFound() {
+  Widget spFound(context) {
     //SP found, show details of sp with image make payment
     return Container(
       child: Column(
@@ -262,20 +302,65 @@ class RequestView extends StatelessWidget {
                         )
                       ],
                     ),
-                    ProgressButton(
-                      onPressed: () {
-                        controller.initiateTellerPayment();
-                      },
-                      isLoading: controller.isLoading.value,
-                      iconData: Icons.payment_sharp,
-                      label: 'Pay',
-                      iconColor: Colors.white,
-                      progressColor: Colors.white,
-                      textColor: Colors.white,
-                      backgroundColor: controller.isLoading.value
-                          ? Colors.teal
-                          : Colors.teal,
-                      borderColor: Colors.teal,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ProgressButton(
+                          onPressed: () {
+                            controller.initiateTellerPayment();
+                          },
+                          isLoading: controller.isLoading.value,
+                          iconData: Icons.payment_sharp,
+                          label: 'Pay',
+                          iconColor: Colors.white,
+                          progressColor: Colors.white,
+                          textColor: Colors.white,
+                          backgroundColor: controller.isLoading.value
+                              ? Colors.teal
+                              : Colors.teal,
+                          borderColor: Colors.teal,
+                        ),
+                        ProgressOutlineButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  String contentText =
+                                      "Are you sure you want to cancel this request?";
+                                  return StatefulBuilder(
+                                    builder: (context, setState) {
+                                      return AlertDialog(
+                                        title: Text("Cancel Request"),
+                                        content: Text(contentText),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.cancelRequest();
+                                              Navigator.pop(context);
+                                              // setState(() {
+                                              //   contentText =
+                                              //       "Changed Content of Dialog";
+                                              // });
+                                            },
+                                            child: Text("Ok"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            isLoading: controller.isLoading.value,
+                            iconData: Icons.cancel_outlined,
+                            label: "Cancel",
+                            primaryColor: Colors.red)
+                      ],
                     )
                   ],
                 ),

@@ -253,13 +253,12 @@ class LoginView extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, bottom: 16),
                               child: TextFormField(
-                                controller: controller.phoneNumberController,
+                                controller: controller.passwordController,
                                 keyboardType: TextInputType.number,
                                 maxLengthEnforcement:
                                     MaxLengthEnforcement.enforced,
                                 onSaved: (value) {
-                                  controller.phoneNumberController.text =
-                                      value!;
+                                  controller.passwordController.text = value!;
                                 },
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
@@ -337,6 +336,7 @@ class LoginView extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               child: ProgressOutlineButton(
+                                primaryColor: Colors.teal,
                                 onPressed: () {
                                   Get.to(() => SignupView());
                                 },

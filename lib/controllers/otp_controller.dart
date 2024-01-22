@@ -28,7 +28,7 @@ class OtpController extends GetxController {
   final num3Controller = TextEditingController();
   final num4Controller = TextEditingController();
 
-  var userId, phoneNumber;
+  var userId, phoneNumber, lastName, firstName = "";
 
   @override
   void onInit() {
@@ -48,10 +48,6 @@ class OtpController extends GetxController {
           "${num2Controller.text}" +
           "${num3Controller.text}" +
           "${num4Controller.text}";
-
-      inspect(code);
-      inspect(userId);
-      inspect(phoneNumber);
 
       var uri = Uri.parse(Constants.VALIDATE_ACCOUNT_API_URL);
       var response = await client
@@ -92,10 +88,15 @@ class OtpController extends GetxController {
         var userId = user["id"];
         // var email = user["email"];
         var phoneNumber = user["phoneNumber"];
+        var firstName = user["firstName"];
+        var lastName = user["lastName"];
 
         prefs.setInt('userId', userId);
         prefs.setString('phoneNumber', phoneNumber);
+        prefs.setString('firstName', firstName);
+        prefs.setString('lastName', lastName);
 
+        prefs.setBool('isLogin', true);
         Get.off(() => HomeView(),
             binding: HomeBinding(), arguments: [userId, phoneNumber]);
       }

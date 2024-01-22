@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:icesspool/views/login_view.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,10 +35,12 @@ class HomeController extends GetxController {
   final selectedImagePath = "".obs;
   final selectedImageSize = "".obs;
   final count = 0.obs;
-  final userId = 1.obs;
+  final userId = 0.obs;
   final serviceAreaId = 0.obs;
 
-  final displayName = "".obs;
+  final firstName = "".obs;
+  final lastName = "".obs;
+
   final email = "".obs;
   final photoURL = "".obs;
   final phoneNumber = "".obs;
@@ -48,7 +51,7 @@ class HomeController extends GetxController {
   final latitude = 0.0.obs;
   final accuracy = 0.0.obs;
   final inactiveColor = Colors.grey.obs;
-  var currentIndex = 0.obs;
+  final currentIndex = 0.obs;
   var currentTitle = "Report".obs;
   List<String> titlesList = ["Home", "Report Status", "About"];
 
@@ -71,7 +74,12 @@ class HomeController extends GetxController {
     longitude.value = position.longitude;
     accuracy.value = position.accuracy;
 
-    userId.value = 1; //prefs.getInt('userId') ?? 0;
+    userId.value = prefs.getInt('userId') ?? 0;
+    phoneNumber.value = prefs.getString('phoneNumber')!;
+    firstName.value = prefs.getString('firstName')!;
+    lastName.value = prefs.getString('lastName')!;
+
+    log("HomeController created == > $userId");
 
     await getAddressFromCoords();
 
@@ -80,7 +88,7 @@ class HomeController extends GetxController {
     // placemarks =
     //     await placemarkFromCoordinates(latitude.value, longitude.value);
 
-    displayName.value = prefs.getString('displayName') ?? "";
+    // displayName.value = prefs.getString('displayName') ?? "";
     email.value = prefs.getString('email') ?? "";
     photoURL.value = prefs.getString('photoURL') ?? "";
     phoneNumber.value = prefs.getString('phoneNumber') ?? "";
@@ -97,9 +105,9 @@ class HomeController extends GetxController {
       await getUserServiceArea();
 
       if (index == 1) {
-        isLoading.value = true;
-        // reports.value = await DataServices.getReports(userId);
-        isLoading.value = false;
+        // isLoading.value = true;
+        // // reports.value = await DataServices.getReports(userId);
+        // isLoading.value = false;
       }
 
       update();
@@ -489,5 +497,11 @@ class HomeController extends GetxController {
       // Handle exception
       log('getAvailableServices Exception: $error');
     }
+  }
+
+  Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isLogin", false);
+    Get.to(() => LoginView());
   }
 }

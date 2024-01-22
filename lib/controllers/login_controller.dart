@@ -40,7 +40,6 @@ class LoginController extends GetxController {
     if (disclosureViewed != 1) {
       await showPermissionDisclosure();
     }
-    log("disclosureViewed $disclosureViewed");
   }
 
   loginWithGoogle() async {
@@ -141,7 +140,7 @@ class LoginController extends GetxController {
       //       colorText: MyColors.White);
       // }
 
-      var uri = Uri.parse(Constants.BASE_URL + Constants.LOGIN_API_URL);
+      var uri = Uri.parse(Constants.LOGIN_API_URL);
       var response = await client
           .post(
         uri,
@@ -150,6 +149,7 @@ class LoginController extends GetxController {
         },
         body: jsonEncode(<String, String>{
           'phoneNumber': phoneNumberController.text,
+          'password': passwordController.text,
         }),
       )
           .timeout(
@@ -169,6 +169,9 @@ class LoginController extends GetxController {
       isLoading.value = false;
 
       if (response.statusCode == 200) {
+        passwordController.text = "";
+        phoneNumberController.text = "";
+
         var json = await response.body;
 
         var user = jsonDecode(json);
@@ -178,10 +181,15 @@ class LoginController extends GetxController {
         var userId = user["id"];
         // var email = user["email"];
         var phoneNumber = user["phoneNumber"];
+        var firstName = user["firstName"];
+        var lastName = user["lastName"];
 
         prefs.setInt('userId', userId);
         prefs.setString('phoneNumber', phoneNumber);
+        prefs.setString('firstName', firstName);
+        prefs.setString('lastName', lastName);
 
+        prefs.setBool('isLogin', true);
         Get.off(() => HomeView(),
             binding: HomeBinding(), arguments: [userId, phoneNumber]);
       } else if (response.statusCode == 400) {

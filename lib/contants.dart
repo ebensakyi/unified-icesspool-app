@@ -2,6 +2,9 @@ class Constants {
   //static const String BASE_URL = "https://dashboard.esicapps.org/api";
 
   static const String BASE_URL = "http://10.0.2.2:3000/api";
+
+  static String LOGIN_API_URL = BASE_URL + "/auth/login/mobile";
+
   static const String USER_SERVICE_AREA_API_URL =
       BASE_URL + "/user/user-service-area";
   static const String SERVICES_AVAILABLE_API_URL =
@@ -20,7 +23,6 @@ class Constants {
   // static const String REPORT_TYPE_API_URL = "/v1/primary-data/report-type";
 
   static String SANITATION_API_URL = "/sanitation-report";
-  static String LOGIN_API_URL = BASE_URL + "/sanitation-report/signup-login";
   static String SIGNUP_API_URL = BASE_URL + "/auth/signup";
   static String VALIDATE_ACCOUNT_API_URL = BASE_URL + "/auth/validate-user";
 

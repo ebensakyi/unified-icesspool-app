@@ -41,7 +41,7 @@ dependencies:
   interactive_bottom_sheet: ^1.0.0
   cloud_firestore: ^4.14.0
   line_icons: ^2.0.3
-  gif: ^2.3.0
+  # gif: ^2.3.0
   webview_flutter: ^4.4.4
 
 

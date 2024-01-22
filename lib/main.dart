@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:icesspool/views/home_view.dart';
 // import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/login_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,10 +15,13 @@ import 'bindings/initial_binding.dart';
 import 'firebase_options.dart';
 import 'routes/app_pages.dart';
 
-bool? isViewed;
+// bool? isViewed;
+bool isLogin = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
@@ -35,11 +39,11 @@ void main() async {
   messaging = FirebaseMessaging.instance;
   messaging.getToken().then((value) async {
     // print(value);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("fcmId", value.toString());
   });
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  isViewed = prefs.getBool('onBoard');
+  //isViewed = prefs.getBool('onBoard');
+
+  isLogin = prefs.getBool('isLogin') ?? false;
 
   runApp(const MyApp());
 }
@@ -75,17 +79,15 @@ class MyApp extends StatelessWidget {
         //   // ),
         // ),
         //home: HomePage(),
-        initialRoute: AppPages.INITIAL,
+        // initialRoute: AppPages.INITIAL,
+        initialRoute: isLogin ? AppPages.HOME : AppPages.INITIAL,
+
         getPages: AppPages.routes,
 
-        routes: {"/": (ctx) => LoginView()},
+        // routes: {"/": (ctx) => LoginView()},
 
-        // {
-        //   '/': (context) => isViewed == null
-        //       ? OnboardingView()
-        //       : isViewed == false
-        //           ? OnboardingView()
-        //           : LoginView(),
+        // routes: {
+        //   '/': (context) => !isLogin! ? LoginView() : HomeView(),
         // },
       );
     });
