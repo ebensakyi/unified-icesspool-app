@@ -12,7 +12,7 @@ class Constants {
       BASE_URL + "/user/services-available";
 
   static const String BIODIGESTER_TRANSACTION_API_URL =
-      BASE_URL + "/services/biodigester/transaction";
+      BASE_URL + "/services/biodigester/transaction/make-request";
 
   static const String BIODIGESTER_SERVICES_AVAILABLE_API_URL =
       BASE_URL + "/user/biodigester-services-available";
