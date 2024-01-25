@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/image-view.dart';
 import 'package:line_icons/line_icons.dart';
+
+import 'small-button.dart';
 
 class ServiceWidget extends StatelessWidget {
   final String path;
@@ -23,7 +26,41 @@ class ServiceWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: isAvailable ? onTap : null,
+        onTap: isAvailable
+            ? onTap
+            : () {
+                Get.dialog(
+                  AlertDialog(
+                    title: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          //child: CircularProgressIndicator(),
+                        ),
+                        Text("Report submitted"),
+                      ],
+                    ),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                            "This service is not available at your location at the moment.\nKindly check back later.\n\n Thank you!"),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        SmallButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          showLoading: false,
+                          label: "OK",
+                        )
+                      ],
+                    ),
+                  ),
+                  barrierDismissible: false,
+                );
+              },
         child: Container(
           // color: Colors.indigo,
           decoration: BoxDecoration(

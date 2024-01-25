@@ -79,7 +79,10 @@ class HomeController extends GetxController {
     firstName.value = prefs.getString('firstName')!;
     lastName.value = prefs.getString('lastName')!;
 
-    log("HomeController created == > $userId");
+    log("HomeController created == >userId $userId");
+    log("HomeController created == >phoneNumber $phoneNumber");
+    log("HomeController created == >firstName $firstName");
+    log("HomeController created == >lastName  $lastName");
 
     await getAddressFromCoords();
 
@@ -339,8 +342,8 @@ class HomeController extends GetxController {
   Future<void> getUserServiceArea() async {
     final String apiUrl = Constants.USER_SERVICE_AREA_API_URL;
     final Map<String, String> params = {
-      'lat': '5.6778',
-      'lng': '0.1645678',
+      'lat': latitude.value.toString(),
+      'lng': longitude.value.toString(),
     };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);

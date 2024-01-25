@@ -89,23 +89,35 @@ class RequestController extends GetxController {
   // );
 
   void cancelRequest() {
-    //   final data = {"deleted": true};
+    try {
+      log("cancelRequest==> ${transactionId.value}");
+      //   final data = {"deleted": true};
 
-    //   _firestore
-    //       .collection("transaction")
-    //       .doc(transactionId)
-    //       .set(data, SetOptions(merge: true));
+      //   _firestore
+      //       .collection("transaction")
+      //       .doc(transactionId)
+      //       .set(data, SetOptions(merge: true));
 
-    _firestore.collection("transaction").doc(transactionId.value).delete().then(
-          (doc) => () {
-            print("Document deleted");
-            checkAvailableRequest();
-          },
-          onError: (e) => print("Error updating document $e"),
-        );
+      _firestore
+          .collection("transaction")
+          .doc(transactionId.value)
+          .delete()
+          .then(
+            (doc) => () {
+              log("Document deleted");
+              // update();
+            },
+            onError: (e) => log("Error updating document $e"),
+          );
+      checkAvailableRequest();
+    } catch (e) {
+      log("Error :$e");
+    }
   }
 
   Future checkAvailableRequest() async {
+    log('checkAvailableRequest checkAvailableRequest');
+
     try {
       QuerySnapshot querySnapshot = await _firestore
           .collection(
@@ -116,28 +128,22 @@ class RequestController extends GetxController {
           .limit(1) // Limit the result to 1 document
           .get();
 
-      inspect(querySnapshot);
-
       if (querySnapshot.docs.isNotEmpty) {
         pendingTransaction.value = true;
 
 // If there is at least one document matching the query
         DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
 
-        // Explicitly cast data to Map<String, dynamic>
         Map<String, dynamic>? data =
             documentSnapshot.data() as Map<String, dynamic>?;
 
         if (data != null) {
-          // Access the 'txStatus' field
           int? txStatusCode = data['txStatusCode'];
           String _transactionId = data['transactionId'];
 
           transactionStatus.value = txStatusCode!;
           transactionId.value = _transactionId;
           initialSize.value = 0.75;
-
-          log('txStatusCode $txStatusCode');
 
           return txStatusCode;
         } else {
@@ -156,8 +162,6 @@ class RequestController extends GetxController {
   Future initiateTellerPayment() async {
     paymentId.value = generatePaymentCode(12);
 
-    log("paymentId.value ${paymentId.value}");
-
     String url = Constants.INITIATE_PAYMENT_URL +
         "?transactionId=" +
         transactionId.value +
@@ -165,7 +169,6 @@ class RequestController extends GetxController {
         paymentId.value +
         "&amount=" +
         amount.value.trim();
-    print('initiateTellerPayment: $url');
 
     try {
       http.Response response = await http.get(Uri.parse(url));

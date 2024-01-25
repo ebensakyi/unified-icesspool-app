@@ -24,14 +24,13 @@ class BiodigesterController extends GetxController {
   final controller = Get.put(HomeController());
   final requestController = Get.put(RequestController());
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   final formKey = new GlobalKey<FormState>();
 
   final isLoading = false.obs;
   final isVisble = true.obs;
 
   final transactionId = "".obs;
+
   final selectedRequestType = "".obs;
   final selectedImagePath = "".obs;
   final selectedImageSize = "".obs;
@@ -254,6 +253,9 @@ class BiodigesterController extends GetxController {
         print('Post request successful! Response: ${response.body}');
         isLoading.value = false;
         requestController.pendingTransaction.value = true;
+
+        requestController.transactionStatus.value = 1;
+
         Get.back();
       } else {
         isLoading.value = false;
