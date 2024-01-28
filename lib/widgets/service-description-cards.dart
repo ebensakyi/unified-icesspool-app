@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'circular-imageview.dart';
+
 class ServiceDescription extends StatelessWidget {
   final String name;
   final String description;
+  final CircularImageView circleImageView;
 
-  ServiceDescription({required this.name, required this.description});
+  ServiceDescription(
+      {required this.name,
+      required this.description,
+      required this.circleImageView});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,7 @@ class ServiceDescription extends StatelessWidget {
           ListTile(
               leading: CircleAvatar(
                 backgroundColor: Colors.blue, // Change the color as needed
-                child: Icon(Icons.person),
+                child: circleImageView,
               ),
               title: Text(
                 name,
@@ -35,7 +41,7 @@ class ServiceDescription extends StatelessWidget {
                 // Handle button press
                 print('Button pressed for $name');
               },
-              child: Text('Learn more'),
+              child: Text('Read more'),
             ),
           ),
         ],

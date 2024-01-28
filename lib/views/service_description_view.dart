@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:icesspool/widgets/circular-imageview.dart';
 import 'package:intl/intl.dart';
 import 'package:icesspool/bindings/single_report_binding.dart';
 import 'package:icesspool/contants.dart';
@@ -20,29 +21,34 @@ class ServiceDescriptionView extends GetView<HomeController> {
   final controller = Get.put(HomeController());
   final List<ListItem> items = [
     ListItem(
-      name: 'Biodigester emptying',
-      description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    ),
+        name: 'Biodigester emptying',
+        description:
+            'A biodigester is a waste treatment technology that decomposes organic matter, primarily from human waste, through anaerobic digestion. The process generates biogas and a nutrient-rich effluent that can be used as fertilizer. ',
+        imageUrl: ""),
     ListItem(
       name: 'Drainfield servicing',
       description:
-          'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+          'A drainfield, also known as a leach field or absorption field, is a crucial component of a septic system. It is responsible for receiving and treating the liquid effluent from the septic tank before it is absorbed into the soil. ',
     ),
     ListItem(
       name: 'Soakaway servicing',
       description:
-          'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+          'A soakaway, also known as a soak pit, is an underground structure designed to receive and disperse surface water or wastewater into the surrounding soil. It is commonly used for stormwater management, septic systems, or wastewater from various sources.',
     ),
     ListItem(
-      name: 'Person 3',
+        name: 'Biodigester Only',
+        description:
+            'A biodigester is a waste treatment technology that employs anaerobic digestion to break down organic matter, primarily from human waste, animal manure, or other organic materials. ',
+        imageUrl: "assets/images/biodigester_only.png"),
+    ListItem(
+      name: 'Biodigester With Seat',
       description:
-          'Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          'A biodigester with a seat is a sanitation technology that integrates the functions of a biodigester with a toilet seat. This combination allows for the treatment of human waste through anaerobic digestion while providing a convenient and hygienic toilet facility. ',
     ),
     ListItem(
-      name: 'Person 4',
+      name: 'Standalone Toilet',
       description:
-          'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          'A standalone toilet, often referred to as a "freestanding toilet" or simply a "toilet," is a fixture used for the disposal of human waste. It is typically found in bathrooms or restrooms and is a crucial component of sanitation infrastructure in residential, commercial, and public spaces.',
     ),
   ];
 
@@ -59,8 +65,9 @@ class ServiceDescriptionView extends GetView<HomeController> {
           itemBuilder: (context, index) {
             return ServiceDescription(
               name: items[index].name,
-              description:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+              description: items[index].description,
+              circleImageView:
+                  CircularImageView(imageUrl: "assets/images/logo_2.png"),
             );
           },
         ));
@@ -70,6 +77,7 @@ class ServiceDescriptionView extends GetView<HomeController> {
 class ListItem {
   final String name;
   final String description;
+  final String? imageUrl;
 
-  ListItem({required this.name, required this.description});
+  ListItem({this.imageUrl, required this.name, required this.description});
 }

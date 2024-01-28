@@ -13,7 +13,7 @@ class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Account")),
+      // appBar: AppBar(title: Text("Account")),
       body: ListView(
         children: [
           // getImageAsset("assets/images/logo.png", 105.0),
