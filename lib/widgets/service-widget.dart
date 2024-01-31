@@ -37,7 +37,7 @@ class ServiceWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           //child: CircularProgressIndicator(),
                         ),
-                        Text("Report submitted"),
+                        Text("Service unavailable"),
                       ],
                     ),
                     content: Column(

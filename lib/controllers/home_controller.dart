@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/views/login_view.dart';
@@ -65,6 +66,7 @@ class HomeController extends GetxController {
   void onInit() async {
     log("HomeController created");
 
+    await getCurrentLocation();
     await getUserServiceArea();
     final prefs = await SharedPreferences.getInstance();
 
@@ -151,6 +153,19 @@ class HomeController extends GetxController {
     await prefs.remove('photoURL');
   }
 
+  getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      latitude.value = position.latitude;
+      longitude.value = position.longitude;
+
+      inspect(position);
+    } catch (e) {
+      print(e);
+    }
+  }
   // void getDistricts() async {
   //   try {
   //     districts.value = await DataServices.getDistricts();
@@ -297,47 +312,6 @@ class HomeController extends GetxController {
 
     return address.value;
   }
-  // void sendReport1() async {
-  //   try {
-  //     // var client = http.Client();
-  //     var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
-
-  //     var request = http.MultipartRequest('POST', uri);
-  //     request.fields['fullName'] = displayName.value.toString();
-  //     request.fields['email'] = email.value.toString();
-  //     request.fields['district'] = selectedDistrict.value.toString();
-  //     request.fields['description'] = descriptionController.text.toString();
-  //     request.fields['reportType'] = selectedReportType.value.toString();
-  //     request.fields['phoneNumber'] = phoneNumber.value.toString();
-  //     request.fields['latitude'] = latitude.value.toString();
-  //     request.fields['longitude'] = longitude.value.toString();
-
-  //     request.files.add(http.MultipartFile.fromBytes(
-  //         'picture', File(selectedImagePath.toString()).readAsBytesSync(),
-  //         filename: "file!.path"));
-
-  //     var res = await request.send();
-
-  //     // var response = await client.post(
-  //     //   uri,
-  //     //   headers: <String, String>{
-  //     //     'Content-Type': 'application/json; charset=UTF-8',
-  //     //   },
-  //     //   body: jsonEncode(<String, String>{
-  //     //     'fullName': displayName.value,
-  //     //     'email': email.value.toString(),
-  //     //     'district': selectedDistrict.value.toString(),
-  //     //     'description': description.value.toString(),
-  //     //     'reportType': selectedReportType.value.toString(),
-  //     //     'phoneNumber': phoneNumber.value.toString(),
-  //     //     'latitude': latitude.value.toString(),
-  //     //     'longitude': longitude.value.toString(),
-  //     //   }),
-  //     // );
-
-  //     // if (response.statusCode == 200) {}
-  //   } catch (e) {}
-  // }
 
   Future<void> getUserServiceArea() async {
     final String apiUrl = Constants.USER_SERVICE_AREA_API_URL;
@@ -478,7 +452,7 @@ class HomeController extends GetxController {
   Future<void> getAvailableServices(serviceAreaId) async {
     final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
     final Map<String, String> params = {
-      'serviceAreaId': serviceAreaId.toString()
+      'serviceAreaId': '1' // serviceAreaId.toString()
     };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);

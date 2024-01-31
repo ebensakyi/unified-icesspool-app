@@ -58,21 +58,19 @@ class SubServiceWidget2 extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              title,
-                              style: TextStyle(color: Colors.black87),
-                            ),
-                            SizedBox(width: 24.0),
-                            Visibility(
-                              visible: isSelected,
-                              child: Icon(Icons.check_box_outlined),
-                            )
-                          ],
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                          SizedBox(width: 24.0),
+                          Visibility(
+                            visible: isSelected,
+                            child: Icon(Icons.check_box_outlined),
+                          )
+                        ],
                       ),
                     ),
                     Padding(

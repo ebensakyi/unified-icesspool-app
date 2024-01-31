@@ -20,6 +20,40 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // appBar: AppBar(
+        //   title: Obx(
+        //     () => Text(controller.currentTitle.value),
+        //   ),
+        //   centerTitle: true,
+        //   backgroundColor: MyColors.MainColor.asMaterialColor.shade900,
+        //   actions: [
+        //     PopupMenuButton(
+        //         // add icon, by default "3 dot" icon
+        //         // icon: Icon(Icons.book)
+        //         itemBuilder: (context) {
+        //       return [
+        //         PopupMenuItem<int>(
+        //           value: 0,
+        //           child: Text("Share"),
+        //         ),
+        //         PopupMenuItem<int>(
+        //           value: 1,
+        //           child: Text("Logout"),
+        //         ),
+        //         // PopupMenuItem<int>(
+        //         //   value: 2,
+        //         //   child: Text("About"),
+        //         // ),
+        //       ];
+        //     }, onSelected: (value) {
+        //       if (value == 0) {
+        //         controller.shareApplication();
+        //       } else if (value == 1) {
+        //         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        //       }
+        //     }),
+        //   ],
+        // ),
         body: getBody(),
         bottomNavigationBar: Obx(() {
           return CustomAnimatedBottomBar(

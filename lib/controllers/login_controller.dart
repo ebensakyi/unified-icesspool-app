@@ -130,15 +130,16 @@ class LoginController extends GetxController {
 
   Future login() async {
     try {
-      // bool result = await InternetConnectionChecker().hasConnection;
-      // if (result == false) {
-      //   isLoading.value = false;
-      //   return Get.snackbar(
-      //       "Internet Error", "Poor internet access. Please try again later...",
-      //       snackPosition: SnackPosition.TOP,
-      //       backgroundColor: MyColors.Red,
-      //       colorText: MyColors.White);
-      // }
+      bool result = await InternetConnectionChecker().hasConnection;
+      if (result == false) {
+        isLoading.value = false;
+        return Get.snackbar(
+            "Internet Error", "Poor internet access. Please try again later...",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: MyColors.Red,
+            colorText: Colors.white);
+      }
+      isLoading.value = true;
 
       var uri = Uri.parse(Constants.LOGIN_API_URL);
       var response = await client

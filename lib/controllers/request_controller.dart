@@ -18,6 +18,7 @@ import 'home_controller.dart';
 
 class RequestController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final RxList<Map<String, dynamic>> documents = <Map<String, dynamic>>[].obs;
 
   final community = "".obs;
   final Completer<GoogleMapController> _controller = Completer();
@@ -26,12 +27,12 @@ class RequestController extends GetxController {
   final initialSize = 0.5.obs;
 
   final Map<MarkerId, Marker> markers = {};
-  final pendingTransaction = false.obs;
   final transactionStatus = 0.obs;
   final userId = 0.obs;
   final transactionId = "".obs;
   final paymentId = "".obs;
   final amount = "".obs;
+  final isPendingTrxnAvailable = false.obs;
   Rx<Duration> countdownDuration =
       Duration(hours: 6).obs; // Replace with your desired end hour
 
@@ -52,6 +53,10 @@ class RequestController extends GetxController {
     startCountdown();
     // community.value = Get.arguments['community'];
     amount.value = "0.10";
+
+    inspect(transactionId.string);
+
+    await checkUserTransactionStates();
 
     super.onInit();
   }
@@ -77,6 +82,8 @@ class RequestController extends GetxController {
   }
 
   Future<void> onMapCreated(GoogleMapController controller) async {
+    log("Map is created");
+
     _controller.complete(controller);
     await addMarker(); // Add the initial marker when the map is created
   }
@@ -88,15 +95,15 @@ class RequestController extends GetxController {
   //   bearing: 12.8334901395799,
   // );
 
-  void cancelRequest() {
+  Future<void> cancelRequest() async {
     try {
       log("cancelRequest==> ${transactionId.value}");
-      //   final data = {"deleted": true};
+      final data = {"deleted": true};
 
-      //   _firestore
-      //       .collection("transaction")
-      //       .doc(transactionId)
-      //       .set(data, SetOptions(merge: true));
+      // _firestore
+      //     .collection("transaction")
+      //     .doc(transactionId.value)
+      //     .set(data, SetOptions(merge: true));
 
       _firestore
           .collection("transaction")
@@ -105,13 +112,77 @@ class RequestController extends GetxController {
           .then(
             (doc) => () {
               log("Document deleted");
+
+              // checkAvailableRequest();
+              // transactionStatus.value = 0;
               // update();
             },
             onError: (e) => log("Error updating document $e"),
           );
-      checkAvailableRequest();
+
+      transactionStatus.value = 0;
     } catch (e) {
       log("Error :$e");
+    }
+  }
+
+  Future checkUserTransactionStates() async {
+    log('checkAvailableRequest checkAvailableRequest');
+
+    try {
+      _firestore
+          .collection('transaction')
+          .where('customerId', isEqualTo: userId.value)
+          .where('deleted', isEqualTo: false)
+          .snapshots()
+          .listen((snapshot) {
+        // documents.assignAll(snapshot.docs);
+        documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
+
+        var data = documents[0];
+        transactionStatus.value = data["txStatusCode"]!;
+
+        inspect(data);
+      });
+
+//       QuerySnapshot querySnapshot = await _firestore
+//           .collection('transaction')
+//           .where('customerId', isEqualTo: userId.value) // Add your where clause
+//           .where('deleted', isEqualTo: false) // Add your where clause
+
+//           .limit(1) // Limit the result to 1 document
+//           .snapshots()
+//           .listen();
+//       inspect("data=====>");
+
+//       if (querySnapshot.docs.isNotEmpty) {
+//         isPendingTrxnAvailable.value = true;
+
+// // If there is at least one document matching the query
+//         DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+
+//         Map<String, dynamic>? data =
+//             documentSnapshot.data() as Map<String, dynamic>?;
+
+//         if (data != null) {
+//           int? txStatusCode = data['txStatusCode'];
+//           String _transactionId = data['transactionId'];
+
+//           transactionStatus.value = txStatusCode!;
+//           transactionId.value = _transactionId;
+//           initialSize.value = 0.75;
+
+//           return txStatusCode;
+//         } else {
+//           // Handle the case where data is null
+//           return null;
+//         }
+//       } else {
+//         // If no documents match the query
+//         return null;
+//       }
+    } catch (e) {
+      log(e.toString());
     }
   }
 
@@ -120,8 +191,7 @@ class RequestController extends GetxController {
 
     try {
       QuerySnapshot querySnapshot = await _firestore
-          .collection(
-              'transaction') // Replace 'your_collection' with your actual collection name
+          .collection('transaction')
           .where('customerId', isEqualTo: userId.value) // Add your where clause
           .where('deleted', isEqualTo: false) // Add your where clause
 
@@ -129,7 +199,7 @@ class RequestController extends GetxController {
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
-        pendingTransaction.value = true;
+        isPendingTrxnAvailable.value = true;
 
 // If there is at least one document matching the query
         DocumentSnapshot documentSnapshot = querySnapshot.docs.first;

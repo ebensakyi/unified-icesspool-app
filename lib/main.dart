@@ -15,9 +15,28 @@ import 'bindings/initial_binding.dart';
 import 'firebase_options.dart';
 import 'routes/app_pages.dart';
 
+bool get isInDebugMode {
+  bool inDebugMode = false;
+  assert(inDebugMode = true);
+  return inDebugMode;
+}
+
 // bool? isViewed;
 bool isLogin = false;
 void main() async {
+  // FlutterError.onError = (FlutterErrorDetails details) {
+  //   // Log the error details
+  //   print('Caught an error: ${details.exception}\n${details.stack}');
+
+  //   // Optionally, rethrow the exception for debugging in debug mode
+  //   if (isInDebugMode) {
+  //     FlutterError.dumpErrorToConsole(details);
+  //   } else {
+  //     // Handle the error in your release build, e.g., report to analytics
+  //     // or show a user-friendly error message
+  //     // handleReleaseError(details);
+  //   }
+  // };
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
 

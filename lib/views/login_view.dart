@@ -253,6 +253,7 @@ class LoginView extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, bottom: 16),
                               child: TextFormField(
+                                obscureText: true,
                                 controller: controller.passwordController,
                                 keyboardType: TextInputType.number,
                                 maxLengthEnforcement:
@@ -308,7 +309,7 @@ class LoginView extends StatelessWidget {
                               width: double.infinity,
                               child: ProgressButton(
                                 onPressed: () {
-                                  controller.isLoading.value = true;
+                                  // controller.isLoading.value = true;
                                   final isValid =
                                       _formKey.currentState!.validate();
                                   if (!isValid) {

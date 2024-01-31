@@ -47,25 +47,6 @@ class BioDigesterMainView extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       controller.currentStep == 0
-                          // ? Padding(
-                          //     padding: const EdgeInsets.all(8.0),
-                          //     child: Container(
-                          //       decoration: BoxDecoration(
-                          //           color: MyColors.MainColor,
-                          //           borderRadius: BorderRadius.circular(6)),
-                          //       height: 35,
-                          //       child: TextButton(
-                          //         onPressed: () {
-                          //           if (formKey1.currentState!.validate())
-                          //             controller.continued();
-                          //         },
-                          //         child: Text(
-                          //           'Continue',
-                          //           style: TextStyle(color: Colors.white),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   )
                           ? ProgressTextButton(
                               onPressed: () {
                                 if (formKey1.currentState!.validate())
@@ -81,25 +62,6 @@ class BioDigesterMainView extends StatelessWidget {
                                   isLoading: false,
                                   label: 'Continue',
                                 )
-                              // ? Padding(
-                              //     padding: const EdgeInsets.all(10.0),
-                              //     child: Container(
-                              //       decoration: BoxDecoration(
-                              //           color: MyColors.MainColor,
-                              //           borderRadius: BorderRadius.circular(6)),
-                              //       height: 35,
-                              //       child: TextButton(
-                              //         onPressed: () {
-                              //           if (formKey2.currentState!.validate())
-                              //             controller.continued();
-                              //         },
-                              //         child: Text(
-                              //           'Continue',
-                              //           style: TextStyle(color: Colors.white),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   )
                               : Obx(() => ProgressButton(
                                     onPressed: () {
                                       controller.sendRequest();
@@ -131,22 +93,6 @@ class BioDigesterMainView extends StatelessWidget {
                         backgroundColor: Colors.teal,
                         borderColor: Colors.teal,
                       )
-                      // Container(
-                      //   decoration: BoxDecoration(
-                      //       // color: Colors.indigo,
-                      //       border: Border.all(color: MyColors.SecondaryColor),
-                      //       borderRadius: BorderRadius.circular(6)),
-                      //   height: 34,
-                      //   child: TextButton(
-                      //     onPressed: () {
-                      //       controller.cancel();
-                      //     },
-                      //     child: const Text(
-                      //       'Cancel',
-                      //       style: TextStyle(color: MyColors.SecondaryColor),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 );
@@ -158,47 +104,31 @@ class BioDigesterMainView extends StatelessWidget {
                   content: Form(
                     key: formKey1,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Column(
-                      children: <Widget>[
-                        Obx(
-                          () => Dropdown(
-                            onChangedCallback: (newValue) {
-                              controller.selectedRequestType.value = newValue;
-                            },
-                            value: controller.returnValue(
-                                controller.selectedRequestType.value),
-                            initialValue: controller.returnValue(
-                                controller.selectedRequestType.value),
-                            dropdownItems: [
-                              DropdownMenuItem(
-                                child: Text("Biodigester Maintenance"),
-                                value: "1",
-                              ),
-                              DropdownMenuItem(
-                                child: Text("New Toilet Construction"),
-                                value: "2",
-                              ),
-                            ],
-                            hintText: '',
-                            labelText: "What is your need? *",
-                            validator: (value) {
-                              return Validator.dropdownValidator(value);
-                            },
+                    child: Obx(
+                      () => Dropdown(
+                        onChangedCallback: (newValue) {
+                          controller.selectedRequestType.value = newValue;
+                        },
+                        value: controller
+                            .returnValue(controller.selectedRequestType.value),
+                        initialValue: controller
+                            .returnValue(controller.selectedRequestType.value),
+                        dropdownItems: [
+                          DropdownMenuItem(
+                            child: Text("Biodigester Maintenance"),
+                            value: "1",
                           ),
-                        ),
-                        // Obx(() => Visibility(
-                        //       visible: controller.selectedReportType == "1",
-                        //       child: Padding(
-                        //         padding:
-                        //             const EdgeInsets.only(left: 16, right: 16),
-                        //         child: Text(
-                        //           "${controller.address.value}",
-                        //           style: TextStyle(
-                        //               fontSize: 10, color: Colors.amber.shade700),
-                        //         ),
-                        //       ),
-                        //     )),
-                      ],
+                          DropdownMenuItem(
+                            child: Text("New Toilet Construction"),
+                            value: "2",
+                          ),
+                        ],
+                        hintText: '',
+                        labelText: "What is your need? *",
+                        validator: (value) {
+                          return Validator.dropdownValidator(value);
+                        },
+                      ),
                     ),
                   ),
                   isActive: controller.currentStep >= 0,
@@ -214,51 +144,15 @@ class BioDigesterMainView extends StatelessWidget {
                   content: Form(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     key: formKey2,
-                    child: Column(
-                      children: <Widget>[
-                        controller.selectedRequestType.value == "1"
-                            ? biodigesterServicing()
-                            : biodigesterConstruction()
-                        // Obx(
-                        //   () => Dropdown(
-                        //     onChangedCallback: (newValue) {
-                        //       controller.selectedReportCategory.value = newValue;
-                        //     },
-                        //     value: controller
-                        //         .returnValue(controller.selectedReportCategory.value),
-                        //     initialValue: controller
-                        //         .returnValue(controller.selectedReportCategory.value),
-                        //     dropdownItems: controller.reportCategories.map((var obj) {
-                        //       return DropdownMenuItem<String>(
-                        //         child: Text(obj.name.toString()),
-                        //         value: obj.id.toString(),
-                        //       );
-                        //     }).toList(),
-                        //     hintText: '',
-                        //     labelText: "Select category of report *",
-                        //     validator: (value) {
-                        //       return Validator.dropdownValidator(value);
-                        //     },
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                    child: controller.selectedRequestType.value == "1"
+                        ? biodigesterServicing()
+                        : biodigesterConstruction(),
                   ),
                   isActive: controller.currentStep >= 0,
                   state: controller.currentStep >= 1
                       ? StepState.complete
                       : StepState.disabled,
                 ),
-                // Step(
-                //   title: new Text('Item & other detais'),
-                //   content: Column(
-                //     children: <Widget>[
-
-                //     ],
-                //   ),
-                //   isActive: _currentStep >= 0,
-                //   state: _currentStep >= 2 ? StepState.complete : StepState.disabled,
-                // ),
                 Step(
                   title: new Text('Submit'),
                   subtitle: Text('Submit request'),
@@ -324,9 +218,6 @@ class BioDigesterMainView extends StatelessWidget {
     final int index1 = controller.getBiodigesterServiceIndex(1);
     final int index2 = controller.getBiodigesterServiceIndex(2);
     final int index3 = controller.getBiodigesterServiceIndex(3);
-    final int index4 = controller.getBiodigesterServiceIndex(4);
-    final int index5 = controller.getBiodigesterServiceIndex(5);
-    final int index6 = controller.getBiodigesterServiceIndex(6);
 
     // inspect(controller.biodigesterServicesAvailable.value);
 
@@ -507,28 +398,4 @@ class BioDigesterMainView extends StatelessWidget {
           : SizedBox.shrink(),
     ]);
   }
-
-//   Widget biodigesterConstruction() {
-//     List<Widget> wd = [];
-//     for (BiodigesterPricing obj in controller.biodigesterPricings) {
-//       wd.add(
-//         SubServiceWidget2(
-//           activeBgColor: MyColors.DarkBlue,
-//           inactiveBgColor: MyColors.SubServiceColor2,
-//           activeTextColor: Colors.white,
-//           isAvailable: false,
-//           path: "assets/images/biodigester.png",
-//           size: 32,
-//           title: obj.name,
-//           subTitle: obj.shortDesc.toString(),
-//           onPressed: () {
-//             print(obj.cost.toString());
-//           },
-//           price: "GHS " + obj.cost.toString(),
-//         ),
-//       );
-//     }
-
-//     return Column(children: wd);
-//   }
 }

@@ -252,9 +252,10 @@ class BiodigesterController extends GetxController {
       if (response.statusCode == 200) {
         print('Post request successful! Response: ${response.body}');
         isLoading.value = false;
-        requestController.pendingTransaction.value = true;
+        requestController.isPendingTrxnAvailable.value = true;
 
         requestController.transactionStatus.value = 1;
+        requestController.transactionId.value = transactionId;
 
         Get.back();
       } else {
@@ -345,7 +346,7 @@ class BiodigesterController extends GetxController {
   Future<void> getAvailableBiodigesterServices() async {
     final String apiUrl = Constants.BIODIGESTER_SERVICES_AVAILABLE_API_URL;
     final Map<String, String> params = {
-      'serviceAreaId': '1',
+      'serviceAreaId': controller.serviceAreaId.value.toString(),
     };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
@@ -359,6 +360,7 @@ class BiodigesterController extends GetxController {
 
         biodigesterServicesAvailable.value = data;
 
+        inspect(biodigesterServicesAvailable.value);
         // digesterEmptyingAvailable.value = data.contains(1);
         // soakawayServicingAvailable.value = data.contains(2);
         // drainfieldServicingAvailable.value = data.contains(3);
@@ -392,6 +394,8 @@ class BiodigesterController extends GetxController {
         // Successful response
         //final data = json.decode(response.body);
         List data = json.decode(response.body);
+
+        inspect("getBiodigesterPricing===>$data");
         List<Map<String, dynamic>> typedData =
             List<Map<String, dynamic>>.from(data);
 
