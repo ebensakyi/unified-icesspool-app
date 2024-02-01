@@ -29,7 +29,7 @@ class BiodigesterPricing {
   int id;
   int biodigesterServiceId;
   String name;
-  double cost;
+  String cost;
   String type;
   String? shortDesc;
   String? fullDesc;

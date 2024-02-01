@@ -14,7 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../bindings/payment_binding.dart';
 import '../contants.dart';
 import '../core/random.dart';
-import 'home_controller.dart';
 
 class RequestController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -24,7 +23,7 @@ class RequestController extends GetxController {
   final Completer<GoogleMapController> _controller = Completer();
   // final controller = Get.put(HomeController());
   final isLoading = false.obs;
-  final initialSize = 0.5.obs;
+  final initialSize = 0.56.obs;
 
   final Map<MarkerId, Marker> markers = {};
   final transactionStatus = 0.obs;
@@ -44,7 +43,6 @@ class RequestController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userId.value = prefs.getInt('userId')!;
     await checkAvailableRequest();
-
     if (box.hasData('countdownDuration')) {
       countdownDuration.value =
           Duration(seconds: box.read('countdownDuration'));
@@ -52,7 +50,7 @@ class RequestController extends GetxController {
 
     startCountdown();
     // community.value = Get.arguments['community'];
-    amount.value = "0.10";
+    //amount.value = "0.10";
 
     inspect(transactionId.string);
 
@@ -97,8 +95,7 @@ class RequestController extends GetxController {
 
   Future<void> cancelRequest() async {
     try {
-      log("cancelRequest==> ${transactionId.value}");
-      final data = {"deleted": true};
+      //final data = {"deleted": true};
 
       // _firestore
       //     .collection("transaction")
@@ -121,6 +118,7 @@ class RequestController extends GetxController {
           );
 
       transactionStatus.value = 0;
+      box.remove('countdownDuration');
     } catch (e) {
       log("Error :$e");
     }
@@ -141,6 +139,7 @@ class RequestController extends GetxController {
 
         var data = documents[0];
         transactionStatus.value = data["txStatusCode"]!;
+        amount.value = data["amount"]!;
 
         inspect(data);
       });
@@ -187,8 +186,6 @@ class RequestController extends GetxController {
   }
 
   Future checkAvailableRequest() async {
-    log('checkAvailableRequest checkAvailableRequest');
-
     try {
       QuerySnapshot querySnapshot = await _firestore
           .collection('transaction')

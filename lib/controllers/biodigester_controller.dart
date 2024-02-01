@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -234,8 +232,8 @@ class BiodigesterController extends GetxController {
         'requestDetails': selectedServices,
         'transactionId': transactionId,
         'userId': controller.userId.value,
-        'lng': controller.longitude.value,
-        'lat': controller.latitude.value,
+        'customerLng': controller.longitude.value,
+        'customerLat': controller.latitude.value,
         'accuracy': controller.accuracy.value,
         'totalCost': calculateTotalCost(selectedServices),
         'serviceAreaId': controller.serviceAreaId.value
@@ -248,14 +246,19 @@ class BiodigesterController extends GetxController {
         },
         body: jsonEncode(data),
       );
+      var json = await response.body;
 
       if (response.statusCode == 200) {
-        print('Post request successful! Response: ${response.body}');
+        print('Post request successful! Response: ${json}');
         isLoading.value = false;
         requestController.isPendingTrxnAvailable.value = true;
 
         requestController.transactionStatus.value = 1;
         requestController.transactionId.value = transactionId;
+        var response = jsonDecode(json);
+
+        var cost = response["cost"];
+        requestController.amount.value = cost;
 
         Get.back();
       } else {
@@ -360,7 +363,6 @@ class BiodigesterController extends GetxController {
 
         biodigesterServicesAvailable.value = data;
 
-        inspect(biodigesterServicesAvailable.value);
         // digesterEmptyingAvailable.value = data.contains(1);
         // soakawayServicingAvailable.value = data.contains(2);
         // drainfieldServicingAvailable.value = data.contains(3);
@@ -445,7 +447,7 @@ class BiodigesterController extends GetxController {
               shortDesc: item['shortDesc'],
               fullDesc: item['fullDesc'],
               type: item['type'],
-              cost: item['cost'].toDouble(),
+              cost: item['cost'],
             ))
         .toList();
 

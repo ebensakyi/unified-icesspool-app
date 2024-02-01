@@ -50,14 +50,20 @@ class BioDigesterMainView extends StatelessWidget {
                           ? ProgressTextButton(
                               onPressed: () {
                                 if (formKey1.currentState!.validate())
-                                  controller.continued();
+                                  controller.getBiodigesterPricing();
+                                controller.continued();
                               },
                               isLoading: false,
                               label: 'Continue')
                           : controller.currentStep == 1
                               ? ProgressTextButton(
                                   onPressed: () {
-                                    controller.continued();
+                                    if (controller.selectedServices.length ==
+                                        0) {
+                                      return;
+                                    }
+                                    if (formKey2.currentState!.validate())
+                                      controller.continued();
                                   },
                                   isLoading: false,
                                   label: 'Continue',
@@ -156,46 +162,49 @@ class BioDigesterMainView extends StatelessWidget {
                 Step(
                   title: new Text('Submit'),
                   subtitle: Text('Submit request'),
-                  content: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Invoice for Selected Services',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      // Use ListView.builder to loop through myArray and display in a Column
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: controller.selectedServices.length,
-                        itemBuilder: (context, index) {
-                          final item = controller.selectedServices[index];
-                          return Column(
-                            children: [
-                              ListTile(
-                                title: Text('${item["name"]}'),
-                                subtitle: Text('GHS ${item["unitCost"]}'),
-                              ),
-                              Divider(
-                                height: 1,
-                                color: Colors.grey,
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          "Total Bill: GHS ${controller.calculateTotalCost(controller.selectedServices)}",
+                  content: Form(
+                    key: formKey3,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Invoice for Selected Services',
                           style: TextStyle(
-                            fontSize: 16,
-                          ),
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                      )
-                    ],
+                        SizedBox(height: 10),
+                        // Use ListView.builder to loop through myArray and display in a Column
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.selectedServices.length,
+                          itemBuilder: (context, index) {
+                            final item = controller.selectedServices[index];
+                            return Column(
+                              children: [
+                                ListTile(
+                                  title: Text('${item["name"]}'),
+                                  subtitle: Text('GHS ${item["unitCost"]}'),
+                                ),
+                                Divider(
+                                  height: 1,
+                                  color: Colors.grey,
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            "Total Bill: GHS ${controller.calculateTotalCost(controller.selectedServices)}",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   isActive: controller.currentStep >= 0,
                   state: controller.currentStep >= 2

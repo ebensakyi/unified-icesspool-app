@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
-import '../../../routes/app_pages.dart';
 
 class AuthPageController extends GetxController {
   final surnameController = TextEditingController();
@@ -86,33 +82,33 @@ class AuthPageController extends GetxController {
   void togglePasswordView() => isHidden.value = !isHidden.value;
 
   void handleRegisterRegularUser() {
-    var surname = surnameController.text.toString();
-    var otherNames = otherNamesController.text;
-    var phone = phoneNumberController.text;
-    var email = emailController.text;
-    var password = passwordController.text;
+    // var surname = surnameController.text.toString();
+    // var otherNames = otherNamesController.text;
+    // var phone = phoneNumberController.text;
+    // var email = emailController.text;
+    // var password = passwordController.text;
 
     // RegistrationProvider().registerRegularUser(
     //     surname, otherNames, phone, email, password, selectedRegion.value);
   }
 
   void handleRegisterServiceProvider() {
-    var surname = surnameController.text.toString();
-    var otherNames = otherNamesController.text;
-    var phone = phoneNumberController.text;
-    var email = emailController.text;
-    var password = passwordController.text;
-    var company = companyController.text;
+    // var surname = surnameController.text.toString();
+    // var otherNames = otherNamesController.text;
+    // var phone = phoneNumberController.text;
+    // var email = emailController.text;
+    // var password = passwordController.text;
+    // var company = companyController.text;
 
     // RegistrationProvider().registerServiceProvider(surname, otherNames, phone,
     //     email, password, company, selectedRegion.value);
   }
 
   verifyOtp() {
-    var code = "${num1Controller.text}" +
-        "${num2Controller.text}" +
-        "${num3Controller.text}" +
-        "${num4Controller.text}";
+    // var code = "${num1Controller.text}" +
+    //     "${num2Controller.text}" +
+    //     "${num3Controller.text}" +
+    //     "${num4Controller.text}";
     // var response =
     //     OtpProvider().verifyOtpProvider(phoneNumberController.text, code);
     // return response;
