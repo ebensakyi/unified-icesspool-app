@@ -58,7 +58,8 @@ class RequestView extends StatelessWidget {
             servicesView(),
             searchingForSP(context),
             spFound(context),
-            orderInPlace(context)
+            orderInPlace(context),
+            searchingForDifferentSP(context)
           ],
         ),
 
@@ -250,6 +251,7 @@ class RequestView extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
+                        SizedBox(height: 16.0),
                         Text(
                           'Connecting to available service providers',
                           style: TextStyle(
@@ -309,6 +311,65 @@ class RequestView extends StatelessWidget {
                             iconData: Icons.cancel_outlined,
                             label: "Cancel",
                             primaryColor: Colors.red)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget searchingForDifferentSP(context) {
+    return Obx(
+      () => Visibility(
+        visible: controller.transactionStatus.value == 7,
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  // color: Colors.teal.shade100,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        SvgPicture.asset('assets/images/searching.svg',
+                            height: 200, semanticsLabel: 'Searching'),
+                        // CircularProgressIndicator(
+                        //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                        // ),
+                        // SizedBox(width: 16.0),
+                        Text(
+                          'Looking for another service provider',
+                          style: TextStyle(
+                              fontSize: 20.0, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 16.0),
+
+                        Text(
+                          'Soory the SP cancelled transaction. We are connecting you to another service providers',
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black54),
+                        ),
+                        // GifController _controller = GifController(vsync: this);
+                        SizedBox(width: 50.0),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: LinearProgressIndicator(
+                            minHeight: 10,
+                            backgroundColor: Colors.grey[
+                                200], // Background color of the progress bar
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors
+                                .amber), // Color of the progress indicator
+                          ),
+                        ),
                       ],
                     ),
                   ),
