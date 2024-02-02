@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
-import 'package:icesspool/bindings/single_report_binding.dart';
-import 'package:icesspool/views/login_view.dart';
-import 'package:icesspool/views/single_report_view.dart';
 
+import '../app/modules/complete-payment/bindings/complete_payment_binding.dart';
+import '../app/modules/complete-payment/views/complete_payment_view.dart';
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
+import '../bindings/single_report_binding.dart';
 import '../views/home_view.dart';
+import '../views/login_view.dart';
+import '../views/single_report_view.dart';
 
 part 'app_routes.dart';
 
@@ -39,6 +41,11 @@ class AppPages {
       binding: SingleReportBinding(),
       //transition: Transition.rightToLeftWithFade,
       //transitionDuration: Duration(milliseconds: 500),
+    ),
+    GetPage(
+      name: _Paths.COMPLETE_PAYMENT,
+      page: () => const CompletePaymentView(),
+      binding: CompletePaymentBinding(),
     ),
   ];
 }

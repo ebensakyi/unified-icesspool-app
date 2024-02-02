@@ -20,34 +20,37 @@ class PaymentView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text("Make Payment"),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
+          // leading: IconButton(
+          //   icon: Icon(Icons.arrow_back),
+          //   onPressed: () {
+          //     Get.back();
+          //   },
+          // ),
         ),
-        body: Column(
-          children: [
-            Container(
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: WebViewWidget(controller: controller.webViewController)),
-            ProgressButton(
-              onPressed: () {
-                // controller.cancelRequest("controller.transactionId");
-                Get.back();
-              },
-              isLoading: controller.isLoading.value,
-              iconData: Icons.arrow_circle_right_outlined,
-              label: 'Continue',
-              iconColor: Colors.white,
-              progressColor: Colors.white,
-              textColor: Colors.white,
-              backgroundColor:
-                  controller.isLoading.value ? Colors.teal : Colors.teal,
-              borderColor: Colors.teal,
-            )
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.75,
+                  child:
+                      WebViewWidget(controller: controller.webViewController)),
+              ProgressButton(
+                onPressed: () {
+                  // controller.cancelRequest("controller.transactionId");
+                  Get.back();
+                },
+                isLoading: controller.isLoading.value,
+                iconData: Icons.arrow_circle_right_outlined,
+                label: 'Continue',
+                iconColor: Colors.white,
+                progressColor: Colors.white,
+                textColor: Colors.white,
+                backgroundColor:
+                    controller.isLoading.value ? Colors.teal : Colors.teal,
+                borderColor: Colors.teal,
+              )
+            ],
+          ),
         ));
   }
 

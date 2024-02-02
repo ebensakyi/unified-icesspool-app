@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -249,9 +250,10 @@ class RequestController extends GetxController {
         String token = jsonMap['response']['token'];
         String checkoutUrl = jsonMap['response']['checkout_url'];
         int code = jsonMap['response']['code'];
+        isLoading.value = false;
 
         if (code == 200) {
-          Get.off(() => PaymentView(),
+          Get.to(() => PaymentView(),
               binding: PaymentBinding(), arguments: [checkoutUrl]);
 
           ///Open checkout page with url
@@ -264,6 +266,7 @@ class RequestController extends GetxController {
       }
     } catch (error) {
       print('initiateTellerPayment> Error: $error');
+      isLoading.value = false;
     }
   }
 

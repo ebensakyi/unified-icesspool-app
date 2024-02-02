@@ -6,6 +6,7 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const SINGLE_REPORT = _Paths.SINGLE_REPORT;
   static const LOGIN = _Paths.LOGIN;
+  static const COMPLETE_PAYMENT = _Paths.COMPLETE_PAYMENT;
 }
 
 abstract class _Paths {
@@ -13,4 +14,5 @@ abstract class _Paths {
   static const HOME = '/home';
   static const SINGLE_REPORT = '/single-report';
   static const LOGIN = '/';
+  static const COMPLETE_PAYMENT = '/complete-payment';
 }

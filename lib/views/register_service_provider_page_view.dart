@@ -137,7 +137,9 @@ class RegisterServiceProviderPageView extends GetView<AuthPageController> {
                       controller.handleRegisterServiceProvider();
                     },
                     showLoading: false,
-                    // label: "Send request",
+                    label: "Submit",
+                    buttonColor: Colors.teal,
+                    textColor: Colors.white,
                   ),
                 ),
                 // Padding(

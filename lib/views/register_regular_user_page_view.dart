@@ -153,6 +153,9 @@ class RegisterRegularUserPageView extends GetView<AuthPageController> {
                         controller.handleRegisterRegularUser();
                       },
                       showLoading: false,
+                      buttonColor: Colors.teal,
+                      textColor: Colors.white,
+                      label: Text("Submit"),
                     ),
                   ),
                   // Padding(
