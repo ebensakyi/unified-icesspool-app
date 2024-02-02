@@ -1,14 +1,13 @@
-import 'dart:developer';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/progress-button.dart';
+import 'package:icesspool/widgets/solid-button.dart';
 
 import '../controllers/biodigester_controller.dart';
 import '../core/validator.dart';
 import '../widgets/dropdown.dart';
+import '../widgets/outline-button.dart';
 import '../widgets/sub-service-widget2.dart';
 import '../widgets/text-button.dart';
 
@@ -47,16 +46,19 @@ class BioDigesterMainView extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       controller.currentStep == 0
-                          ? ProgressTextButton(
+                          ? SolidButton(
                               onPressed: () {
                                 if (formKey1.currentState!.validate())
                                   controller.getBiodigesterPricing();
                                 controller.continued();
                               },
-                              isLoading: false,
-                              label: 'Continue')
+                              showLoading: false,
+                              label: Text("Continue"),
+                              buttonColor: Colors.teal,
+                              textColor: Colors.white,
+                            )
                           : controller.currentStep == 1
-                              ? ProgressTextButton(
+                              ? SolidButton(
                                   onPressed: () {
                                     if (controller.selectedServices.length ==
                                         0) {
@@ -65,8 +67,10 @@ class BioDigesterMainView extends StatelessWidget {
                                     if (formKey2.currentState!.validate())
                                       controller.continued();
                                   },
-                                  isLoading: false,
-                                  label: 'Continue',
+                                  showLoading: false,
+                                  label: Text('Continue'),
+                                  buttonColor: Colors.teal,
+                                  textColor: Colors.white,
                                 )
                               : Obx(() => ProgressButton(
                                     onPressed: () {
@@ -86,18 +90,22 @@ class BioDigesterMainView extends StatelessWidget {
                       SizedBox(
                         width: 20,
                       ),
-                      ProgressButton(
+                      OutlineButton(
                         onPressed: () {
                           controller.cancel();
                         },
-                        isLoading: false,
-                        iconData: Icons.cancel,
-                        label: "Cancel",
-                        iconColor: Colors.white,
-                        progressColor: Colors.white,
-                        textColor: Colors.white,
-                        backgroundColor: Colors.teal,
+                        showLoading: false,
                         borderColor: Colors.teal,
+                        textColor: Colors.teal,
+                        label: Text("Cancel"),
+                        // sho: false,
+                        // iconData: Icons.cancel,
+                        // label: "Cancel",
+                        // iconColor: Colors.white,
+                        // progressColor: Colors.white,
+                        // textColor: Colors.white,
+                        // backgroundColor: Colors.teal,
+                        // borderColor: Colors.teal,
                       )
                     ],
                   ),

@@ -8,7 +8,7 @@ import '../../../../widgets/dropdown.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/auth_page_controller.dart';
 import '../model/Region.dart';
-import '../widgets/button.dart';
+import '../widgets/solid-button.dart';
 
 class RegisterRegularUserPageView extends GetView<AuthPageController> {
   final registerFormKey = new GlobalKey<FormState>();
@@ -146,7 +146,7 @@ class RegisterRegularUserPageView extends GetView<AuthPageController> {
 
                   Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: Button(
+                    child: SolidButton(
                       onPressed: () {
                         registerFormKey.currentState!.validate();
                         // Get.toNamed(Routes.OTP_PAGE);

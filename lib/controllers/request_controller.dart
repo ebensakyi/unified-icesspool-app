@@ -254,7 +254,8 @@ class RequestController extends GetxController {
 
         if (code == 200) {
           Get.to(() => PaymentView(),
-              binding: PaymentBinding(), arguments: [checkoutUrl]);
+              binding: PaymentBinding(),
+              arguments: [checkoutUrl, transactionId.value]);
 
           ///Open checkout page with url
         } else if (code == 900) {
@@ -271,14 +272,16 @@ class RequestController extends GetxController {
   }
 
   void startCountdown() {
-    Timer.periodic(Duration(seconds: 1), (Timer timer) {
+    Timer.periodic(Duration(seconds: 1), (Timer timer) async {
       countdownDuration.value -= Duration(seconds: 1);
 
       if (countdownDuration.value.isNegative) {
+        await cancelRequest();
+        box.write('countdownDuration', countdownDuration.value.inSeconds);
+
         timer.cancel();
       }
       // Save the countdown duration to storage
-      box.write('countdownDuration', countdownDuration.value.inSeconds);
     });
   }
 

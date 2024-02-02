@@ -13,84 +13,90 @@ class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text("Account")),
-      body: ListView(
-        children: [
-          // getImageAsset("assets/images/logo.png", 105.0),
-          Container(
-              child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-                style: TextStyle(
-                  wordSpacing: 3,
-                  fontSize: 16,
-                ),
-                '''User Account Details'''),
-          )),
-          Row(
+      appBar: AppBar(title: Text("Account")),
+      body: Card(
+        child: Container(
+            child: Obx(
+          () => ListView(
             children: [
-              Expanded(
-                child: Obx(() {
-                  return TextBox(
-                    initialValue: controller.firstName.value,
-                    labelText: "First name",
-                  );
-                }),
+              // getImageAsset("assets/images/logo.png", 105.0),
+              Container(
+                  child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                    style: TextStyle(
+                      wordSpacing: 3,
+                      fontSize: 16,
+                    ),
+                    '''User Account Details'''),
+              )),
+              Row(
+                children: [
+                  Expanded(
+                    child: Obx(() {
+                      return TextBox(
+                        initialValue: controller.firstName.value,
+                        labelText: "First name",
+                      );
+                    }),
+                  ),
+                  Expanded(
+                    child: Obx(() => TextBox(
+                          initialValue: controller.lastName.value,
+                          labelText: "Last name",
+                        )),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Obx(() => TextBox(
-                      initialValue: controller.lastName.value,
-                      labelText: "Last name",
-                    )),
+              SizedBox(height: 10),
+              Obx(() => TextBox(
+                    initialValue: controller.phoneNumber.value,
+                    labelText: "Phone number",
+                  )),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ProgressOutlineButton(
+                    primaryColor: Colors.teal,
+                    onPressed: () {
+                      controller.logout();
+                    },
+                    isLoading: controller.isLoading.value,
+                    iconData: Icons.logout_sharp,
+                    label: "Logout"),
               ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Divider(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  "Press on the button below to delete your account and every associated data",
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ProgressOutlineButton(
+                    primaryColor: Colors.red,
+                    onPressed: () {
+                      controller.logout();
+                    },
+                    isLoading: controller.isLoading.value,
+                    iconData: Icons.delete_forever_outlined,
+                    label: "Delete Account"),
+              ),
+              Center(
+                  child:
+                      Obx(() => Text("App name: ${controller.AppName.value}"))),
+              Center(
+                  child: Obx(() =>
+                      Text("App version: ${controller.AppVersion.value}")))
             ],
           ),
-          SizedBox(height: 10),
-          Obx(() => TextBox(
-                initialValue: controller.phoneNumber.value,
-                labelText: "Phone number",
-              )),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ProgressOutlineButton(
-                primaryColor: Colors.teal,
-                onPressed: () {
-                  controller.logout();
-                },
-                isLoading: controller.isLoading.value,
-                iconData: Icons.logout_sharp,
-                label: "Logout"),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Divider(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              "Press on the button below to delete your account and every associated data",
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ProgressOutlineButton(
-                primaryColor: Colors.red,
-                onPressed: () {
-                  controller.logout();
-                },
-                isLoading: controller.isLoading.value,
-                iconData: Icons.delete_forever_outlined,
-                label: "Delete Account"),
-          ),
-          Center(
-              child: Obx(() => Text("App name: ${controller.AppName.value}"))),
-          Center(
-              child: Obx(
-                  () => Text("App version: ${controller.AppVersion.value}")))
-        ],
+        )),
       ),
     );
   }

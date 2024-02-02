@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../app/modules/complete-payment/bindings/complete_payment_binding.dart';
 import '../app/modules/complete-payment/views/complete_payment_view.dart';
+import '../app/modules/services-blog/bindings/services_blog_binding.dart';
+import '../app/modules/services-blog/views/services_blog_view.dart';
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
 import '../bindings/single_report_binding.dart';
@@ -46,6 +48,11 @@ class AppPages {
       name: _Paths.COMPLETE_PAYMENT,
       page: () => const CompletePaymentView(),
       binding: CompletePaymentBinding(),
+    ),
+    GetPage(
+      name: _Paths.SERVICES_BLOG,
+      page: () => const ServicesBlogView(),
+      binding: ServicesBlogBinding(),
     ),
   ];
 }

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../themes/colors.dart';
 
-class Button extends StatelessWidget {
+class SolidButton extends StatelessWidget {
   final onPressed;
   final showLoading;
   final buttonColor;
   final textColor;
   final label;
-  const Button(
+  const SolidButton(
       {Key? key,
       required this.onPressed,
       required this.showLoading,
@@ -22,7 +22,7 @@ class Button extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 50,
+        // height: 50,
         // width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           onPressed: onPressed,

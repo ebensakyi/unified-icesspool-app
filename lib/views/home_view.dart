@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icesspool/app/modules/services-blog/views/services_blog_view.dart';
 import 'package:icesspool/views/account_view.dart';
 import 'package:icesspool/views/report_history_view.dart';
 import 'package:icesspool/views/request_view.dart';
@@ -46,7 +47,7 @@ class HomeView extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               BottomNavyBarItem(
-                icon: Icon(Icons.menu_open),
+                icon: Icon(Icons.video_collection_outlined),
                 title: Text('Services'),
                 activeColor: MyColors.MainColor,
                 inactiveColor: controller.inactiveColor.value,
@@ -68,7 +69,7 @@ class HomeView extends StatelessWidget {
     List<Widget> pages = [
       RequestView(),
       ReportHistoryView(),
-      ServiceDescriptionView(),
+      ServicesBlogView(),
       AccountView()
     ];
     return Obx(() {

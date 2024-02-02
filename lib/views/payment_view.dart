@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:icesspool/widgets/progress-button.dart';
@@ -34,20 +35,27 @@ class PaymentView extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.75,
                   child:
                       WebViewWidget(controller: controller.webViewController)),
-              ProgressButton(
-                onPressed: () {
-                  // controller.cancelRequest("controller.transactionId");
-                  Get.back();
-                },
-                isLoading: controller.isLoading.value,
-                iconData: Icons.arrow_circle_right_outlined,
-                label: 'Continue',
-                iconColor: Colors.white,
-                progressColor: Colors.white,
-                textColor: Colors.white,
-                backgroundColor:
-                    controller.isLoading.value ? Colors.teal : Colors.teal,
-                borderColor: Colors.teal,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Obx(() => Visibility(
+                      visible: controller.show.value,
+                      child: ProgressButton(
+                        onPressed: () {
+                          // controller.cancelRequest("controller.transactionId");
+                          Get.back();
+                        },
+                        isLoading: controller.isLoading.value,
+                        iconData: Icons.arrow_circle_right_outlined,
+                        label: 'Continue',
+                        iconColor: Colors.white,
+                        progressColor: Colors.white,
+                        textColor: Colors.white,
+                        backgroundColor: controller.isLoading.value
+                            ? Colors.teal
+                            : Colors.teal,
+                        borderColor: Colors.teal,
+                      ),
+                    )),
               )
             ],
           ),

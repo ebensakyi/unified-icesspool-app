@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/validator.dart';
 import '../controllers/auth_page_controller.dart';
-import '../widgets/button.dart';
+import '../widgets/solid-button.dart';
 import '../widgets/dropdown.dart';
 
 class RegisterServiceProviderPageView extends GetView<AuthPageController> {
@@ -131,7 +131,7 @@ class RegisterServiceProviderPageView extends GetView<AuthPageController> {
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Button(
+                  child: SolidButton(
                     onPressed: () {
                       // s
                       controller.handleRegisterServiceProvider();

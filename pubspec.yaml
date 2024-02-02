@@ -43,6 +43,7 @@ dependencies:
   line_icons: ^2.0.3
   # gif: ^2.3.0
   webview_flutter: ^4.4.4
+  youtube_player_flutter: ^8.1.2
 
 
  
