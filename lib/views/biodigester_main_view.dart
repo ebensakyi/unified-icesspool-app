@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/progress-button.dart';
 import 'package:icesspool/widgets/solid-button.dart';
@@ -13,6 +14,7 @@ import '../widgets/text-button.dart';
 
 class BioDigesterMainView extends StatelessWidget {
   final controller = Get.put(BiodigesterController());
+  final homeController = Get.put(HomeController());
 
   BioDigesterMainView({super.key});
 
@@ -121,6 +123,8 @@ class BioDigesterMainView extends StatelessWidget {
                     child: Obx(
                       () => Dropdown(
                         onChangedCallback: (newValue) {
+                          controller.selectedServices.value = [];
+
                           controller.selectedRequestType.value = newValue;
                         },
                         value: controller
@@ -156,12 +160,34 @@ class BioDigesterMainView extends StatelessWidget {
                   ),
                   subtitle: Text('Select service'),
                   content: Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    key: formKey2,
-                    child: controller.selectedRequestType.value == "1"
-                        ? biodigesterServicing()
-                        : biodigesterConstruction(),
-                  ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      key: formKey2,
+                      child: Column(
+                        children: [
+                          Container(
+                            color: Colors.yellow
+                                .withOpacity(0.5), // Light yellow background
+                            child: InkWell(
+                              onTap: () {
+                                Get.back();
+                                homeController.changeTabIndex(2);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  "Tap here to learn more about the service you need",
+                                  style: TextStyle(
+                                      color: Colors
+                                          .black), // Adjust text color as needed
+                                ),
+                              ),
+                            ),
+                          ),
+                          controller.selectedRequestType.value == "1"
+                              ? biodigesterServicing()
+                              : biodigesterConstruction(),
+                        ],
+                      )),
                   isActive: controller.currentStep >= 0,
                   state: controller.currentStep >= 1
                       ? StepState.complete

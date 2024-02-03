@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import 'package:icesspool/bindings/otp_binding.dart';
 import 'package:icesspool/controllers/otp_controller.dart';
 
-import '../../../routes/app_pages.dart';
-import '../controllers/auth_page_controller.dart';
 import '../themes/colors.dart';
 import '../widgets/otp-box.dart';
 import '../widgets/small-button.dart';

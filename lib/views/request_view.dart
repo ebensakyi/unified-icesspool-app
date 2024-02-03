@@ -146,7 +146,7 @@ class RequestView extends StatelessWidget {
                         // ),
                         // SizedBox(width: 16.0),
                         Text(
-                          'Service provider in on the way',
+                          'Service provider is on the way',
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
@@ -172,46 +172,6 @@ class RequestView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 20.0),
-                        ProgressOutlineButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  String contentText =
-                                      "Are you sure you want to cancel this request?";
-                                  return StatefulBuilder(
-                                    builder: (context, setState) {
-                                      return AlertDialog(
-                                        title: Text("Cancel Request"),
-                                        content: Text(contentText),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text("Cancel"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              controller.cancelRequest();
-                                              Navigator.pop(context);
-                                              // setState(() {
-                                              //   contentText =
-                                              //       "Changed Content of Dialog";
-                                              // });
-                                            },
-                                            child: Text("Ok"),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                            isLoading: controller.isLoading.value,
-                            iconData: Icons.cancel_outlined,
-                            label: "Cancel",
-                            primaryColor: Colors.red)
                       ],
                     ),
                   ),
@@ -247,7 +207,7 @@ class RequestView extends StatelessWidget {
                         // ),
                         // SizedBox(width: 16.0),
                         Text(
-                          'Looking for a service provider',
+                          'Locating your Service Provider',
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
@@ -346,14 +306,14 @@ class RequestView extends StatelessWidget {
                         // ),
                         // SizedBox(width: 16.0),
                         Text(
-                          'Looking for another service provider',
+                          'Locating another Service Provider',
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 16.0),
 
                         Text(
-                          'Soory the SP cancelled transaction. We are connecting you to another service providers',
+                          'Sorry the SP cancelled transaction. We are connecting you to another service providers',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: Colors.black54),
