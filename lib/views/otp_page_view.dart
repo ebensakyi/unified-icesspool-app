@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
-import 'package:icesspool/bindings/otp_binding.dart';
 import 'package:icesspool/controllers/otp_controller.dart';
 
 import '../themes/colors.dart';
