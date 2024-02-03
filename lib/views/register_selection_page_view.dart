@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../widgets/small-button.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/auth_page_controller.dart';
 
 // MediaQuery.of(context).size.height -    kToolbarHeight -
