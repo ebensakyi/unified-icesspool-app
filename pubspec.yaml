@@ -45,6 +45,8 @@ dependencies:
   webview_flutter: ^4.4.4
   youtube_player_flutter: ^8.1.2
   carousel_slider: ^4.2.1
+  date_field: ^4.0.1
+  flutter_styled_toast: ^2.2.1
 
 
  

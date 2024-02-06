@@ -75,6 +75,32 @@ class BiodigesterController extends GetxController {
   final currentStep = 0.obs;
   StepperType stepperType = StepperType.vertical;
 
+  Rx<DateTime> selectedDate = DateTime.now().obs;
+
+  Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate.value,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 1, 1, 1).add(Duration(days: 14)),
+    );
+    if (picked != null) {
+      selectedDate.value = picked;
+    }
+  }
+
+  Future<void> selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime.value,
+    );
+    if (picked != null) {
+      selectedTime.value = picked;
+    }
+  }
+
   @override
   void onInit() async {
     // await getUserArea();
@@ -236,8 +262,12 @@ class BiodigesterController extends GetxController {
         'customerLat': controller.latitude.value,
         'accuracy': controller.accuracy.value,
         'totalCost': calculateTotalCost(selectedServices),
-        'serviceAreaId': controller.serviceAreaId.value
+        'serviceAreaId': controller.serviceAreaId.value,
+        'scheduledDate': selectedDate.value,
+        'scheduledTime': selectedTime.value
       };
+
+      inspect(data);
 
       final response = await http.post(
         uri,
@@ -363,13 +393,7 @@ class BiodigesterController extends GetxController {
 
         biodigesterServicesAvailable.value = data;
 
-        // digesterEmptyingAvailable.value = data.contains(1);
-        // soakawayServicingAvailable.value = data.contains(2);
-        // drainfieldServicingAvailable.value = data.contains(3);
-
-        // biodigesterAvailable.value = data.contains(4);
-        // biodigesterWithSeatAvailable.value = data.contains(5);
-        // standaloneAvailable.value = data.contains(6);
+        log("getAvailableBiodigesterServices $data");
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -397,7 +421,7 @@ class BiodigesterController extends GetxController {
         //final data = json.decode(response.body);
         List data = json.decode(response.body);
 
-        inspect("getBiodigesterPricing===>$data");
+        log("getBiodigesterPricing===>$data");
         List<Map<String, dynamic>> typedData =
             List<Map<String, dynamic>>.from(data);
 
@@ -430,6 +454,7 @@ class BiodigesterController extends GetxController {
     int index = biodigesterPricings
         .indexWhere((service) => service.biodigesterServiceId == targetId);
 
+    log(index.toString());
     if (index != -1) {
       log('Index of object with id $targetId: $index');
     } else {
@@ -493,7 +518,8 @@ class BiodigesterController extends GetxController {
   }
 
   continued() {
-    if (currentStep < 2) {
+    inspect(currentStep);
+    if (currentStep < 3) {
       currentStep.value += 1;
     } else {
       //   _submitRequest();
