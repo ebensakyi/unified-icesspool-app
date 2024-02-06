@@ -76,7 +76,10 @@ class MyApp extends StatelessWidget {
         initialBinding: InitialBindings(),
         title: 'iCesspool',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.teal, useMaterial3: false),
+        theme: ThemeData(
+            primarySwatch: Colors.teal,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            useMaterial3: false),
 
         // theme: ThemeData(
         //   // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)

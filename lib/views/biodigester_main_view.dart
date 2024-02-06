@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/controllers/home_controller.dart';
@@ -33,218 +34,243 @@ class BioDigesterMainView extends StatelessWidget {
                 // accentColor: Colors.orange,
                 primarySwatch: Colors.teal,
                 colorScheme: ColorScheme.light(primary: Colors.teal)),
-            child: Stepper(
-              type: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? StepperType.vertical
-                  : StepperType.horizontal,
-              physics: const ScrollPhysics(),
-              currentStep: controller.currentStep.value,
-              onStepTapped: (step) => controller.tapped(step),
-              onStepContinue: controller.continued,
-              onStepCancel: controller.cancel,
-              controlsBuilder: (context, _) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Row(
-                    children: <Widget>[
-                      controller.currentStep == 0
-                          ? SolidButton(
-                              onPressed: () {
-                                if (formKey1.currentState!.validate())
-                                  controller.getBiodigesterPricing();
-                                controller.continued();
-                              },
-                              showLoading: false,
-                              label: Text("Continue"),
-                              buttonColor: Colors.teal,
-                              textColor: Colors.white,
-                            )
-                          : controller.currentStep == 1
+            child: Column(
+              children: [
+                Stepper(
+                  type:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? StepperType.vertical
+                          : StepperType.horizontal,
+                  physics: const ScrollPhysics(),
+                  currentStep: controller.currentStep.value,
+                  onStepTapped: (step) => controller.tapped(step),
+                  onStepContinue: controller.continued,
+                  onStepCancel: controller.cancel,
+                  controlsBuilder: (context, _) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Row(
+                        children: <Widget>[
+                          controller.currentStep == 0
                               ? SolidButton(
                                   onPressed: () {
-                                    if (controller.selectedServices.length ==
-                                        0) {
-                                      return;
-                                    }
-                                    if (formKey2.currentState!.validate())
-                                      controller.continued();
+                                    if (formKey1.currentState!.validate())
+                                      controller.getBiodigesterPricing();
+                                    controller.continued();
                                   },
                                   showLoading: false,
-                                  label: Text('Continue'),
+                                  label: Text("Continue"),
                                   buttonColor: Colors.teal,
                                   textColor: Colors.white,
                                 )
-                              : Obx(() => ProgressButton(
-                                    onPressed: () {
-                                      controller.sendRequest();
-                                    },
-                                    isLoading: controller.isLoading.value,
-                                    iconData: Icons.send,
-                                    label: 'Submit',
-                                    iconColor: Colors.white,
-                                    progressColor: Colors.white,
-                                    textColor: Colors.white,
-                                    backgroundColor: controller.isLoading.value
-                                        ? Colors.teal
-                                        : Colors.teal,
-                                    borderColor: Colors.teal,
-                                  )),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      OutlineButton(
-                        onPressed: () {
-                          controller.cancel();
-                        },
-                        showLoading: false,
-                        borderColor: Colors.teal,
-                        textColor: Colors.teal,
-                        label: Text("Cancel"),
-                        // sho: false,
-                        // iconData: Icons.cancel,
-                        // label: "Cancel",
-                        // iconColor: Colors.white,
-                        // progressColor: Colors.white,
-                        // textColor: Colors.white,
-                        // backgroundColor: Colors.teal,
-                        // borderColor: Colors.teal,
-                      )
-                    ],
-                  ),
-                );
-              },
-              steps: <Step>[
-                Step(
-                  subtitle: Text('Make a selection here'),
-                  title: const Text('Bio-digester needs'),
-                  content: Form(
-                    key: formKey1,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Obx(
-                      () => Dropdown(
-                        onChangedCallback: (newValue) {
-                          controller.selectedServices.value = [];
-
-                          controller.selectedRequestType.value = newValue;
-                        },
-                        value: controller
-                            .returnValue(controller.selectedRequestType.value),
-                        initialValue: controller
-                            .returnValue(controller.selectedRequestType.value),
-                        dropdownItems: [
-                          DropdownMenuItem(
-                            child: Text("Biodigester Maintenance"),
-                            value: "1",
+                              : controller.currentStep == 1
+                                  ? SolidButton(
+                                      onPressed: () {
+                                        if (controller
+                                                .selectedServices.length ==
+                                            0) {
+                                          return;
+                                        }
+                                        if (formKey2.currentState!.validate())
+                                          controller.continued();
+                                      },
+                                      showLoading: false,
+                                      label: Text('Continue'),
+                                      buttonColor: Colors.teal,
+                                      textColor: Colors.white,
+                                    )
+                                  : Obx(() => ProgressButton(
+                                        onPressed: () {
+                                          controller.sendRequest();
+                                        },
+                                        isLoading: controller.isLoading.value,
+                                        iconData: Icons.send,
+                                        label: 'Submit',
+                                        iconColor: Colors.white,
+                                        progressColor: Colors.white,
+                                        textColor: Colors.white,
+                                        backgroundColor:
+                                            controller.isLoading.value
+                                                ? Colors.teal
+                                                : Colors.teal,
+                                        borderColor: Colors.teal,
+                                      )),
+                          SizedBox(
+                            width: 20,
                           ),
-                          DropdownMenuItem(
-                            child: Text("New Toilet Construction"),
-                            value: "2",
-                          ),
+                          OutlineButton(
+                            onPressed: () {
+                              controller.cancel();
+                            },
+                            showLoading: false,
+                            borderColor: Colors.teal,
+                            textColor: Colors.teal,
+                            label: Text("Cancel"),
+                            // sho: false,
+                            // iconData: Icons.cancel,
+                            // label: "Cancel",
+                            // iconColor: Colors.white,
+                            // progressColor: Colors.white,
+                            // textColor: Colors.white,
+                            // backgroundColor: Colors.teal,
+                            // borderColor: Colors.teal,
+                          )
                         ],
-                        hintText: '',
-                        labelText: "What is your need? *",
-                        validator: (value) {
-                          return Validator.dropdownValidator(value);
-                        },
                       ),
+                    );
+                  },
+                  steps: <Step>[
+                    Step(
+                      subtitle: Text('Make a selection here'),
+                      title: const Text('Bio-digester needs'),
+                      content: Form(
+                        key: formKey1,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        child: Obx(
+                          () => Dropdown(
+                            onChangedCallback: (newValue) {
+                              controller.selectedServices.value = [];
+
+                              controller.selectedRequestType.value = newValue;
+                            },
+                            value: controller.returnValue(
+                                controller.selectedRequestType.value),
+                            initialValue: controller.returnValue(
+                                controller.selectedRequestType.value),
+                            dropdownItems: [
+                              DropdownMenuItem(
+                                child: Text("Biodigester Maintenance"),
+                                value: "1",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("New Toilet Construction"),
+                                value: "2",
+                              ),
+                            ],
+                            hintText: '',
+                            labelText: "What is your need? *",
+                            validator: (value) {
+                              return Validator.dropdownValidator(value);
+                            },
+                          ),
+                        ),
+                      ),
+                      isActive: controller.currentStep >= 0,
+                      state: controller.currentStep >= 0
+                          ? StepState.complete
+                          : StepState.disabled,
                     ),
-                  ),
-                  isActive: controller.currentStep >= 0,
-                  state: controller.currentStep >= 0
-                      ? StepState.complete
-                      : StepState.disabled,
-                ),
-                Step(
-                  title: new Text(
-                    'Details',
-                  ),
-                  subtitle: Text('Select service'),
-                  content: Form(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      key: formKey2,
-                      child: Column(
-                        children: [
-                          Container(
-                            color: Colors.yellow
-                                .withOpacity(0.5), // Light yellow background
-                            child: InkWell(
-                              onTap: () {
-                                Get.back();
-                                homeController.changeTabIndex(2);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  "Tap here to learn more about the service you need",
-                                  style: TextStyle(
-                                      color: Colors
-                                          .black), // Adjust text color as needed
+                    Step(
+                      title: new Text(
+                        'Details',
+                      ),
+                      subtitle: Text('Select service'),
+                      content: Form(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          key: formKey2,
+                          child: Column(
+                            children: [
+                              Container(
+                                color: Colors.yellow.withOpacity(
+                                    0.5), // Light yellow background
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.back();
+                                    homeController.changeTabIndex(2);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                      "Tap here to learn more about the service you need",
+                                      style: TextStyle(
+                                          color: Colors
+                                              .black), // Adjust text color as needed
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          controller.selectedRequestType.value == "1"
-                              ? biodigesterServicing()
-                              : biodigesterConstruction(),
-                        ],
-                      )),
-                  isActive: controller.currentStep >= 0,
-                  state: controller.currentStep >= 1
-                      ? StepState.complete
-                      : StepState.disabled,
-                ),
-                Step(
-                  title: new Text('Submit'),
-                  subtitle: Text('Submit request'),
-                  content: Form(
-                    key: formKey3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Invoice for Selected Services',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 10),
-                        // Use ListView.builder to loop through myArray and display in a Column
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: controller.selectedServices.length,
-                          itemBuilder: (context, index) {
-                            final item = controller.selectedServices[index];
-                            return Column(
-                              children: [
-                                ListTile(
-                                  title: Text('${item["name"]}'),
-                                  subtitle: Text('GHS ${item["unitCost"]}'),
-                                ),
-                                Divider(
-                                  height: 1,
-                                  color: Colors.grey,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            "Total Bill: GHS ${controller.calculateTotalCost(controller.selectedServices)}",
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        )
-                      ],
+                              controller.selectedRequestType.value == "1"
+                                  ? biodigesterServicing()
+                                  : biodigesterConstruction(),
+                            ],
+                          )),
+                      isActive: controller.currentStep >= 0,
+                      state: controller.currentStep >= 1
+                          ? StepState.complete
+                          : StepState.disabled,
                     ),
-                  ),
-                  isActive: controller.currentStep >= 0,
-                  state: controller.currentStep >= 2
-                      ? StepState.complete
-                      : StepState.disabled,
+                    Step(
+                      title: new Text('Submit'),
+                      subtitle: Text('Submit request'),
+                      content: Form(
+                        key: formKey3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Invoice for Selected Services',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            // Use ListView.builder to loop through myArray and display in a Column
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: controller.selectedServices.length,
+                              itemBuilder: (context, index) {
+                                final item = controller.selectedServices[index];
+                                return Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text('${item["name"]}'),
+                                      subtitle: Text('GHS ${item["unitCost"]}'),
+                                    ),
+                                    Divider(
+                                      height: 1,
+                                      color: Colors.grey,
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                "Total Bill: GHS ${controller.calculateTotalCost(controller.selectedServices)}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      isActive: controller.currentStep >= 0,
+                      state: controller.currentStep >= 2
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                  ],
                 ),
+                CarouselSlider(
+                  options: CarouselOptions(height: 300.0),
+                  items: [Image.asset("assets/images/logo.png"), 2, 3, 4, 5]
+                      .map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(color: Colors.amber),
+                            child: Text(
+                              'text $i',
+                              style: TextStyle(fontSize: 16.0),
+                            ));
+                      },
+                    );
+                  }).toList(),
+                )
               ],
             ),
           ),

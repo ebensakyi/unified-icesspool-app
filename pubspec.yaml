@@ -44,6 +44,7 @@ dependencies:
   # gif: ^2.3.0
   webview_flutter: ^4.4.4
   youtube_player_flutter: ^8.1.2
+  carousel_slider: ^4.2.1
 
 
  
