@@ -325,7 +325,6 @@ class HomeController extends GetxController {
       if (response.statusCode == 200) {
         // Successful response
         final data = json.decode(response.body);
-        log('2getUserArea Response Data: $data');
         serviceAreaId.value = data;
 
         await getAvailableServices(data);

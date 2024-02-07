@@ -95,6 +95,12 @@ class BiodigesterController extends GetxController {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime.value,
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
     );
     if (picked != null) {
       selectedTime.value = picked;
@@ -201,70 +207,25 @@ class BiodigesterController extends GetxController {
       }
       isLoading.value = true;
 
-      //   // final isValid = formKey.currentState!.validate();
-      //   // if (!isValid) {
-      //   //   return;
-      //   // }
-      //   if (selectedImagePath == "") {
-      //     Get.snackbar("Error", "No image was picked",
-      //         snackPosition: SnackPosition.BOTTOM,
-      //         backgroundColor: Colors.red,
-      //         colorText: Colors.white);
-      //   }
-
-      //   // formKey.currentState!.save();
-
-      //   SharedPreferences prefs = await SharedPreferences.getInstance();
-      //   var userId = prefs.getInt('userId');
-
       var uri = Uri.parse(Constants.BIODIGESTER_TRANSACTION_API_URL);
-
-      // var request = http.MultipartRequest('POST', uri);
-
-      // for (int i = 0; i < selectedServices.length; i++) {
-      //   Map<String, dynamic> item = selectedServices[i];
-      //   // request.fields["id"] = item['id'].toString();
-      //   // request.fields["cost"] = item['cost'].toString();
-
-      //   inspect(item);
-
-      //   final Map<String, dynamic> data = {
-      //     'id': item['id'].toString(),
-      //     'cost': item['cost'].toString(),
-      //     'userId': 1,
-      //   };
-
-      //   final response = await http.post(
-      //     uri,
-      //     headers: <String, String>{
-      //       'Content-Type': 'application/json; charset=UTF-8',
-      //     },
-      //     body: jsonEncode(data),
-      //   );
-
-      //   if (response.statusCode == 201) {
-      //     print('Post request successful! Response: ${response.body}');
-      //   } else {
-      //     print(
-      //         'Failed to send POST request. Status code: ${response.statusCode}');
-      //   }
-      // }
 
       var transactionId = controller.serviceAreaId.value.toString() +
           "3" +
           generateTransactionCode();
+      String formattedTime =
+          '${selectedTime.value.hour}:${selectedTime.value.minute.toString().padLeft(2, '0')}';
 
       final Map<String, dynamic> data = {
-        'requestDetails': selectedServices,
         'transactionId': transactionId,
+        'requestDetails': selectedServices,
         'userId': controller.userId.value,
         'customerLng': controller.longitude.value,
         'customerLat': controller.latitude.value,
         'accuracy': controller.accuracy.value,
         'totalCost': calculateTotalCost(selectedServices),
         'serviceAreaId': controller.serviceAreaId.value,
-        'scheduledDate': selectedDate.value,
-        'scheduledTime': selectedTime.value
+        'scheduledDate': selectedDate.value.toIso8601String(),
+        'scheduledTime': formattedTime
       };
 
       inspect(data);
@@ -560,7 +521,7 @@ class BiodigesterController extends GetxController {
       }
     });
 
-    return totalCost;
+    return totalCost.toStringAsFixed(2);
   }
 
   // void saveTransactionFirestore() {
