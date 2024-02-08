@@ -126,7 +126,8 @@ class RequestView extends StatelessWidget {
   Widget orderInPlace(context) {
     return Obx(
       () => Visibility(
-        visible: controller.transactionStatus.value == 3,
+        visible: controller.transactionStatus.value == 3 &&
+            controller.isDeleted.value == false,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -187,7 +188,8 @@ class RequestView extends StatelessWidget {
   Widget searchingForSP(context) {
     return Obx(
       () => Visibility(
-        visible: controller.transactionStatus.value == 1,
+        visible: controller.transactionStatus.value == 1 &&
+            controller.isDeleted.value == false,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -286,7 +288,8 @@ class RequestView extends StatelessWidget {
   Widget searchingForDifferentSP(context) {
     return Obx(
       () => Visibility(
-        visible: controller.transactionStatus.value == 7,
+        visible: controller.transactionStatus.value == 7 &&
+            controller.isDeleted.value == false,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -346,7 +349,8 @@ class RequestView extends StatelessWidget {
     //SP found, show details of sp with image make payment
     return Obx(
       () => Visibility(
-        visible: controller.transactionStatus.value == 2,
+        visible: controller.transactionStatus.value == 2 &&
+            controller.isDeleted.value == false,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

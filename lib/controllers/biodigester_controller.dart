@@ -228,8 +228,6 @@ class BiodigesterController extends GetxController {
         'scheduledTime': formattedTime
       };
 
-      inspect(data);
-
       final response = await http.post(
         uri,
         headers: <String, String>{

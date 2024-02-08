@@ -33,6 +33,7 @@ class RequestController extends GetxController {
   final paymentId = "".obs;
   final amount = "".obs;
   final isPendingTrxnAvailable = false.obs;
+  final isDeleted = false.obs;
   Rx<Duration> countdownDuration =
       Duration(hours: 6).obs; // Replace with your desired end hour
 
@@ -95,34 +96,36 @@ class RequestController extends GetxController {
   // );
 
   Future<void> cancelRequest() async {
-    try {
-      //final data = {"deleted": true};
+    var client = http.Client();
 
-      // _firestore
-      //     .collection("transaction")
-      //     .doc(transactionId.value)
-      //     .set(data, SetOptions(merge: true));
+    var response = await client.post(
+      Uri.parse(Constants.TRANSACTION_CANCEL_API_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'transactionId': transactionId.value,
+        'status': "8",
+      }),
+    );
 
-      _firestore
-          .collection("transaction")
-          .doc(transactionId.value)
-          .delete()
-          .then(
-            (doc) => () {
-              log("Document deleted");
+    // _firestore
+    //     .collection("transaction")
+    //     .doc(transactionId.value)
+    //     .delete()
+    //     .then(
+    //       (doc) => () {
+    //         log("Document deleted");
 
-              // checkAvailableRequest();
-              // transactionStatus.value = 0;
-              // update();
-            },
-            onError: (e) => log("Error updating document $e"),
-          );
+    //         // checkAvailableRequest();
+    //         // transactionStatus.value = 0;
+    //         // update();
+    //       },
+    //       onError: (e) => log("Error updating document $e"),
+    //     );
 
-      transactionStatus.value = 0;
-      box.remove('countdownDuration');
-    } catch (e) {
-      log("Error :$e");
-    }
+    transactionStatus.value = 0;
+    box.remove('countdownDuration');
   }
 
   Future checkUserTransactionStates() async {
@@ -141,8 +144,6 @@ class RequestController extends GetxController {
         var data = documents[0];
         transactionStatus.value = data["txStatusCode"]!;
         amount.value = data["amount"]!;
-
-        inspect(data);
       });
 
 //       QuerySnapshot querySnapshot = await _firestore
@@ -208,9 +209,12 @@ class RequestController extends GetxController {
         if (data != null) {
           int? txStatusCode = data['txStatusCode'];
           String _transactionId = data['transactionId'];
+          bool _isDeleted = data['deleted'];
 
           transactionStatus.value = txStatusCode!;
           transactionId.value = _transactionId;
+          isDeleted.value = _isDeleted;
+
           initialSize.value = 0.75;
 
           return txStatusCode;
