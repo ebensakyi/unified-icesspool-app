@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,6 +33,8 @@ class RequestController extends GetxController {
   final amount = "".obs;
   final isPendingTrxnAvailable = false.obs;
   final isDeleted = false.obs;
+
+  final customerHasTransaction = false.obs;
   Rx<Duration> countdownDuration =
       Duration(hours: 6).obs; // Replace with your desired end hour
 
@@ -45,16 +46,12 @@ class RequestController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userId.value = prefs.getInt('userId')!;
     await checkAvailableRequest();
-    if (box.hasData('countdownDuration')) {
-      countdownDuration.value =
-          Duration(seconds: box.read('countdownDuration'));
-    }
+    // if (box.hasData('countdownDuration')) {
+    //   countdownDuration.value =
+    //       Duration(seconds: box.read('countdownDuration'));
+    // }
 
-    startCountdown();
-    // community.value = Get.arguments['community'];
-    //amount.value = "0.10";
-
-    inspect(transactionId.string);
+    // startCountdown();
 
     await checkUserTransactionStates();
 
@@ -98,7 +95,7 @@ class RequestController extends GetxController {
   Future<void> cancelRequest() async {
     var client = http.Client();
 
-    var response = await client.post(
+    await client.post(
       Uri.parse(Constants.TRANSACTION_CANCEL_API_URL),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -109,23 +106,8 @@ class RequestController extends GetxController {
       }),
     );
 
-    // _firestore
-    //     .collection("transaction")
-    //     .doc(transactionId.value)
-    //     .delete()
-    //     .then(
-    //       (doc) => () {
-    //         log("Document deleted");
-
-    //         // checkAvailableRequest();
-    //         // transactionStatus.value = 0;
-    //         // update();
-    //       },
-    //       onError: (e) => log("Error updating document $e"),
-    //     );
-
     transactionStatus.value = 0;
-    box.remove('countdownDuration');
+    // box.remove('countdownDuration');
   }
 
   Future checkUserTransactionStates() async {
@@ -142,46 +124,15 @@ class RequestController extends GetxController {
         documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
 
         var data = documents[0];
+        if (data.length != 0) {
+          customerHasTransaction.value = true;
+        }
         transactionStatus.value = data["txStatusCode"]!;
         amount.value = data["amount"]!;
+        isDeleted.value = data["deleted"]!;
+
+        log(">>>>>>>>>> checkUserTransactionStates called");
       });
-
-//       QuerySnapshot querySnapshot = await _firestore
-//           .collection('transaction')
-//           .where('customerId', isEqualTo: userId.value) // Add your where clause
-//           .where('deleted', isEqualTo: false) // Add your where clause
-
-//           .limit(1) // Limit the result to 1 document
-//           .snapshots()
-//           .listen();
-//       inspect("data=====>");
-
-//       if (querySnapshot.docs.isNotEmpty) {
-//         isPendingTrxnAvailable.value = true;
-
-// // If there is at least one document matching the query
-//         DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
-
-//         Map<String, dynamic>? data =
-//             documentSnapshot.data() as Map<String, dynamic>?;
-
-//         if (data != null) {
-//           int? txStatusCode = data['txStatusCode'];
-//           String _transactionId = data['transactionId'];
-
-//           transactionStatus.value = txStatusCode!;
-//           transactionId.value = _transactionId;
-//           initialSize.value = 0.75;
-
-//           return txStatusCode;
-//         } else {
-//           // Handle the case where data is null
-//           return null;
-//         }
-//       } else {
-//         // If no documents match the query
-//         return null;
-//       }
     } catch (e) {
       log(e.toString());
     }
@@ -209,11 +160,11 @@ class RequestController extends GetxController {
         if (data != null) {
           int? txStatusCode = data['txStatusCode'];
           String _transactionId = data['transactionId'];
-          bool _isDeleted = data['deleted'];
+          // bool _isDeleted = data['deleted'];
 
           transactionStatus.value = txStatusCode!;
           transactionId.value = _transactionId;
-          isDeleted.value = _isDeleted;
+          // isDeleted.value = _isDeleted;
 
           initialSize.value = 0.75;
 
@@ -251,7 +202,7 @@ class RequestController extends GetxController {
 
         // int code = data['data']['code'];
 
-        String token = jsonMap['response']['token'];
+        // String token = jsonMap['response']['token'];
         String checkoutUrl = jsonMap['response']['checkout_url'];
         int code = jsonMap['response']['code'];
         isLoading.value = false;

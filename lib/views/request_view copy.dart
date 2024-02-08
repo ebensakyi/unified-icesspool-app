@@ -56,10 +56,16 @@ class RequestView extends StatelessWidget {
         child: Column(
           children: [
             servicesView(),
-            searchingForSP(context),
-            spFound(context),
-            orderInPlace(context),
-            searchingForDifferentSP(context)
+            controller.isDeleted.value == false
+                ? Column(
+                    children: [
+                      searchingForSP(context),
+                      spFound(context),
+                      orderInPlace(context),
+                      searchingForDifferentSP(context)
+                    ],
+                  )
+                : SizedBox()
           ],
         ),
 
@@ -124,9 +130,11 @@ class RequestView extends StatelessWidget {
   }
 
   Widget orderInPlace(context) {
+    log(controller.transactionStatus.value.toString());
+
     return Obx(
       () => Visibility(
-        visible: controller.customerHasTransaction.value,
+        visible: controller.transactionStatus.value == 3,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -189,7 +197,7 @@ class RequestView extends StatelessWidget {
 
     return Obx(
       () => Visibility(
-        visible: controller.customerHasTransaction.value,
+        visible: controller.transactionStatus.value == 1,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -286,9 +294,11 @@ class RequestView extends StatelessWidget {
   }
 
   Widget searchingForDifferentSP(context) {
+    log(controller.transactionStatus.value.toString());
+
     return Obx(
       () => Visibility(
-        visible: controller.customerHasTransaction.value,
+        visible: controller.transactionStatus.value == 7,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -345,10 +355,12 @@ class RequestView extends StatelessWidget {
   }
 
   Widget spFound(context) {
+    log(controller.transactionStatus.value.toString());
+
     //SP found, show details of sp with image make payment
     return Obx(
       () => Visibility(
-        visible: controller.customerHasTransaction.value,
+        visible: controller.transactionStatus.value == 2,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
