@@ -45,7 +45,7 @@ class SignupView extends StatelessWidget {
     return UpgradeAlert(
       child: Theme(
         data: ThemeData(
-          useMaterial3: false,
+          useMaterial3: true,
           primarySwatch: Colors.teal,
           colorScheme: ColorScheme.light(primary: Colors.teal),
         ),

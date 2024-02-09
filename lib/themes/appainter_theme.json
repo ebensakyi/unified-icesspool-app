@@ -915,6 +915,6 @@
     }
   },
   "unselectedWidgetColor": "#8a000000",
-  "useMaterial3": false,
+  "useMaterial3": true,
   "visualDensity": "compact"
 }

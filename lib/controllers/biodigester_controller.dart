@@ -46,6 +46,9 @@ class BiodigesterController extends GetxController {
   final latitude = 0.0.obs;
   final accuracy = 0.0.obs;
 
+  final childrenNumber = TextEditingController();
+  final adultsNumber = TextEditingController();
+
   final digesterEmptyingAvailable = false.obs;
   final soakawayServicingAvailable = false.obs;
   final drainfieldServicingAvailable = false.obs;

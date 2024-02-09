@@ -23,7 +23,7 @@ class RequestController extends GetxController {
   final Completer<GoogleMapController> _controller = Completer();
   // final controller = Get.put(HomeController());
   final isLoading = false.obs;
-  final initialSize = 0.56.obs;
+  final initialSize = 0.7.obs;
 
   final Map<MarkerId, Marker> markers = {};
   final transactionStatus = 0.obs;
@@ -52,6 +52,7 @@ class RequestController extends GetxController {
     // }
 
     // startCountdown();
+    await checkAvailableRequest1();
 
     await checkUserTransactionStates();
 
@@ -113,25 +114,68 @@ class RequestController extends GetxController {
   Future checkUserTransactionStates() async {
     log('checkAvailableRequest checkAvailableRequest');
 
+    //  try {
+    _firestore
+        .collection('transaction')
+        .where('customerId', isEqualTo: userId.value)
+        .where('deleted', isEqualTo: false)
+        .snapshots()
+        .listen((snapshot) {
+      // documents.assignAll(snapshot.docs);
+      documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
+
+      var data = documents[0];
+
+      inspect(data);
+
+      transactionStatus.value = data["txStatusCode"]!;
+      amount.value = data["amount"]!;
+      isDeleted.value = data["deleted"]!;
+
+      log(">>>>>>>>>> checkUserTransactionStates called");
+    });
+    // } catch (e) {
+    //   log(e.toString());
+    // }
+  }
+
+  Future<void> checkAvailableRequest1() async {
     try {
+      // Listen to changes in the Firestore collection
       _firestore
           .collection('transaction')
           .where('customerId', isEqualTo: userId.value)
           .where('deleted', isEqualTo: false)
+          .limit(1)
           .snapshots()
-          .listen((snapshot) {
-        // documents.assignAll(snapshot.docs);
-        documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
-
-        var data = documents[0];
-        if (data.length != 0) {
+          .listen((QuerySnapshot querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          isPendingTrxnAvailable.value = true;
           customerHasTransaction.value = true;
-        }
-        transactionStatus.value = data["txStatusCode"]!;
-        amount.value = data["amount"]!;
-        isDeleted.value = data["deleted"]!;
 
-        log(">>>>>>>>>> checkUserTransactionStates called");
+          // If there is at least one document matching the query
+          DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+
+          Map<String, dynamic>? data =
+              documentSnapshot.data() as Map<String, dynamic>?;
+
+          if (data != null) {
+            int? txStatusCode = data['txStatusCode'];
+            String _transactionId = data['transactionId'];
+            // bool _isDeleted = data['deleted'];
+
+            transactionStatus.value = txStatusCode!;
+            transactionId.value = _transactionId;
+            // isDeleted.value = _isDeleted;
+
+            initialSize.value = 0.85;
+          } else {
+            // Handle the case where data is null
+          }
+        } else {
+          // If no documents match the query
+          customerHasTransaction.value = false;
+        }
       });
     } catch (e) {
       log(e.toString());

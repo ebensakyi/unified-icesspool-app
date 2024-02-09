@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.teal,
             visualDensity: VisualDensity.adaptivePlatformDensity,
-            useMaterial3: false),
+            useMaterial3: true),
 
         // theme: ThemeData(
         //   // colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)

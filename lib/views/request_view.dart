@@ -50,18 +50,28 @@ class RequestView extends StatelessWidget {
       bottomSheet: InteractiveBottomSheet(
         options: InteractiveBottomSheetOptions(
             expand: false,
-            maxSize: 0.8,
-            initialSize: controller.initialSize.value,
-            minimumSize: 0.3),
-        child: Column(
-          children: [
-            servicesView(),
-            searchingForSP(context),
-            spFound(context),
-            orderInPlace(context),
-            searchingForDifferentSP(context)
-          ],
-        ),
+            maxSize: .9,
+            initialSize: 0.75, // controller.initialSize.value,
+            minimumSize: 0.5),
+        child: Obx(() => Column(
+              children: [
+                !controller.customerHasTransaction.value
+                    ? servicesView()
+                    : Column(
+                        children: [
+                          controller.transactionStatus.value == 1
+                              ? searchingForSP(context)
+                              : controller.transactionStatus.value == 2
+                                  ? spFound(context)
+                                  : controller.transactionStatus.value == 3
+                                      ? orderInPlace(context)
+                                      : controller.transactionStatus.value == 7
+                                          ? searchingForDifferentSP(context)
+                                          : servicesView()
+                        ],
+                      ),
+              ],
+            )),
 
         //  controller.transactionStatus.value == 1
         //     ? searchingForSP(context)
@@ -126,7 +136,8 @@ class RequestView extends StatelessWidget {
   Widget orderInPlace(context) {
     return Obx(
       () => Visibility(
-        visible: controller.customerHasTransaction.value,
+        visible: controller.transactionStatus.value == 3 &&
+            controller.customerHasTransaction.value,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -185,54 +196,226 @@ class RequestView extends StatelessWidget {
   }
 
   Widget searchingForSP(context) {
-    log(controller.transactionStatus.value.toString());
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              // color: Colors.teal.shade100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    SvgPicture.asset('assets/images/searching.svg',
+                        height: 200, semanticsLabel: 'Searching'),
+                    // CircularProgressIndicator(
+                    //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                    // ),
+                    // SizedBox(width: 16.0),
+                    Text(
+                      'Locating your Service Provider',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 16.0),
+                    Text(
+                      'Connecting to available service providers',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black54),
+                    ),
+                    // GifController _controller = GifController(vsync: this);
+                    SizedBox(width: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: LinearProgressIndicator(
+                        minHeight: 10,
+                        backgroundColor: Colors
+                            .grey[200], // Background color of the progress bar
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.amber), // Color of the progress indicator
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    ProgressOutlineButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              String contentText =
+                                  "Are you sure you want to cancel this request?";
+                              return StatefulBuilder(
+                                builder: (context, setState) {
+                                  return AlertDialog(
+                                    title: Text("Cancel Request"),
+                                    content: Text(contentText),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text("Cancel"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          controller.cancelRequest();
+                                          Navigator.pop(context);
+                                          // setState(() {
+                                          //   contentText =
+                                          //       "Changed Content of Dialog";
+                                          // });
+                                        },
+                                        child: Text("Ok"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                        isLoading: controller.isLoading.value,
+                        iconData: Icons.cancel_outlined,
+                        label: "Cancel",
+                        primaryColor: Colors.red)
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-    return Obx(
-      () => Visibility(
-        visible: controller.customerHasTransaction.value,
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                  // color: Colors.teal.shade100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
+  Widget searchingForDifferentSP(context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              // color: Colors.teal.shade100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    SvgPicture.asset('assets/images/searching.svg',
+                        height: 200, semanticsLabel: 'Searching'),
+                    // CircularProgressIndicator(
+                    //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                    // ),
+                    // SizedBox(width: 16.0),
+                    Text(
+                      'Locating another Service Provider',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 16.0),
+
+                    Text(
+                      'Sorry the SP cancelled transaction. We are connecting you to another service providers',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black54),
+                    ),
+                    // GifController _controller = GifController(vsync: this);
+                    SizedBox(width: 50.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: LinearProgressIndicator(
+                        minHeight: 10,
+                        backgroundColor: Colors
+                            .grey[200], // Background color of the progress bar
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.amber), // Color of the progress indicator
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget spFound(context) {
+    //SP found, show details of sp with image make payment
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              // color: Colors.teal.shade100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Service Provider found',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                    SvgPicture.asset('assets/images/payment.svg',
+                        height: 200, semanticsLabel: 'Searching'),
+
+                    SizedBox(height: 20.0),
+                    Text(
+                      'Make payment to confirm the job.',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black54),
+                    ),
+                    SizedBox(height: 10.0),
+
+                    Text(
+                      'Job will automatically be cancelled if payment is not done within the expiry time',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black),
+                    ),
+                    // GifController _controller = GifController(vsync: this);
+                    SizedBox(height: 20.0),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: LinearProgressIndicator(
+                    //     minHeight: 10,
+                    //     backgroundColor: Colors
+                    //         .grey[200], // Background color of the progress bar
+                    //     valueColor: AlwaysStoppedAnimation<Color>(
+                    //         Colors.teal), // Color of the progress indicator
+                    //   ),
+                    // ),
+                    Divider(),
+                    ListTile(
+                      title: Text(
+                        "Fee",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text('GHS ${controller.amount.value}'),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/images/searching.svg',
-                            height: 200, semanticsLabel: 'Searching'),
-                        // CircularProgressIndicator(
-                        //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
-                        // ),
-                        // SizedBox(width: 16.0),
-                        Text(
-                          'Locating your Service Provider',
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
+                        ProgressButton(
+                          onPressed: () {
+                            controller.initiateTellerPayment();
+                          },
+                          isLoading: controller.isLoading.value,
+                          iconData: Icons.payment_sharp,
+                          label: 'Pay',
+                          iconColor: Colors.white,
+                          progressColor: Colors.white,
+                          textColor: Colors.white,
+                          backgroundColor: controller.isLoading.value
+                              ? Colors.teal
+                              : Colors.teal,
+                          borderColor: Colors.teal,
                         ),
-                        SizedBox(height: 16.0),
-                        Text(
-                          'Connecting to available service providers',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black54),
+                        SizedBox(
+                          width: 10,
                         ),
-                        // GifController _controller = GifController(vsync: this);
-                        SizedBox(width: 20.0),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: LinearProgressIndicator(
-                            minHeight: 10,
-                            backgroundColor: Colors.grey[
-                                200], // Background color of the progress bar
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors
-                                .amber), // Color of the progress indicator
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
                         ProgressOutlineButton(
                             onPressed: () {
                               showDialog(
@@ -274,341 +457,114 @@ class RequestView extends StatelessWidget {
                             label: "Cancel",
                             primaryColor: Colors.red)
                       ],
-                    ),
-                  ),
+                    )
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
-    );
-  }
-
-  Widget searchingForDifferentSP(context) {
-    return Obx(
-      () => Visibility(
-        visible: controller.customerHasTransaction.value,
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                  // color: Colors.teal.shade100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        SvgPicture.asset('assets/images/searching.svg',
-                            height: 200, semanticsLabel: 'Searching'),
-                        // CircularProgressIndicator(
-                        //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
-                        // ),
-                        // SizedBox(width: 16.0),
-                        Text(
-                          'Locating another Service Provider',
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 16.0),
-
-                        Text(
-                          'Sorry the SP cancelled transaction. We are connecting you to another service providers',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black54),
-                        ),
-                        // GifController _controller = GifController(vsync: this);
-                        SizedBox(width: 50.0),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: LinearProgressIndicator(
-                            minHeight: 10,
-                            backgroundColor: Colors.grey[
-                                200], // Background color of the progress bar
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors
-                                .amber), // Color of the progress indicator
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget spFound(context) {
-    //SP found, show details of sp with image make payment
-    return Obx(
-      () => Visibility(
-        visible: controller.customerHasTransaction.value,
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                  // color: Colors.teal.shade100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Service Provider found',
-                          style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
-                        ),
-                        SvgPicture.asset('assets/images/payment.svg',
-                            height: 200, semanticsLabel: 'Searching'),
-
-                        SizedBox(height: 20.0),
-                        Text(
-                          'Make payment to confirm the job.',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black54),
-                        ),
-                        SizedBox(height: 10.0),
-
-                        Text(
-                          'Job will automatically be cancelled if payment is not done within the expiry time',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black),
-                        ),
-                        // GifController _controller = GifController(vsync: this);
-                        SizedBox(height: 20.0),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: LinearProgressIndicator(
-                        //     minHeight: 10,
-                        //     backgroundColor: Colors
-                        //         .grey[200], // Background color of the progress bar
-                        //     valueColor: AlwaysStoppedAnimation<Color>(
-                        //         Colors.teal), // Color of the progress indicator
-                        //   ),
-                        // ),
-                        Divider(),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: buildListTile(
-                                  'Fee', 'GHS ${controller.amount.value}'),
-                            ),
-                            // Expanded(
-                            //   child: buildListTile('Wait Time', '10 minutes'),
-                            // ),
-                            Expanded(
-                              child: ListTile(
-                                //leading: Icon(Icons.history_toggle_off),
-                                leading: SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.teal,
-                                  ),
-                                ),
-                                title: Text(
-                                  "Expires in",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                subtitle: Obx(() {
-                                  return Text(
-                                    controller.formatDuration(
-                                        controller.countdownDuration.value),
-                                    // style: TextStyle(fontSize: 24),
-                                  );
-                                }),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ProgressButton(
-                              onPressed: () {
-                                controller.initiateTellerPayment();
-                              },
-                              isLoading: controller.isLoading.value,
-                              iconData: Icons.payment_sharp,
-                              label: 'Pay',
-                              iconColor: Colors.white,
-                              progressColor: Colors.white,
-                              textColor: Colors.white,
-                              backgroundColor: controller.isLoading.value
-                                  ? Colors.teal
-                                  : Colors.teal,
-                              borderColor: Colors.teal,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ProgressOutlineButton(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      String contentText =
-                                          "Are you sure you want to cancel this request?";
-                                      return StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return AlertDialog(
-                                            title: Text("Cancel Request"),
-                                            content: Text(contentText),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text("Cancel"),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  controller.cancelRequest();
-                                                  Navigator.pop(context);
-                                                  // setState(() {
-                                                  //   contentText =
-                                                  //       "Changed Content of Dialog";
-                                                  // });
-                                                },
-                                                child: Text("Ok"),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  );
-                                },
-                                isLoading: controller.isLoading.value,
-                                iconData: Icons.cancel_outlined,
-                                label: "Cancel",
-                                primaryColor: Colors.red)
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildListTile(String title, String value) {
-    return ListTile(
-      title: Text(
-        title,
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      subtitle: Text(value),
     );
   }
 
   Widget servicesView() {
-    return Obx(() => Visibility(
-          visible: controller.transactionStatus.value == 0,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Obx(() {
-                    return Expanded(
-                      child: ServiceWidget(
-                        isAvailable:
-                            homeController.biodigesterServiceAvailable.value,
-                        path: "assets/images/biodigester.png",
-                        size: 32,
-                        title: 'Biodigester',
-                        subTitle: 'Service or build a new biodigester',
-                        onTap: openBioDigesterMainView,
-                      ),
-                    );
-                  }),
-                  Obx(() {
-                    return Expanded(
-                      child: ServiceWidget(
-                        isAvailable:
-                            homeController.emptyingServiceAvailable.value,
-                        path: "assets/images/toilet-tanker.png",
-                        size: 32,
-                        title: 'Septic Tank',
-                        subTitle: 'Empty your Septic tank',
-                        onTap: openTankerMainView,
-                      ),
-                    );
-                  }),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Obx(() {
-                    return Expanded(
-                      child: ServiceWidget(
-                        isAvailable: homeController.waterServiceAvailable.value,
-                        path: "assets/images/water-tanker.png",
-                        size: 32,
-                        title: 'Tanker Water',
-                        subTitle: 'Request for bulk water',
-                        onTap: openWaterMainView,
-                      ),
-                    );
-                  }),
-                  Expanded(
-                    child: ServiceWidget(
-                      isAvailable: true,
-                      path: "assets/images/more.png",
-                      size: 32,
-                      title: 'Read More',
-                      subTitle: 'Read more about our services',
-                    ),
-                  ),
-                ],
-              ),
-              ListTile(
-                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                title: Text(
-                  'Biodigester',
-                  style: TextStyle(fontSize: 12),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Obx(() {
+              return Expanded(
+                child: ServiceWidget(
+                  isAvailable: homeController.biodigesterServiceAvailable.value,
+                  path: "assets/images/biodigester.png",
+                  size: 32,
+                  title: 'Biodigester',
+                  subTitle: 'Service or build a new biodigester',
+                  onTap: openBioDigesterMainView,
                 ),
-                leading: Icon(Icons.history),
-                subtitle: Text(
-                  'Dansoman - 21/11/2023',
-                  style: TextStyle(fontSize: 10),
+              );
+            }),
+            Obx(() {
+              return Expanded(
+                child: ServiceWidget(
+                  isAvailable: homeController.emptyingServiceAvailable.value,
+                  path: "assets/images/toilet-tanker.png",
+                  size: 32,
+                  title: 'Septic Tank',
+                  subTitle: 'Empty your Septic tank',
+                  onTap: openTankerMainView,
                 ),
+              );
+            }),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Obx(() {
+              return Expanded(
+                child: ServiceWidget(
+                  isAvailable: homeController.waterServiceAvailable.value,
+                  path: "assets/images/water-tanker.png",
+                  size: 32,
+                  title: 'Tanker Water',
+                  subTitle: 'Request for bulk water',
+                  onTap: openWaterMainView,
+                ),
+              );
+            }),
+            Expanded(
+              child: ServiceWidget(
+                isAvailable: true,
+                path: "assets/images/more.png",
+                size: 32,
+                title: 'Read More',
+                subTitle: 'Read more about our services',
               ),
-              Divider(),
-              ListTile(
-                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                title: Text(
-                  'Tanker Water',
-                  style: TextStyle(fontSize: 12),
-                ),
-                leading: Icon(Icons.history),
-                subtitle: Text(
-                  'Sowutuom - 11/01/2023',
-                  style: TextStyle(fontSize: 10),
-                ),
-              ),
-            ],
+            ),
+          ],
+        ),
+        ListTile(
+          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+          title: Text(
+            'Biodigester',
+            style: TextStyle(fontSize: 12),
           ),
-        ));
+          leading: Icon(Icons.history),
+          subtitle: Text(
+            'Dansoman - 21/11/2023',
+            style: TextStyle(fontSize: 10),
+          ),
+        ),
+        Divider(),
+        ListTile(
+          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+          title: Text(
+            'Tanker Water',
+            style: TextStyle(fontSize: 12),
+          ),
+          leading: Icon(Icons.history),
+          subtitle: Text(
+            'Sowutuom - 11/01/2023',
+            style: TextStyle(fontSize: 10),
+          ),
+        ),
+      ],
+    );
   }
 }
+
+// Widget buildListTile(String title, String value) {
+//   return ListTile(
+//     title: Text(
+//       title,
+//       style: TextStyle(fontWeight: FontWeight.bold),
+//     ),
+//     subtitle: Text(value),
+//   );
+// }
 
 openBioDigesterMainView() {
   return Get.to(() => BioDigesterMainView());
