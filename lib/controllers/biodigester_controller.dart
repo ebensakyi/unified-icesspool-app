@@ -48,6 +48,7 @@ class BiodigesterController extends GetxController {
 
   final childrenNumber = TextEditingController();
   final adultsNumber = TextEditingController();
+  final totalUsers = 0.obs;
 
   final digesterEmptyingAvailable = false.obs;
   final soakawayServicingAvailable = false.obs;
@@ -81,6 +82,18 @@ class BiodigesterController extends GetxController {
   Rx<DateTime> selectedDate = DateTime.now().obs;
 
   Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
+
+  bool isStandard() {
+    return totalUsers.value <= 15;
+  }
+
+  bool isLarge() {
+    return totalUsers.value > 15 && totalUsers.value <= 25;
+  }
+
+  bool isDoubleLarge() {
+    return totalUsers.value > 25;
+  }
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -378,30 +391,16 @@ class BiodigesterController extends GetxController {
     try {
       final response = await http.get(uri);
 
+      //print(response.body);
+
       if (response.statusCode == 200) {
-        // Successful response
-        //final data = json.decode(response.body);
         List data = json.decode(response.body);
 
-        log("getBiodigesterPricing===>$data");
+        //   log("getBiodigesterPricing===>$data");
         List<Map<String, dynamic>> typedData =
             List<Map<String, dynamic>>.from(data);
 
-        // print(parseData(typedData));
-
-        // var x = data
-        //     .map((item) => BiodigesterPricing(
-        //           id: item['id'],
-        //           name: item['name'],
-        //           cost: item['cost'].toDouble(),
-        //         ))
-        //     .toList();
-
-        // log(x);
-
         biodigesterPricings.value = parseData(typedData);
-
-        // return data;
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -418,9 +417,9 @@ class BiodigesterController extends GetxController {
 
     log(index.toString());
     if (index != -1) {
-      log('Index of object with id $targetId: $index');
+      // log('Index of object with id $targetId: $index');
     } else {
-      log('Object with id $targetId not found in the list.');
+      // log('Object with id $targetId not found in the list.');
     }
     return index;
   }
@@ -435,6 +434,9 @@ class BiodigesterController extends GetxController {
               fullDesc: item['fullDesc'],
               type: item['type'],
               cost: item['cost'],
+              standardCost: item['standardCost'],
+              largeCost: item['largeCost'],
+              doubleLargeCost: item['doubleLargeCost'],
             ))
         .toList();
 
@@ -523,6 +525,11 @@ class BiodigesterController extends GetxController {
     });
 
     return totalCost.toStringAsFixed(2);
+  }
+
+  void calcUsers() {
+    totalUsers.value =
+        (int.parse(adultsNumber.text) + int.parse(childrenNumber.text));
   }
 
   // void saveTransactionFirestore() {

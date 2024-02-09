@@ -22,6 +22,7 @@ class SmallTextBox extends StatelessWidget {
           SizedBox(height: 8),
           TextFormField(
             controller: controller,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(border: OutlineInputBorder()),
           ),
         ],

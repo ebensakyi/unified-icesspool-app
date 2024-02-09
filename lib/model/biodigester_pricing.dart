@@ -16,6 +16,9 @@ class BiodigesterPricing {
     required this.id,
     required this.name,
     required this.cost,
+    required this.standardCost,
+    required this.largeCost,
+    required this.doubleLargeCost,
     required this.type,
     required this.biodigesterServiceId,
     this.shortDesc,
@@ -30,6 +33,10 @@ class BiodigesterPricing {
   int biodigesterServiceId;
   String name;
   String cost;
+  String standardCost;
+  String largeCost;
+  String doubleLargeCost;
+
   String type;
   String? shortDesc;
   String? fullDesc;
@@ -44,6 +51,9 @@ class BiodigesterPricing {
         biodigesterServiceId: json["biodigesterServiceId"],
         name: json["name"],
         cost: json["cost"],
+        standardCost: json["standardCost"],
+        largeCost: json["largeCost"],
+        doubleLargeCost: json["doubleLargeCost"],
         type: json["type"],
         shortDesc: json["shortDesc"],
         fullDesc: json["fullDesc"],
@@ -58,6 +68,9 @@ class BiodigesterPricing {
         "biodigesterServiceId": biodigesterServiceId,
         "name": name,
         "cost": cost,
+        "standardCost": standardCost,
+        "largeCost": largeCost,
+        "doubleLargeCost": doubleLargeCost,
         "type": type,
         "shortDesc": shortDesc,
         "fullDesc": fullDesc,
