@@ -6,6 +6,9 @@ class Constants {
 
   static String LOGIN_API_URL = BASE_URL + "/auth/login/mobile";
 
+  static String AWS_S3_URL =
+      "https://icesspool-files.s3.amazonaws.com/uploads/";
+
   static const String USER_SERVICE_AREA_API_URL =
       BASE_URL + "/user/user-service-area";
   static const String SERVICES_AVAILABLE_API_URL =
@@ -29,9 +32,6 @@ class Constants {
   static String SANITATION_API_URL = "/sanitation-report";
   static String SIGNUP_API_URL = BASE_URL + "/auth/signup";
   static String VALIDATE_ACCOUNT_API_URL = BASE_URL + "/auth/validate-user";
-
-  static String AWS_S3_URL =
-      "https://esicapps-images.s3.eu-west-2.amazonaws.com/";
 
   static const String INITIATE_PAYMENT_URL = BASE_URL + "/payment/initiate";
 

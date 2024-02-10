@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:icesspool/contants.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
 import 'package:icesspool/widgets/progress-button.dart';
@@ -370,10 +371,35 @@ class RequestView extends StatelessWidget {
                     ),
                     SizedBox(height: 10.0),
 
-                    Text(
-                      'Job will automatically be cancelled if payment is not done within the expiry time',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, color: Colors.black),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundImage: NetworkImage(
+                                "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              controller.spName.value,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black),
+                            ),
+                            Text(
+                              controller.spCompany.value,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     // GifController _controller = GifController(vsync: this);
                     SizedBox(height: 20.0),

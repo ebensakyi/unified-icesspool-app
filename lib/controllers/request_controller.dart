@@ -31,6 +31,9 @@ class RequestController extends GetxController {
   final transactionId = "".obs;
   final paymentId = "".obs;
   final amount = "".obs;
+  final spImageUrl = "".obs;
+  final spName = "".obs;
+  final spCompany = "".obs;
   final isPendingTrxnAvailable = false.obs;
   final isDeleted = false.obs;
 
@@ -130,6 +133,10 @@ class RequestController extends GetxController {
 
       transactionStatus.value = data["txStatusCode"]!;
       amount.value = data["amount"]!;
+      // spImageUrl.value = data["spImageUrl"]!;
+      // spCompany.value = data["spCompany"]!;
+      // spName.value = data["spName"]!;
+
       isDeleted.value = data["deleted"]!;
 
       log(">>>>>>>>>> checkUserTransactionStates called");
@@ -204,6 +211,11 @@ class RequestController extends GetxController {
         if (data != null) {
           int? txStatusCode = data['txStatusCode'];
           String _transactionId = data['transactionId'];
+          spImageUrl.value = data['spImageUrl'];
+          spCompany.value = data["spCompany"]!;
+          spName.value = data["spName"]!;
+          amount.value = data['amount'];
+
           // bool _isDeleted = data['deleted'];
 
           transactionStatus.value = txStatusCode!;

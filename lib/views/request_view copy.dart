@@ -391,7 +391,7 @@ class RequestView extends StatelessWidget {
                         SizedBox(height: 10.0),
 
                         Text(
-                          'Job will automatically be cancelled if payment is not done within the expiry time',
+                          'Make payment to confirm the re',
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: Colors.black),
