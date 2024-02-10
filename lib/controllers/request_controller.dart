@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/views/payment_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../bindings/payment_binding.dart';
 import '../contants.dart';
@@ -34,6 +35,8 @@ class RequestController extends GetxController {
   final spImageUrl = "".obs;
   final spName = "".obs;
   final spCompany = "".obs;
+  final spPhoneNumber = "".obs;
+
   final isPendingTrxnAvailable = false.obs;
   final isDeleted = false.obs;
 
@@ -60,6 +63,16 @@ class RequestController extends GetxController {
     await checkUserTransactionStates();
 
     super.onInit();
+  }
+
+  void openPhoneDialer() async {
+    final Uri phoneLaunchUri =
+        Uri(scheme: 'tel', path: spPhoneNumber.toString());
+    if (!await launchUrl(phoneLaunchUri)) {
+      throw 'Could not launch $phoneLaunchUri';
+    }
+
+    // canLaunchUrl(phoneLaunchUri).then((bool result) {});
   }
 
   Future<void> addMarker() async {
@@ -132,10 +145,7 @@ class RequestController extends GetxController {
       inspect(data);
 
       transactionStatus.value = data["txStatusCode"]!;
-      amount.value = data["amount"]!;
-      // spImageUrl.value = data["spImageUrl"]!;
-      // spCompany.value = data["spCompany"]!;
-      // spName.value = data["spName"]!;
+      amount.value = data['unitCost'];
 
       isDeleted.value = data["deleted"]!;
 
@@ -174,6 +184,7 @@ class RequestController extends GetxController {
             transactionStatus.value = txStatusCode!;
             transactionId.value = _transactionId;
             // isDeleted.value = _isDeleted;
+            //amount.value = data['unitCost'];
 
             initialSize.value = 0.85;
           } else {
@@ -214,7 +225,9 @@ class RequestController extends GetxController {
           spImageUrl.value = data['spImageUrl'];
           spCompany.value = data["spCompany"]!;
           spName.value = data["spName"]!;
-          amount.value = data['amount'];
+          spPhoneNumber.value = data["spPhoneNumber"]!;
+
+          amount.value = data['unitCost'].toString();
 
           // bool _isDeleted = data['deleted'];
 
@@ -222,7 +235,9 @@ class RequestController extends GetxController {
           transactionId.value = _transactionId;
           // isDeleted.value = _isDeleted;
 
-          initialSize.value = 0.75;
+          log(">>>>>>>>>>>>" + amount.toString());
+
+          initialSize.value = 0.85;
 
           return txStatusCode;
         } else {

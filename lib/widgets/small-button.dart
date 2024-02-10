@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class SmallButton extends StatelessWidget {
   final onPressed;
   final showLoading;
-  final dynamic label;
+  final label;
   final dynamic backgroundColor;
   const SmallButton(
       {Key? key,
       required this.onPressed,
       required this.showLoading,
-      this.label = "OK",
+      this.label,
       this.backgroundColor})
       : super(key: key);
 
@@ -18,13 +18,13 @@ class SmallButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 30,
+        height: 40,
         child: ElevatedButton(
           onPressed: onPressed,
           // icon: Icon(Icons.send_outlined),
           child: Stack(children: [
             Visibility(
-                maintainSize: false, visible: !showLoading, child: Text(label)),
+                maintainSize: false, visible: !showLoading, child: label),
             Visibility(
               maintainSize: false,
               visible: showLoading,

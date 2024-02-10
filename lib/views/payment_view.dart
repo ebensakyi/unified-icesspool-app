@@ -32,7 +32,7 @@ class PaymentView extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                  height: MediaQuery.of(context).size.height * 0.75,
+                  height: MediaQuery.of(context).size.height,
                   child:
                       WebViewWidget(controller: controller.webViewController)),
               Padding(

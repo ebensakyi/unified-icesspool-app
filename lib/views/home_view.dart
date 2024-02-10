@@ -46,13 +46,13 @@ class HomeView extends StatelessWidget {
                 inactiveColor: controller.inactiveColor.value,
                 textAlign: TextAlign.center,
               ),
-              BottomNavyBarItem(
-                icon: Icon(Icons.video_collection_outlined),
-                title: Text('Services'),
-                activeColor: MyColors.MainColor,
-                inactiveColor: controller.inactiveColor.value,
-                textAlign: TextAlign.center,
-              ),
+              // BottomNavyBarItem(
+              //   icon: Icon(Icons.video_collection_outlined),
+              //   title: Text('Services'),
+              //   activeColor: MyColors.MainColor,
+              //   inactiveColor: controller.inactiveColor.value,
+              //   textAlign: TextAlign.center,
+              // ),
               BottomNavyBarItem(
                 icon: Icon(Icons.account_circle_outlined),
                 title: Text('Account'),
@@ -69,7 +69,7 @@ class HomeView extends StatelessWidget {
     List<Widget> pages = [
       RequestView(),
       ReportHistoryView(),
-      ServicesBlogView(),
+      // ServicesBlogView(),
       AccountView()
     ];
     return Obx(() {

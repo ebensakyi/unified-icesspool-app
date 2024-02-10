@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
+import 'package:icesspool/app/modules/services/views/services_view.dart';
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/progress-button.dart';
@@ -232,8 +233,9 @@ class BioDigesterMainView extends StatelessWidget {
                                   .withOpacity(0.3), // Light yellow background
                               child: InkWell(
                                 onTap: () {
-                                  Get.back();
-                                  homeController.changeTabIndex(2);
+                                  // Get.back();
+                                  // homeController.changeTabIndex(2);
+                                  Get.to(() => ServicesView());
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),

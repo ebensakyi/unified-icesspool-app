@@ -11,6 +11,7 @@ import 'package:icesspool/views/water_main_view.dart';
 import 'package:icesspool/widgets/progress-button.dart';
 import 'package:icesspool/widgets/progress-outline-button.dart';
 import 'package:icesspool/widgets/service-widget.dart';
+import 'package:icesspool/widgets/small-button.dart';
 
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
 
@@ -171,6 +172,7 @@ class RequestView extends StatelessWidget {
                                 color: Colors.black54),
                           ),
                         ),
+
                         // GifController _controller = GifController(vsync: this);
                         SizedBox(width: 20.0),
                         Padding(
@@ -184,6 +186,46 @@ class RequestView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 20.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: CircleAvatar(
+                                radius: 25,
+                                backgroundImage: NetworkImage(
+                                    "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  controller.spName.value,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  controller.spCompany.value,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SmallButton(
+                          onPressed: () {
+                            controller.openPhoneDialer();
+                          },
+                          showLoading: false,
+                          label: IconButton(
+                            icon: Icon(Icons.call),
+                            onPressed: () {},
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -402,7 +444,6 @@ class RequestView extends StatelessWidget {
                       ],
                     ),
                     // GifController _controller = GifController(vsync: this);
-                    SizedBox(height: 20.0),
                     // Padding(
                     //   padding: const EdgeInsets.all(8.0),
                     //   child: LinearProgressIndicator(
@@ -419,7 +460,8 @@ class RequestView extends StatelessWidget {
                         "Fee",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text('GHS ${controller.amount.value}'),
+                      subtitle:
+                          Obx(() => Text('GHS ${controller.amount.value}')),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
