@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:icesspool/widgets/price-item-widget.dart';
 
 class EmptyingMainView extends StatelessWidget {
   EmptyingMainView({super.key});

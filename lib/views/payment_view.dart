@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:icesspool/widgets/progress-button.dart';
 import 'package:webview_flutter/webview_flutter.dart';

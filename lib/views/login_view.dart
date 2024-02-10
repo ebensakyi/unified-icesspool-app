@@ -1,20 +1,16 @@
 // ignore_for_file: unnecessary_set_literal
 
-import 'dart:developer';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/views/signup_view.dart';
 import 'package:icesspool/widgets/progress-outline-button.dart';
-import 'package:icesspool/widgets/text-button.dart';
 
 import '../controllers/login_controller.dart';
 import '../core/mask_formatter.dart';
 import '../core/validator.dart';
 import '../themes/colors.dart';
-import '../widgets/loading-button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -45,7 +41,6 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _formKey = GlobalKey<FormState>();
-    const _minimumPadding = 5.0;
 
     return UpgradeAlert(
       child: Theme(
