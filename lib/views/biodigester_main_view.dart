@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -17,7 +15,6 @@ import '../widgets/dropdown.dart';
 import '../widgets/outline-button.dart';
 import '../widgets/small-text-box.dart';
 import '../widgets/sub-service-widget2.dart';
-import 'package:date_field/date_field.dart';
 
 class BioDigesterMainView extends StatelessWidget {
   final controller = Get.put(BiodigesterController());

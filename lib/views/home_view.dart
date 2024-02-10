@@ -1,18 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:icesspool/app/modules/services-blog/views/services_blog_view.dart';
 import 'package:icesspool/views/account_view.dart';
 import 'package:icesspool/views/report_history_view.dart';
 import 'package:icesspool/views/request_view.dart';
-import 'package:icesspool/views/service_description_view.dart';
-import 'package:icesspool/widgets/service-description-cards.dart';
 
 import '../controllers/home_controller.dart';
 import '../themes/colors.dart';
 import '../widgets/custom-animated-bottom-bar.dart';
-import 'about_view.dart';
 
 class HomeView extends StatelessWidget {
   final controller = Get.put(HomeController());

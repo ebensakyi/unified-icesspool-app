@@ -223,7 +223,9 @@ class RequestView extends StatelessWidget {
                           showLoading: false,
                           label: IconButton(
                             icon: Icon(Icons.call),
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.openPhoneDialer();
+                            },
                           ),
                         )
                       ],
