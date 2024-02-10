@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:icesspool/themes/colors.dart';
-import 'package:icesspool/widgets/image-view.dart';
-
-import 'small-button2.dart';
 
 class SubServiceWidget2 extends StatelessWidget {
   final String path;
@@ -17,8 +12,10 @@ class SubServiceWidget2 extends StatelessWidget {
   final Color inactiveBgColor;
   final Color activeTextColor;
   final bool isSelected;
+  final Widget description;
+
   SubServiceWidget2({
-    super.key,
+    Key? key,
     required this.path,
     required this.size,
     required this.title,
@@ -30,65 +27,83 @@ class SubServiceWidget2 extends StatelessWidget {
     this.activeTextColor = Colors.black,
     required this.isSelected,
     required this.price,
+    required this.description,
   });
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity, // Make the container fill the width of the screen
-      padding: EdgeInsets.all(16.0), // Add padding as needed
-      child: Column(
-        children: [
-          ElevatedButton(
-            onPressed: onPressed,
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                side: BorderSide(color: Colors.teal), // No rounded borders
-              ),
-              backgroundColor: Colors.white,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.teal, // Border color
+              width: 2.0, // Border width
             ),
-            child: Row(
-              // mainAxisSize: MainAxisSize.min,
-              children: [
-                // ImageView(path: path, size: size),
-                Icon(Icons.list_alt_sharp),
-                SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            color: Colors.teal.withOpacity(0.1), // Background color
+            borderRadius: BorderRadius.circular(12.0), // Border radius
+          ),
+          width: double.infinity,
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: onPressed,
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  backgroundColor: Colors.transparent, // Transparent background
+                ),
+                child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            title,
-                            style: TextStyle(color: Colors.black87),
+                    Icon(Icons.list_alt_sharp),
+                    SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                title,
+                                style: TextStyle(color: Colors.black87),
+                              ),
+                              SizedBox(width: 24.0),
+                              Visibility(
+                                visible: isSelected,
+                                child: Icon(Icons.check_box_outlined),
+                              )
+                            ],
                           ),
-                          SizedBox(width: 24.0),
-                          Visibility(
-                            visible: isSelected,
-                            child: Icon(Icons.check_box_outlined),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        price,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            price,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
-                ), // Replace with your desired text
-              ],
-            ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: description, // Align description to the left
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

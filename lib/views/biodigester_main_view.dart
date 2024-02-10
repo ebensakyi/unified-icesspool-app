@@ -511,6 +511,7 @@ class BioDigesterMainView extends StatelessWidget {
               price: "GHS " +
                   controller.biodigesterPricings[index1].cost.toString(),
               isSelected: controller.isSelected1.value,
+              description: Text(""),
             )
           : SizedBox.shrink(),
       controller.biodigesterServicesAvailable.contains(2) && index2 != -1
@@ -539,6 +540,7 @@ class BioDigesterMainView extends StatelessWidget {
               price: "GHS " +
                   controller.biodigesterPricings[index2].cost.toString(),
               isSelected: controller.isSelected2.value,
+              description: Text(""),
             )
           : SizedBox.shrink(),
       controller.biodigesterServicesAvailable.contains(3) && index3 != -1
@@ -566,6 +568,7 @@ class BioDigesterMainView extends StatelessWidget {
               price: "GHS " +
                   controller.biodigesterPricings[index3].cost.toString(),
               isSelected: controller.isSelected3.value,
+              description: Text(""),
             )
           : SizedBox.shrink(),
     ]);
@@ -620,37 +623,41 @@ class BioDigesterMainView extends StatelessWidget {
                               controller
                                   .biodigesterPricings[index4].doubleLargeCost,
                   isSelected: controller.isSelected4.value,
+                  description: Column(
+                    children: [
+                      Obx(() => Visibility(
+                            visible: controller.isStandard(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Small digester",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.isLarge(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Large digesters",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.isDoubleLarge(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Two large digesters",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
-                Obx(() => Visibility(
-                      visible: controller.isStandard(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Small digester",
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    )),
-                Obx(() => Visibility(
-                      visible: controller.isLarge(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Two large digesters",
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    )),
-                Obx(() => Visibility(
-                      visible: controller.isDoubleLarge(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Two large digesters",
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    ))
               ],
             )
           : SizedBox.shrink(),
@@ -672,6 +679,7 @@ class BioDigesterMainView extends StatelessWidget {
                         !controller.isSelected5.value;
 
                     controller.addOrRemoveItem(controller.selectedServices, {
+                      "id": controller.biodigesterPricings[index5].id.toInt(),
                       "unitCost": controller.isStandard()
                           ? controller.biodigesterPricings[index5].standardCost
                               .toString()
@@ -679,6 +687,8 @@ class BioDigesterMainView extends StatelessWidget {
                               ? controller.biodigesterPricings[index5].largeCost
                               : controller
                                   .biodigesterPricings[index5].doubleLargeCost,
+                      "name": controller.biodigesterPricings[index5].name
+                          .toString(),
                     });
                   },
                   price: controller.isStandard()
@@ -692,40 +702,44 @@ class BioDigesterMainView extends StatelessWidget {
                               controller
                                   .biodigesterPricings[index5].doubleLargeCost,
                   isSelected: controller.isSelected5.value,
-                ),
-                Obx(
-                  () => Visibility(
-                    visible: controller.totalUsers.value < 15,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text(
-                        "Small digester + seat",
-                        style: TextStyle(color: Colors.red.shade700),
+                  description: Column(
+                    children: [
+                      Obx(
+                        () => Visibility(
+                          visible: controller.totalUsers.value < 15,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text(
+                              "Small digester + seat",
+                              style: TextStyle(color: Colors.red.shade700),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      Obx(() => Visibility(
+                            visible: controller.totalUsers.value > 15 &&
+                                controller.totalUsers.value < 25,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Large digesters",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.totalUsers.value > 25,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Two large digesters + seat",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          ))
+                    ],
                   ),
                 ),
-                Obx(() => Visibility(
-                      visible: controller.totalUsers.value > 15 &&
-                          controller.totalUsers.value < 25,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Two large digesters",
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    )),
-                Obx(() => Visibility(
-                      visible: controller.totalUsers.value > 25,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Two large digesters + seat",
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    ))
               ],
             )
           : SizedBox.shrink(),
@@ -750,6 +764,7 @@ class BioDigesterMainView extends StatelessWidget {
                     //         : Colors.grey;
 
                     controller.addOrRemoveItem(controller.selectedServices, {
+                      "id": controller.biodigesterPricings[index6].id.toInt(),
                       "unitCost": controller.isStandard()
                           ? controller.biodigesterPricings[index6].standardCost
                               .toString()
@@ -757,6 +772,8 @@ class BioDigesterMainView extends StatelessWidget {
                               ? controller.biodigesterPricings[index6].largeCost
                               : controller
                                   .biodigesterPricings[index6].doubleLargeCost,
+                      "name": controller.biodigesterPricings[index6].name
+                          .toString(),
                     });
                   },
                   price: controller.isStandard()
@@ -770,37 +787,41 @@ class BioDigesterMainView extends StatelessWidget {
                               controller
                                   .biodigesterPricings[index6].doubleLargeCost,
                   isSelected: controller.isSelected6.value,
+                  description: Column(
+                    children: [
+                      Obx(() => Visibility(
+                            visible: controller.isStandard(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Small Digester + Superstructure + Toilet Seat + Wash hand Basin",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.isLarge(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Large Digester + Superstructure + Toilet Seat + Wash hand basin",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.isDoubleLarge(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Two large Digester + Superstructure + Toilet Seat + Wash hand basin",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
                 ),
-                Obx(() => Visibility(
-                      visible: controller.isStandard(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Small Digester + Superstructure + Toilet Seat + Wash hand Basin",
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    )),
-                Obx(() => Visibility(
-                      visible: controller.isLarge(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Large Digester + Superstructure + Toilet Seat + Wash hand basin",
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    )),
-                Obx(() => Visibility(
-                      visible: controller.isDoubleLarge(),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Two large Digester + Superstructure + Toilet Seat + Wash hand basin",
-                          style: TextStyle(color: Colors.red.shade700),
-                        ),
-                      ),
-                    ))
               ],
             )
           : SizedBox.shrink(),
