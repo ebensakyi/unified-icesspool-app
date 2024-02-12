@@ -113,7 +113,7 @@ class RequestController extends GetxController {
     var client = http.Client();
 
     await client.post(
-      Uri.parse(Constants.TRANSACTION_CANCEL_API_URL),
+      Uri.parse(Constants.UPDATE_TRANSACTION_STATUS_API_URL),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

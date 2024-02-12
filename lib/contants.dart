@@ -18,10 +18,8 @@ class Constants {
       BASE_URL + "/services/biodigester/transaction/make-request";
 
   static const String CANCELLED_BY_CUSTOMER = "10";
-
-  static const String TRANSACTION_CANCEL_API_URL =
-      BASE_URL + "/services/cancel-request";
-
+  static const String UPDATE_TRANSACTION_STATUS_API_URL =
+      BASE_URL + "/services/update-transaction-status";
   static const String BIODIGESTER_SERVICES_AVAILABLE_API_URL =
       BASE_URL + "/user/biodigester-services-available";
 
