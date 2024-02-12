@@ -119,7 +119,7 @@ class RequestController extends GetxController {
       },
       body: jsonEncode(<String, String>{
         'transactionId': transactionId.value,
-        'status': "8",
+        'status': Constants.CANCELLED_BY_CUSTOMER,
       }),
     );
 
