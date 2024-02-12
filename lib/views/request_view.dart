@@ -415,35 +415,37 @@ class RequestView extends StatelessWidget {
                     ),
                     SizedBox(height: 10.0),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundImage: NetworkImage(
-                                "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                    Obx(
+                      () => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundImage: NetworkImage(
+                                  "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                            ),
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              controller.spName.value,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                            ),
-                            Text(
-                              controller.spCompany.value,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      ],
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                controller.spName.value,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              ),
+                              Text(
+                                controller.spCompany.value,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     // GifController _controller = GifController(vsync: this);
                     // Padding(
