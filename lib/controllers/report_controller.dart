@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/core/location_service.dart';
 import 'package:icesspool/model/district.dart';
@@ -105,9 +106,9 @@ class ReportController extends GetxController {
     latitude.value = position.latitude;
     longitude.value = position.longitude;
 
-    final prefs = await SharedPreferences.getInstance();
+    final box = await GetStorage();
 
-    userId.value = prefs.getInt('userId') ?? 0;
+    userId.value = box.read('userId') ?? 0;
 
     // var data = Get.arguments;
     // userId.value = data["0"];
@@ -117,22 +118,22 @@ class ReportController extends GetxController {
 
     districts.value = await DataServices.getDistricts();
 
-    displayName.value = prefs.getString('displayName') ?? "";
-    email.value = prefs.getString('email') ?? "";
-    photoURL.value = prefs.getString('photoURL') ?? "";
-    phoneNumber.value = prefs.getString('phoneNumber') ?? "";
+    displayName.value = box.read('displayName') ?? "";
+    email.value = box.read('email') ?? "";
+    photoURL.value = box.read('photoURL') ?? "";
+    phoneNumber.value = box.read('phoneNumber') ?? "";
 
     super.onInit();
   }
 
   void clearSharedPref() async {
-    final prefs = await SharedPreferences.getInstance();
+    final box = await GetStorage();
 
-    await prefs.remove('displayName');
-    await prefs.remove('email');
-    await prefs.remove('phoneNumber');
+    await box.remove('displayName');
+    await box.remove('email');
+    await box.remove('phoneNumber');
 
-    await prefs.remove('photoURL');
+    await box.remove('photoURL');
   }
 
   void getDistricts() async {
@@ -161,9 +162,9 @@ class ReportController extends GetxController {
       }
       formKey.currentState!.save();
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var fcmId = prefs.getString('fcmId');
-      var userId = prefs.getString('userId');
+      final box = await GetStorage();
+      var fcmId = box.read('fcmId');
+      var userId = box.read('userId');
 
       var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
       isLoading.value = true;

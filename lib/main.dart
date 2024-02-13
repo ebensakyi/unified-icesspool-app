@@ -19,21 +19,22 @@ bool get isInDebugMode {
   return inDebugMode;
 }
 
-bool isFirstTimeOpen = true;
+bool onboardingViewed = false;
 bool isLogin = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
 
   // SharedPreferences prefs = await SharedPreferences.getInstance();
-  final box = GetStorage();
+  final box = GetStorage("ICESSPOOL Client");
 
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
 
   await Firebase.initializeApp(
-      name: "dev project", options: DefaultFirebaseOptions.currentPlatform);
+      name: "ICESSPOOL Client",
+      options: DefaultFirebaseOptions.currentPlatform);
 
   ByteData data =
       await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
@@ -48,8 +49,8 @@ void main() async {
   });
   //isViewed = prefs.getBool('onBoard');
 
-  isLogin = box.read('isLogin') ?? false;
-  isFirstTimeOpen = box.read('isFirstTimeOpen') ?? true;
+  isLogin = box.read('isLogin');
+  onboardingViewed = box.read('onboardingViewed');
 
   runApp(const MyApp());
 }
@@ -61,7 +62,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    inspect(isFirstTimeOpen
+    inspect(onboardingViewed);
+    inspect(onboardingViewed
         ? AppPages.ONBOARDING
         : (isLogin ? AppPages.HOME : AppPages.INITIAL));
     return Sizer(builder: (context, orientation, deviceType) {
@@ -74,7 +76,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             useMaterial3: true),
 
-        initialRoute: isFirstTimeOpen
+        initialRoute: !onboardingViewed
             ? AppPages.ONBOARDING
             : (isLogin ? AppPages.HOME : AppPages.INITIAL),
         getPages: AppPages.routes,

@@ -49,8 +49,8 @@ class RequestController extends GetxController {
 
   @override
   onInit() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    userId.value = prefs.getInt('userId')!;
+    final box = await GetStorage();
+    userId.value = box.read('userId')!;
     await checkAvailableRequest();
     // if (box.hasData('countdownDuration')) {
     //   countdownDuration.value =

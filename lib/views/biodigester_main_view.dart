@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/app/modules/services/views/services_view.dart';
 import 'package:icesspool/controllers/home_controller.dart';
@@ -267,7 +268,8 @@ class BioDigesterMainView extends StatelessWidget {
                                       value: "1",
                                     ),
                                     DropdownMenuItem(
-                                      child: Text("New Toilet Construction"),
+                                      child:
+                                          Text("New Biodigester Construction"),
                                       value: "2",
                                     ),
                                   ],

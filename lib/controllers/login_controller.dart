@@ -61,12 +61,12 @@ class LoginController extends GetxController {
       var photoURL = user.photoURL ?? "";
       var phoneNumber = user.phoneNumber ?? "";
 
-      final prefs = await SharedPreferences.getInstance();
+      final box = await GetStorage();
 
-      await prefs.setString('displayName', displayName);
-      await prefs.setString('email', email);
-      await prefs.setString('photoURL', photoURL);
-      await prefs.setString('phoneNumber', phoneNumber);
+      await box.write('displayName', displayName);
+      await box.write('email', email);
+      await box.write('photoURL', photoURL);
+      await box.write('phoneNumber', phoneNumber);
 
       // inspect(displayName);
       // inspect(email);
@@ -243,7 +243,8 @@ class LoginController extends GetxController {
                     Get.back();
                   },
                   showLoading: false,
-                  label: "Accept",
+                  label: Text("Accept"),
+                  textColor: Colors.teal,
                 ),
                 SmallButton(
                   backgroundColor: MyColors.Red,
@@ -255,7 +256,8 @@ class LoginController extends GetxController {
                     }
                   },
                   showLoading: false,
-                  label: "Deny",
+                  label: Text("Deny"),
+                  textColor: Colors.white,
                 )
               ],
             ),

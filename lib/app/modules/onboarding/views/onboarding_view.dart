@@ -10,11 +10,13 @@ import '../controllers/onboarding_controller.dart';
 
 class OnboardingView extends GetView<OnboardingController> {
   const OnboardingView({Key? key}) : super(key: key);
-  void _onIntroEnd() {
-    final box = GetStorage();
-    box.write("isFirstTimeOpen", false);
+  void _onIntroEnd() async {
+    try {
+      final box = await GetStorage();
+      box.write("onboardingViewed", true);
 
-    Get.off(() => HomeView());
+      Get.off(() => HomeView());
+    } catch (e) {}
   }
 
   Widget _buildFullscreenImage() {

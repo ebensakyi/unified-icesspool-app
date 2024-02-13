@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:icesspool/bindings/otp_binding.dart';
 import 'package:icesspool/views/otp_page_view.dart';
@@ -36,7 +37,7 @@ class SignupController extends GetxController {
 
   @override
   void onInit() async {
-    final prefs = await SharedPreferences.getInstance();
+    final box = await GetStorage();
   }
 
   Future signup() async {
@@ -88,7 +89,7 @@ class SignupController extends GetxController {
 
         var user = jsonDecode(json);
 
-        final prefs = await SharedPreferences.getInstance();
+        final box = await GetStorage();
 
         var userId = user["id"];
         // var email = user["email"];
@@ -96,10 +97,10 @@ class SignupController extends GetxController {
         var firstName = user["firstName"];
         var lastName = user["lastName"];
 
-        prefs.setInt('userId', userId);
-        prefs.setString('phoneNumber', phoneNumber);
-        prefs.setString('firstName', firstName);
-        prefs.setString('lastName', lastName);
+        box.write('userId', userId);
+        box.write('phoneNumber', phoneNumber);
+        box.write('firstName', firstName);
+        box.write('lastName', lastName);
 
         // Get.off(() => HomeView(),
         //     binding: HomeBinding(), arguments: [userId, phoneNumber]);

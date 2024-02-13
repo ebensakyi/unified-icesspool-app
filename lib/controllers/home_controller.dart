@@ -469,8 +469,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool("isLogin", false);
+    final box = await GetStorage();
+    box.write("isLogin", false);
     Get.to(() => LoginView());
   }
 }

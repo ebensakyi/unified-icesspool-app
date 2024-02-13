@@ -4,13 +4,15 @@ class SmallButton extends StatelessWidget {
   final onPressed;
   final showLoading;
   final label;
+  final textColor;
   final dynamic backgroundColor;
   const SmallButton(
       {Key? key,
       required this.onPressed,
       required this.showLoading,
       this.label,
-      this.backgroundColor})
+      this.backgroundColor,
+      this.textColor})
       : super(key: key);
 
   @override
@@ -34,6 +36,7 @@ class SmallButton extends StatelessWidget {
             )
           ]),
           style: ElevatedButton.styleFrom(
+            foregroundColor: textColor,
             backgroundColor: backgroundColor,
             shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(5.0),
