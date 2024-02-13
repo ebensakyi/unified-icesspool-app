@@ -421,27 +421,27 @@ class RequestView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundImage: NetworkImage(
-                                  "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
-                            ),
+                            child: Obx(() => CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: NetworkImage(
+                                      "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                                )),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                controller.spName.value,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.black),
-                              ),
-                              Text(
-                                controller.spCompany.value,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.black),
-                              ),
+                              Obx(() => Text(
+                                    controller.spName.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  )),
+                              Obx(() => Text(
+                                    controller.spCompany.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  )),
                             ],
                           ),
                         ],

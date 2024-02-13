@@ -482,7 +482,6 @@ class BiodigesterController extends GetxController {
   }
 
   continued() {
-    inspect(currentStep);
     if (currentStep < 3) {
       currentStep.value += 1;
     } else {
