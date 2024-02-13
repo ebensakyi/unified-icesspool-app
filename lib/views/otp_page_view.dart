@@ -19,7 +19,7 @@ class OtpPageView extends GetView<OtpController> {
           title: const Text('Verify Account'),
           centerTitle: true,
           backgroundColor: Colors.transparent,
-          foregroundColor: Colors.teal,
+          foregroundColor: MyColors.primary,
           elevation: 0,
         ),
         body: SingleChildScrollView(
@@ -72,7 +72,7 @@ class OtpPageView extends GetView<OtpController> {
                       },
                       showLoading: false,
                       label: "Verify",
-                      backgroundColor: Colors.teal,
+                      backgroundColor: MyColors.primary,
                     ),
                   ],
                 ),
@@ -87,7 +87,7 @@ class OtpPageView extends GetView<OtpController> {
                   child: Text(
                     "Resend code",
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: MyColors.DarkBlue),
+                        fontWeight: FontWeight.bold, color: MyColors.primary),
                   ),
                 ),
               ),

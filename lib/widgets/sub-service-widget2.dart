@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icesspool/themes/colors.dart';
 
 class SubServiceWidget2 extends StatelessWidget {
   final String path;
@@ -39,10 +40,10 @@ class SubServiceWidget2 extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.teal, // Border color
+              color: MyColors.primary, // Border color
               width: 2.0, // Border width
             ),
-            color: Colors.teal.withOpacity(0.1), // Background color
+            color: MyColors.primary.withOpacity(0.1), // Background color
             borderRadius: BorderRadius.circular(12.0), // Border radius
           ),
           width: double.infinity,

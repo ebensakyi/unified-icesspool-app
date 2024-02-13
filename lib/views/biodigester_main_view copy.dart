@@ -30,8 +30,8 @@
 //           () => Theme(
 //             data: ThemeData(
 //                 // accentColor: Colors.orange,
-//                 primarySwatch: Colors.teal,
-//                 colorScheme: ColorScheme.light(primary: Colors.teal)),
+//                 primarySwatch: MyColors.primary,
+//                 colorScheme: ColorScheme.light(primary: MyColors.primary)),
 //             child: Stepper(
 //               type: MediaQuery.of(context).orientation == Orientation.portrait
 //                   ? StepperType.vertical
@@ -111,9 +111,9 @@
 //                                     progressColor: Colors.white,
 //                                     textColor: Colors.white,
 //                                     backgroundColor: controller.isLoading.value
-//                                         ? Colors.teal
-//                                         : Colors.teal,
-//                                     borderColor: Colors.teal,
+//                                         ? MyColors.primary
+//                                         : MyColors.primary,
+//                                     borderColor: MyColors.primary,
 //                                   )),
 //                       SizedBox(
 //                         width: 20,
@@ -128,8 +128,8 @@
 //                         iconColor: Colors.white,
 //                         progressColor: Colors.white,
 //                         textColor: Colors.white,
-//                         backgroundColor: Colors.teal,
-//                         borderColor: Colors.teal,
+//                         backgroundColor: MyColors.primary,
+//                         borderColor: MyColors.primary,
 //                       )
 //                       // Container(
 //                       //   decoration: BoxDecoration(
@@ -451,7 +451,7 @@
 //                 controller.isSelected6.value = !controller.isSelected6.value;
 //                 // controller.selectedColor3.value =
 //                 //     controller.selectedColor3.value == Colors.grey
-//                 //         ? Colors.teal
+//                 //         ? MyColors.primary
 //                 //         : Colors.grey;
 
 //                 controller.addOrRemoveItem(controller.selectedServices, {

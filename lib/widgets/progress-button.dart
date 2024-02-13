@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icesspool/themes/colors.dart';
 
 class ProgressButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -31,7 +32,7 @@ class ProgressButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: borderColor),
             ),
-            backgroundColor: Colors.teal),
+            backgroundColor: MyColors.primary),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -40,14 +41,14 @@ class ProgressButton extends StatelessWidget {
                     width: 20.0,
                     height: 20.0,
                     child: CircularProgressIndicator(
-                      backgroundColor: Colors.teal,
+                      backgroundColor: MyColors.primary,
                       valueColor: AlwaysStoppedAnimation<Color>(progressColor),
                     ),
                   )
                 : Text(
                     label,
-                    style:
-                        TextStyle(color: isLoading ? Colors.teal : textColor),
+                    style: TextStyle(
+                        color: isLoading ? MyColors.primary : textColor),
                   ),
           ],
         ),

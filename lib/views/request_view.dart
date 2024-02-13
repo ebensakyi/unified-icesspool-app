@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/contants.dart';
+import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
 import 'package:icesspool/widgets/progress-outline-button.dart';
@@ -19,6 +20,7 @@ import '../controllers/login_controller.dart';
 import '../controllers/request_controller.dart';
 
 import '../widgets/progress-icon-button.dart';
+import '../widgets/progress-outline-icon-button.dart';
 import 'biodigester_main_view.dart';
 
 class RequestView extends StatelessWidget {
@@ -147,7 +149,7 @@ class RequestView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
-                  // color: Colors.teal.shade100,
+                  // color: MyColors.primary.shade100,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -155,7 +157,7 @@ class RequestView extends StatelessWidget {
                         SvgPicture.asset('assets/images/job-progress.svg',
                             height: 200, semanticsLabel: 'In progress'),
                         // CircularProgressIndicator(
-                        //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                        //   valueColor: AlwaysStoppedAnimation<Color>(MyColors.primary),
                         // ),
                         // SizedBox(width: 16.0),
                         Text(
@@ -181,8 +183,8 @@ class RequestView extends StatelessWidget {
                             minHeight: 10,
                             backgroundColor: Colors.grey[
                                 200], // Background color of the progress bar
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.teal), // Color of the progress indicator
+                            valueColor: AlwaysStoppedAnimation<Color>(MyColors
+                                .primary), // Color of the progress indicator
                           ),
                         ),
                         SizedBox(height: 20.0),
@@ -248,7 +250,7 @@ class RequestView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
-              // color: Colors.teal.shade100,
+              // color: MyColors.primary.shade100,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -256,7 +258,7 @@ class RequestView extends StatelessWidget {
                     SvgPicture.asset('assets/images/searching.svg',
                         height: 200, semanticsLabel: 'Searching'),
                     // CircularProgressIndicator(
-                    //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                    //   valueColor: AlwaysStoppedAnimation<Color>(MyColors.primary),
                     // ),
                     // SizedBox(width: 16.0),
                     Text(
@@ -283,7 +285,7 @@ class RequestView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20.0),
-                    ProgressOutlineButton(
+                    ProgressOutlineIconButton(
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -340,7 +342,7 @@ class RequestView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
-              // color: Colors.teal.shade100,
+              // color: MyColors.primary.shade100,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -348,7 +350,7 @@ class RequestView extends StatelessWidget {
                     SvgPicture.asset('assets/images/searching.svg',
                         height: 200, semanticsLabel: 'Searching'),
                     // CircularProgressIndicator(
-                    //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                    //   valueColor: AlwaysStoppedAnimation<Color>(MyColors.primary),
                     // ),
                     // SizedBox(width: 16.0),
                     Text(
@@ -394,7 +396,7 @@ class RequestView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
-              // color: Colors.teal.shade100,
+              // color: MyColors.primary.shade100,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -455,7 +457,7 @@ class RequestView extends StatelessWidget {
                     //     backgroundColor: Colors
                     //         .grey[200], // Background color of the progress bar
                     //     valueColor: AlwaysStoppedAnimation<Color>(
-                    //         Colors.teal), // Color of the progress indicator
+                    //         MyColors.primary), // Color of the progress indicator
                     //   ),
                     // ),
                     Divider(),
@@ -481,14 +483,14 @@ class RequestView extends StatelessWidget {
                           progressColor: Colors.white,
                           textColor: Colors.white,
                           backgroundColor: controller.isLoading.value
-                              ? Colors.teal
-                              : Colors.teal,
-                          borderColor: Colors.teal,
+                              ? MyColors.primary
+                              : MyColors.primary,
+                          borderColor: MyColors.primary,
                         ),
                         SizedBox(
                           width: 10,
                         ),
-                        ProgressOutlineButton(
+                        ProgressOutlineIconButton(
                             onPressed: () {
                               showDialog(
                                 context: context,

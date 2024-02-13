@@ -37,8 +37,8 @@ class BioDigesterMainView extends StatelessWidget {
           () => Theme(
             data: ThemeData(
                 // accentColor: Colors.orange,
-                primarySwatch: Colors.teal,
-                colorScheme: ColorScheme.light(primary: Colors.teal)),
+                // primarySwatch: MyColors.primary,
+                colorScheme: ColorScheme.light(primary: MyColors.primary)),
             child: Column(
               children: [
                 Expanded(
@@ -128,7 +128,7 @@ class BioDigesterMainView extends StatelessWidget {
                                     },
                                     showLoading: false,
                                     label: Text("Continue"),
-                                    buttonColor: Colors.teal,
+                                    buttonColor: MyColors.primary,
                                     textColor: Colors.white,
                                   )
                                 : controller.currentStep == 1
@@ -158,7 +158,7 @@ class BioDigesterMainView extends StatelessWidget {
                                         },
                                         showLoading: false,
                                         label: Text('Continue'),
-                                        buttonColor: Colors.teal,
+                                        buttonColor: MyColors.primary,
                                         textColor: Colors.white,
                                       )
                                     : controller.currentStep == 2
@@ -175,7 +175,7 @@ class BioDigesterMainView extends StatelessWidget {
                                             },
                                             showLoading: false,
                                             label: Text('Continue'),
-                                            buttonColor: Colors.teal,
+                                            buttonColor: MyColors.primary,
                                             textColor: Colors.white,
                                           )
                                         : Obx(() => ProgressIconButton(
@@ -191,9 +191,9 @@ class BioDigesterMainView extends StatelessWidget {
                                               textColor: Colors.white,
                                               backgroundColor:
                                                   controller.isLoading.value
-                                                      ? Colors.teal
-                                                      : Colors.teal,
-                                              borderColor: Colors.teal,
+                                                      ? MyColors.primary
+                                                      : MyColors.primary,
+                                              borderColor: MyColors.primary,
                                             )),
                             SizedBox(
                               width: 20,
@@ -203,8 +203,8 @@ class BioDigesterMainView extends StatelessWidget {
                                 controller.cancel();
                               },
                               showLoading: false,
-                              borderColor: Colors.teal,
-                              textColor: Colors.teal,
+                              borderColor: MyColors.primary,
+                              textColor: MyColors.primary,
                               label: Text("Cancel"),
                               // sho: false,
                               // iconData: Icons.cancel,
@@ -212,8 +212,8 @@ class BioDigesterMainView extends StatelessWidget {
                               // iconColor: Colors.white,
                               // progressColor: Colors.white,
                               // textColor: Colors.white,
-                              // backgroundColor: Colors.teal,
-                              // borderColor: Colors.teal,
+                              // backgroundColor: MyColors.primary,
+                              // borderColor: MyColors.primary,
                             )
                           ],
                         ),
@@ -487,7 +487,7 @@ class BioDigesterMainView extends StatelessWidget {
     return Column(children: [
       controller.biodigesterServicesAvailable.contains(1) && index1 != -1
           ? SubServiceWidget2(
-              activeBgColor: MyColors.DarkBlue,
+              activeBgColor: MyColors.primary,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
@@ -516,7 +516,7 @@ class BioDigesterMainView extends StatelessWidget {
           : SizedBox.shrink(),
       controller.biodigesterServicesAvailable.contains(2) && index2 != -1
           ? SubServiceWidget2(
-              activeBgColor: MyColors.DarkBlue,
+              activeBgColor: MyColors.primary,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
@@ -545,7 +545,7 @@ class BioDigesterMainView extends StatelessWidget {
           : SizedBox.shrink(),
       controller.biodigesterServicesAvailable.contains(3) && index3 != -1
           ? SubServiceWidget2(
-              activeBgColor: MyColors.DarkBlue,
+              activeBgColor: MyColors.primary,
               inactiveBgColor: MyColors.SubServiceColor2,
               isAvailable: false,
               path: "assets/images/biodigester.png",
@@ -587,7 +587,7 @@ class BioDigesterMainView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SubServiceWidget2(
-                  activeBgColor: MyColors.DarkBlue,
+                  activeBgColor: MyColors.primary,
                   inactiveBgColor: MyColors.SubServiceColor2,
                   isAvailable: false,
                   path: "assets/images/biodigester.png",
@@ -666,7 +666,7 @@ class BioDigesterMainView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SubServiceWidget2(
-                  activeBgColor: MyColors.DarkBlue,
+                  activeBgColor: MyColors.primary,
                   inactiveBgColor: MyColors.SubServiceColor2,
                   isAvailable: false,
                   path: "assets/images/biodigester.png",
@@ -747,7 +747,7 @@ class BioDigesterMainView extends StatelessWidget {
           ? Column(
               children: [
                 SubServiceWidget2(
-                  activeBgColor: MyColors.DarkBlue,
+                  activeBgColor: MyColors.primary,
                   inactiveBgColor: MyColors.SubServiceColor2,
                   isAvailable: false,
                   path: "assets/images/biodigester.png",
@@ -760,7 +760,7 @@ class BioDigesterMainView extends StatelessWidget {
                         !controller.isSelected6.value;
                     // controller.selectedColor3.value =
                     //     controller.selectedColor3.value == Colors.grey
-                    //         ? Colors.teal
+                    //         ? MyColors.primary
                     //         : Colors.grey;
 
                     controller.addOrRemoveItem(controller.selectedServices, {

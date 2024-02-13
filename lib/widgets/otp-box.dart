@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:icesspool/themes/colors.dart';
 
 class OtpBox extends StatelessWidget {
   bool first = false;
@@ -42,7 +43,7 @@ class OtpBox extends StatelessWidget {
                   borderSide: BorderSide(width: 2, color: Colors.black12),
                   borderRadius: BorderRadius.circular(12)),
               focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: Colors.teal),
+                  borderSide: BorderSide(width: 2, color: MyColors.primary),
                   borderRadius: BorderRadius.circular(12)),
             ),
           ),

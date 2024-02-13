@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ProgressOutlineButton extends StatelessWidget {
+class ProgressOutlineIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
-  // final IconData iconData;
+  final IconData iconData;
   final String label;
   final Color primaryColor;
   // final Color borderColor;
@@ -12,10 +12,10 @@ class ProgressOutlineButton extends StatelessWidget {
   // final Color textColor;
   // final Color progressColor;
 
-  ProgressOutlineButton({
+  ProgressOutlineIconButton({
     required this.onPressed,
     required this.isLoading,
-    // required this.iconData,
+    required this.iconData,
     required this.label,
     required this.primaryColor,
     // required this.borderColor,
@@ -50,7 +50,8 @@ class ProgressOutlineButton extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
                     ),
                   )
-                : SizedBox(width: 8.0),
+                : Icon(iconData, color: primaryColor),
+            SizedBox(width: 8.0),
             Text(
               label,
               style: TextStyle(color: isLoading ? primaryColor : primaryColor),

@@ -103,7 +103,7 @@ class ServiceWidget extends StatelessWidget {
                   //     visible: !isAvailable,
                   //     child: Icon(
                   //       Icons.lock_outline,
-                  //       color: Colors.teal,
+                  //       color: MyColors.primary,
                   //       size: 16,
                   //     ),
                   //   ),

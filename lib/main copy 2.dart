@@ -57,7 +57,7 @@
 //         title: 'iCesspool',
 //         debugShowCheckedModeBanner: false,
 //         theme: ThemeData(
-//           primarySwatch: Colors.teal,
+//           primarySwatch: MyColors.primary,
 //           visualDensity: VisualDensity.adaptivePlatformDensity,
 //           useMaterial3: true,
 //         ),

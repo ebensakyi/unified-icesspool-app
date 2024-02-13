@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:icesspool/themes/colors.dart';
 import 'package:sizer/sizer.dart';
 import 'bindings/initial_binding.dart';
 import 'firebase_options.dart';
@@ -70,7 +71,7 @@ class MyApp extends StatelessWidget {
         title: 'iCesspool',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            primarySwatch: Colors.teal,
+            primarySwatch: Colors.indigo,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             useMaterial3: true),
 

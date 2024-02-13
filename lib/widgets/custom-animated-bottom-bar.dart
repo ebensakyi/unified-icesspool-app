@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:icesspool/themes/colors.dart';
 
 class CustomAnimatedBottomBar extends StatelessWidget {
   CustomAnimatedBottomBar({
@@ -159,7 +160,7 @@ class BottomNavyBarItem {
   BottomNavyBarItem({
     required this.icon,
     required this.title,
-    this.activeColor = Colors.teal,
+    this.activeColor = MyColors.primary,
     this.textAlign,
     this.inactiveColor,
   });

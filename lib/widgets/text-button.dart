@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icesspool/themes/colors.dart';
 
 class ProgressTextButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -21,9 +22,9 @@ class ProgressTextButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
-            side: BorderSide(color: Colors.teal),
+            side: BorderSide(color: MyColors.primary),
           ),
-          backgroundColor: Colors.teal),
+          backgroundColor: MyColors.primary),
       child: Text(
         label,
         style: TextStyle(color: Colors.white),

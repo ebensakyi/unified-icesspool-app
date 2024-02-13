@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:icesspool/controllers/home_controller.dart';
+import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/progress-outline-button.dart';
 import 'package:icesspool/widgets/text-box.dart';
+
+import '../widgets/progress-outline-icon-button.dart';
 
 class AccountView extends StatelessWidget {
   final controller = Get.put(HomeController());
@@ -56,8 +59,8 @@ class AccountView extends StatelessWidget {
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ProgressOutlineButton(
-                    primaryColor: Colors.teal,
+                child: ProgressOutlineIconButton(
+                    primaryColor: MyColors.primary,
                     onPressed: () {
                       controller.logout();
                     },
@@ -79,7 +82,7 @@ class AccountView extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: ProgressOutlineButton(
+                child: ProgressOutlineIconButton(
                     primaryColor: Colors.red,
                     onPressed: () {
                       controller.logout();

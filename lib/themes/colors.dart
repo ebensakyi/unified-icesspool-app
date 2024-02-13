@@ -15,7 +15,7 @@ class MyColors {
   // static const Bg = Color(0xffEEEFFA);
   // static const Bg2 = Color(0xffF5F6FB);
 
-  static const DarkBlue = Color(0xff0B276A);
+  static const primary = Color(0xff0B276A);
   // static const DarkBlue3 = Color.fromARGB(255, 10, 35, 92);
 
   // static const DarkBlue1 = Color(0xff2F358C);

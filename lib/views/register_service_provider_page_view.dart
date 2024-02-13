@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:icesspool/themes/colors.dart';
 import '../../../../core/validator.dart';
 import '../controllers/auth_page_controller.dart';
 import '../widgets/solid-button.dart';
@@ -18,7 +19,7 @@ class RegisterServiceProviderPageView extends GetView<AuthPageController> {
           title: const Text('Become a service provider'),
           centerTitle: true,
           backgroundColor: Colors.transparent,
-          foregroundColor: Colors.teal,
+          foregroundColor: MyColors.primary,
           elevation: 0,
         ),
         body: SingleChildScrollView(
@@ -138,7 +139,7 @@ class RegisterServiceProviderPageView extends GetView<AuthPageController> {
                     },
                     showLoading: false,
                     label: "Submit",
-                    buttonColor: Colors.teal,
+                    buttonColor: MyColors.primary,
                     textColor: Colors.white,
                   ),
                 ),

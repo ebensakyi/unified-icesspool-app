@@ -46,8 +46,8 @@ class LoginView extends StatelessWidget {
       child: Theme(
         data: ThemeData(
           useMaterial3: true,
-          primarySwatch: Colors.teal,
-          colorScheme: ColorScheme.light(primary: Colors.teal),
+          // primarySwatch: MyColors.primary,
+          colorScheme: ColorScheme.light(primary: MyColors.primary),
         ),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -58,7 +58,7 @@ class LoginView extends StatelessWidget {
                 //   borderSide: BorderSide(width: 1, color: Colors.greenAccent),
                 // ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: MyColors.MainColor),
+                  borderSide: BorderSide(width: 1, color: MyColors.primary),
                 ),
                 labelStyle: TextStyle(color: MyColors.MainColor),
                 iconColor: MyColors.MainColor),
@@ -332,9 +332,9 @@ class LoginView extends StatelessWidget {
                                 progressColor: Colors.white,
                                 textColor: Colors.white,
                                 backgroundColor: controller.isLoading.value
-                                    ? Colors.teal
-                                    : Colors.teal,
-                                borderColor: Colors.teal,
+                                    ? MyColors.primary
+                                    : MyColors.primary,
+                                borderColor: MyColors.primary,
                               ),
                             ),
                           ),
@@ -344,20 +344,19 @@ class LoginView extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               child: ProgressOutlineButton(
-                                primaryColor: Colors.teal,
+                                primaryColor: MyColors.primary,
                                 onPressed: () {
                                   Get.to(() => SignupView());
                                 },
                                 isLoading: controller.isLoading.value,
-                                iconData: Icons.verified_user_outlined,
                                 label: 'Signup',
                                 // iconColor: Colors.white,
                                 // progressColor: Colors.white,
                                 // textColor: Colors.white,
                                 // backgroundColor: controller.isLoading.value
-                                //     ? Colors.teal
-                                //     : Colors.teal,
-                                // borderColor: Colors.teal,
+                                //     ? MyColors.primary
+                                //     : MyColors.primary,
+                                // borderColor: MyColors.primary,
                               ),
                             ),
                           ),

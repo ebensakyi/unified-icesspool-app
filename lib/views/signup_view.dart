@@ -44,8 +44,8 @@ class SignupView extends StatelessWidget {
       child: Theme(
         data: ThemeData(
           useMaterial3: true,
-          primarySwatch: Colors.teal,
-          colorScheme: ColorScheme.light(primary: Colors.teal),
+          //primarySwatch: MyColors.primary,
+          colorScheme: ColorScheme.light(primary: MyColors.primary),
         ),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -287,9 +287,9 @@ class SignupView extends StatelessWidget {
                                 progressColor: Colors.white,
                                 textColor: Colors.white,
                                 backgroundColor: controller.isLoading.value
-                                    ? Colors.teal
-                                    : Colors.teal,
-                                borderColor: Colors.teal,
+                                    ? MyColors.primary
+                                    : MyColors.primary,
+                                borderColor: MyColors.primary,
                               ),
                             ),
                           ),

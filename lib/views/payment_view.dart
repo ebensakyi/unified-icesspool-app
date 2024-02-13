@@ -4,6 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:get/get.dart';
 
 import '../controllers/payment_controller.dart';
+import '../themes/colors.dart';
 import '../widgets/progress-icon-button.dart';
 
 class PaymentView extends StatelessWidget {
@@ -48,9 +49,9 @@ class PaymentView extends StatelessWidget {
                         progressColor: Colors.white,
                         textColor: Colors.white,
                         backgroundColor: controller.isLoading.value
-                            ? Colors.teal
-                            : Colors.teal,
-                        borderColor: Colors.teal,
+                            ? MyColors.primary
+                            : MyColors.primary,
+                        borderColor: MyColors.primary,
                       ),
                     )),
               )

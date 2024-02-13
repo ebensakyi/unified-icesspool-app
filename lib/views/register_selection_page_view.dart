@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:icesspool/themes/colors.dart';
 
 import '../../../../widgets/small-button.dart';
 import '../controllers/auth_page_controller.dart';
@@ -19,7 +20,7 @@ class RegisterSelectionPageView extends GetView<AuthPageController> {
           title: const Text('Select User Type'),
           centerTitle: true,
           backgroundColor: Colors.transparent,
-          foregroundColor: Colors.teal,
+          foregroundColor: MyColors.primary,
           elevation: 0,
         ),
         body: SingleChildScrollView(
@@ -43,7 +44,7 @@ class RegisterSelectionPageView extends GetView<AuthPageController> {
                                 "Click on the button below to request our service"),
                           ),
                           SmallButton(
-                            backgroundColor: Colors.teal,
+                            backgroundColor: MyColors.primary,
                             onPressed: () {
                               // Get.toNamed(Routes.REGISTER_REGULAR_USER_PAGE);
                             },
@@ -73,7 +74,7 @@ class RegisterSelectionPageView extends GetView<AuthPageController> {
                                 "Click on the button below to become a service provider"),
                           ),
                           SmallButton(
-                            backgroundColor: Colors.teal,
+                            backgroundColor: MyColors.primary,
                             onPressed: () {
                               // Get.toNamed(
                               //     Routes.REGISTER_SERVICE_PROVIDER_PAGE);

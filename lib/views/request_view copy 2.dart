@@ -135,7 +135,7 @@
 //               Padding(
 //                 padding: const EdgeInsets.all(16.0),
 //                 child: Container(
-//                   // color: Colors.teal.shade100,
+//                   // color: MyColors.primary.shade100,
 //                   child: Padding(
 //                     padding: const EdgeInsets.all(8.0),
 //                     child: Column(
@@ -143,7 +143,7 @@
 //                         SvgPicture.asset('assets/images/job-progress.svg',
 //                             height: 200, semanticsLabel: 'In progress'),
 //                         // CircularProgressIndicator(
-//                         //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+//                         //   valueColor: AlwaysStoppedAnimation<Color>(MyColors.primary),
 //                         // ),
 //                         // SizedBox(width: 16.0),
 //                         Text(
@@ -169,7 +169,7 @@
 //                             backgroundColor: Colors.grey[
 //                                 200], // Background color of the progress bar
 //                             valueColor: AlwaysStoppedAnimation<Color>(
-//                                 Colors.teal), // Color of the progress indicator
+//                                 MyColors.primary), // Color of the progress indicator
 //                           ),
 //                         ),
 //                         SizedBox(height: 20.0),
@@ -199,7 +199,7 @@
 //               Padding(
 //                 padding: const EdgeInsets.all(16.0),
 //                 child: Container(
-//                   // color: Colors.teal.shade100,
+//                   // color: MyColors.primary.shade100,
 //                   child: Padding(
 //                     padding: const EdgeInsets.all(8.0),
 //                     child: Column(
@@ -207,7 +207,7 @@
 //                         SvgPicture.asset('assets/images/searching.svg',
 //                             height: 200, semanticsLabel: 'Searching'),
 //                         // CircularProgressIndicator(
-//                         //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+//                         //   valueColor: AlwaysStoppedAnimation<Color>(MyColors.primary),
 //                         // ),
 //                         // SizedBox(width: 16.0),
 //                         Text(
@@ -299,7 +299,7 @@
 //               Padding(
 //                 padding: const EdgeInsets.all(16.0),
 //                 child: Container(
-//                   // color: Colors.teal.shade100,
+//                   // color: MyColors.primary.shade100,
 //                   child: Padding(
 //                     padding: const EdgeInsets.all(8.0),
 //                     child: Column(
@@ -307,7 +307,7 @@
 //                         SvgPicture.asset('assets/images/searching.svg',
 //                             height: 200, semanticsLabel: 'Searching'),
 //                         // CircularProgressIndicator(
-//                         //   valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+//                         //   valueColor: AlwaysStoppedAnimation<Color>(MyColors.primary),
 //                         // ),
 //                         // SizedBox(width: 16.0),
 //                         Text(
@@ -360,7 +360,7 @@
 //               Padding(
 //                 padding: const EdgeInsets.all(16.0),
 //                 child: Container(
-//                   // color: Colors.teal.shade100,
+//                   // color: MyColors.primary.shade100,
 //                   child: Padding(
 //                     padding: const EdgeInsets.all(8.0),
 //                     child: Column(
@@ -397,7 +397,7 @@
 //                         //     backgroundColor: Colors
 //                         //         .grey[200], // Background color of the progress bar
 //                         //     valueColor: AlwaysStoppedAnimation<Color>(
-//                         //         Colors.teal), // Color of the progress indicator
+//                         //         MyColors.primary), // Color of the progress indicator
 //                         //   ),
 //                         // ),
 //                         Divider(),
@@ -418,7 +418,7 @@
 //                                   height: 20,
 //                                   child: CircularProgressIndicator(
 //                                     strokeWidth: 2,
-//                                     color: Colors.teal,
+//                                     color: MyColors.primary,
 //                                   ),
 //                                 ),
 //                                 title: Text(
@@ -450,9 +450,9 @@
 //                               progressColor: Colors.white,
 //                               textColor: Colors.white,
 //                               backgroundColor: controller.isLoading.value
-//                                   ? Colors.teal
-//                                   : Colors.teal,
-//                               borderColor: Colors.teal,
+//                                   ? MyColors.primary
+//                                   : MyColors.primary,
+//                               borderColor: MyColors.primary,
 //                             ),
 //                             SizedBox(
 //                               width: 10,

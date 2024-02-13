@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:icesspool/themes/colors.dart';
 
 import '../../../../widgets/dropdown.dart';
 import '../controllers/auth_page_controller.dart';
@@ -19,7 +20,7 @@ class RegisterRegularUserPageView extends GetView<AuthPageController> {
           title: const Text('Register'),
           centerTitle: true,
           backgroundColor: Colors.transparent,
-          foregroundColor: Colors.teal,
+          foregroundColor: MyColors.primary,
           elevation: 0,
         ),
         body: Form(
@@ -150,7 +151,7 @@ class RegisterRegularUserPageView extends GetView<AuthPageController> {
                         controller.handleRegisterRegularUser();
                       },
                       showLoading: false,
-                      buttonColor: Colors.teal,
+                      buttonColor: MyColors.primary,
                       textColor: Colors.white,
                       label: Text("Submit"),
                     ),

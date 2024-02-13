@@ -243,7 +243,7 @@ class LoginController extends GetxController {
                   },
                   showLoading: false,
                   label: Text("Accept"),
-                  textColor: Colors.teal,
+                  textColor: MyColors.primary,
                 ),
                 SmallButton(
                   backgroundColor: MyColors.Red,

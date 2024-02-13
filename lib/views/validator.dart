@@ -40,7 +40,7 @@ class Validator {
         return "Phone number must start with '0' ";
       }
       // if (value[1] != "2" && value[1] != "5") {
-      //   return "Phone number must have with '2' or '5' in 2nd position ";
+      //   return "Phone number must have with MyColors.primary or '5' in 2nd position ";
       // }
     }
     if (value != "") {

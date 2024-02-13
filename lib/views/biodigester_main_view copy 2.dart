@@ -39,8 +39,8 @@
 //           () => Theme(
 //             data: ThemeData(
 //                 // accentColor: Colors.orange,
-//                 primarySwatch: Colors.teal,
-//                 colorScheme: ColorScheme.light(primary: Colors.teal)),
+//                 primarySwatch: MyColors.primary,
+//                 colorScheme: ColorScheme.light(primary: MyColors.primary)),
 //             child: Column(
 //               children: [
 //                 Expanded(
@@ -130,7 +130,7 @@
 //                                     },
 //                                     showLoading: false,
 //                                     label: Text("Continue"),
-//                                     buttonColor: Colors.teal,
+//                                     buttonColor: MyColors.primary,
 //                                     textColor: Colors.white,
 //                                   )
 //                                 : controller.currentStep == 1
@@ -160,7 +160,7 @@
 //                                         },
 //                                         showLoading: false,
 //                                         label: Text('Continue'),
-//                                         buttonColor: Colors.teal,
+//                                         buttonColor: MyColors.primary,
 //                                         textColor: Colors.white,
 //                                       )
 //                                     : controller.currentStep == 2
@@ -177,7 +177,7 @@
 //                                             },
 //                                             showLoading: false,
 //                                             label: Text('Continue'),
-//                                             buttonColor: Colors.teal,
+//                                             buttonColor: MyColors.primary,
 //                                             textColor: Colors.white,
 //                                           )
 //                                         : Obx(() => ProgressButton(
@@ -193,9 +193,9 @@
 //                                               textColor: Colors.white,
 //                                               backgroundColor:
 //                                                   controller.isLoading.value
-//                                                       ? Colors.teal
-//                                                       : Colors.teal,
-//                                               borderColor: Colors.teal,
+//                                                       ? MyColors.primary
+//                                                       : MyColors.primary,
+//                                               borderColor: MyColors.primary,
 //                                             )),
 //                             SizedBox(
 //                               width: 20,
@@ -205,8 +205,8 @@
 //                                 controller.cancel();
 //                               },
 //                               showLoading: false,
-//                               borderColor: Colors.teal,
-//                               textColor: Colors.teal,
+//                               borderColor: MyColors.primary,
+//                               textColor: MyColors.primary,
 //                               label: Text("Cancel"),
 //                               // sho: false,
 //                               // iconData: Icons.cancel,
@@ -214,8 +214,8 @@
 //                               // iconColor: Colors.white,
 //                               // progressColor: Colors.white,
 //                               // textColor: Colors.white,
-//                               // backgroundColor: Colors.teal,
-//                               // borderColor: Colors.teal,
+//                               // backgroundColor: MyColors.primary,
+//                               // borderColor: MyColors.primary,
 //                             )
 //                           ],
 //                         ),
@@ -514,7 +514,7 @@
 //                         !controller.isSelected6.value;
 //                     // controller.selectedColor3.value =
 //                     //     controller.selectedColor3.value == Colors.grey
-//                     //         ? Colors.teal
+//                     //         ? MyColors.primary
 //                     //         : Colors.grey;
 
 //                     controller.addOrRemoveItem(controller.selectedServices, {
