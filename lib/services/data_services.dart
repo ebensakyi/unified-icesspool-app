@@ -1,13 +1,7 @@
-import 'dart:developer';
-
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:icesspool/controllers/home_controller.dart';
-import 'package:icesspool/model/reportType.dart';
 
 import '../contants.dart';
 import '../model/district.dart';
-import '../model/region.dart';
 import '../model/report.dart';
 import '../model/reportCategory.dart';
 

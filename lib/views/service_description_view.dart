@@ -1,20 +1,10 @@
-import 'dart:developer';
-import 'dart:io';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:icesspool/widgets/circular-imageview.dart';
-import 'package:intl/intl.dart';
-import 'package:icesspool/bindings/single_report_binding.dart';
-import 'package:icesspool/contants.dart';
-import 'package:icesspool/controllers/home_controller.dart';
-import 'package:icesspool/routes/app_pages.dart';
-import 'package:icesspool/themes/colors.dart';
-import 'package:icesspool/views/single_report_view.dart';
 
-import '../core/random.dart';
+import 'package:icesspool/controllers/home_controller.dart';
+
 import '../widgets/service-description-cards.dart';
 
 class ServiceDescriptionView extends GetView<HomeController> {

@@ -12,10 +12,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/bindings/home_binding.dart';
 import 'package:icesspool/views/home_view.dart';
 import 'package:icesspool/views/request_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../bindings/report_binding.dart';
 import '../contants.dart';
 import '../themes/colors.dart';
 import '../widgets/small-button.dart';
@@ -34,6 +32,7 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
+    super.onInit();
     final box = await GetStorage();
 
     var disclosureViewed = box.read("disclosureViewed");

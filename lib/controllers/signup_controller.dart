@@ -1,23 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:icesspool/bindings/otp_binding.dart';
 import 'package:icesspool/views/otp_page_view.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../bindings/home_binding.dart';
 import '../contants.dart';
 import '../themes/colors.dart';
-import '../views/home_view.dart';
 
 class SignupController extends GetxController {
   var isLoading = false.obs;
@@ -32,12 +26,13 @@ class SignupController extends GetxController {
 
   final loginFormKey = GlobalKey();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   void onInit() async {
-    final box = await GetStorage();
+    super.onInit();
+    await GetStorage();
   }
 
   Future signup() async {

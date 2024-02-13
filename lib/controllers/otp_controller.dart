@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../bindings/home_binding.dart';
 import '../contants.dart';

@@ -1,14 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/core/location_service.dart';
 import 'package:icesspool/model/district.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoding/geocoding.dart';
 
 import '../contants.dart';

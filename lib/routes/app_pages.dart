@@ -4,8 +4,7 @@ import '../app/modules/complete-payment/bindings/complete_payment_binding.dart';
 import '../app/modules/complete-payment/views/complete_payment_view.dart';
 import '../app/modules/onboarding/bindings/onboarding_binding.dart';
 import '../app/modules/onboarding/views/onboarding_view.dart';
-import '../app/modules/services-blog/bindings/services_blog_binding.dart';
-import '../app/modules/services-blog/views/services_blog_view.dart';
+
 import '../app/modules/services/bindings/services_binding.dart';
 import '../app/modules/services/views/services_view.dart';
 import '../bindings/home_binding.dart';

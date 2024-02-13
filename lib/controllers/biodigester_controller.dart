@@ -9,7 +9,6 @@ import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/controllers/request_controller.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoding/geocoding.dart';
 
 import '../contants.dart';

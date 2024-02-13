@@ -9,7 +9,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/views/login_view.dart';
 import 'package:icesspool/core/location_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:package_info/package_info.dart';
 

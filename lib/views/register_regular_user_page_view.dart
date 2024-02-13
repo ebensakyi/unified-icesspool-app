@@ -3,11 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
-import '../../../../themes/colors.dart';
 import '../../../../widgets/dropdown.dart';
-import '../../../routes/app_pages.dart';
 import '../controllers/auth_page_controller.dart';
-import '../model/Region.dart';
 import '../widgets/solid-button.dart';
 
 class RegisterRegularUserPageView extends GetView<AuthPageController> {
