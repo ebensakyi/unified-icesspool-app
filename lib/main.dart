@@ -25,14 +25,14 @@ void main() async {
   await GetStorage.init();
 
   // SharedPreferences prefs = await SharedPreferences.getInstance();
-  final box = GetStorage("ICESSPOOL Client");
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  final box = GetStorage();
 
   // await Firebase.initializeApp(
-  //     name: "dev project", options: DefaultFirebaseOptions.currentPlatform);
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+
+  await Firebase.initializeApp(
+      name: "dev project", options: DefaultFirebaseOptions.currentPlatform);
 
   ByteData data =
       await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
@@ -47,8 +47,8 @@ void main() async {
   });
   //isViewed = prefs.getBool('onBoard');
 
-  isLogin = box.read('isLogin');
-  onboardingViewed = box.read('onboardingViewed');
+  isLogin = box.read('isLogin') ?? false;
+  onboardingViewed = box.read('onboardingViewed') ?? false;
 
   runApp(const MyApp());
 }

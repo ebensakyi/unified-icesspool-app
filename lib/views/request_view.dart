@@ -53,7 +53,7 @@ class RequestView extends StatelessWidget {
         options: InteractiveBottomSheetOptions(
             expand: false,
             maxSize: .9,
-            initialSize: 0.75, // controller.initialSize.value,
+            initialSize: 0.5, // controller.initialSize.value,
             minimumSize: 0.5),
         child: Obx(() => Column(
               children: [
@@ -598,31 +598,31 @@ class RequestView extends StatelessWidget {
             ),
           ],
         ),
-        ListTile(
-          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-          title: Text(
-            'Biodigester',
-            style: TextStyle(fontSize: 12),
-          ),
-          leading: Icon(Icons.history),
-          subtitle: Text(
-            'Dansoman - 21/11/2023',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
-        Divider(),
-        ListTile(
-          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-          title: Text(
-            'Tanker Water',
-            style: TextStyle(fontSize: 12),
-          ),
-          leading: Icon(Icons.history),
-          subtitle: Text(
-            'Sowutuom - 11/01/2023',
-            style: TextStyle(fontSize: 10),
-          ),
-        ),
+        // ListTile(
+        //   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+        //   title: Text(
+        //     'Biodigester',
+        //     style: TextStyle(fontSize: 12),
+        //   ),
+        //   leading: Icon(Icons.history),
+        //   subtitle: Text(
+        //     'Dansoman - 21/11/2023',
+        //     style: TextStyle(fontSize: 10),
+        //   ),
+        // ),
+        // Divider(),
+        // ListTile(
+        //   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+        //   title: Text(
+        //     'Tanker Water',
+        //     style: TextStyle(fontSize: 12),
+        //   ),
+        //   leading: Icon(Icons.history),
+        //   subtitle: Text(
+        //     'Sowutuom - 11/01/2023',
+        //     style: TextStyle(fontSize: 10),
+        //   ),
+        // ),
       ],
     );
   }

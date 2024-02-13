@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:icesspool/views/home_view.dart';
+import 'package:icesspool/views/login_view.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 import '../controllers/onboarding_controller.dart';
@@ -15,7 +16,9 @@ class OnboardingView extends GetView<OnboardingController> {
       final box = await GetStorage();
       box.write("onboardingViewed", true);
 
-      Get.off(() => HomeView());
+      var isLogin = box.read('isLogin') ?? false;
+
+      isLogin ? Get.off(() => HomeView()) : Get.off(() => LoginView());
     } catch (e) {}
   }
 
@@ -54,7 +57,7 @@ class OnboardingView extends GetView<OnboardingController> {
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
-      imagePadding: EdgeInsets.zero,
+      imagePadding: EdgeInsets.only(top: 50),
     );
 
     return IntroductionScreen(
