@@ -13,11 +13,11 @@ import 'bindings/initial_binding.dart';
 import 'firebase_options.dart';
 import 'routes/app_pages.dart';
 
-bool get isInDebugMode {
-  bool inDebugMode = false;
-  assert(inDebugMode = true);
-  return inDebugMode;
-}
+// bool get isInDebugMode {
+//   bool inDebugMode = false;
+//   assert(inDebugMode = true);
+//   return inDebugMode;
+// }
 
 bool onboardingViewed = false;
 bool isLogin = false;
@@ -28,13 +28,12 @@ void main() async {
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   final box = GetStorage("ICESSPOOL Client");
 
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-
   await Firebase.initializeApp(
-      name: "ICESSPOOL Client",
-      options: DefaultFirebaseOptions.currentPlatform);
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // await Firebase.initializeApp(
+  //     name: "dev project", options: DefaultFirebaseOptions.currentPlatform);
 
   ByteData data =
       await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
