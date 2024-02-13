@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_set_literal
+// ignore_for_file: unnecessary_set_literal, must_be_immutable
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

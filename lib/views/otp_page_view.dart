@@ -67,7 +67,7 @@ class OtpPageView extends GetView<OtpController> {
                     SmallButton(
                       onPressed: () {
                         // Get.toNamed(Routes.CLIENT_LANDING_PAGE);
-                        var res = controller.verifyOtp();
+                        controller.verifyOtp();
                         //if (res == 1) Get.toNamed(Routes.CLIENT_LANDING_PAGE);
                       },
                       showLoading: false,

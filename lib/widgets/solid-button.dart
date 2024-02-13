@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../themes/colors.dart';
-
 class SolidButton extends StatelessWidget {
   final onPressed;
   final showLoading;
