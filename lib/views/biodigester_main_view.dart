@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:icesspool/app/modules/services/views/services_view.dart';
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/themes/colors.dart';
-import 'package:icesspool/widgets/progress-button.dart';
 import 'package:icesspool/widgets/solid-button.dart';
 import 'package:intl/intl.dart';
 
