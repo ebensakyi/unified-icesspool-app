@@ -34,9 +34,9 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
-    final prefs = await SharedPreferences.getInstance();
+    final box = await GetStorage();
 
-    var disclosureViewed = prefs.getInt("disclosureViewed");
+    var disclosureViewed = box.read("disclosureViewed");
 
     if (disclosureViewed != 1) {
       await showPermissionDisclosure();
@@ -238,8 +238,8 @@ class LoginController extends GetxController {
               children: [
                 SmallButton(
                   onPressed: () async {
-                    final box = await GetStorage;
-                    box.write('disclosureViewed');
+                    final box = await GetStorage();
+                    box.write('disclosureViewed', true);
                     Get.back();
                   },
                   showLoading: false,
