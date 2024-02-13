@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/bindings/home_binding.dart';
@@ -177,7 +178,8 @@ class LoginController extends GetxController {
 
         var user = jsonDecode(json);
 
-        final prefs = await SharedPreferences.getInstance();
+        // final prefs = await SharedPreferences.getInstance();
+        final box = await GetStorage();
 
         var userId = user["id"];
         // var email = user["email"];
@@ -185,12 +187,12 @@ class LoginController extends GetxController {
         var firstName = user["firstName"];
         var lastName = user["lastName"];
 
-        prefs.setInt('userId', userId);
-        prefs.setString('phoneNumber', phoneNumber);
-        prefs.setString('firstName', firstName);
-        prefs.setString('lastName', lastName);
+        box.write('userId', userId);
+        box.write('phoneNumber', phoneNumber);
+        box.write('firstName', firstName);
+        box.write('lastName', lastName);
 
-        prefs.setBool('isLogin', true);
+        box.write('isLogin', true);
         Get.off(() => HomeView(),
             binding: HomeBinding(), arguments: [userId, phoneNumber]);
       } else if (response.statusCode == 400) {
@@ -236,9 +238,8 @@ class LoginController extends GetxController {
               children: [
                 SmallButton(
                   onPressed: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.setInt('disclosureViewed', 1);
+                    final box = await GetStorage;
+                    box.write('disclosureViewed');
                     Get.back();
                   },
                   showLoading: false,

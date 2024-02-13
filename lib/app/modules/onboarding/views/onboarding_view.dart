@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:icesspool/views/home_view.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -10,6 +11,9 @@ import '../controllers/onboarding_controller.dart';
 class OnboardingView extends GetView<OnboardingController> {
   const OnboardingView({Key? key}) : super(key: key);
   void _onIntroEnd() {
+    final box = GetStorage();
+    box.write("isFirstTimeOpen", false);
+
     Get.off(() => HomeView());
   }
 
@@ -31,6 +35,10 @@ class OnboardingView extends GetView<OnboardingController> {
   }
 
   Widget _buildImage(String assetName, [double width = 350]) {
+    return Image.asset('assets/images/$assetName', width: width);
+  }
+
+  Widget _buildSvgImage(String assetName, [double width = 350]) {
     return SvgPicture.asset("assets/images/$assetName", width: width);
     // return Image.asset('assets/images/$assetName', width: width);
   }
@@ -77,28 +85,28 @@ class OnboardingView extends GetView<OnboardingController> {
           title: "Welcome to iCesspool",
           body:
               "Get started with our app to easily request sanitation services and keep our city clean.",
-          image: _buildImage('ic_logo.png'),
+          image: _buildImage('icesspool_logo.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Choose Your Service",
           body:
               "Select the type of sanitation service you need, whether it's toilet pull, etc.",
-          image: _buildImage('services.svg'),
+          image: _buildSvgImage('services.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Submit Your Request",
           body:
               "Take a photo of the sanitation issue and provide a brief description. We'll take care of the rest!",
-          image: _buildImage('make-request.svg'),
+          image: _buildSvgImage('make-request.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Track Your Requests",
           body:
               "Monitor the status of your sanitation requests in real-time. We'll keep you updated from submission to completion.",
-          image: _buildImage('track.svg'),
+          image: _buildSvgImage('track.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(

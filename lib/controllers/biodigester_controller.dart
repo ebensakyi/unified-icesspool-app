@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/controllers/request_controller.dart';
@@ -129,24 +130,24 @@ class BiodigesterController extends GetxController {
     await getAvailableBiodigesterServices();
     await getBiodigesterPricing();
 
-    final prefs = await SharedPreferences.getInstance();
+    final box = await GetStorage();
 
     final position = await LocationService.determinePosition();
     latitude.value = position.latitude;
     longitude.value = position.longitude;
     accuracy.value = position.accuracy;
 
-    userId.value = prefs.getInt('userId') ?? 0;
+    userId.value = box.read('userId') ?? 0;
 
     await getAddressFromCoords();
 
     // placemarks =
     //     await placemarkFromCoordinates(latitude.value, longitude.value);
 
-    displayName.value = prefs.getString('displayName') ?? "";
-    email.value = prefs.getString('email') ?? "";
-    photoURL.value = prefs.getString('photoURL') ?? "";
-    phoneNumber.value = prefs.getString('phoneNumber') ?? "";
+    displayName.value = box.read('displayName') ?? "";
+    email.value = box.read('email') ?? "";
+    photoURL.value = box.read('photoURL') ?? "";
+    phoneNumber.value = box.read('phoneNumber') ?? "";
 
     super.onInit();
   }
@@ -193,13 +194,12 @@ class BiodigesterController extends GetxController {
   // }
 
   void clearSharedPref() async {
-    final prefs = await SharedPreferences.getInstance();
+    final box = await GetStorage();
 
-    await prefs.remove('displayName');
-    await prefs.remove('email');
-    await prefs.remove('phoneNumber');
-
-    await prefs.remove('photoURL');
+    await box.remove('displayName');
+    await box.remove('email');
+    await box.remove('phoneNumber');
+    await box.remove('photoURL');
   }
 
   // void getDistricts() async {

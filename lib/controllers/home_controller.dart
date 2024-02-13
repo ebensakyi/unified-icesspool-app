@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/views/login_view.dart';
 import 'package:icesspool/core/location_service.dart';
@@ -65,7 +66,7 @@ class HomeController extends GetxController {
 
     await getCurrentLocation();
     await getUserServiceArea();
-    final prefs = await SharedPreferences.getInstance();
+    final box = await GetStorage();
 
     final position = await LocationService.determinePosition();
 
@@ -73,15 +74,10 @@ class HomeController extends GetxController {
     longitude.value = position.longitude;
     accuracy.value = position.accuracy;
 
-    userId.value = prefs.getInt('userId') ?? 0;
-    phoneNumber.value = prefs.getString('phoneNumber')!;
-    firstName.value = prefs.getString('firstName')!;
-    lastName.value = prefs.getString('lastName')!;
-
-    log("HomeController created == >userId $userId");
-    log("HomeController created == >phoneNumber $phoneNumber");
-    log("HomeController created == >firstName $firstName");
-    log("HomeController created == >lastName  $lastName");
+    userId.value = box.read('userId') ?? 0;
+    phoneNumber.value = box.read('phoneNumber')!;
+    firstName.value = box.read('firstName')!;
+    lastName.value = box.read('lastName')!;
 
     await getAddressFromCoords();
 
@@ -91,9 +87,9 @@ class HomeController extends GetxController {
     //     await placemarkFromCoordinates(latitude.value, longitude.value);
 
     // displayName.value = prefs.getString('displayName') ?? "";
-    email.value = prefs.getString('email') ?? "";
-    photoURL.value = prefs.getString('photoURL') ?? "";
-    phoneNumber.value = prefs.getString('phoneNumber') ?? "";
+    email.value = box.read('email') ?? "";
+    photoURL.value = box.read('photoURL') ?? "";
+    phoneNumber.value = box.read('phoneNumber') ?? "";
     // await getAvailableServices();
 
     super.onInit();
@@ -141,13 +137,13 @@ class HomeController extends GetxController {
   // }
 
   void clearSharedPref() async {
-    final prefs = await SharedPreferences.getInstance();
+    final box = await GetStorage();
 
-    await prefs.remove('displayName');
-    await prefs.remove('email');
-    await prefs.remove('phoneNumber');
+    await box.remove('displayName');
+    await box.remove('email');
+    await box.remove('phoneNumber');
 
-    await prefs.remove('photoURL');
+    await box.remove('photoURL');
   }
 
   getCurrentLocation() async {

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -19,9 +18,22 @@ bool get isInDebugMode {
   return inDebugMode;
 }
 
-bool isFirstTimeOpen = true;
+bool? isFirstTimeOpen;
 bool isLogin = false;
 void main() async {
+  // FlutterError.onError = (FlutterErrorDetails details) {
+  //   // Log the error details
+  //   print('Caught an error: ${details.exception}\n${details.stack}');
+
+  //   // Optionally, rethrow the exception for debugging in debug mode
+  //   if (isInDebugMode) {
+  //     FlutterError.dumpErrorToConsole(details);
+  //   } else {
+  //     // Handle the error in your release build, e.g., report to analytics
+  //     // or show a user-friendly error message
+  //     // handleReleaseError(details);
+  //   }
+  // };
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
 
@@ -48,22 +60,20 @@ void main() async {
   });
   //isViewed = prefs.getBool('onBoard');
 
-  isLogin = box.read('isLogin') ?? false;
   isFirstTimeOpen = box.read('isFirstTimeOpen') ?? true;
+  isLogin = box.read('isLogin') ?? false;
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
-    inspect(isFirstTimeOpen
-        ? AppPages.ONBOARDING
-        : (isLogin ? AppPages.HOME : AppPages.INITIAL));
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
         initialBinding: InitialBindings(),
@@ -74,16 +84,10 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             useMaterial3: true),
 
-        initialRoute: isFirstTimeOpen
+        // initialRoute: isLogin ? AppPages.HOME : AppPages.INITIAL,
+        initialRoute: isFirstTimeOpen!
             ? AppPages.ONBOARDING
             : (isLogin ? AppPages.HOME : AppPages.INITIAL),
-        getPages: AppPages.routes,
-
-        // routes: {"/": (ctx) => LoginView()},
-
-        // routes: {
-        //   '/': (context) => !isLogin! ? LoginView() : HomeView(),
-        // },
       );
     });
   }
