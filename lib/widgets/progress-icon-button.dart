@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 
-class ProgressButton extends StatelessWidget {
+class ProgressIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
+  final IconData iconData;
   final String label;
   final Color borderColor;
   final Color backgroundColor;
+  final Color iconColor;
   final Color textColor;
   final Color progressColor;
 
-  ProgressButton({
+  ProgressIconButton({
     required this.onPressed,
     required this.isLoading,
+    required this.iconData,
     required this.label,
     required this.borderColor,
     required this.backgroundColor,
+    required this.iconColor,
     required this.textColor,
     required this.progressColor,
   });
@@ -44,11 +48,12 @@ class ProgressButton extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(progressColor),
                     ),
                   )
-                : Text(
-                    label,
-                    style:
-                        TextStyle(color: isLoading ? Colors.teal : textColor),
-                  ),
+                : Icon(iconData, color: iconColor),
+            SizedBox(width: 8.0),
+            Text(
+              label,
+              style: TextStyle(color: isLoading ? Colors.teal : textColor),
+            ),
           ],
         ),
       ),

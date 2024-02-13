@@ -12,7 +12,7 @@ import '../themes/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:upgrader/upgrader.dart';
 
-import '../widgets/progress-button.dart';
+import '../widgets/progress-icon-button.dart';
 
 class SignupView extends StatelessWidget {
   final controller = Get.put(SignupController());
@@ -269,7 +269,7 @@ class SignupView extends StatelessWidget {
                             padding: const EdgeInsets.all(16.0),
                             child: SizedBox(
                               width: double.infinity,
-                              child: ProgressButton(
+                              child: ProgressIconButton(
                                 onPressed: () {
                                   controller.isLoading.value = true;
                                   final isValid =

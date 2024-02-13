@@ -37,7 +37,7 @@ class LoginController extends GetxController {
 
     var disclosureViewed = box.read("disclosureViewed");
 
-    if (disclosureViewed != 1) {
+    if (!disclosureViewed) {
       await showPermissionDisclosure();
     }
   }

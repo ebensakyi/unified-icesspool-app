@@ -13,6 +13,7 @@ import '../controllers/biodigester_controller.dart';
 import '../core/validator.dart';
 import '../widgets/dropdown.dart';
 import '../widgets/outline-button.dart';
+import '../widgets/progress-icon-button.dart';
 import '../widgets/small-text-box.dart';
 import '../widgets/sub-service-widget2.dart';
 
@@ -178,7 +179,7 @@ class BioDigesterMainView extends StatelessWidget {
                                             buttonColor: Colors.teal,
                                             textColor: Colors.white,
                                           )
-                                        : Obx(() => ProgressButton(
+                                        : Obx(() => ProgressIconButton(
                                               onPressed: () {
                                                 controller.sendRequest();
                                               },

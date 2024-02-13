@@ -5,6 +5,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:get/get.dart';
 
 import '../controllers/payment_controller.dart';
+import '../widgets/progress-icon-button.dart';
 
 class PaymentView extends StatelessWidget {
   final controller = Get.put(PaymentController());
@@ -36,7 +37,7 @@ class PaymentView extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Obx(() => Visibility(
                       visible: controller.show.value,
-                      child: ProgressButton(
+                      child: ProgressIconButton(
                         onPressed: () {
                           // controller.cancelRequest("controller.transactionId");
                           Get.back();

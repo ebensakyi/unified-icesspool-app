@@ -213,68 +213,81 @@ class LoginView extends StatelessWidget {
                           // Divider(),
 
                           Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16, right: 16, bottom: 16),
-                              child: TextFormField(
-                                controller: controller.phoneNumberController,
-                                keyboardType: TextInputType.number,
-                                maxLengthEnforcement:
-                                    MaxLengthEnforcement.enforced,
-                                onSaved: (value) {
-                                  controller.phoneNumberController.text =
-                                      value!;
-                                },
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-
-                                  // errorText: widget.errorText,
-                                  labelText: 'Phone Number',
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    // borderSide: BorderSide.none,
-                                  ),
-                                  prefixIcon: Icon(Icons.phone_android),
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 16, bottom: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Phone Number',
+                                  style: TextStyle(
+                                      color: Colors.black54, fontSize: 16),
                                 ),
-                                inputFormatters: [inputMasker.phoneMask],
-                                validator: (value) {
-                                  return Validator.phoneValidator(value!);
-                                },
-                              )),
-
+                                SizedBox(height: 8), // Adjust spacing as needed
+                                TextFormField(
+                                  controller: controller.phoneNumberController,
+                                  keyboardType: TextInputType.number,
+                                  maxLengthEnforcement:
+                                      MaxLengthEnforcement.enforced,
+                                  onSaved: (value) {
+                                    controller.phoneNumberController.text =
+                                        value!;
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    labelText: '',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    prefixIcon: Icon(Icons.phone_android),
+                                  ),
+                                  inputFormatters: [inputMasker.phoneMask],
+                                  validator: (value) {
+                                    return Validator.phoneValidator(value!);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
                           Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16, right: 16, bottom: 16),
-                              child: TextFormField(
-                                obscureText: true,
-                                controller: controller.passwordController,
-                                keyboardType: TextInputType.number,
-                                maxLengthEnforcement:
-                                    MaxLengthEnforcement.enforced,
-                                onSaved: (value) {
-                                  controller.passwordController.text = value!;
-                                },
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-
-                                  // errorText: widget.errorText,
-                                  labelText: 'Password',
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    // borderSide: BorderSide.none,
-                                  ),
-                                  prefixIcon: Icon(Icons.password_outlined),
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 16, bottom: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Password',
+                                  style: TextStyle(
+                                      color: Colors.black54, fontSize: 16),
                                 ),
-                                inputFormatters: [inputMasker.phoneMask],
-                                validator: (value) {
-                                  return Validator.passwordValidator(value!);
-                                },
-                              )),
+                                SizedBox(height: 8), // Adjust spacing as needed
+                                TextFormField(
+                                  obscureText: true,
+                                  controller: controller.passwordController,
+                                  onSaved: (value) {
+                                    controller.passwordController.text = value!;
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    labelText: '',
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    prefixIcon: Icon(Icons.password_outlined),
+                                  ),
+                                  validator: (value) {
+                                    return Validator.passwordValidator(value!);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
                           // Obx(
                           //   () => Padding(
                           //     padding: const EdgeInsets.all(8.0),
@@ -314,9 +327,8 @@ class LoginView extends StatelessWidget {
                                   controller.login();
                                 },
                                 isLoading: controller.isLoading.value,
-                                iconData: Icons.login_outlined,
+                                // iconData: Icons.login_outlined,
                                 label: 'Login',
-                                iconColor: Colors.white,
                                 progressColor: Colors.white,
                                 textColor: Colors.white,
                                 backgroundColor: controller.isLoading.value

@@ -8,7 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/contants.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
-import 'package:icesspool/widgets/progress-button.dart';
 import 'package:icesspool/widgets/progress-outline-button.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 import 'package:icesspool/widgets/small-button.dart';
@@ -19,6 +18,7 @@ import '../controllers/home_controller.dart';
 import '../controllers/login_controller.dart';
 import '../controllers/request_controller.dart';
 
+import '../widgets/progress-icon-button.dart';
 import 'biodigester_main_view.dart';
 
 class RequestView extends StatelessWidget {
@@ -470,7 +470,7 @@ class RequestView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ProgressButton(
+                        ProgressIconButton(
                           onPressed: () {
                             controller.initiateTellerPayment();
                           },
