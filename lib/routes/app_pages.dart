@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../app/modules/complete-payment/bindings/complete_payment_binding.dart';
 import '../app/modules/complete-payment/views/complete_payment_view.dart';
+import '../app/modules/onboarding/bindings/onboarding_binding.dart';
+import '../app/modules/onboarding/views/onboarding_view.dart';
 import '../app/modules/services-blog/bindings/services_blog_binding.dart';
 import '../app/modules/services-blog/views/services_blog_view.dart';
 import '../app/modules/services/bindings/services_binding.dart';
@@ -22,6 +24,8 @@ class AppPages {
   static const INITIAL = Routes.LOGIN;
 
   static const HOME = Routes.HOME;
+  static const ONBOARDING = Routes.ONBOARDING;
+
   static const SINGLE_REPORT = Routes.SINGLE_REPORT;
 
   static final routes = [
@@ -60,6 +64,11 @@ class AppPages {
       name: _Paths.SERVICES,
       page: () => const ServicesView(),
       binding: ServicesBinding(),
+    ),
+    GetPage(
+      name: _Paths.ONBOARDING,
+      page: () => const OnboardingView(),
+      binding: OnboardingBinding(),
     ),
   ];
 }

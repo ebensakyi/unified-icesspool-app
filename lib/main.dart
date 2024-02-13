@@ -99,8 +99,10 @@ class MyApp extends StatelessWidget {
         // ),
         //home: HomePage(),
         // initialRoute: AppPages.INITIAL,
-        initialRoute: isLogin ? AppPages.HOME : AppPages.INITIAL,
 
+        // initialRoute: isLogin ? AppPages.HOME : AppPages.INITIAL,
+
+        initialRoute: AppPages.ONBOARDING,
         getPages: AppPages.routes,
 
         // routes: {"/": (ctx) => LoginView()},

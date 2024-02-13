@@ -35,7 +35,7 @@ dependencies:
   dropdown_search: ^5.0.6
   url_launcher: ^6.1.14
   package_info: ^2.0.2
-  upgrader: ^8.4.0
+  upgrader: ^9.0.0
   esys_flutter_share_plus: ^2.2.0
   google_maps_flutter: ^2.5.0
   interactive_bottom_sheet: ^1.0.0
@@ -47,6 +47,8 @@ dependencies:
   carousel_slider: ^4.2.1
   date_field: ^4.0.1
   flutter_styled_toast: ^2.2.1
+  introduction_screen: ^3.1.12
+  # intro_slider: ^4.2.1
 
 
  
