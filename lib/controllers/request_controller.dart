@@ -14,8 +14,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../bindings/payment_binding.dart';
 import '../contants.dart';
 import '../core/random.dart';
+import 'home_controller.dart';
 
 class RequestController extends GetxController {
+  final controller = Get.put(HomeController());
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final RxList<Map<String, dynamic>> documents = <Map<String, dynamic>>[].obs;
 
@@ -61,6 +63,8 @@ class RequestController extends GetxController {
 
     await checkUserTransactionStates();
 
+    log(controller.latitude.value.toString());
+
     super.onInit();
   }
 
@@ -76,13 +80,13 @@ class RequestController extends GetxController {
 
   Future<void> addMarker() async {
     final BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(0, 0)),
+        ImageConfiguration(size: Size(12, 12)),
         "assets/images/toilet-tanker.png");
 
     final MarkerId markerId = MarkerId('marker1');
     final Marker marker = Marker(
       markerId: markerId,
-      position: LatLng(5.648931, -0.185246),
+      position: LatLng(controller.latitude.value, controller.longitude.value),
       infoWindow: InfoWindow(
         title: 'Service',
         snippet: 'This is the first marker.',
@@ -98,7 +102,7 @@ class RequestController extends GetxController {
     log("Map is created");
 
     _controller.complete(controller);
-    await addMarker(); // Add the initial marker when the map is created
+    // await addMarker(); // Add the initial marker when the map is created
   }
 
   //   static CameraPosition _kGooglePlex = CameraPosition(

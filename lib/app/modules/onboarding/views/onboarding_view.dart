@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/home_view.dart';
 import 'package:icesspool/views/login_view.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -196,7 +197,7 @@ class OnboardingView extends GetView<OnboardingController> {
         ),
       ),
       dotsContainerDecorator: const ShapeDecoration(
-        color: Color.fromARGB(255, 3, 151, 136),
+        color: MyColors.secondary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),

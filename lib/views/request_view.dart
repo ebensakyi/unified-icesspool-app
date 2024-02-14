@@ -30,13 +30,7 @@ class RequestView extends StatelessWidget {
 
   // final Completer<GoogleMapController> _controller =
   //     Completer<GoogleMapController>();
-
-  static CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(5.635264, -0.188335),
-    zoom: 12,
-    tilt: 59.440717697143555,
-    bearing: 12.8334901395799,
-  );
+  late GoogleMapController mapController;
 
 //  static CameraPosition _kGooglePlex = CameraPosition(
 //     target: LatLng(homeController.latitude.value, homeController.longitude.value),
@@ -49,67 +43,82 @@ class RequestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CameraPosition _kGooglePlex = CameraPosition(
+      target:
+          LatLng(homeController.latitude.value, homeController.longitude.value),
+      zoom: 12,
+      tilt: 59.440717697143555,
+      bearing: 12.8334901395799,
+    );
+
     log("REBUILDED");
     return Scaffold(
-        bottomSheet: InteractiveBottomSheet(
-          options: InteractiveBottomSheetOptions(
-              expand: false,
-              maxSize: .9,
-              initialSize: 0.5, // controller.initialSize.value,
-              minimumSize: 0.5),
-          child: Obx(() => Column(
-                children: [
-                  !controller.customerHasTransaction.value
-                      ? servicesView()
-                      : Column(
-                          children: [
-                            controller.transactionStatus.value == 1
-                                ? searchingForSP(context)
-                                : controller.transactionStatus.value == 2
-                                    ? spFound(context)
-                                    : controller.transactionStatus.value == 3
-                                        ? orderInPlace(context)
-                                        : controller.transactionStatus.value ==
-                                                7
-                                            ? searchingForDifferentSP(context)
-                                            : servicesView()
-                          ],
-                        ),
-                ],
-              )),
+      bottomSheet: InteractiveBottomSheet(
+        options: InteractiveBottomSheetOptions(
+            expand: false,
+            maxSize: .9,
+            initialSize: 0.5, // controller.initialSize.value,
+            minimumSize: 0.5),
+        child: Obx(() => Column(
+              children: [
+                !controller.customerHasTransaction.value
+                    ? servicesView()
+                    : Column(
+                        children: [
+                          controller.transactionStatus.value == 1
+                              ? searchingForSP(context)
+                              : controller.transactionStatus.value == 2
+                                  ? spFound(context)
+                                  : controller.transactionStatus.value == 3
+                                      ? orderInPlace(context)
+                                      : controller.transactionStatus.value == 7
+                                          ? searchingForDifferentSP(context)
+                                          : servicesView()
+                        ],
+                      ),
+              ],
+            )),
 
-          //  controller.transactionStatus.value == 1
-          //     ? searchingForSP(context)
-          //     : controller.transactionStatus.value == 2
-          //         ? spFound(context)
-          //         : controller.transactionStatus.value == 3
-          //             ? searchingForSP(context)
-          //             : servicesView(),
-          draggableAreaOptions: DraggableAreaOptions(
-            //topBorderRadius: 20,
-            // height: 75,
-            // backgroundColor: Colors.grey,
-            indicatorColor: Color.fromARGB(255, 230, 230, 230),
-            indicatorWidth: 40,
-            indicatorHeight: 5,
-            indicatorRadius: 10,
-          ),
+        //  controller.transactionStatus.value == 1
+        //     ? searchingForSP(context)
+        //     : controller.transactionStatus.value == 2
+        //         ? spFound(context)
+        //         : controller.transactionStatus.value == 3
+        //             ? searchingForSP(context)
+        //             : servicesView(),
+        draggableAreaOptions: DraggableAreaOptions(
+          //topBorderRadius: 20,
+          // height: 75,
+          // backgroundColor: Colors.grey,
+          indicatorColor: Color.fromARGB(255, 230, 230, 230),
+          indicatorWidth: 40,
+          indicatorHeight: 5,
+          indicatorRadius: 10,
         ),
-        body: GoogleMap(
-          mapType: MapType.hybrid,
-          initialCameraPosition: _kGooglePlex,
-        ));
-    //    GoogleMap(
-    //     mapToolbarEnabled: true,
-    //     mapType: MapType.normal,
-    //     initialCameraPosition: _kGooglePlex,
-    //     // onMapCreated: (GoogleMapController controller) {
-    //     //   _controller.complete(controller);
-    //     // },
-    //     onMapCreated: controller.onMapCreated,
-    //     markers: Set<Marker>.of(controller.markers.values),
-    //   ),
-    // );
+      ),
+      body: GoogleMap(
+        mapToolbarEnabled: true,
+        mapType: MapType.normal,
+        initialCameraPosition: CameraPosition(
+          // target: LatLng(homeController.latitude.value,
+          //     homeController.longitude.value),
+
+          target: LatLng(5.663041, -0.153383),
+          zoom: 12,
+          tilt: 59.440717697143555,
+          bearing: 12.8334901395799,
+        ),
+        // onMapCreated: (GoogleMapController controller) {
+        //   _controller.complete(controller);
+        // },
+        onMapCreated: controller.onMapCreated,
+        markers: Set<Marker>.of(controller.markers.values),
+      ),
+    );
+    // GoogleMap(
+    //   mapType: MapType.hybrid,
+    //   initialCameraPosition: _kGooglePlex,
+    // ));
   }
 
   Widget transactionHistory() {
