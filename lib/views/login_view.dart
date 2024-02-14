@@ -60,8 +60,8 @@ class LoginView extends StatelessWidget {
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: MyColors.primary),
                 ),
-                labelStyle: TextStyle(color: MyColors.MainColor),
-                iconColor: MyColors.MainColor),
+                labelStyle: TextStyle(color: MyColors.primary),
+                iconColor: MyColors.primary),
             scaffoldBackgroundColor: const Color(0xFFFFFFFF),
           ),
           home: Scaffold(
@@ -315,27 +315,27 @@ class LoginView extends StatelessWidget {
                             padding: const EdgeInsets.all(16.0),
                             child: SizedBox(
                               width: double.infinity,
-                              child: ProgressButton(
-                                onPressed: () {
-                                  // controller.isLoading.value = true;
-                                  final isValid =
-                                      _formKey.currentState!.validate();
-                                  if (!isValid) {
-                                    controller.isLoading.value = false;
-                                    return;
-                                  }
-                                  controller.login();
-                                },
-                                isLoading: controller.isLoading.value,
-                                // iconData: Icons.login_outlined,
-                                label: 'Login',
-                                progressColor: Colors.white,
-                                textColor: Colors.white,
-                                backgroundColor: controller.isLoading.value
-                                    ? MyColors.primary
-                                    : MyColors.primary,
-                                borderColor: MyColors.primary,
-                              ),
+                              child: Obx(() => ProgressButton(
+                                    onPressed: () {
+                                      // controller.isLoading.value = true;
+                                      final isValid =
+                                          _formKey.currentState!.validate();
+                                      if (!isValid) {
+                                        controller.isLoading.value = false;
+                                        return;
+                                      }
+                                      controller.login();
+                                    },
+                                    isLoading: controller.isLoading.value,
+                                    // iconData: Icons.login_outlined,
+                                    label: 'Login',
+                                    progressColor: Colors.white,
+                                    textColor: Colors.white,
+                                    backgroundColor: controller.isLoading.value
+                                        ? MyColors.primary
+                                        : MyColors.primary,
+                                    borderColor: MyColors.primary,
+                                  )),
                             ),
                           ),
                           Text("Or"),
@@ -372,7 +372,7 @@ class LoginView extends StatelessWidget {
                                     ..onTap = () => {openUrl()},
                                   text: ' privacy policy ',
                                   style: TextStyle(
-                                      color: MyColors.SecondaryColor,
+                                      color: MyColors.primary,
                                       decoration: TextDecoration.underline),
                                 ),
                                 TextSpan(

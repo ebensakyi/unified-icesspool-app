@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -164,11 +167,29 @@ class BioDigesterMainView extends StatelessWidget {
                                     : controller.currentStep == 2
                                         ? SolidButton(
                                             onPressed: () {
-                                              if (controller.selectedServices
-                                                      .length ==
-                                                  0) {
-                                                return;
+                                              if (controller
+                                                      .calculateHoursDifference() <
+                                                  4) {
+                                                return showToast(
+                                                  backgroundColor:
+                                                      Colors.red.shade800,
+                                                  alignment: Alignment.center,
+                                                  'Please select date and time at least 4 hrs from now',
+                                                  context: context,
+                                                  animation:
+                                                      StyledToastAnimation
+                                                          .scale,
+                                                  duration:
+                                                      Duration(seconds: 4),
+                                                  position: StyledToastPosition
+                                                      .center,
+                                                );
                                               }
+                                              // if (controller.selectedServices
+                                              //         .length ==
+                                              //     0) {
+                                              //   return;
+                                              // }
                                               if (formKey2.currentState!
                                                   .validate())
                                                 controller.continued();
@@ -226,8 +247,12 @@ class BioDigesterMainView extends StatelessWidget {
                         content: Column(
                           children: [
                             Container(
-                              color: Colors.yellow
-                                  .withOpacity(0.3), // Light yellow background
+                              decoration: BoxDecoration(
+                                color: Colors.yellow.withOpacity(
+                                    0.3), // Light yellow background
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Adjust the radius as needed
+                              ),
                               child: InkWell(
                                 onTap: () {
                                   // Get.back();
@@ -239,8 +264,8 @@ class BioDigesterMainView extends StatelessWidget {
                                   child: Text(
                                     "Tap here to learn more about the service you need",
                                     style: TextStyle(
-                                        color: Colors
-                                            .black), // Adjust text color as needed
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -319,6 +344,34 @@ class BioDigesterMainView extends StatelessWidget {
                             key: formKey3,
                             child: Column(
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.yellow.withOpacity(
+                                          0.3), // Light yellow background
+                                      borderRadius: BorderRadius.circular(
+                                          10.0), // Adjust the radius as needed
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        // Get.back();
+                                        // homeController.changeTabIndex(2);
+                                        Get.to(() => ServicesView());
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Text(
+                                          "Choose a time at least 4hrs from current time",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
                                 ElevatedButton(
                                   onPressed: () {
                                     controller.selectDate(context);
@@ -328,9 +381,15 @@ class BioDigesterMainView extends StatelessWidget {
                                 Obx(() {
                                   final selectedDate =
                                       controller.selectedDate.value;
+
+                                  List<String> splitString =
+                                      selectedDate.toString().split(" ");
+
+                                  inspect(splitString[0]);
                                   final formattedDate =
                                       DateFormat('EEEE, MMMM d, y')
                                           .format(selectedDate);
+
                                   return Text(' $formattedDate');
                                 }),
                                 Padding(
@@ -348,7 +407,9 @@ class BioDigesterMainView extends StatelessWidget {
                                       controller.selectedTime.value;
 
                                   final formattedTime =
-                                      _formatTime(selectedTime);
+                                      controller.formatTime(selectedTime);
+                                  inspect(formattedTime.toString());
+                                  inspect(formattedTime);
 
                                   return Text(' ${formattedTime}');
                                 }),
@@ -826,12 +887,5 @@ class BioDigesterMainView extends StatelessWidget {
             )
           : SizedBox.shrink(),
     ]);
-  }
-
-  String _formatTime(TimeOfDay timeOfDay) {
-    final now = DateTime.now();
-    final dateTime = DateTime(
-        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
-    return DateFormat('h:mm a').format(dateTime);
   }
 }

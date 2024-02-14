@@ -10,6 +10,7 @@ import 'package:icesspool/controllers/request_controller.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:intl/intl.dart';
 
 import '../contants.dart';
 import '../core/random.dart';
@@ -547,4 +548,51 @@ class BiodigesterController extends GetxController {
   //     print('Failed to add data: $error');
   //   });
   // }
+
+  String formatTime(TimeOfDay timeOfDay) {
+    final now = DateTime.now();
+    final dateTime = DateTime(
+        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+    return DateFormat('h:mm a').format(dateTime);
+  }
+
+  int calculateHoursDifference() {
+    var givenDateString = selectedDate.value.toString().split(" ")[0] +
+        " " +
+        formatTime(selectedTime.value);
+    // Splitting the given date string into date and time parts
+    List<String> parts = givenDateString.split(" ");
+    String datePart = parts[0];
+    String timePart = parts[1];
+    String period = parts[2];
+
+    // Extracting year, month, and day
+    List<String> dateParts = datePart.split("-");
+    int year = int.parse(dateParts[0]);
+    int month = int.parse(dateParts[1]);
+    int day = int.parse(dateParts[2]);
+
+    // Extracting hour and minute
+    List<String> timeParts = timePart.split(":");
+    int hour = int.parse(timeParts[0]);
+    int minute = int.parse(timeParts[1]);
+
+    // Converting hour to 24-hour format if necessary
+    if (period == 'PM' && hour < 12) {
+      hour += 12;
+    } else if (period == 'AM' && hour == 12) {
+      hour = 0;
+    }
+
+    // Create the DateTime object
+    DateTime givenDateTime = DateTime(year, month, day, hour, minute);
+
+    // Current datetime
+    DateTime currentDateTime = DateTime.now();
+
+    // Calculate the difference in hours
+    int hoursDifference = currentDateTime.difference(givenDateTime).inHours;
+
+    return hoursDifference;
+  }
 }

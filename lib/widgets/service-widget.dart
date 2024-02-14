@@ -68,8 +68,8 @@ class ServiceWidget extends StatelessWidget {
             //     ? MyColors.SecondaryColor.asMaterialColor.shade500
             //     : MyColors.SecondaryColor.asMaterialColor.shade50,
             color: isAvailable
-                ? MyColors.SecondaryColor.asMaterialColor.shade50
-                : MyColors.SecondaryColor.asMaterialColor.shade50,
+                ? MyColors.secondary.asMaterialColor.shade50
+                : MyColors.secondary.asMaterialColor.shade50,
             borderRadius: BorderRadius.all(
               Radius.circular(8),
             ),
@@ -79,7 +79,7 @@ class ServiceWidget extends StatelessWidget {
             //   width: 2.0, // Set the border width
             // ),
             border: Border.all(
-              color: MyColors.SecondaryColor.asMaterialColor
+              color: MyColors.secondary.asMaterialColor
                   .shade200, // Set the border color here
               width: 1.0, // Set the border width
             ),

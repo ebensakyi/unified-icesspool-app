@@ -29,14 +29,14 @@ class HomeView extends StatelessWidget {
               BottomNavyBarItem(
                 icon: Icon(Icons.home_outlined),
                 title: Text('Home'),
-                activeColor: MyColors.MainColor,
+                activeColor: MyColors.primary,
                 inactiveColor: controller.inactiveColor.value,
                 textAlign: TextAlign.center,
               ),
               BottomNavyBarItem(
                 icon: Icon(Icons.history),
                 title: Text('History'),
-                activeColor: MyColors.MainColor,
+                activeColor: MyColors.primary,
                 inactiveColor: controller.inactiveColor.value,
                 textAlign: TextAlign.center,
               ),
@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
               BottomNavyBarItem(
                 icon: Icon(Icons.account_circle_outlined),
                 title: Text('Account'),
-                activeColor: MyColors.MainColor,
+                activeColor: MyColors.primary,
                 inactiveColor: controller.inactiveColor.value,
                 textAlign: TextAlign.center,
               ),

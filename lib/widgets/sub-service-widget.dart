@@ -40,7 +40,7 @@ class SubServiceWidget extends StatelessWidget {
               Radius.circular(8),
             ),
             border: Border.all(
-              color: MyColors.SecondaryColor.asMaterialColor
+              color: MyColors.secondary.asMaterialColor
                   .shade100, // Set the border color here
               width: 2.0, // Set the border width
             ),

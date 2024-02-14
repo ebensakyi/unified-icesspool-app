@@ -56,10 +56,10 @@ class SignupView extends StatelessWidget {
                 //   borderSide: BorderSide(width: 1, color: Colors.greenAccent),
                 // ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: MyColors.MainColor),
+                  borderSide: BorderSide(width: 1, color: MyColors.primary),
                 ),
-                labelStyle: TextStyle(color: MyColors.MainColor),
-                iconColor: MyColors.MainColor),
+                labelStyle: TextStyle(color: MyColors.primary),
+                iconColor: MyColors.primary),
             scaffoldBackgroundColor: const Color(0xFFFFFFFF),
           ),
           home: Scaffold(
@@ -306,7 +306,7 @@ class SignupView extends StatelessWidget {
                                     ..onTap = () => {openUrl()},
                                   text: ' privacy policy ',
                                   style: TextStyle(
-                                      color: MyColors.SecondaryColor,
+                                      color: MyColors.secondary,
                                       decoration: TextDecoration.underline),
                                 ),
                                 TextSpan(

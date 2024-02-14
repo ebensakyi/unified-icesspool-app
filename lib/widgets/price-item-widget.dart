@@ -5,11 +5,11 @@ import 'package:icesspool/widgets/image-view.dart';
 class PriceItemWidget extends StatelessWidget {
   const PriceItemWidget(
       {super.key,
-        required this.path,
-        required this.size,
-        required this.title,
-        required this.subTitle,
-        this.onTap});
+      required this.path,
+      required this.size,
+      required this.title,
+      required this.subTitle,
+      this.onTap});
 
   final String path;
   final double size;
@@ -26,7 +26,7 @@ class PriceItemWidget extends StatelessWidget {
         child: Container(
           // color: Colors.indigo,
           decoration: BoxDecoration(
-              color: MyColors.SecondaryColor.asMaterialColor.shade50,
+              color: MyColors.secondary.asMaterialColor.shade50,
               borderRadius: BorderRadius.all(Radius.circular(8))),
           child: Row(children: [
             Padding(

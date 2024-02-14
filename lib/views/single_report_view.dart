@@ -130,7 +130,7 @@ class SingleReportView extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SmallButton(
-                          backgroundColor: MyColors.SecondaryColor,
+                          backgroundColor: MyColors.secondary,
                           label: "Delete",
                           onPressed: () {
                             controller.deleteReport(controller.id.value);

@@ -13,6 +13,7 @@ import 'package:icesspool/bindings/home_binding.dart';
 import 'package:icesspool/views/home_view.dart';
 import 'package:icesspool/views/request_view.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 
 import '../contants.dart';
 import '../themes/colors.dart';
@@ -33,12 +34,28 @@ class LoginController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+
+    await requestPermissions();
     final box = await GetStorage();
 
     var disclosureViewed = box.read("disclosureViewed");
 
     if (!disclosureViewed) {
       await showPermissionDisclosure();
+    }
+  }
+
+  requestPermissions() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.location,
+      Permission.notification,
+    ].request();
+
+    if (await Permission.location.isPermanentlyDenied) {
+      openAppSettings();
+    }
+    if (await Permission.notification.isPermanentlyDenied) {
+      openAppSettings();
     }
   }
 
