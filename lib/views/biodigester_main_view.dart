@@ -46,6 +46,9 @@ class BioDigesterMainView extends StatelessWidget {
               children: [
                 Expanded(
                   child: Stepper(
+                    connectorThickness: 0.4,
+                    connectorColor:
+                        MaterialStatePropertyAll(MyColors.secondary),
                     type: MediaQuery.of(context).orientation ==
                             Orientation.portrait
                         ? StepperType.vertical

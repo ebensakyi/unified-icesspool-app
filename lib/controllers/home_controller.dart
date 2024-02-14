@@ -61,6 +61,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+    changeTabIndex(0);
     log("HomeController created");
 
     await getCurrentLocation();
@@ -353,13 +354,13 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  returnValue(exp) {
-    if (exp == "" || exp == "null" || exp == "") {
-      return "null";
-    } else {
-      return exp;
-    }
-  }
+  // returnValue(exp) {
+  //   if (exp == "" || exp == "null" || exp == "") {
+  //     return "null";
+  //   } else {
+  //     return exp;
+  //   }
+  // }
 
   // getItemId(value) {
   //   try {
@@ -412,33 +413,33 @@ class HomeController extends GetxController {
     AppVersion.value = _packageInfo.version;
   }
 
-  currentStepperType() {
-    return stepperType == StepperType.vertical
-        ? stepperType = StepperType.horizontal
-        : stepperType = StepperType.vertical;
-  }
+  // currentStepperType() {
+  //   return stepperType == StepperType.vertical
+  //       ? stepperType = StepperType.horizontal
+  //       : stepperType = StepperType.vertical;
+  // }
 
-  tapped(int step) {
-    currentStep.value = step;
-  }
+  // tapped(int step) {
+  //   currentStep.value = step;
+  // }
 
-  continued() {
-    log(">>> $currentStep");
+  // continued() {
+  //   log(">>> $currentStep");
 
-    if (currentStep < 2) {
-      currentStep.value += 1;
-    } else {
-      //   _submitRequest();
-      //  _formSubmitted = true;
-    }
-    if (currentStep == 3) {
-      log("Make Payment");
-    }
-  }
+  //   if (currentStep < 2) {
+  //     currentStep.value += 1;
+  //   } else {
+  //     //   _submitRequest();
+  //     //  _formSubmitted = true;
+  //   }
+  //   if (currentStep == 3) {
+  //     log("Make Payment");
+  //   }
+  // }
 
-  cancel() {
-    currentStep.value > 0 ? currentStep.value -= 1 : null;
-  }
+  // cancel() {
+  //   currentStep.value > 0 ? currentStep.value -= 1 : null;
+  // }
 
   Future<void> getAvailableServices(serviceAreaId) async {
     final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;

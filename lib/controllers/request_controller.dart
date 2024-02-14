@@ -140,8 +140,7 @@ class RequestController extends GetxController {
       documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
 
       var data = documents[0];
-
-      inspect(data);
+      initialSize.value = 0.85;
 
       transactionStatus.value = data["txStatusCode"]!;
       amount.value = data['unitCost'];
@@ -252,7 +251,7 @@ class RequestController extends GetxController {
     }
   }
 
-  Future initiateTellerPayment() async {
+  Future initiateTellerPayment(paymentMethod) async {
     paymentId.value = generatePaymentCode(12);
 
     String url = Constants.INITIATE_PAYMENT_URL +
@@ -260,6 +259,8 @@ class RequestController extends GetxController {
         transactionId.value +
         "&paymentId=" +
         paymentId.value +
+        "&payment_method=" +
+        paymentMethod.toString() +
         "&amount=" +
         amount.value.trim();
 

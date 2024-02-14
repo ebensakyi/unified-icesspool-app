@@ -36,7 +36,7 @@ class ProgressIconButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: borderColor),
             ),
-            backgroundColor: MyColors.primary),
+            backgroundColor: backgroundColor),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

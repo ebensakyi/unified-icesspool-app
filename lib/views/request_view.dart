@@ -398,27 +398,27 @@ class RequestView extends StatelessWidget {
             child: Container(
               // color: MyColors.primary.shade100,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Service Provider found',
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
-                    ),
-                    SvgPicture.asset('assets/images/payment.svg',
-                        height: 200, semanticsLabel: 'Searching'),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Service Provider found',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      SvgPicture.asset('assets/images/payment.svg',
+                          height: 200, semanticsLabel: 'Searching'),
 
-                    SizedBox(height: 20.0),
-                    Text(
-                      'Make payment to confirm the job.',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, color: Colors.black54),
-                    ),
-                    SizedBox(height: 10.0),
+                      SizedBox(height: 20.0),
+                      Text(
+                        'Make payment to confirm the job.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black54),
+                      ),
+                      SizedBox(height: 10.0),
 
-                    Obx(
-                      () => Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
@@ -448,95 +448,104 @@ class RequestView extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
-                    // GifController _controller = GifController(vsync: this);
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: LinearProgressIndicator(
-                    //     minHeight: 10,
-                    //     backgroundColor: Colors
-                    //         .grey[200], // Background color of the progress bar
-                    //     valueColor: AlwaysStoppedAnimation<Color>(
-                    //         MyColors.primary), // Color of the progress indicator
-                    //   ),
-                    // ),
-                    Divider(),
-                    ListTile(
-                      title: Text(
-                        "Fee",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      // GifController _controller = GifController(vsync: this);
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: LinearProgressIndicator(
+                      //     minHeight: 10,
+                      //     backgroundColor: Colors
+                      //         .grey[200], // Background color of the progress bar
+                      //     valueColor: AlwaysStoppedAnimation<Color>(
+                      //         MyColors.primary), // Color of the progress indicator
+                      //   ),
+                      // ),
+                      Divider(),
+                      ListTile(
+                        title: Text(
+                          "Fee",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle:
+                            Obx(() => Text('GHS ${controller.amount.value}')),
                       ),
-                      subtitle:
-                          Obx(() => Text('GHS ${controller.amount.value}')),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ProgressIconButton(
-                          onPressed: () {
-                            controller.initiateTellerPayment();
-                          },
-                          isLoading: controller.isLoading.value,
-                          iconData: Icons.payment_sharp,
-                          label: 'Pay',
-                          iconColor: Colors.white,
-                          progressColor: Colors.white,
-                          textColor: Colors.white,
-                          backgroundColor: controller.isLoading.value
-                              ? MyColors.primary
-                              : MyColors.primary,
-                          borderColor: MyColors.primary,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        ProgressOutlineIconButton(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ProgressIconButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  String contentText =
-                                      "Are you sure you want to cancel this request?";
-                                  return StatefulBuilder(
-                                    builder: (context, setState) {
-                                      return AlertDialog(
-                                        title: Text("Cancel Request"),
-                                        content: Text(contentText),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text("Cancel"),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              controller.cancelRequest();
-                                              Navigator.pop(context);
-                                              // setState(() {
-                                              //   contentText =
-                                              //       "Changed Content of Dialog";
-                                              // });
-                                            },
-                                            child: Text("Ok"),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              );
+                              controller.initiateTellerPayment(0);
                             },
                             isLoading: controller.isLoading.value,
-                            iconData: Icons.cancel_outlined,
-                            label: "Cancel",
-                            primaryColor: Colors.red)
-                      ],
-                    )
-                  ],
-                ),
-              ),
+                            iconData: Icons.mobile_friendly_sharp,
+                            label: 'Pay with MoMo',
+                            iconColor: Colors.white,
+                            progressColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: controller.isLoading.value
+                                ? MyColors.secondary
+                                : MyColors.secondary,
+                            borderColor: MyColors.secondary,
+                          ),
+                          ProgressIconButton(
+                            onPressed: () {
+                              controller.initiateTellerPayment(1);
+                            },
+                            isLoading: controller.isLoading.value,
+                            iconData: Icons.payment_sharp,
+                            label: 'Pay with Card',
+                            iconColor: Colors.white,
+                            progressColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: controller.isLoading.value
+                                ? MyColors.primary
+                                : MyColors.primary,
+                            borderColor: MyColors.primary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
             ),
           ),
+          ProgressOutlineIconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    String contentText =
+                        "Are you sure you want to cancel this request?";
+                    return StatefulBuilder(
+                      builder: (context, setState) {
+                        return AlertDialog(
+                          title: Text("Cancel Request"),
+                          content: Text(contentText),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                controller.cancelRequest();
+                                Navigator.pop(context);
+                                // setState(() {
+                                //   contentText =
+                                //       "Changed Content of Dialog";
+                                // });
+                              },
+                              child: Text("Ok"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+              isLoading: controller.isLoading.value,
+              iconData: Icons.cancel_outlined,
+              label: "Cancel",
+              primaryColor: Colors.red)
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -168,7 +169,6 @@ class BiodigesterController extends GetxController {
       update();
     } catch (e) {
       isLoading.value = false;
-      log(e.toString());
     }
   }
 
@@ -294,7 +294,7 @@ class BiodigesterController extends GetxController {
       //   }
     } catch (e) {
       isLoading.value = false;
-      log(e.toString());
+
       Get.snackbar("Connection Error",
           "Connection to server refused. Please try again later...",
           snackPosition: SnackPosition.TOP,
@@ -367,8 +367,6 @@ class BiodigesterController extends GetxController {
         final data = json.decode(response.body);
 
         biodigesterServicesAvailable.value = data;
-
-        log("getAvailableBiodigesterServices $data");
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -415,7 +413,6 @@ class BiodigesterController extends GetxController {
     int index = biodigesterPricings
         .indexWhere((service) => service.biodigesterServiceId == targetId);
 
-    log(index.toString());
     if (index != -1) {
       // log('Index of object with id $targetId: $index');
     } else {
@@ -488,9 +485,7 @@ class BiodigesterController extends GetxController {
       //   _submitRequest();
       //  _formSubmitted = true;
     }
-    if (currentStep == 3) {
-      log("Make Payment");
-    }
+    if (currentStep == 3) {}
   }
 
   cancel() {
@@ -593,6 +588,6 @@ class BiodigesterController extends GetxController {
     // Calculate the difference in hours
     int hoursDifference = currentDateTime.difference(givenDateTime).inHours;
 
-    return hoursDifference;
+    return hoursDifference.abs();
   }
 }

@@ -197,6 +197,14 @@ class LoginController extends GetxController {
         // final prefs = await SharedPreferences.getInstance();
         final box = await GetStorage();
 
+        if (user["userTypeId"] != 4) {
+          return Get.snackbar(
+              "Error", "Your account doesn't allow you to access client app",
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: MyColors.Red,
+              colorText: Colors.white);
+        }
+
         var userId = user["id"];
         // var email = user["email"];
         var phoneNumber = user["phoneNumber"];
