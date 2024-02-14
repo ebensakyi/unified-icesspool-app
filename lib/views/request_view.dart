@@ -9,7 +9,6 @@ import 'package:icesspool/contants.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
-import 'package:icesspool/widgets/progress-outline-button.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 import 'package:icesspool/widgets/small-button.dart';
 
@@ -406,10 +405,10 @@ class RequestView extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
-                      SvgPicture.asset('assets/images/payment.svg',
-                          height: 200, semanticsLabel: 'Searching'),
+                      // SvgPicture.asset('assets/images/payment.svg',
+                      //     height: 200, semanticsLabel: 'Searching'),
 
-                      SizedBox(height: 20.0),
+                      // SizedBox(height: 10.0),
                       Text(
                         'Make payment to confirm the job.',
                         style: TextStyle(
@@ -473,7 +472,7 @@ class RequestView extends StatelessWidget {
                         children: [
                           ProgressIconButton(
                             onPressed: () {
-                              controller.initiateTellerPayment(0);
+                              controller.initiateTellerPayment("momo");
                             },
                             isLoading: controller.isLoading.value,
                             iconData: Icons.mobile_friendly_sharp,
@@ -488,7 +487,7 @@ class RequestView extends StatelessWidget {
                           ),
                           ProgressIconButton(
                             onPressed: () {
-                              controller.initiateTellerPayment(1);
+                              controller.initiateTellerPayment("card");
                             },
                             isLoading: controller.isLoading.value,
                             iconData: Icons.payment_sharp,
