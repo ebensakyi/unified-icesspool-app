@@ -41,7 +41,7 @@ class ServiceDescription extends StatelessWidget {
                 // Handle button press
                 print('Button pressed for $name');
               },
-              child: Text('Read more'),
+              child: Text('Learn More'),
             ),
           ),
         ],

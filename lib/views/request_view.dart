@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:icesspool/app/modules/services/views/services_view.dart';
 import 'package:icesspool/contants.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
@@ -50,67 +51,64 @@ class RequestView extends StatelessWidget {
   Widget build(BuildContext context) {
     log("REBUILDED");
     return Scaffold(
-      bottomSheet: InteractiveBottomSheet(
-        options: InteractiveBottomSheetOptions(
-            expand: false,
-            maxSize: .9,
-            initialSize: 0.5, // controller.initialSize.value,
-            minimumSize: 0.5),
-        child: Obx(() => Column(
-              children: [
-                !controller.customerHasTransaction.value
-                    ? servicesView()
-                    : Column(
-                        children: [
-                          controller.transactionStatus.value == 1
-                              ? searchingForSP(context)
-                              : controller.transactionStatus.value == 2
-                                  ? spFound(context)
-                                  : controller.transactionStatus.value == 3
-                                      ? orderInPlace(context)
-                                      : controller.transactionStatus.value == 7
-                                          ? searchingForDifferentSP(context)
-                                          : servicesView()
-                        ],
-                      ),
-              ],
-            )),
+        bottomSheet: InteractiveBottomSheet(
+          options: InteractiveBottomSheetOptions(
+              expand: false,
+              maxSize: .9,
+              initialSize: 0.5, // controller.initialSize.value,
+              minimumSize: 0.5),
+          child: Obx(() => Column(
+                children: [
+                  !controller.customerHasTransaction.value
+                      ? servicesView()
+                      : Column(
+                          children: [
+                            controller.transactionStatus.value == 1
+                                ? searchingForSP(context)
+                                : controller.transactionStatus.value == 2
+                                    ? spFound(context)
+                                    : controller.transactionStatus.value == 3
+                                        ? orderInPlace(context)
+                                        : controller.transactionStatus.value ==
+                                                7
+                                            ? searchingForDifferentSP(context)
+                                            : servicesView()
+                          ],
+                        ),
+                ],
+              )),
 
-        //  controller.transactionStatus.value == 1
-        //     ? searchingForSP(context)
-        //     : controller.transactionStatus.value == 2
-        //         ? spFound(context)
-        //         : controller.transactionStatus.value == 3
-        //             ? searchingForSP(context)
-        //             : servicesView(),
-        draggableAreaOptions: DraggableAreaOptions(
-          //topBorderRadius: 20,
-          // height: 75,
-          // backgroundColor: Colors.grey,
-          indicatorColor: Color.fromARGB(255, 230, 230, 230),
-          indicatorWidth: 40,
-          indicatorHeight: 5,
-          indicatorRadius: 10,
+          //  controller.transactionStatus.value == 1
+          //     ? searchingForSP(context)
+          //     : controller.transactionStatus.value == 2
+          //         ? spFound(context)
+          //         : controller.transactionStatus.value == 3
+          //             ? searchingForSP(context)
+          //             : servicesView(),
+          draggableAreaOptions: DraggableAreaOptions(
+            //topBorderRadius: 20,
+            // height: 75,
+            // backgroundColor: Colors.grey,
+            indicatorColor: Color.fromARGB(255, 230, 230, 230),
+            indicatorWidth: 40,
+            indicatorHeight: 5,
+            indicatorRadius: 10,
+          ),
         ),
-      ),
-      body: GoogleMap(
-        mapToolbarEnabled: true,
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        // onMapCreated: (GoogleMapController controller) {
-        //   _controller.complete(controller);
-        // },
-        onMapCreated: controller.onMapCreated,
-        markers: Set<Marker>.of(controller.markers.values),
-      ),
-    );
-
-    // GoogleMap(
-    //   mapType: MapType.hybrid,
-    //   initialCameraPosition: _kGooglePlex,
-    //   onMapCreated: (GoogleMapController controller) {
-    //     _controller.complete(controller);
-    //   },
+        body: GoogleMap(
+          mapType: MapType.hybrid,
+          initialCameraPosition: _kGooglePlex,
+        ));
+    //    GoogleMap(
+    //     mapToolbarEnabled: true,
+    //     mapType: MapType.normal,
+    //     initialCameraPosition: _kGooglePlex,
+    //     // onMapCreated: (GoogleMapController controller) {
+    //     //   _controller.complete(controller);
+    //     // },
+    //     onMapCreated: controller.onMapCreated,
+    //     markers: Set<Marker>.of(controller.markers.values),
+    //   ),
     // );
   }
 
@@ -602,8 +600,11 @@ class RequestView extends StatelessWidget {
                 isAvailable: true,
                 path: "assets/images/more.png",
                 size: 32,
-                title: 'Read More',
-                subTitle: 'Read more about our services',
+                title: 'Learn More',
+                subTitle: 'Learn more about our services',
+                onTap: () {
+                  Get.to(() => ServicesView());
+                },
               ),
             ),
           ],

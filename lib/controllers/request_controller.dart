@@ -127,8 +127,6 @@ class RequestController extends GetxController {
   }
 
   Future checkUserTransactionStates() async {
-    log('checkAvailableRequest checkAvailableRequest');
-
     //  try {
     _firestore
         .collection('transaction')
