@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TextBox extends StatefulWidget {
+import 'package:flutter/material.dart';
+
+class TextBox extends StatelessWidget {
   final String labelText;
   final IconData? icon;
   final dynamic fieldType;
@@ -13,52 +15,47 @@ class TextBox extends StatefulWidget {
   final dynamic keyboardType;
   final dynamic maxLines;
   final dynamic initialValue;
-  TextBox(
-      {Key? key,
-      required this.labelText,
-      this.errorText,
-      this.icon,
-      this.fieldType,
-      this.controller,
-      this.maxLength,
-      this.onSaved,
-      this.keyboardType,
-      this.validator,
-      this.maxLines,
-      this.initialValue})
-      : super(key: key);
 
-  @override
-  State<TextBox> createState() => _TextBoxState();
-}
+  TextBox({
+    Key? key,
+    required this.labelText,
+    this.errorText,
+    this.icon,
+    this.fieldType,
+    this.controller,
+    this.maxLength,
+    this.onSaved,
+    this.keyboardType,
+    this.validator,
+    this.maxLines,
+    this.initialValue,
+  }) : super(key: key);
 
-class _TextBoxState extends State<TextBox> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-        initialValue: widget.initialValue,
-        controller: widget.controller,
-        keyboardType: widget.fieldType,
+        initialValue: initialValue,
+        controller: controller,
+        keyboardType: fieldType,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
-        maxLength: widget.maxLength,
-        maxLines: widget.maxLines,
+        maxLength: maxLength,
+        maxLines: maxLines,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          errorText: widget.errorText,
-
-          labelText: widget.labelText,
+          errorText: errorText,
+          labelText: labelText,
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             // borderSide: BorderSide.none,
           ),
-          // prefixIcon: Icon(widget.icon),
+          // prefixIcon: Icon(icon),
         ),
-        onSaved: widget.onSaved,
-        validator: widget.validator,
+        onSaved: onSaved,
+        validator: validator,
       ),
     );
   }

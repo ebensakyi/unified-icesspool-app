@@ -29,10 +29,10 @@ class ProgressButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
               side: BorderSide(color: borderColor),
             ),
-            backgroundColor: MyColors.primary),
+            backgroundColor: backgroundColor),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -41,7 +41,7 @@ class ProgressButton extends StatelessWidget {
                     width: 20.0,
                     height: 20.0,
                     child: CircularProgressIndicator(
-                      backgroundColor: MyColors.primary,
+                      backgroundColor: backgroundColor,
                       valueColor: AlwaysStoppedAnimation<Color>(progressColor),
                     ),
                   )

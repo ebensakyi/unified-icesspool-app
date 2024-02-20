@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:icesspool/widgets/progress-button.dart';
 
 import '../controllers/signup_controller.dart';
 import '../core/mask_formatter.dart';
@@ -269,7 +270,8 @@ class SignupView extends StatelessWidget {
                             padding: const EdgeInsets.all(16.0),
                             child: SizedBox(
                               width: double.infinity,
-                              child: ProgressIconButton(
+                              height: 60,
+                              child: ProgressButton(
                                 onPressed: () {
                                   controller.isLoading.value = true;
                                   final isValid =
@@ -281,15 +283,13 @@ class SignupView extends StatelessWidget {
                                   controller.signup();
                                 },
                                 isLoading: controller.isLoading.value,
-                                iconData: Icons.verified_user_outlined,
                                 label: 'Signup',
-                                iconColor: Colors.white,
                                 progressColor: Colors.white,
                                 textColor: Colors.white,
                                 backgroundColor: controller.isLoading.value
-                                    ? MyColors.primary
-                                    : MyColors.primary,
-                                borderColor: MyColors.primary,
+                                    ? MyColors.secondary
+                                    : MyColors.secondary,
+                                borderColor: MyColors.secondary,
                               ),
                             ),
                           ),

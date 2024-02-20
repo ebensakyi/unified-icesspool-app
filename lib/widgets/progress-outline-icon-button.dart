@@ -50,12 +50,17 @@ class ProgressOutlineIconButton extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
                     ),
                   )
-                : Icon(iconData, color: primaryColor),
-            SizedBox(width: 8.0),
-            Text(
-              label,
-              style: TextStyle(color: isLoading ? primaryColor : primaryColor),
-            ),
+                : Row(
+                    children: [
+                      Icon(iconData, color: primaryColor),
+                      SizedBox(width: 8.0),
+                      Text(
+                        label,
+                        style: TextStyle(
+                            color: isLoading ? primaryColor : primaryColor),
+                      ),
+                    ],
+                  ),
           ],
         ),
       ),

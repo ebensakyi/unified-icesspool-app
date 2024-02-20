@@ -34,7 +34,7 @@ class ProgressOutlineButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
               side: BorderSide(color: primaryColor),
             ),
             backgroundColor: Colors.white),
@@ -50,11 +50,11 @@ class ProgressOutlineButton extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
                     ),
                   )
-                : SizedBox(width: 8.0),
-            Text(
-              label,
-              style: TextStyle(color: isLoading ? primaryColor : primaryColor),
-            ),
+                : Text(
+                    label,
+                    style: TextStyle(
+                        color: isLoading ? primaryColor : primaryColor),
+                  ),
           ],
         ),
       ),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class SolidButton extends StatelessWidget {
   final onPressed;
   final showLoading;
-  final buttonColor;
-  final textColor;
-  final label;
+  final Color buttonColor;
+  final Color textColor;
+  final Text label;
   const SolidButton(
       {Key? key,
       required this.onPressed,

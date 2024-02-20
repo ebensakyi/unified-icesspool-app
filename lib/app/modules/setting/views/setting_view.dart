@@ -98,17 +98,6 @@ class SettingView extends GetView<SettingController> {
                 padding: const EdgeInsets.all(8.0),
                 child: Divider(),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ProgressOutlineIconButton(
-                    primaryColor: MyColors.secondary,
-                    onPressed: () {
-                      // controller.logout();
-                    },
-                    isLoading: false,
-                    iconData: Icons.logout_sharp,
-                    label: "Logout"),
-              ),
             ],
           ),
         ));
