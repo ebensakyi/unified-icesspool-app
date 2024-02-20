@@ -10,6 +10,13 @@ abstract class Routes {
   static const SERVICES_BLOG = _Paths.SERVICES_BLOG;
   static const SERVICES = _Paths.SERVICES;
   static const ONBOARDING = _Paths.ONBOARDING;
+  static const SETTING = _Paths.SETTING;
+  static const PROFILE = _Paths.PROFILE;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
+  static const PRIVACY = _Paths.PRIVACY;
+  static const SAFETY = _Paths.SAFETY;
+  static const HELP = _Paths.HELP;
+  static const ABOUT = _Paths.ABOUT;
 }
 
 abstract class _Paths {
@@ -21,4 +28,11 @@ abstract class _Paths {
   static const SERVICES_BLOG = '/services-blog';
   static const SERVICES = '/services';
   static const ONBOARDING = '/onboarding';
+  static const SETTING = '/setting';
+  static const PROFILE = '/profile';
+  static const NOTIFICATION = '/notification';
+  static const PRIVACY = '/privacy';
+  static const SAFETY = '/safety';
+  static const HELP = '/help';
+  static const ABOUT = '/about';
 }

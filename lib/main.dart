@@ -131,9 +131,32 @@ class MyApp extends StatelessWidget {
         title: 'iCesspool',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            primarySwatch: Colors.indigo,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            useMaterial3: true),
+          primaryColor: Colors.grey.shade800,
+          textTheme: TextTheme(
+            displaySmall: TextStyle(
+              color: Colors.blueGrey.shade700,
+            ),
+          ),
+          // appBarTheme: AppBarTheme(
+          //   backgroundColor: Colors.blueGrey.shade800,
+          //   elevation: 0,
+          //   centerTitle: true,
+          // ),
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          scaffoldBackgroundColor: Colors.grey.shade900,
+          textTheme: TextTheme(
+            displaySmall: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+            ),
+          ),
+        ),
+        // theme: ThemeData(
+        //     primarySwatch: Colors.indigo,
+        //     visualDensity: VisualDensity.adaptivePlatformDensity,
+        //     useMaterial3: true),
 
         initialRoute: !onboardingViewed
             ? AppPages.ONBOARDING

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:icesspool/controllers/home_controller.dart';
 
-class AboutView extends StatelessWidget {
-  final controller = Get.put(HomeController());
+import '../controllers/about_controller.dart';
 
-  AboutView({Key? key}) : super(key: key);
-
+class AboutView extends GetView<AboutController> {
+  const AboutView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('About'),
+        centerTitle: true,
+      ),
       body: ListView(
         children: [
           getImageAsset("assets/images/logo.png", 105.0),
@@ -29,26 +31,26 @@ iCesspool is carefully tailored to assist homes locate the nearest Toilet Contai
 The platform monitor Operator compliance to industry code of conduct and enforce proper occupational health and safety standards'''),
           )),
           SizedBox(height: 20),
-          Center(
-              child: Obx(() => Text("App name: ${controller.AppName.value}"))),
-          Center(
-              child: Obx(
-                  () => Text("App version: ${controller.AppVersion.value}")))
+          // Center(
+          //     child: Obx(() => Text("App name: ${controller.AppName.value}"))),
+          // Center(
+          //     child: Obx(
+          //         () => Text("App version: ${controller.AppVersion.value}")))
         ],
       ),
     );
   }
+}
 
-  Widget getImageAsset(path, size) {
-    AssetImage assetImage = AssetImage(path);
-    Image image = Image(
-      image: assetImage,
-      width: size,
-      height: size,
-    );
-    return Container(
-      child: image,
-      margin: EdgeInsets.all(5),
-    );
-  }
+Widget getImageAsset(path, size) {
+  AssetImage assetImage = AssetImage(path);
+  Image image = Image(
+    image: assetImage,
+    width: size,
+    height: size,
+  );
+  return Container(
+    child: image,
+    margin: EdgeInsets.all(5),
+  );
 }

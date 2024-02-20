@@ -4,6 +4,7 @@ import 'package:icesspool/views/account_view.dart';
 import 'package:icesspool/views/report_history_view.dart';
 import 'package:icesspool/views/request_view.dart';
 
+import '../app/modules/setting/views/setting_view.dart';
 import '../controllers/home_controller.dart';
 import '../themes/colors.dart';
 import '../widgets/custom-animated-bottom-bar.dart';
@@ -64,7 +65,7 @@ class HomeView extends StatelessWidget {
       RequestView(),
       ReportHistoryView(),
       // ServicesBlogView(),
-      AccountView()
+      SettingView()
     ];
     return Obx(() {
       return IndexedStack(

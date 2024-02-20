@@ -1,12 +1,25 @@
 import 'package:get/get.dart';
 
+import '../app/modules/about/bindings/about_binding.dart';
+import '../app/modules/about/views/about_view.dart';
 import '../app/modules/complete-payment/bindings/complete_payment_binding.dart';
 import '../app/modules/complete-payment/views/complete_payment_view.dart';
+import '../app/modules/help/bindings/help_binding.dart';
+import '../app/modules/help/views/help_view.dart';
+import '../app/modules/notification/bindings/notification_binding.dart';
+import '../app/modules/notification/views/notification_view.dart';
 import '../app/modules/onboarding/bindings/onboarding_binding.dart';
 import '../app/modules/onboarding/views/onboarding_view.dart';
-
+import '../app/modules/privacy/bindings/privacy_binding.dart';
+import '../app/modules/privacy/views/privacy_view.dart';
+import '../app/modules/profile/bindings/profile_binding.dart';
+import '../app/modules/profile/views/profile_view.dart';
+import '../app/modules/safety/bindings/safety_binding.dart';
+import '../app/modules/safety/views/safety_view.dart';
 import '../app/modules/services/bindings/services_binding.dart';
 import '../app/modules/services/views/services_view.dart';
+import '../app/modules/setting/bindings/setting_binding.dart';
+import '../app/modules/setting/views/setting_view.dart';
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
 import '../bindings/single_report_binding.dart';
@@ -68,6 +81,41 @@ class AppPages {
       name: _Paths.ONBOARDING,
       page: () => const OnboardingView(),
       binding: OnboardingBinding(),
+    ),
+    GetPage(
+      name: _Paths.SETTING,
+      page: () => const SettingView(),
+      binding: SettingBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATION,
+      page: () => const NotificationView(),
+      binding: NotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRIVACY,
+      page: () => const PrivacyView(),
+      binding: PrivacyBinding(),
+    ),
+    GetPage(
+      name: _Paths.SAFETY,
+      page: () => const SafetyView(),
+      binding: SafetyBinding(),
+    ),
+    GetPage(
+      name: _Paths.HELP,
+      page: () => const HelpView(),
+      binding: HelpBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => const AboutView(),
+      binding: AboutBinding(),
     ),
   ];
 }
