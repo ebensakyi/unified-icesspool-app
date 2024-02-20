@@ -693,7 +693,7 @@ class BioDigesterMainView extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 16),
                               child: Text(
-                                "Small digester",
+                                "Standard digester",
                                 style: TextStyle(color: Colors.red.shade700),
                               ),
                             ),
