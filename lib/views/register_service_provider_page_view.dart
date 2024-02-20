@@ -138,7 +138,7 @@ class RegisterServiceProviderPageView extends GetView<AuthPageController> {
                       controller.handleRegisterServiceProvider();
                     },
                     showLoading: false,
-                    label: "Submit",
+                    label: Text("Submit"),
                     buttonColor: MyColors.primary,
                     textColor: Colors.white,
                   ),

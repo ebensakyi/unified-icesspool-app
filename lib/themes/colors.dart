@@ -38,7 +38,7 @@ class MyColors {
 
   // static var Yellow2 = Color.fromARGB(255, 154, 124, 3);
 
-  // static var Green1 = Color(0xff036C79);
+  static var white = Color(0xffffffff);
 
   static var lightColor = Color(0xffE3F0F9);
 

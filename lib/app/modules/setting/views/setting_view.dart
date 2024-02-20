@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:icesspool/app/modules/help/views/help_view.dart';
 import 'package:icesspool/app/modules/notification/views/notification_view.dart';
 import 'package:icesspool/app/modules/privacy/views/privacy_view.dart';
+import 'package:icesspool/app/modules/profile/bindings/profile_binding.dart';
 import 'package:icesspool/app/modules/profile/views/profile_view.dart';
 import 'package:icesspool/app/modules/safety/views/safety_view.dart';
 import 'package:icesspool/themes/colors.dart';

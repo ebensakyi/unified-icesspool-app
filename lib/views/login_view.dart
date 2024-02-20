@@ -264,27 +264,43 @@ class LoginView extends StatelessWidget {
                                       color: Colors.black54, fontSize: 16),
                                 ),
                                 SizedBox(height: 8), // Adjust spacing as needed
-                                TextFormField(
-                                  obscureText: true,
-                                  controller: controller.passwordController,
-                                  onSaved: (value) {
-                                    controller.passwordController.text = value!;
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 10),
-                                    labelText: '',
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    prefixIcon: Icon(Icons.password_outlined),
-                                  ),
-                                  validator: (value) {
-                                    return Validator.passwordValidator(value!);
-                                  },
-                                ),
+                                Obx(() => TextFormField(
+                                      obscureText: controller.showPassword
+                                          .value, // Whether to obscure the text
+                                      controller: controller.passwordController,
+                                      onSaved: (value) {
+                                        controller.passwordController.text =
+                                            value!;
+                                      },
+                                      decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10),
+                                        labelText: '',
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        prefixIcon:
+                                            Icon(Icons.password_outlined),
+                                        // Trailing icon for toggling password visibility
+                                        suffixIcon: Obx(() => IconButton(
+                                              icon: Icon(
+                                                controller.showPassword.value
+                                                    ? Icons.visibility
+                                                    : Icons.visibility_off,
+                                                // Toggle the obscureText property in the controller when pressed
+                                              ),
+                                              onPressed: () => controller
+                                                  .togglePasswordVisibility(),
+                                            )),
+                                      ),
+                                      validator: (value) {
+                                        return Validator.passwordValidator(
+                                            value!);
+                                      },
+                                    ))
                               ],
                             ),
                           ),
@@ -324,7 +340,7 @@ class LoginView extends StatelessWidget {
                                         controller.isLoading.value = false;
                                         return;
                                       }
-                                      controller.login();
+                                      controller.login(context);
                                     },
                                     isLoading: controller.isLoading.value,
                                     // iconData: Icons.login_outlined,

@@ -17,32 +17,28 @@ class SolidButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        // height: 50,
-        // width: MediaQuery.of(context).size.width,
-        child: ElevatedButton(
-          onPressed: onPressed,
+    return SizedBox(
+      // height: 50,
+      // width: MediaQuery.of(context).size.width,
+      child: ElevatedButton(
+        onPressed: onPressed,
 
-          // icon: Icon(Icons.send_outlined),
-          child: Stack(children: [
-            Visibility(
-                maintainSize: false, visible: !showLoading, child: label),
-            Visibility(
-              maintainSize: false,
-              visible: showLoading,
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.white,
-              ),
-            )
-          ]),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: buttonColor,
-            foregroundColor: textColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+        // icon: Icon(Icons.send_outlined),
+        child: Stack(children: [
+          Visibility(maintainSize: false, visible: !showLoading, child: label),
+          Visibility(
+            maintainSize: false,
+            visible: showLoading,
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
             ),
+          )
+        ]),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: buttonColor,
+          foregroundColor: textColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
           ),
         ),
       ),

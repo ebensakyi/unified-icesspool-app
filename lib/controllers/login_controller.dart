@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -32,6 +33,8 @@ class LoginController extends GetxController {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  final showPassword = false.obs;
 
   @override
   void onInit() async {
@@ -147,7 +150,7 @@ class LoginController extends GetxController {
     Get.back(); // navigate to your wanted page after logout.
   }
 
-  Future login() async {
+  Future login(context) async {
     try {
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == false) {
@@ -177,11 +180,21 @@ class LoginController extends GetxController {
         onTimeout: () {
           // Time has run out, do what you wanted to do.
           isLoading.value = false;
-          Get.snackbar("Server Error",
-              "A server timeout error occured. Please try again later...",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: MyColors.Red,
-              colorText: Colors.white);
+          // Get.snackbar("Server Error",
+          //     "A server timeout error occured. Please try again later...",
+          //     snackPosition: SnackPosition.TOP,
+          //     backgroundColor: MyColors.Red,
+          //     colorText: Colors.white);
+
+          showToast(
+            backgroundColor: Colors.red.shade800,
+            alignment: Alignment.topCenter,
+            'A server timeout error occured. Please try again later...',
+            context: context,
+            animation: StyledToastAnimation.fade,
+            duration: Duration(seconds: 2),
+            position: StyledToastPosition.center,
+          );
           return http.Response(
               'Error', 408); // Request Timeout response status code
         },
@@ -208,33 +221,46 @@ class LoginController extends GetxController {
         }
 
         var userId = user["id"];
-        // var email = user["email"];
+        var email = user["email"];
         var phoneNumber = user["phoneNumber"];
         var firstName = user["firstName"];
         var lastName = user["lastName"];
+
+        inspect(user);
 
         box.write('userId', userId);
         box.write('phoneNumber', phoneNumber);
         box.write('firstName', firstName);
         box.write('lastName', lastName);
+        box.write('email', email);
 
         box.write('isLogin', true);
         Get.off(() => HomeView(),
             binding: HomeBinding(), arguments: [userId, phoneNumber]);
       } else if (response.statusCode == 400) {
-        Get.snackbar(
-            "Error", "Wrong phone number or password. Please try again",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: MyColors.Red,
-            colorText: Colors.white);
+        showToast(
+          backgroundColor: Colors.red.shade800,
+          alignment: Alignment.topCenter,
+          'Wrong phone number or password. Please try again',
+          context: context,
+          animation: StyledToastAnimation.fade,
+          duration: Duration(seconds: 2),
+          position: StyledToastPosition.center,
+        );
       }
     } catch (e) {
       log(e.toString());
       isLoading.value = false;
-      Get.snackbar("Error", "Couldnt connect to the server. Please try again",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: MyColors.Red,
-          colorText: Colors.white);
+
+      showToast(
+        backgroundColor: Colors.red.shade800,
+        alignment: Alignment.topCenter,
+        'Couldnt connect to the server. Please try again',
+        context: context,
+        animation: StyledToastAnimation.fade,
+        duration: Duration(seconds: 2),
+        position: StyledToastPosition.center,
+      );
     }
   }
 
@@ -292,5 +318,9 @@ class LoginController extends GetxController {
       ),
       barrierDismissible: false,
     );
+  }
+
+  togglePasswordVisibility() {
+    showPassword.toggle();
   }
 }

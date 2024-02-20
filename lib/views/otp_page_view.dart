@@ -42,7 +42,7 @@ class OtpPageView extends GetView<OtpController> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 5,
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -66,13 +66,11 @@ class OtpPageView extends GetView<OtpController> {
                     ),
                     SmallButton(
                       onPressed: () {
-                        // Get.toNamed(Routes.CLIENT_LANDING_PAGE);
                         controller.verifyOtp();
-                        //if (res == 1) Get.toNamed(Routes.CLIENT_LANDING_PAGE);
                       },
                       showLoading: false,
-                      label: "Verify",
-                      backgroundColor: MyColors.primary,
+                      label: Text("Verify"),
+                      backgroundColor: MyColors.secondary,
                     ),
                   ],
                 ),

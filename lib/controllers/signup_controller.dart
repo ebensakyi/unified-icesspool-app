@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -35,7 +36,7 @@ class SignupController extends GetxController {
     await GetStorage();
   }
 
-  Future signup() async {
+  Future signup(context) async {
     try {
       // bool result = await InternetConnectionChecker().hasConnection;
       // if (result == false) {
@@ -107,19 +108,39 @@ class SignupController extends GetxController {
             backgroundColor: MyColors.Red,
             colorText: Colors.white);
       } else if (response.statusCode == 401) {
-        Get.snackbar("Error",
-            "User already exist. Check your phone number and try again",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: MyColors.Red,
-            colorText: Colors.white);
+        showToast(
+          backgroundColor: Colors.red.shade800,
+          alignment: Alignment.topCenter,
+          'Phone number used. Check your phone number and try again',
+          context: context,
+          animation: StyledToastAnimation.fade,
+          duration: Duration(seconds: 2),
+          position: StyledToastPosition.center,
+        );
+
+        // Get.snackbar("Error",
+        //     "User already exist. Check your phone number and try again",
+        //     snackPosition: SnackPosition.TOP,
+        //     backgroundColor: MyColors.Red,
+        //     colorText: Colors.white);
       }
     } catch (e) {
       log(e.toString());
       isLoading.value = false;
-      Get.snackbar("Error", "Couldnt connect to the server. Please try again",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: MyColors.Red,
-          colorText: Colors.white);
+      // Get.snackbar("Error", "Couldnt connect to the server. Please try again",
+      //     snackPosition: SnackPosition.TOP,
+      //     backgroundColor: MyColors.Red,
+      //     colorText: Colors.white);
+
+      showToast(
+        backgroundColor: Colors.yellow.shade800,
+        alignment: Alignment.center,
+        'Couldnt connect to the server. Please try again',
+        // context: context,
+        animation: StyledToastAnimation.scale,
+        duration: Duration(seconds: 4),
+        position: StyledToastPosition.center,
+      );
     }
   }
 }

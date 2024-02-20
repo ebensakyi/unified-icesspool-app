@@ -131,6 +131,7 @@ class MyApp extends StatelessWidget {
         title: 'iCesspool',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          cardColor: Colors.indigo.shade100,
           primaryColor: Colors.grey.shade800,
           textTheme: TextTheme(
             displaySmall: TextStyle(

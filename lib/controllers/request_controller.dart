@@ -99,8 +99,6 @@ class RequestController extends GetxController {
   }
 
   Future<void> onMapCreated(GoogleMapController controller) async {
-    log("Map is created");
-
     _controller.complete(controller);
     // await addMarker(); // Add the initial marker when the map is created
   }

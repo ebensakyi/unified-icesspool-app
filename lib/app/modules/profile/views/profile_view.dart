@@ -28,60 +28,63 @@ class ProfileView extends GetView<ProfileController> {
                   title: "Account",
                 ),
                 Card(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Obx(() {
-                                return TextBox(
-                                  initialValue: controller.firstName.value,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextBox(
                                   labelText: "First name",
-                                );
-                              }),
-                            ),
-                            Expanded(
-                              child: Obx(() => TextBox(
-                                    initialValue: controller.lastName.value,
-                                    labelText: "Last name",
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Obx(() {
-                                return TextBox(
-                                  initialValue: controller.phoneNumber.value,
-                                  labelText: "Phone number",
-                                );
-                              }),
-                            ),
-                            Expanded(
-                              child: Obx(() => TextBox(
-                                    initialValue: controller.lastName.value,
-                                    labelText: "E-mail",
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: ProgressOutlineButton(
-                            primaryColor: MyColors.primary,
-                            onPressed: () {
-                              controller.logout();
-                            },
-                            isLoading: controller.isLoading.value,
-                            // icon: SizedBox.shrink(),
-                            label: "Save",
+                                  controller: controller.firstName,
+                                ),
+                              ),
+                              Expanded(
+                                child: TextBox(
+                                  labelText: "Last name",
+                                  controller: controller.lastName,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextBox(
+                                  controller: controller.phoneNumber,
+                                  labelText: "Phone number",
+                                ),
+                              ),
+                              Expanded(
+                                child: TextBox(
+                                  controller: controller.email,
+                                  labelText: "E-mail",
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: SolidButton(
+                                buttonColor: MyColors.primary,
+                                onPressed: () {
+                                  controller.logout();
+                                },
+                                showLoading: controller.isLoading.value,
+                                // icon: SizedBox.shrink(),
+                                label: Text("Save"),
+                                textColor: MyColors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

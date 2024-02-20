@@ -51,7 +51,6 @@ class RequestView extends StatelessWidget {
       bearing: 12.8334901395799,
     );
 
-    log("REBUILDED");
     return Scaffold(
       bottomSheet: InteractiveBottomSheet(
         options: InteractiveBottomSheetOptions(

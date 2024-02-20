@@ -7,7 +7,7 @@ class TextBox extends StatelessWidget {
   final String labelText;
   final IconData? icon;
   final dynamic fieldType;
-  final dynamic controller;
+  final TextEditingController controller;
   final dynamic maxLength;
   final dynamic errorText;
   final dynamic onSaved;
@@ -22,7 +22,7 @@ class TextBox extends StatelessWidget {
     this.errorText,
     this.icon,
     this.fieldType,
-    this.controller,
+    required this.controller,
     this.maxLength,
     this.onSaved,
     this.keyboardType,

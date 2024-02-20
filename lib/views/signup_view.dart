@@ -178,6 +178,7 @@ class SignupView extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, bottom: 16),
                               child: TextFormField(
+                                obscureText: true,
                                 controller: controller.passwordController,
                                 keyboardType: TextInputType.text,
                                 maxLengthEnforcement:
@@ -209,6 +210,7 @@ class SignupView extends StatelessWidget {
                                   left: 16, right: 16, bottom: 16),
                               child: TextFormField(
                                 controller: controller.cpasswordController,
+                                obscureText: true,
                                 keyboardType: TextInputType.text,
                                 maxLengthEnforcement:
                                     MaxLengthEnforcement.enforced,
@@ -271,26 +273,26 @@ class SignupView extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               height: 60,
-                              child: ProgressButton(
-                                onPressed: () {
-                                  controller.isLoading.value = true;
-                                  final isValid =
-                                      _formKey.currentState!.validate();
-                                  if (!isValid) {
-                                    controller.isLoading.value = false;
-                                    return;
-                                  }
-                                  controller.signup();
-                                },
-                                isLoading: controller.isLoading.value,
-                                label: 'Signup',
-                                progressColor: Colors.white,
-                                textColor: Colors.white,
-                                backgroundColor: controller.isLoading.value
-                                    ? MyColors.secondary
-                                    : MyColors.secondary,
-                                borderColor: MyColors.secondary,
-                              ),
+                              child: Obx(() => ProgressButton(
+                                    onPressed: () {
+                                      controller.isLoading.value = true;
+                                      final isValid =
+                                          _formKey.currentState!.validate();
+                                      if (!isValid) {
+                                        controller.isLoading.value = false;
+                                        return;
+                                      }
+                                      controller.signup(context);
+                                    },
+                                    isLoading: controller.isLoading.value,
+                                    label: 'Signup',
+                                    progressColor: Colors.white,
+                                    textColor: Colors.white,
+                                    backgroundColor: controller.isLoading.value
+                                        ? MyColors.secondary
+                                        : MyColors.secondary,
+                                    borderColor: MyColors.secondary,
+                                  )),
                             ),
                           ),
 
