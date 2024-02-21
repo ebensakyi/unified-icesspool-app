@@ -15,6 +15,8 @@ class TextBox extends StatelessWidget {
   final dynamic keyboardType;
   final dynamic maxLines;
   final dynamic initialValue;
+  final dynamic obscureText;
+  final dynamic readOnly;
 
   TextBox({
     Key? key,
@@ -29,6 +31,8 @@ class TextBox extends StatelessWidget {
     this.validator,
     this.maxLines,
     this.initialValue,
+    this.obscureText = false,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -36,12 +40,13 @@ class TextBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        readOnly: readOnly,
+        obscureText: obscureText,
         initialValue: initialValue,
         controller: controller,
         keyboardType: fieldType,
         maxLengthEnforcement: MaxLengthEnforcement.enforced,
         maxLength: maxLength,
-        maxLines: maxLines,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           errorText: errorText,

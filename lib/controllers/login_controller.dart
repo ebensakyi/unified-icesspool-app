@@ -34,7 +34,7 @@ class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  final showPassword = false.obs;
+  final obscurePassword = true.obs;
 
   @override
   void onInit() async {
@@ -64,47 +64,47 @@ class LoginController extends GetxController {
     }
   }
 
-  loginWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount!.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-      final authResult = await _auth.signInWithCredential(credential);
+  // loginWithGoogle() async {
+  //   try {
+  //     final GoogleSignInAccount? googleSignInAccount =
+  //         await googleSignIn.signIn();
+  //     final GoogleSignInAuthentication googleSignInAuthentication =
+  //         await googleSignInAccount!.authentication;
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleSignInAuthentication.accessToken,
+  //       idToken: googleSignInAuthentication.idToken,
+  //     );
+  //     final authResult = await _auth.signInWithCredential(credential);
 
-      final User? user = authResult.user;
-      var displayName = user!.displayName ?? "";
-      var email = user.email ?? "";
-      var photoURL = user.photoURL ?? "";
-      var phoneNumber = user.phoneNumber ?? "";
+  //     final User? user = authResult.user;
+  //     var displayName = user!.displayName ?? "";
+  //     var email = user.email ?? "";
+  //     var photoURL = user.photoURL ?? "";
+  //     var phoneNumber = user.phoneNumber ?? "";
 
-      final box = await GetStorage();
+  //     final box = await GetStorage();
 
-      await box.write('displayName', displayName);
-      await box.write('email', email);
-      await box.write('photoURL', photoURL);
-      await box.write('phoneNumber', phoneNumber);
+  //     await box.write('displayName', displayName);
+  //     await box.write('email', email);
+  //     await box.write('photoURL', photoURL);
+  //     await box.write('phoneNumber', phoneNumber);
 
-      // inspect(displayName);
-      // inspect(email);
-      // inspect(photoURL);
+  //     // inspect(displayName);
+  //     // inspect(email);
+  //     // inspect(photoURL);
 
-      // inspect(user);
-      // // assert(user!.isAnonymous);
-      // // assert(await user!.getIdToken() != null);
-      // final User? currentUser = _auth.currentUser;
-      // inspect(currentUser);
-      // assert(user!.uid == currentUser!.uid);
-      Get.off(() => RequestView()); // navigate to your wanted page
-      return;
-    } catch (e) {
-      throw (e);
-    }
-  }
+  //     // inspect(user);
+  //     // // assert(user!.isAnonymous);
+  //     // // assert(await user!.getIdToken() != null);
+  //     // final User? currentUser = _auth.currentUser;
+  //     // inspect(currentUser);
+  //     // assert(user!.uid == currentUser!.uid);
+  //     Get.off(() => RequestView()); // navigate to your wanted page
+  //     return;
+  //   } catch (e) {
+  //     throw (e);
+  //   }
+  // }
 
   // Future<UserCredential> loginWithFacebook() async {
   //   //inspect("here");
@@ -151,117 +151,117 @@ class LoginController extends GetxController {
   }
 
   Future login(context) async {
-    try {
-      bool result = await InternetConnectionChecker().hasConnection;
-      if (result == false) {
-        isLoading.value = false;
-        return Get.snackbar(
-            "Internet Error", "Poor internet access. Please try again later...",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: MyColors.Red,
-            colorText: Colors.white);
-      }
-      isLoading.value = true;
-
-      var uri = Uri.parse(Constants.LOGIN_API_URL);
-      var response = await client
-          .post(
-        uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'phoneNumber': phoneNumberController.text,
-          'password': passwordController.text,
-        }),
-      )
-          .timeout(
-        const Duration(seconds: 60),
-        onTimeout: () {
-          // Time has run out, do what you wanted to do.
-          isLoading.value = false;
-          // Get.snackbar("Server Error",
-          //     "A server timeout error occured. Please try again later...",
-          //     snackPosition: SnackPosition.TOP,
-          //     backgroundColor: MyColors.Red,
-          //     colorText: Colors.white);
-
-          showToast(
-            backgroundColor: Colors.red.shade800,
-            alignment: Alignment.topCenter,
-            'A server timeout error occured. Please try again later...',
-            context: context,
-            animation: StyledToastAnimation.fade,
-            duration: Duration(seconds: 2),
-            position: StyledToastPosition.center,
-          );
-          return http.Response(
-              'Error', 408); // Request Timeout response status code
-        },
-      );
+    // try {
+    bool result = await InternetConnectionChecker().hasConnection;
+    if (result == false) {
       isLoading.value = false;
+      return Get.snackbar(
+          "Internet Error", "Poor internet access. Please try again later...",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: MyColors.Red,
+          colorText: Colors.white);
+    }
+    isLoading.value = true;
 
-      if (response.statusCode == 200) {
-        passwordController.text = "";
-        phoneNumberController.text = "";
+    var uri = Uri.parse(Constants.LOGIN_API_URL);
+    var response = await client
+        .post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'phoneNumber': phoneNumberController.text,
+        'password': passwordController.text,
+      }),
+    )
+        .timeout(
+      const Duration(seconds: 60),
+      onTimeout: () {
+        // Time has run out, do what you wanted to do.
+        isLoading.value = false;
+        // Get.snackbar("Server Error",
+        //     "A server timeout error occured. Please try again later...",
+        //     snackPosition: SnackPosition.TOP,
+        //     backgroundColor: MyColors.Red,
+        //     colorText: Colors.white);
 
-        var json = await response.body;
-
-        var user = jsonDecode(json);
-
-        // final prefs = await SharedPreferences.getInstance();
-        final box = await GetStorage();
-
-        if (user["userTypeId"] != 4) {
-          return Get.snackbar(
-              "Error", "Your account doesn't allow you to access client app",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: MyColors.Red,
-              colorText: Colors.white);
-        }
-
-        var userId = user["id"];
-        var email = user["email"];
-        var phoneNumber = user["phoneNumber"];
-        var firstName = user["firstName"];
-        var lastName = user["lastName"];
-
-        inspect(user);
-
-        box.write('userId', userId);
-        box.write('phoneNumber', phoneNumber);
-        box.write('firstName', firstName);
-        box.write('lastName', lastName);
-        box.write('email', email);
-
-        box.write('isLogin', true);
-        Get.off(() => HomeView(),
-            binding: HomeBinding(), arguments: [userId, phoneNumber]);
-      } else if (response.statusCode == 400) {
         showToast(
           backgroundColor: Colors.red.shade800,
           alignment: Alignment.topCenter,
-          'Wrong phone number or password. Please try again',
+          'A server timeout error occured. Please try again later...',
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
           position: StyledToastPosition.center,
         );
-      }
-    } catch (e) {
-      log(e.toString());
-      isLoading.value = false;
+        return http.Response(
+            'Error', 408); // Request Timeout response status code
+      },
+    );
+    isLoading.value = false;
 
+    if (response.statusCode == 200) {
+      passwordController.text = "";
+      phoneNumberController.text = "";
+
+      var json = await response.body;
+
+      var user = jsonDecode(json);
+
+      // final prefs = await SharedPreferences.getInstance();
+      final box = await GetStorage();
+
+      if (user["userTypeId"] != 4) {
+        return Get.snackbar(
+            "Error", "Your account doesn't allow you to access client app",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: MyColors.Red,
+            colorText: Colors.white);
+      }
+
+      var userId = user["id"];
+      var email = user["email"];
+      var phoneNumber = user["phoneNumber"];
+      var firstName = user["firstName"];
+      var lastName = user["lastName"];
+
+      inspect(user);
+
+      box.write('userId', userId);
+      box.write('phoneNumber', phoneNumber);
+      box.write('firstName', firstName);
+      box.write('lastName', lastName);
+      box.write('email', email);
+
+      box.write('isLogin', true);
+      Get.off(() => HomeView(),
+          binding: HomeBinding(), arguments: [userId, phoneNumber]);
+    } else if (response.statusCode == 400) {
       showToast(
         backgroundColor: Colors.red.shade800,
         alignment: Alignment.topCenter,
-        'Couldnt connect to the server. Please try again',
+        'Wrong phone number or password. Please try again',
         context: context,
         animation: StyledToastAnimation.fade,
         duration: Duration(seconds: 2),
         position: StyledToastPosition.center,
       );
     }
+    // } catch (e) {
+    //   log(e.toString());
+    //   isLoading.value = false;
+
+    //   showToast(
+    //     backgroundColor: Colors.red.shade800,
+    //     alignment: Alignment.topCenter,
+    //     'Couldnt connect to the server. Please try again',
+    //     context: context,
+    //     animation: StyledToastAnimation.fade,
+    //     duration: Duration(seconds: 2),
+    //     position: StyledToastPosition.center,
+    //   );
+    // }
   }
 
   showPermissionDisclosure() async {
@@ -321,6 +321,6 @@ class LoginController extends GetxController {
   }
 
   togglePasswordVisibility() {
-    showPassword.toggle();
+    obscurePassword.toggle();
   }
 }

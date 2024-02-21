@@ -58,23 +58,23 @@ class DataServices {
     }
   }
 
-  static Future<List<ReportCategory>> getReportCategories() async {
-    try {
-      var client = http.Client();
-      var uri =
-          Uri.parse(Constants.BASE_URL + Constants.REPORT_CATEGORY_API_URL);
+  // static Future<List<ReportCategory>> getReportCategories() async {
+  //   try {
+  //     var client = http.Client();
+  //     var uri =
+  //         Uri.parse(Constants.BASE_URL + Constants.REPORT_CATEGORY_API_URL);
 
-      var response = await client.get(uri);
-      if (response.statusCode == 200) {
-        var json = response.body;
+  //     var response = await client.get(uri);
+  //     if (response.statusCode == 200) {
+  //       var json = response.body;
 
-        return ReportCategoryFromJson(json);
-      }
-      return [];
-    } catch (e) {
-      return [];
-    }
-  }
+  //       return ReportCategoryFromJson(json);
+  //     }
+  //     return [];
+  //   } catch (e) {
+  //     return [];
+  //   }
+  // }
 
   // static Future<List<ReportType>> getReportTypes() async {
   //   try {

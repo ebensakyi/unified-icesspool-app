@@ -34,6 +34,7 @@ class Constants {
   static String VALIDATE_ACCOUNT_API_URL = BASE_URL + "/auth/validate-user";
 
   static const String INITIATE_PAYMENT_URL = BASE_URL + "/payment/initiate";
+  static String PROFILE_API_URL = BASE_URL + "/auth/profile";
 
   static List REPORT_CATEGORY = [
     "",
@@ -52,6 +53,4 @@ class Constants {
     {"name": "Completed"},
     {"name": "In progress"},
   ];
-
-  static String REPORT_CATEGORY_API_URL = "/sanitation-report/report-category";
 }

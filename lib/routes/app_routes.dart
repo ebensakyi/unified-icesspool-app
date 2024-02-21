@@ -17,6 +17,7 @@ abstract class Routes {
   static const SAFETY = _Paths.SAFETY;
   static const HELP = _Paths.HELP;
   static const ABOUT = _Paths.ABOUT;
+  static const FORGET_PASSWORD = _Paths.FORGET_PASSWORD;
 }
 
 abstract class _Paths {
@@ -35,4 +36,5 @@ abstract class _Paths {
   static const SAFETY = '/safety';
   static const HELP = '/help';
   static const ABOUT = '/about';
+  static const FORGET_PASSWORD = '/forget-password';
 }

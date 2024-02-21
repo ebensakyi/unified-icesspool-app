@@ -4,6 +4,8 @@ import '../app/modules/about/bindings/about_binding.dart';
 import '../app/modules/about/views/about_view.dart';
 import '../app/modules/complete-payment/bindings/complete_payment_binding.dart';
 import '../app/modules/complete-payment/views/complete_payment_view.dart';
+import '../app/modules/forget-password/bindings/forget_password_binding.dart';
+import '../app/modules/forget-password/views/forget_password_view.dart';
 import '../app/modules/help/bindings/help_binding.dart';
 import '../app/modules/help/views/help_view.dart';
 import '../app/modules/notification/bindings/notification_binding.dart';
@@ -116,6 +118,11 @@ class AppPages {
       name: _Paths.ABOUT,
       page: () => const AboutView(),
       binding: AboutBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORGET_PASSWORD,
+      page: () => const ForgetPasswordView(),
+      binding: ForgetPasswordBinding(),
     ),
   ];
 }

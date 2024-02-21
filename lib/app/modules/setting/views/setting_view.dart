@@ -29,77 +29,79 @@ class SettingView extends GetView<SettingController> {
           title: const Text('Setting'),
           centerTitle: true,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              ListTile(
-                  leading: Icon(Icons.account_circle_outlined),
-                  title: Text('Profile'),
-                  trailing: Icon(Icons.chevron_right),
-                  onTap: () {
-                    Get.to(() => ProfileView());
-                  }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Divider(),
-              ),
-              ListTile(
-                  leading: Icon(Icons.notifications_active_outlined),
-                  title: Text('Notifications'),
-                  trailing: Icon(Icons.chevron_right),
-                  onTap: () {
-                    Get.to(() => NotificationView());
-                  }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Divider(),
-              ),
-              ListTile(
-                  leading: Icon(Icons.privacy_tip_outlined),
-                  title: Text('Privacy'),
-                  trailing: Icon(Icons.chevron_right),
-                  onTap: () {
-                    Get.to(() => PrivacyView());
-                  }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Divider(),
-              ),
-              ListTile(
-                  leading: Icon(Icons.lock_outline_sharp),
-                  title: Text('Safety'),
-                  trailing: Icon(Icons.chevron_right),
-                  onTap: () {
-                    Get.to(() => SafetyView());
-                  }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Divider(),
-              ),
-              ListTile(
-                  leading: Icon(Icons.headphones_outlined),
-                  title: Text('Help'),
-                  trailing: Icon(Icons.chevron_right),
-                  onTap: () {
-                    Get.to(() => HelpView());
-                  }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Divider(),
-              ),
-              ListTile(
-                  leading: Icon(Icons.help_outline_sharp),
-                  title: Text('About'),
-                  trailing: Icon(Icons.chevron_right),
-                  onTap: () {
-                    Get.to(() => AboutView());
-                  }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Divider(),
-              ),
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                ListTile(
+                    leading: Icon(Icons.account_circle_outlined),
+                    title: Text('Profile'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                      Get.to(() => ProfileView());
+                    }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(),
+                ),
+                ListTile(
+                    leading: Icon(Icons.notifications_active_outlined),
+                    title: Text('Notifications'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                      Get.to(() => NotificationView());
+                    }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(),
+                ),
+                ListTile(
+                    leading: Icon(Icons.privacy_tip_outlined),
+                    title: Text('Privacy'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                      Get.to(() => PrivacyView());
+                    }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(),
+                ),
+                ListTile(
+                    leading: Icon(Icons.lock_outline_sharp),
+                    title: Text('Safety'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                      Get.to(() => SafetyView());
+                    }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(),
+                ),
+                ListTile(
+                    leading: Icon(Icons.headphones_outlined),
+                    title: Text('Help'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                      Get.to(() => HelpView());
+                    }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(),
+                ),
+                ListTile(
+                    leading: Icon(Icons.help_outline_sharp),
+                    title: Text('About'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                      Get.to(() => AboutView());
+                    }),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(),
+                ),
+              ],
+            ),
           ),
         ));
   }
