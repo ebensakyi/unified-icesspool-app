@@ -1,9 +1,14 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
 class ForgetPasswordController extends GetxController {
   //TODO: Implement ForgetPasswordController
 
   final count = 0.obs;
+
+  var phoneNumberController;
+
+  var isLoading;
   @override
   void onInit() {
     super.onInit();
@@ -20,4 +25,6 @@ class ForgetPasswordController extends GetxController {
   }
 
   void increment() => count.value++;
+
+  void login(BuildContext context) {}
 }
