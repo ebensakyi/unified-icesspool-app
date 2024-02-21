@@ -398,52 +398,49 @@ class BioDigesterMainView extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Divider(),
                                 ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    controller.selectTime(context);
+                                Dropdown(
+                                  onChangedCallback: (newValue) {
+                                    controller.selectedServices.value = [];
+
+                                    controller.selectedRequestType.value =
+                                        newValue;
                                   },
-                                  child: Text("Pick time"),
+                                  value: controller.returnValue(
+                                      controller.selectedRequestType.value),
+                                  initialValue: controller.returnValue(
+                                      controller.selectedRequestType.value),
+                                  dropdownItems: [
+                                    DropdownMenuItem(
+                                      child: Text("Biodigester Maintenance"),
+                                      value: "1",
+                                    ),
+                                    DropdownMenuItem(
+                                      child:
+                                          Text("New Biodigester Construction"),
+                                      value: "2",
+                                    ),
+                                  ],
+                                  hintText: '',
+                                  labelText: "Select time frame? *",
+                                  validator: (value) {
+                                    return Validator.dropdownValidator(value);
+                                  },
                                 ),
-                                Obx(() {
-                                  final selectedTime =
-                                      controller.selectedTime.value;
-
-                                  final formattedTime =
-                                      controller.formatTime(selectedTime);
-                                  inspect(formattedTime.toString());
-                                  inspect(formattedTime);
-
-                                  return Text(' ${formattedTime}');
-                                }),
-
-                                // DateTimeFormField(
-                                //   dateFormat: DateFormat('dd-MM-yyyy'),
-                                //   decoration: const InputDecoration(
-                                //     hintStyle: TextStyle(color: Colors.black45),
-                                //     // errorStyle: TextStyle(color: Colors.redAccent),
-                                //     border: OutlineInputBorder(),
-                                //     suffixIcon: Icon(Icons.event_note),
-                                //     labelText: 'Select date',
-                                //   ),
-                                //   firstDate: DateTime.now(),
-                                //   // initialValue: DateTime.tryParse(controller
-                                //   //     .selectedFollowUpDate.value
-                                //   //     .toIso8601String()),
-                                //   // initialValue: DateTime.now(),
-                                //   //initialDate: DateTime.now(),
-                                //   // initialDate:
-                                //   //     DateTime.now().add(new Duration(days: 7)),
-                                //   mode: DateTimeFieldPickerMode.date,
-                                //   autovalidateMode: AutovalidateMode.always,
-                                //   // validator: FormBuilderValidators.compose([
-                                //   //   FormBuilderValidators.required(),
-                                //   // ]),
-                                //   // onDateSelected: (DateTime value) {
-                                //   //   controller.selectedFollowUpDate.value =
-                                //   //       value;
-                                //   // },
-                                //   onChanged: (DateTime? value) {},
+                                // ElevatedButton(
+                                //   onPressed: () {
+                                //     controller.selectTime(context);
+                                //   },
+                                //   child: Text("Pick time"),
                                 // ),
+                                // Obx(() {
+                                //   final selectedTime =
+                                //       controller.selectedTime.value;
+
+                                //   final formattedTime =
+                                //       controller.formatTime(selectedTime);
+
+                                //   return Text(' ${formattedTime}');
+                                // }),
                               ],
                             )),
                         isActive: controller.currentStep >= 0,

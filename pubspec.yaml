@@ -54,6 +54,7 @@ dependencies:
   permission_handler: ^11.3.0
   flutter_polyline_points: ^2.0.0
   modal_bottom_sheet: ^2.1.2
+  icons_plus: ^5.0.0
 
 
  

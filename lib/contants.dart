@@ -57,4 +57,6 @@ class Constants {
     {"name": "Completed"},
     {"name": "In progress"},
   ];
+
+  static String TIME_SCHEDULE_API_URL = BASE_URL + "/config/time-schedule";
 }

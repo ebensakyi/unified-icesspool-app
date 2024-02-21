@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -128,6 +129,7 @@ class BiodigesterController extends GetxController {
     // await getUserArea();
     await getAvailableBiodigesterServices();
     await getBiodigesterPricing();
+    await getTimeSchedules();
 
     final box = await GetStorage();
 
@@ -365,6 +367,30 @@ class BiodigesterController extends GetxController {
         final data = json.decode(response.body);
 
         biodigesterServicesAvailable.value = data;
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception getAvailableBiodigesterPricing: $error');
+    }
+  }
+
+  Future<void> getTimeSchedules() async {
+    final String apiUrl = Constants.TIME_SCHEDULE_API_URL;
+
+    final Uri uri = Uri.parse(apiUrl);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // Successful response
+        final data = json.decode(response.body);
+        inspect(data);
+
+        // biodigesterServicesAvailable.value = data;
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
