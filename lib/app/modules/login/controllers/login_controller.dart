@@ -256,7 +256,7 @@ class LoginController extends GetxController {
           duration: Duration(seconds: 2),
           position: StyledToastPosition.center,
         );
-        Get.off(() => OtpPageView(),
+        Get.to(() => OtpPageView(),
             binding: OtpBinding(), arguments: [userId, phoneNumber]);
       } else if (response.statusCode == 400) {
         showToast(

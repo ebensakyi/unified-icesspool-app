@@ -12,6 +12,9 @@ class OtpPageView extends GetView<OtpController> {
   const OtpPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   FocusScope.of(context).unfocus();
+    // });
     return GetBuilder(
         init: OtpController(),
         builder: (OtpController controller) {
@@ -27,10 +30,10 @@ class OtpPageView extends GetView<OtpController> {
               child: Column(children: [
                 SvgPicture.asset(
                   "assets/images/otp.svg",
-                  width: 250,
+                  width: 200,
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Text(
                   "Verification",
@@ -79,22 +82,55 @@ class OtpPageView extends GetView<OtpController> {
                   ),
                 ),
                 Text("Didn't receive any code?"),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      controller.resendOtp();
-                    },
-                    child: InkWell(
-                      child: Text(
-                        "Resend code",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: MyColors.primary),
-                      ),
-                    ),
-                  ),
+                SizedBox(
+                  height: 20,
                 ),
+                Obx(() => Visibility(
+                      visible: controller.hideTimer.value,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.resendOtp();
+                          },
+                          child: InkWell(
+                            child: Text(
+                              "Resend code",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: MyColors.primary),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
+                Obx(() => Visibility(
+                      visible: !controller.hideTimer.value,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              // value: controller.progress.value,
+                              backgroundColor: Colors.grey,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  MyColors.primary),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Obx(() => Text(
+                                "Waiting for OTP ${controller.countdown.value}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: MyColors.secondary),
+                              )),
+                        ],
+                      ),
+                    )),
               ]),
             ),
           );

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -28,12 +29,16 @@ class OtpController extends GetxController {
   final num4Controller = TextEditingController();
 
   var userId, phoneNumber, lastName, firstName = "";
+  final int countdownDuration = 120; // Duration in seconds
+  RxInt countdown = 120.obs;
+  Timer? _timer;
+  final hideTimer = false.obs;
+  RxDouble progress = 1.0.obs;
 
   @override
   void onInit() {
+    startCountdown();
     var arguments = Get.arguments;
-
-    inspect(arguments);
 
     userId = arguments[0].toString();
     phoneNumber = arguments[1];
@@ -133,5 +138,23 @@ class OtpController extends GetxController {
       // Handle exception
       print('Exception getAvailableBiodigesterPricing: $error');
     }
+  }
+
+  void startCountdown() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      countdown.value -= 1;
+      progress.value -= 0.01;
+
+      if (countdown.value <= 0) {
+        _timer?.cancel();
+        hideTimer.value = true;
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    _timer?.cancel(); // Cancel the timer when the controller is closed
+    super.onClose();
   }
 }
