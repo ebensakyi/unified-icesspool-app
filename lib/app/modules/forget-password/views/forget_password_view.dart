@@ -102,9 +102,15 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                                     child: SolidButton(
                                       buttonColor: MyColors.primary,
                                       onPressed: () {
+                                        final isValid =
+                                            formKey.currentState!.validate();
+                                        if (!isValid) {
+                                          controller.isLoading.value = false;
+                                          return;
+                                        }
                                         controller.forgotPassword(context);
                                       },
-                                      showLoading: false,
+                                      showLoading: controller.isLoading.value,
                                       // icon: SizedBox.shrink(),
                                       label: Text("Submit"),
                                       textColor: MyColors.white,

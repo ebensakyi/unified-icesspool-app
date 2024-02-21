@@ -18,6 +18,8 @@ import '../app/modules/privacy/bindings/privacy_binding.dart';
 import '../app/modules/privacy/views/privacy_view.dart';
 import '../app/modules/profile/bindings/profile_binding.dart';
 import '../app/modules/profile/views/profile_view.dart';
+import '../app/modules/reset-password/bindings/reset_password_binding.dart';
+import '../app/modules/reset-password/views/reset_password_view.dart';
 import '../app/modules/safety/bindings/safety_binding.dart';
 import '../app/modules/safety/views/safety_view.dart';
 import '../app/modules/services/bindings/services_binding.dart';
@@ -123,6 +125,11 @@ class AppPages {
       name: _Paths.FORGET_PASSWORD,
       page: () => ForgetPasswordView(),
       binding: ForgetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESET_PASSWORD,
+      page: () => ResetPasswordView(),
+      binding: ResetPasswordBinding(),
     ),
   ];
 }

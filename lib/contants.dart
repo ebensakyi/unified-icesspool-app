@@ -35,6 +35,10 @@ class Constants {
 
   static const String INITIATE_PAYMENT_URL = BASE_URL + "/payment/initiate";
   static String PROFILE_API_URL = BASE_URL + "/auth/profile";
+  static String FORGET_PASSWORD_API_URL =
+      BASE_URL + "/auth/forget-password/mobile";
+  static String RESET_PASSWORD_API_URL =
+      BASE_URL + "/auth/reset-password/mobile";
 
   static List REPORT_CATEGORY = [
     "",
