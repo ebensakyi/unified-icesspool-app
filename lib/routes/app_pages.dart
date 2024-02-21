@@ -8,6 +8,8 @@ import '../app/modules/forget-password/bindings/forget_password_binding.dart';
 import '../app/modules/forget-password/views/forget_password_view.dart';
 import '../app/modules/help/bindings/help_binding.dart';
 import '../app/modules/help/views/help_view.dart';
+import '../app/modules/login/bindings/login_binding.dart';
+import '../app/modules/login/views/login_view.dart';
 import '../app/modules/notification/bindings/notification_binding.dart';
 import '../app/modules/notification/views/notification_view.dart';
 import '../app/modules/onboarding/bindings/onboarding_binding.dart';
@@ -47,8 +49,6 @@ class AppPages {
       name: _Paths.LOGIN,
       page: () => LoginView(),
       binding: LoginBinding(),
-      //transition: Transition.rightToLeftWithFade,
-      //transitionDuration: Duration(milliseconds: 500),
     ),
     GetPage(
       name: _Paths.HOME,
@@ -121,7 +121,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FORGET_PASSWORD,
-      page: () => const ForgetPasswordView(),
+      page: () => ForgetPasswordView(),
       binding: ForgetPasswordBinding(),
     ),
   ];

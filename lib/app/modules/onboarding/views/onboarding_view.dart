@@ -3,9 +3,9 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:icesspool/app/modules/login/views/login_view.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/home_view.dart';
-import 'package:icesspool/views/login_view.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 import '../controllers/onboarding_controller.dart';
