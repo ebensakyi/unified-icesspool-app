@@ -33,10 +33,10 @@ class OtpController extends GetxController {
   void onInit() {
     var arguments = Get.arguments;
 
+    inspect(arguments);
+
     userId = arguments[0].toString();
     phoneNumber = arguments[1];
-
-    inspect(arguments);
 
     super.onInit();
   }
@@ -101,6 +101,37 @@ class OtpController extends GetxController {
       }
     } catch (e) {
       inspect(e);
+    }
+  }
+
+  Future<void> resendOtp() async {
+    final String apiUrl = Constants.RESEND_OTP_API_URL;
+
+    final Uri uri = Uri.parse(apiUrl);
+
+    try {
+      var response = await client.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'userId': userId,
+        }),
+      );
+      if (response.statusCode == 200) {
+        // Successful response
+        final data = json.decode(response.body);
+        inspect(data);
+
+        // biodigesterServicesAvailable.value = data;
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception getAvailableBiodigesterPricing: $error');
     }
   }
 }

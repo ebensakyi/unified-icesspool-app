@@ -11,8 +11,10 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:icesspool/bindings/otp_binding.dart';
 import 'package:icesspool/contants.dart';
 import 'package:icesspool/themes/colors.dart';
+import 'package:icesspool/views/otp_page_view.dart';
 import 'package:icesspool/widgets/small-button.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/bindings/home_binding.dart';
@@ -34,7 +36,6 @@ class LoginController extends GetxController {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   final obscurePassword = true.obs;
-
   @override
   void onInit() async {
     super.onInit();
@@ -225,8 +226,6 @@ class LoginController extends GetxController {
         var firstName = user["firstName"];
         var lastName = user["lastName"];
 
-        inspect(user);
-
         box.write('userId', userId);
         box.write('phoneNumber', phoneNumber);
         box.write('firstName', firstName);
@@ -236,6 +235,29 @@ class LoginController extends GetxController {
         box.write('isLogin', true);
         Get.off(() => HomeView(),
             binding: HomeBinding(), arguments: [userId, phoneNumber]);
+      } else if (response.statusCode == 201) {
+        var json = await response.body;
+
+        var user = jsonDecode(json);
+
+        inspect(user);
+
+        var userId = user["id"];
+        var email = user["email"];
+        var phoneNumber = user["phoneNumber"];
+        var firstName = user["firstName"];
+        var lastName = user["lastName"];
+        showToast(
+          backgroundColor: Colors.red.shade800,
+          alignment: Alignment.topCenter,
+          'User account not activated',
+          context: context,
+          animation: StyledToastAnimation.fade,
+          duration: Duration(seconds: 2),
+          position: StyledToastPosition.center,
+        );
+        Get.off(() => OtpPageView(),
+            binding: OtpBinding(), arguments: [userId, phoneNumber]);
       } else if (response.statusCode == 400) {
         showToast(
           backgroundColor: Colors.red.shade800,
