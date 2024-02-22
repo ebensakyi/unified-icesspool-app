@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
@@ -12,6 +13,8 @@ class OtpPageView extends GetView<OtpController> {
   const OtpPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    FocusScope.of(context).requestFocus(FocusNode());
+
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   FocusScope.of(context).unfocus();
     // });
@@ -60,12 +63,40 @@ class OtpPageView extends GetView<OtpController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            OtpBox(
-                              controller: controller.num1Controller,
+                            GestureDetector(
+                              onTap: () {
+                                // Request focus on the first text field when tapped
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                              },
+                              child: OtpBox(
+                                controller: controller.num1Controller,
+                              ),
                             ),
-                            OtpBox(controller: controller.num2Controller),
-                            OtpBox(controller: controller.num3Controller),
-                            OtpBox(controller: controller.num4Controller),
+                            GestureDetector(
+                                onTap: () {
+                                  // Request focus on the first text field when tapped
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                },
+                                child: OtpBox(
+                                    controller: controller.num2Controller)),
+                            GestureDetector(
+                                onTap: () {
+                                  // Request focus on the first text field when tapped
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                },
+                                child: OtpBox(
+                                    controller: controller.num3Controller)),
+                            GestureDetector(
+                                onTap: () {
+                                  // Request focus on the first text field when tapped
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                },
+                                child: OtpBox(
+                                    controller: controller.num4Controller)),
                           ],
                         ),
                         SmallButton(

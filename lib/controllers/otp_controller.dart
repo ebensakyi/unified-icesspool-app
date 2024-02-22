@@ -29,8 +29,8 @@ class OtpController extends GetxController {
   final num4Controller = TextEditingController();
 
   var userId, phoneNumber, lastName, firstName = "";
-  final int countdownDuration = 120; // Duration in seconds
-  RxInt countdown = 120.obs;
+  final int countdownDuration = 60; // Duration in seconds
+  RxInt countdown = 60.obs;
   Timer? _timer;
   final hideTimer = false.obs;
   RxDouble progress = 1.0.obs;
@@ -110,6 +110,9 @@ class OtpController extends GetxController {
   }
 
   Future<void> resendOtp() async {
+    startCountdown();
+    countdown.value = 60;
+    hideTimer.value = false;
     final String apiUrl = Constants.RESEND_OTP_API_URL;
 
     final Uri uri = Uri.parse(apiUrl);

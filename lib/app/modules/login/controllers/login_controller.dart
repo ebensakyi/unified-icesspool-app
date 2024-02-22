@@ -248,12 +248,12 @@ class LoginController extends GetxController {
         var firstName = user["firstName"];
         var lastName = user["lastName"];
         showToast(
-          backgroundColor: Colors.red.shade800,
+          backgroundColor: Colors.blue.shade800,
           alignment: Alignment.topCenter,
           'User account not activated',
           context: context,
           animation: StyledToastAnimation.fade,
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 4),
           position: StyledToastPosition.center,
         );
         Get.to(() => OtpPageView(),

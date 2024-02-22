@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/app/modules/forget-password/views/forget_password_view.dart';
@@ -30,6 +31,8 @@ class LoginView extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    FocusScope.of(context).requestFocus(FocusNode());
+
     return UpgradeAlert(
       child: Scaffold(
         body: Stack(
@@ -62,32 +65,42 @@ class LoginView extends StatelessWidget {
                                           color: Colors.black54, fontSize: 16),
                                     ),
                                     SizedBox(height: 8),
-                                    TextFormField(
-                                      controller:
-                                          controller.phoneNumberController,
-                                      keyboardType: TextInputType.number,
-                                      maxLengthEnforcement:
-                                          MaxLengthEnforcement.enforced,
-                                      onSaved: (value) {
-                                        controller.phoneNumberController.text =
-                                            value!;
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Request focus on the first text field when tapped
+                                        FocusScope.of(context)
+                                            .requestFocus(FocusNode());
                                       },
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 10),
-                                        labelText: '',
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                      child: TextFormField(
+                                        controller:
+                                            controller.phoneNumberController,
+                                        keyboardType: TextInputType.number,
+                                        maxLengthEnforcement:
+                                            MaxLengthEnforcement.enforced,
+                                        onSaved: (value) {
+                                          controller.phoneNumberController
+                                              .text = value!;
+                                        },
+                                        decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 10),
+                                          labelText: '',
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          prefixIcon: Icon(Icons.phone_android),
                                         ),
-                                        prefixIcon: Icon(Icons.phone_android),
+                                        inputFormatters: [
+                                          inputMasker.phoneMask
+                                        ],
+                                        validator: (value) {
+                                          return Validator.phoneValidator(
+                                              value!);
+                                        },
                                       ),
-                                      inputFormatters: [inputMasker.phoneMask],
-                                      validator: (value) {
-                                        return Validator.phoneValidator(value!);
-                                      },
                                     ),
                                   ],
                                 ),
@@ -104,40 +117,48 @@ class LoginView extends StatelessWidget {
                                           color: Colors.black54, fontSize: 16),
                                     ),
                                     SizedBox(height: 8),
-                                    Obx(() => TextFormField(
-                                          obscureText:
-                                              controller.obscurePassword.value,
-                                          controller:
-                                              controller.passwordController,
-                                          decoration: InputDecoration(
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 10),
-                                            labelText: '',
-                                            filled: true,
-                                            fillColor: Colors.white,
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            prefixIcon:
-                                                Icon(Icons.password_outlined),
-                                            suffixIcon: Obx(() => IconButton(
-                                                  icon: Icon(
-                                                    controller.obscurePassword
-                                                            .value
-                                                        ? Icons.visibility
-                                                        : Icons.visibility_off,
-                                                  ),
-                                                  onPressed: () => controller
-                                                      .togglePasswordVisibility(),
-                                                )),
-                                          ),
-                                          validator: (value) {
-                                            return Validator.passwordValidator(
-                                                value!);
+                                    Obx(() => GestureDetector(
+                                          onTap: () {
+                                            // Request focus on the first text field when tapped
+                                            FocusScope.of(context)
+                                                .requestFocus(FocusNode());
                                           },
+                                          child: TextFormField(
+                                            obscureText: controller
+                                                .obscurePassword.value,
+                                            controller:
+                                                controller.passwordController,
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 10),
+                                              labelText: '',
+                                              filled: true,
+                                              fillColor: Colors.white,
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              prefixIcon:
+                                                  Icon(Icons.password_outlined),
+                                              suffixIcon: Obx(() => IconButton(
+                                                    icon: Icon(
+                                                      controller.obscurePassword
+                                                              .value
+                                                          ? Icons.visibility
+                                                          : Icons
+                                                              .visibility_off,
+                                                    ),
+                                                    onPressed: () => controller
+                                                        .togglePasswordVisibility(),
+                                                  )),
+                                            ),
+                                            validator: (value) {
+                                              return Validator
+                                                  .passwordValidator(value!);
+                                            },
+                                          ),
                                         ))
                                   ],
                                 ),
