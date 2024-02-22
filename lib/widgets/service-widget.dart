@@ -53,7 +53,7 @@ class ServiceWidget extends StatelessWidget {
                             Get.back();
                           },
                           showLoading: false,
-                          label: "OK",
+                          label: Text("OK"),
                         )
                       ],
                     ),

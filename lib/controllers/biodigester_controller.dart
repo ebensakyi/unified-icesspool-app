@@ -7,6 +7,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/controllers/request_controller.dart';
+import 'package:icesspool/model/time_range.dart';
+import 'package:icesspool/model/time_schedule.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
 import 'package:geocoding/geocoding.dart';
@@ -70,6 +72,11 @@ class BiodigesterController extends GetxController {
   final biodigesterServicesAvailable = [].obs;
   final RxList<BiodigesterPricing> biodigesterPricings =
       <BiodigesterPricing>[].obs;
+  final List<TimeRange> timeRanges = <TimeRange>[].obs;
+  final selectedTimeRangeId = 0.obs;
+  // final selectedTimeRange = "".obs;
+  late TimeRange selectedTimeRange;
+  final selectedStartTime = "".obs;
 
   var currentIndex = 0.obs;
   var currentTitle = "Report".obs;
@@ -129,7 +136,7 @@ class BiodigesterController extends GetxController {
     // await getUserArea();
     await getAvailableBiodigesterServices();
     await getBiodigesterPricing();
-    await getTimeSchedules();
+    await getTimeRanges();
 
     final box = await GetStorage();
 
@@ -377,7 +384,7 @@ class BiodigesterController extends GetxController {
     }
   }
 
-  Future<void> getTimeSchedules() async {
+  Future<void> getTimeRanges() async {
     final String apiUrl = Constants.TIME_SCHEDULE_API_URL;
 
     final Uri uri = Uri.parse(apiUrl);
@@ -386,8 +393,25 @@ class BiodigesterController extends GetxController {
       final response = await http.get(uri);
 
       if (response.statusCode == 200) {
-        // Successful response
-        final data = json.decode(response.body);
+        // List data = json.decode(response.body);
+
+        // List<Map<String, dynamic>> typedData =
+        //     List<Map<String, dynamic>>.from(data);
+
+        // // Successful response
+        // final data = json.decode(response.body);
+        // var timeSchedules = jsonDecode(data);
+
+        final List<dynamic> data = jsonDecode(response.body);
+        timeRanges.assignAll(data.map((item) {
+          return TimeRange(
+            id: item['id'],
+            time_schedule: item['time_schedule'],
+            start_time: item['start_time'],
+            end_time: item['end_time'],
+          );
+        }).toList());
+
         inspect(data);
 
         // biodigesterServicesAvailable.value = data;
@@ -397,7 +421,7 @@ class BiodigesterController extends GetxController {
       }
     } catch (error) {
       // Handle exception
-      print('Exception getAvailableBiodigesterPricing: $error');
+      print('Exception getTimeSchedules: $error');
     }
   }
 
@@ -463,6 +487,19 @@ class BiodigesterController extends GetxController {
 
     return formattedData;
   }
+
+  // List<TimeRange> parseTimeSchedule(List<Map<String, dynamic>> data) {
+  //   var formattedData = data
+  //       .map((item) => TimeRange(
+  //             id: item['id'],
+  //             time_schedule: item['time_schedule'],
+  //             start_time: item['start_time'],
+  //             end_time: item['end_time'],
+  //           ))
+  //       .toList();
+
+  //   return formattedData;
+  // }
 
   void shareApplication() async {
     Share.text(

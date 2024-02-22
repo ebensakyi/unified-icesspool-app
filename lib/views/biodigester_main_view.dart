@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,8 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/app/modules/services/views/services_view.dart';
 import 'package:icesspool/controllers/home_controller.dart';
+import 'package:icesspool/model/time_range.dart';
+import 'package:icesspool/model/time_schedule.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/solid-button.dart';
 import 'package:intl/intl.dart';
@@ -398,34 +401,73 @@ class BioDigesterMainView extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Divider(),
                                 ),
-                                Dropdown(
-                                  onChangedCallback: (newValue) {
-                                    controller.selectedServices.value = [];
+                                Obx(() {
+                                  if (controller.timeRanges.isEmpty) {
+                                    return CircularProgressIndicator();
+                                  } else {
+                                    return DropdownButton<int>(
+                                      hint: Text('Select Time Range'),
+                                      value:
+                                          controller.selectedTimeRangeId.value,
+                                      onChanged: (int? value) {
+                                        if (value != null) {
+                                          TimeRange selectedTimeRange =
+                                              controller.timeRanges.firstWhere(
+                                                  (ts) => ts.id == value);
+                                          // print(
+                                          //     selectedTimeRange.time_schedule);
 
-                                    controller.selectedRequestType.value =
-                                        newValue;
-                                  },
-                                  value: controller.returnValue(
-                                      controller.selectedRequestType.value),
-                                  initialValue: controller.returnValue(
-                                      controller.selectedRequestType.value),
-                                  dropdownItems: [
-                                    DropdownMenuItem(
-                                      child: Text("Biodigester Maintenance"),
-                                      value: "1",
-                                    ),
-                                    DropdownMenuItem(
-                                      child:
-                                          Text("New Biodigester Construction"),
-                                      value: "2",
-                                    ),
-                                  ],
-                                  hintText: '',
-                                  labelText: "Select time frame? *",
-                                  validator: (value) {
-                                    return Validator.dropdownValidator(value);
-                                  },
-                                ),
+                                          controller.selectedTimeRangeId.value =
+                                              value;
+                                          // controller.selectedTimeRange =
+                                          //     selectedTimeRange.end_time;
+                                        }
+                                      },
+                                      items: controller.timeRanges
+                                          .map<DropdownMenuItem<int>>((ts) {
+                                        return DropdownMenuItem<int>(
+                                          value: ts.id,
+                                          child: Text(ts.time_schedule),
+                                        );
+                                      }).toList(),
+                                    );
+                                  }
+                                }),
+                                // Dropdown<TimeSchedule>(
+                                //   onChangedCallback: (newValue) {
+                                //     controller.selectedServices.value = [];
+
+                                //     controller.selectedRequestType.value =
+                                //         newValue;
+                                //   },
+                                //   value: controller.returnValue(
+                                //       controller.selectedRequestType.value),
+                                //   initialValue: controller.returnValue(
+                                //       controller.selectedRequestType.value),
+                                //   dropdownItems: controller.timeSchedules.map(
+                                //     (element) => DropdownMenuItem(
+                                //       child: Text("${element.time_schedule}"),
+                                //       value: element.id,
+                                //     ),
+                                //   ),
+
+                                // [
+                                //   DropdownMenuItem(
+                                //     child: Text("Biodigester Maintenance"),
+                                //     value: "1",
+                                //   ),
+                                //   DropdownMenuItem(
+                                //     child:
+                                //         Text("New Biodigester Construction"),
+                                //     value: "2",
+                                //   ),
+                                // ],
+                                //   hintText: '',
+                                //   labelText: "Select time frame? *",
+                                //   validator: (value) {
+                                //     return Validator.dropdownValidator(value);
+                                //   },
+                                // ),
                                 // ElevatedButton(
                                 //   onPressed: () {
                                 //     controller.selectTime(context);
