@@ -7,7 +7,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:icesspool/views/login_view.dart';
 import 'package:icesspool/core/location_service.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:package_info/package_info.dart';
@@ -115,27 +114,6 @@ class HomeController extends GetxController {
     }
   }
 
-  // void getImage(ImageSource source) async {
-  //   final XFile? pickedFile = await ImagePicker().pickImage(
-  //     source: source,
-  //     maxWidth: double.infinity,
-  //     maxHeight: double.infinity,
-  //   );
-
-  //   if (pickedFile == null) {
-  //     Get.snackbar("Error", "No image was picked",
-  //         snackPosition: SnackPosition.BOTTOM,
-  //         backgroundColor: Colors.red,
-  //         colorText: Colors.white);
-  //   } else {
-  //     selectedImagePath.value = pickedFile.path;
-  //     selectedImageSize.value =
-  //         ((File(selectedImagePath.value)).lengthSync() / 1024 / 1024)
-  //                 .toStringAsFixed(2) +
-  //             " mb";
-  //   }
-  // }
-
   void clearSharedPref() async {
     final box = await GetStorage();
 
@@ -153,110 +131,11 @@ class HomeController extends GetxController {
       );
       latitude.value = position.latitude;
       longitude.value = position.longitude;
-
-      inspect(position);
+      log("getCurrentLocation ${latitude.value} ${longitude.value}");
     } catch (e) {
       print(e);
     }
   }
-  // void getDistricts() async {
-  //   try {
-  //     districts.value = await DataServices.getDistricts();
-  //   } catch (e) {
-  //     log(e.toString());
-  //   }
-  // }
-
-  // Future sendReport() async {
-  //   try {
-  //     bool result = await InternetConnectionChecker().hasConnection;
-  //     if (result == false) {
-  //       isLoading.value = false;
-  //       return Get.snackbar(
-  //           "Internet Error", "Poor internet access. Please try again later...",
-  //           snackPosition: SnackPosition.TOP,
-  //           backgroundColor: MyColors.Red,
-  //           colorText: Colors.white);
-  //     }
-
-  //     // final isValid = formKey.currentState!.validate();
-  //     // if (!isValid) {
-  //     //   return;
-  //     // }
-  //     if (selectedImagePath == "") {
-  //       Get.snackbar("Error", "No image was picked",
-  //           snackPosition: SnackPosition.BOTTOM,
-  //           backgroundColor: Colors.red,
-  //           colorText: Colors.white);
-  //     }
-
-  //     if (selectedReportType.value == "1" && latitude.value == "") {
-  //       Get.snackbar(
-  //           "Error", "Location is not available. Please turn on your location",
-  //           snackPosition: SnackPosition.BOTTOM,
-  //           backgroundColor: Colors.red,
-  //           colorText: Colors.white);
-  //     }
-  //     // formKey.currentState!.save();
-
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     var userId = prefs.getInt('userId');
-
-  //     var uri = Uri.parse(Constants.BASE_URL + Constants.SANITATION_API_URL);
-
-  //     var request = http.MultipartRequest('POST', uri);
-  //     // request.fields['fullName'] = displayName.value.toString();
-  //     // request.fields['email'] = email.value.toString();
-  //     request.fields["userId"] = userId.toString();
-  //     request.fields['districtId'] = selectedDistrictId.value.toString();
-  //     request.fields['description'] =
-  //         descriptionController.text.toString() == ""
-  //             ? " "
-  //             : descriptionController.text.toString();
-  //     request.fields['reportType'] = selectedReportType.value.toString();
-  //     request.fields['reportCategoryId'] =
-  //         selectedReportCategory.value.toString();
-
-  //     request.fields['latitude'] = latitude.value.toString();
-  //     request.fields['longitude'] = longitude.value.toString();
-  //     request.fields['communityLandmark'] = communityController.text;
-  //     request.fields['address'] = address.value;
-  //     request.fields['accuracy'] = accuracy.value.toString();
-
-  //     http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-  //         'nuisancePicture', File(selectedImagePath.value.toString()).path);
-  //     request.files.add(multipartFile);
-
-  //     var res = await request.send();
-  //     isLoading.value = true;
-
-  //     if (res.statusCode == 200) {
-  //       isLoading.value = false;
-  //       selectedImagePath.value = "";
-  //       selectedDistrict.value = "";
-  //       selectedReportType.value = "";
-  //       descriptionController.text = "";
-  //       communityController.text = "";
-
-  //       showSubmissionReport();
-  //     } else {
-  //       isLoading.value = false;
-  //       Get.snackbar("Error", "A error occurred. Please try again.",
-  //           snackPosition: SnackPosition.TOP,
-  //           backgroundColor: Colors.red,
-  //           duration: Duration(seconds: 5),
-  //           colorText: Colors.white);
-  //     }
-  //   } catch (e) {
-  //     isLoading.value = false;
-  //     log(e.toString());
-  //     Get.snackbar("Connection Error",
-  //         "Connection to server refused. Please try again later...",
-  //         snackPosition: SnackPosition.TOP,
-  //         backgroundColor: MyColors.Red,
-  //         colorText: Colors.white);
-  //   }
-  // }
 
   showSubmissionReport() async {
     Get.dialog(

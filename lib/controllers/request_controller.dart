@@ -37,7 +37,9 @@ class RequestController extends GetxController {
   final spName = "".obs;
   final spCompany = "".obs;
   final spPhoneNumber = "".obs;
-
+  final longitude = 0.0.obs;
+  final latitude = 0.0.obs;
+  final accuracy = 0.0.obs;
   final isPendingTrxnAvailable = false.obs;
   final isDeleted = false.obs;
 
@@ -63,7 +65,9 @@ class RequestController extends GetxController {
 
     await checkUserTransactionStates();
 
-    log(controller.latitude.value.toString());
+    latitude.value = controller.latitude.value;
+    longitude.value = controller.longitude.value;
+    accuracy.value = controller.accuracy.value;
 
     super.onInit();
   }

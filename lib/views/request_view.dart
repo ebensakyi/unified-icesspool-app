@@ -43,9 +43,12 @@ class RequestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(controller.latitude.value.toString() +
+        "  " +
+        controller.longitude.value.toString());
+
     CameraPosition _kGooglePlex = CameraPosition(
-      target:
-          LatLng(homeController.latitude.value, homeController.longitude.value),
+      target: LatLng(controller.latitude.value, controller.longitude.value),
       zoom: 12,
       tilt: 59.440717697143555,
       bearing: 12.8334901395799,
@@ -99,10 +102,9 @@ class RequestView extends StatelessWidget {
         mapToolbarEnabled: true,
         mapType: MapType.normal,
         initialCameraPosition: CameraPosition(
-          // target: LatLng(homeController.latitude.value,
-          //     homeController.longitude.value),
+          target: LatLng(controller.latitude.value, controller.longitude.value),
 
-          target: LatLng(5.663041, -0.153383),
+          //target: LatLng(5.663041, -0.153383),
           zoom: 12,
           tilt: 59.440717697143555,
           bearing: 12.8334901395799,

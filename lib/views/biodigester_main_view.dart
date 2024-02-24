@@ -10,6 +10,7 @@ import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/model/time_range.dart';
 import 'package:icesspool/model/time_schedule.dart';
 import 'package:icesspool/themes/colors.dart';
+import 'package:icesspool/widgets/progress-button.dart';
 import 'package:icesspool/widgets/solid-button.dart';
 import 'package:intl/intl.dart';
 
@@ -107,7 +108,7 @@ class BioDigesterMainView extends StatelessWidget {
                                                         onPressed: () =>
                                                             Navigator.pop(
                                                                 context),
-                                                        child: Text("Cancel"),
+                                                        child: Text("Previous"),
                                                       ),
                                                       TextButton(
                                                         onPressed: () {
@@ -135,7 +136,7 @@ class BioDigesterMainView extends StatelessWidget {
                                       }
                                     },
                                     showLoading: false,
-                                    label: Text("Continue"),
+                                    label: Text("Next"),
                                     buttonColor: MyColors.primary,
                                     textColor: Colors.white,
                                   )
@@ -161,17 +162,39 @@ class BioDigesterMainView extends StatelessWidget {
                                             );
                                             return;
                                           }
-                                          if (formKey2.currentState!.validate())
+                                          if (formKey2.currentState!
+                                              .validate()) {
+                                            // controller
+                                            //     .selectedTimeRangeId.value = 1;
                                             controller.continued();
+                                          }
                                         },
                                         showLoading: false,
-                                        label: Text('Continue'),
+                                        label: Text('Next'),
                                         buttonColor: MyColors.primary,
                                         textColor: Colors.white,
                                       )
                                     : controller.currentStep == 2
                                         ? SolidButton(
                                             onPressed: () {
+                                              if (controller.selectedTimeRangeId
+                                                      .value ==
+                                                  0) {
+                                                return showToast(
+                                                  backgroundColor:
+                                                      Colors.red.shade800,
+                                                  alignment: Alignment.center,
+                                                  'Please select time frame for the job',
+                                                  context: context,
+                                                  animation:
+                                                      StyledToastAnimation
+                                                          .scale,
+                                                  duration:
+                                                      Duration(seconds: 4),
+                                                  position: StyledToastPosition
+                                                      .center,
+                                                );
+                                              }
                                               if (controller
                                                       .calculateHoursDifference() <
                                                   4) {
@@ -200,26 +223,24 @@ class BioDigesterMainView extends StatelessWidget {
                                                 controller.continued();
                                             },
                                             showLoading: false,
-                                            label: Text('Continue'),
+                                            label: Text('Next'),
                                             buttonColor: MyColors.primary,
                                             textColor: Colors.white,
                                           )
-                                        : Obx(() => ProgressIconButton(
+                                        : Obx(() => ProgressButton(
                                               onPressed: () {
-                                                controller.sendRequest();
+                                                controller.sendRequest(context);
                                               },
                                               isLoading:
                                                   controller.isLoading.value,
-                                              iconData: Icons.send,
                                               label: 'Submit',
-                                              iconColor: Colors.white,
                                               progressColor: Colors.white,
                                               textColor: Colors.white,
                                               backgroundColor:
                                                   controller.isLoading.value
-                                                      ? MyColors.primary
-                                                      : MyColors.primary,
-                                              borderColor: MyColors.primary,
+                                                      ? MyColors.secondary
+                                                      : MyColors.secondary,
+                                              borderColor: MyColors.secondary,
                                             )),
                             SizedBox(
                               width: 20,
@@ -231,7 +252,7 @@ class BioDigesterMainView extends StatelessWidget {
                               showLoading: false,
                               borderColor: MyColors.primary,
                               textColor: MyColors.primary,
-                              label: Text("Cancel"),
+                              label: Text("Previous"),
                               // sho: false,
                               // iconData: Icons.cancel,
                               // label: "Cancel",
@@ -359,11 +380,6 @@ class BioDigesterMainView extends StatelessWidget {
                                           10.0), // Adjust the radius as needed
                                     ),
                                     child: InkWell(
-                                      onTap: () {
-                                        // Get.back();
-                                        // homeController.changeTabIndex(2);
-                                        Get.to(() => ServicesView());
-                                      },
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
                                         child: Text(
@@ -387,10 +403,10 @@ class BioDigesterMainView extends StatelessWidget {
                                   final selectedDate =
                                       controller.selectedDate.value;
 
-                                  List<String> splitString =
-                                      selectedDate.toString().split(" ");
+                                  // List<String> splitString =
+                                  //     selectedDate.toString().split(" ");
 
-                                  inspect(splitString[0]);
+                                  // inspect(splitString[0]);
                                   final formattedDate =
                                       DateFormat('EEEE, MMMM d, y')
                                           .format(selectedDate);
@@ -405,34 +421,50 @@ class BioDigesterMainView extends StatelessWidget {
                                   if (controller.timeRanges.isEmpty) {
                                     return CircularProgressIndicator();
                                   } else {
-                                    return DropdownButton<int>(
-                                      hint: Text('Select Time Range'),
-                                      value:
-                                          controller.selectedTimeRangeId.value,
-                                      onChanged: (int? value) {
-                                        if (value != null) {
-                                          TimeRange selectedTimeRange =
-                                              controller.timeRanges.firstWhere(
-                                                  (ts) => ts.id == value);
-                                          // print(
-                                          //     selectedTimeRange.time_schedule);
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors
+                                                .grey), // Set border color
+                                        borderRadius: BorderRadius.circular(
+                                            100), // Set border radius
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, right: 8),
+                                        child: DropdownButton<int>(
+                                          alignment: Alignment.center,
+                                          hint: Text('Select Time Range'),
+                                          value: controller
+                                              .selectedTimeRangeId.value,
+                                          onChanged: (int? value) {
+                                            if (value != null) {
+                                              TimeRange selectedTimeRange =
+                                                  controller.timeRanges
+                                                      .firstWhere((ts) =>
+                                                          ts.id == value);
 
-                                          controller.selectedTimeRangeId.value =
-                                              value;
-                                          // controller.selectedTimeRange =
-                                          //     selectedTimeRange.end_time;
-                                        }
-                                      },
-                                      items: controller.timeRanges
-                                          .map<DropdownMenuItem<int>>((ts) {
-                                        return DropdownMenuItem<int>(
-                                          value: ts.id,
-                                          child: Text(ts.time_schedule),
-                                        );
-                                      }).toList(),
+                                              controller.selectedTimeRangeId
+                                                  .value = value;
+                                              controller
+                                                      .selectedStartTime.value =
+                                                  selectedTimeRange.start_time;
+                                            }
+                                          },
+                                          underline: Container(),
+                                          items: controller.timeRanges
+                                              .map<DropdownMenuItem<int>>((ts) {
+                                            return DropdownMenuItem<int>(
+                                              value: ts.id,
+                                              child: Text(ts.time_schedule),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
                                     );
                                   }
                                 }),
+
                                 // Dropdown<TimeSchedule>(
                                 //   onChangedCallback: (newValue) {
                                 //     controller.selectedServices.value = [];

@@ -7,6 +7,8 @@ class MyColors {
   // static const Orange = Color(0xffFF3E00);
 
   // static const MainColor = Color(0xff1B998B);
+  static const primary = Color.fromARGB(255, 29, 6, 91);
+
   static const secondary = Color.fromARGB(255, 126, 0, 32);
   // static const White = Color(0xfffffffff);
   // static const Green = Color.fromARGB(255, 2, 79, 3);
@@ -15,7 +17,6 @@ class MyColors {
   // static const Bg = Color(0xffEEEFFA);
   // static const Bg2 = Color(0xffF5F6FB);
 
-  static const primary = Color.fromARGB(255, 29, 6, 91);
   // static const DarkBlue3 = Color.fromARGB(255, 10, 35, 92);
 
   // static const DarkBlue1 = Color(0xff2F358C);

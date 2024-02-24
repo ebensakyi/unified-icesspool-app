@@ -88,37 +88,101 @@ class OnboardingView extends GetView<OnboardingController> {
       // ),
       pages: [
         PageViewModel(
-          title: "Welcome to iCesspool",
-          body:
-              "Get started with our app to easily request sanitation services and keep our city clean.",
+          titleWidget: Text(
+            "Welcome to iCesspool",
+            style: TextStyle(
+              color: MyColors.secondary,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          bodyWidget: Text(
+            "Get started with our app to easily request sanitation services and keep our city clean.",
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.normal,
+              color: MyColors.primary,
+            ),
+          ),
           image: _buildImage('icesspool_logo.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Choose Your Service",
-          body:
-              "Select the type of sanitation service you need, whether it's toilet pull, etc.",
+          titleWidget: Text(
+            "Choose Your Service",
+            style: TextStyle(
+              color: MyColors.secondary,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          bodyWidget: Text(
+            "Select the type of sanitation service you need, whether it's toilet pull, etc.",
+            style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.normal,
+                color: MyColors.primary),
+          ),
           image: _buildSvgImage('services.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Submit Your Request",
-          body:
-              "Take a photo of the sanitation issue and provide a brief description. We'll take care of the rest!",
+          titleWidget: Text(
+            "Submit Your Request",
+            style: TextStyle(
+              color: MyColors.secondary,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          bodyWidget: Text(
+            "Take a photo of the sanitation issue and provide a brief description. We'll take care of the rest!",
+            style: TextStyle(
+              color: MyColors.primary,
+              fontSize: 18.0,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
           image: _buildSvgImage('make-request.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Track Your Requests",
-          body:
-              "Monitor the status of your sanitation requests in real-time. We'll keep you updated from submission to completion.",
+          titleWidget: Text(
+            "Track Your Requests",
+            style: TextStyle(
+              color: MyColors.secondary,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          bodyWidget: Text(
+            "Monitor the status of your sanitation requests in real-time. We'll keep you updated from submission to completion.",
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.normal,
+              color: MyColors.primary,
+            ),
+          ),
           image: _buildSvgImage('track.svg'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Ready to Go!",
-          body:
-              "You're all set to start using CleanCity. Help us keep our city clean by submitting sanitation requests whenever you spot an issue.",
+          titleWidget: Text(
+            "Ready to Go!",
+            style: TextStyle(
+              color: MyColors.secondary,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          bodyWidget: Text(
+            "You're all set to start using CleanCity. Help us keep our city clean by submitting sanitation requests whenever you spot an issue.",
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.normal,
+              color: MyColors.primary,
+            ),
+          ),
           image: _buildFullscreenImage(),
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),

@@ -1,8 +1,8 @@
 class Constants {
   //static const String BASE_URL = "https://new.icesspool.net/api";
 
-  static const String BASE_URL = "http://10.0.2.2:3000/api";
-  //static const String BASE_URL = "http://192.168.8.100:3000/api";
+  //static const String BASE_URL = "http://10.0.2.2:3000/api";
+  static const String BASE_URL = "http://192.168.8.100:3000/api";
 
   static String LOGIN_API_URL = BASE_URL + "/auth/login/mobile";
 
@@ -25,6 +25,9 @@ class Constants {
 
   static const String BIODIGESTER_PRICING_API_URL =
       BASE_URL + "/services/biodigester/pricing";
+
+  static const String GOOGLE_MAPS_API_KEY =
+      "AIzaSyCLc4_aCF6feLCH5bjVlpwGpFSV_y6sQdE";
 
   static const String DISTRICT_API_URL = "/sanitation-report/district";
   // static const String REPORT_TYPE_API_URL = "/v1/primary-data/report-type";

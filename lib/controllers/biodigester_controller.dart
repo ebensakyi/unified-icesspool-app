@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -75,7 +76,6 @@ class BiodigesterController extends GetxController {
   final List<TimeRange> timeRanges = <TimeRange>[].obs;
   final selectedTimeRangeId = 0.obs;
   // final selectedTimeRange = "".obs;
-  late TimeRange selectedTimeRange;
   final selectedStartTime = "".obs;
 
   var currentIndex = 0.obs;
@@ -89,7 +89,7 @@ class BiodigesterController extends GetxController {
 
   Rx<DateTime> selectedDate = DateTime.now().obs;
 
-  Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
+  // Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
 
   bool isStandard() {
     return totalUsers.value <= 15;
@@ -115,21 +115,21 @@ class BiodigesterController extends GetxController {
     }
   }
 
-  Future<void> selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime.value,
-      builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null) {
-      selectedTime.value = picked;
-    }
-  }
+  // Future<void> selectTime(BuildContext context) async {
+  //   final TimeOfDay? picked = await showTimePicker(
+  //     context: context,
+  //     initialTime: selectedTime.value,
+  //     builder: (BuildContext context, Widget? child) {
+  //       return MediaQuery(
+  //         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+  //         child: child!,
+  //       );
+  //     },
+  //   );
+  //   if (picked != null) {
+  //     selectedTime.value = picked;
+  //   }
+  // }
 
   @override
   void onInit() async {
@@ -217,7 +217,7 @@ class BiodigesterController extends GetxController {
   //   }
   // }
 
-  Future sendRequest() async {
+  Future sendRequest(context) async {
     try {
       bool result = await InternetConnectionChecker().hasConnection;
       if (!result) {
@@ -235,8 +235,13 @@ class BiodigesterController extends GetxController {
       var transactionId = controller.serviceAreaId.value.toString() +
           "3" +
           generateTransactionCode();
-      String formattedTime =
-          '${selectedTime.value.hour}:${selectedTime.value.minute.toString().padLeft(2, '0')}';
+
+      var address = await getAddressFromLatLng(
+          controller.longitude.value, controller.longitude.value);
+
+      inspect(address);
+      // String formattedTime =
+      //     '${selectedTime.value.hour}:${selectedTime.value.minute.toString().padLeft(2, '0')}';
 
       final Map<String, dynamic> data = {
         'transactionId': transactionId,
@@ -248,7 +253,8 @@ class BiodigesterController extends GetxController {
         'totalCost': calculateTotalCost(selectedServices),
         'serviceAreaId': controller.serviceAreaId.value,
         'scheduledDate': selectedDate.value.toIso8601String(),
-        'scheduledTime': formattedTime
+        'timeFrame': selectedTimeRangeId.value,
+        'address': address
       };
 
       final response = await http.post(
@@ -301,12 +307,15 @@ class BiodigesterController extends GetxController {
       //   }
     } catch (e) {
       isLoading.value = false;
-
-      Get.snackbar("Connection Error",
-          "Connection to server refused. Please try again later...",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: MyColors.Red,
-          colorText: Colors.white);
+      return showToast(
+        backgroundColor: Colors.red.shade800,
+        alignment: Alignment.center,
+        'Connection to server refused. Please try again later.',
+        context: context,
+        animation: StyledToastAnimation.scale,
+        duration: Duration(seconds: 4),
+        position: StyledToastPosition.center,
+      );
     }
   }
 
@@ -403,16 +412,29 @@ class BiodigesterController extends GetxController {
         // var timeSchedules = jsonDecode(data);
 
         final List<dynamic> data = jsonDecode(response.body);
-        timeRanges.assignAll(data.map((item) {
-          return TimeRange(
+
+        timeRanges.add(TimeRange(
+          id: 0,
+          time_schedule: "Select time frame",
+          start_time: '',
+          end_time: '',
+        ));
+        // timeRanges.assignAll(data.map((item) {
+        //   return TimeRange(
+        //     id: item['id'],
+        //     time_schedule: item['time_schedule'],
+        //     start_time: item['start_time'],
+        //     end_time: item['end_time'],
+        //   );
+        // }).toList());
+        data.forEach((item) {
+          timeRanges.add(TimeRange(
             id: item['id'],
             time_schedule: item['time_schedule'],
             start_time: item['start_time'],
             end_time: item['end_time'],
-          );
-        }).toList());
-
-        inspect(data);
+          ));
+        });
 
         // biodigesterServicesAvailable.value = data;
       } else {
@@ -509,6 +531,33 @@ class BiodigesterController extends GetxController {
 
     // Share.share(
     //     'Check out this app for sanitation reporting. https://play.google.com/store/apps/details?id=com.icesspool.unified');
+  }
+
+  Future<String?> getAddressFromLatLng(double lat, double lng) async {
+    lat = 5.549576;
+    lng = -0.254363;
+    final apiKey = Constants.GOOGLE_MAPS_API_KEY;
+    final apiUrl =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'OK') {
+          return data['results'][0]['formatted_address'];
+        } else {
+          print('Error: ${data['status']}');
+          return null;
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
   }
 
   @override
@@ -612,10 +661,20 @@ class BiodigesterController extends GetxController {
     return DateFormat('h:mm a').format(dateTime);
   }
 
+  TimeOfDay convertToTimeOfDay(String timeString) {
+    log("timeString $timeString");
+    List<String> parts = timeString.split(":");
+    int hour = int.parse(parts[0]);
+    int minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
   int calculateHoursDifference() {
     var givenDateString = selectedDate.value.toString().split(" ")[0] +
         " " +
-        formatTime(selectedTime.value);
+        formatTime(convertToTimeOfDay(selectedStartTime.value));
+
+    log(givenDateString);
     // Splitting the given date string into date and time parts
     List<String> parts = givenDateString.split(" ");
     String datePart = parts[0];
