@@ -61,7 +61,6 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     changeTabIndex(0);
-    log("HomeController created  changeTabIndex(0);");
 
     await getCurrentLocation();
     await getUserServiceArea();

@@ -276,7 +276,7 @@ class BiodigesterController extends GetxController {
         var response = jsonDecode(json);
 
         var cost = response["cost"];
-        requestController.amount.value = cost;
+        requestController.totalCost.value = cost;
 
         Get.back();
       } else {

@@ -21,15 +21,10 @@ class RequestController extends GetxController {
   final controller = Get.put(HomeController());
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final RxList<Map<String, dynamic>> documents = <Map<String, dynamic>>[].obs;
-  late GoogleMapController googleMapController;
-
-  Rx<LatLng?> currentLocation = Rx<LatLng?>(null);
 
   final community = "".obs;
-  // final Completer<GoogleMapController> _controller = Completer();
-  // late Rx<CameraPosition> kGooglePlex;
-  // late GoogleMapController googleMapController;
-
+  final Completer<GoogleMapController> _controller = Completer();
+  // final controller = Get.put(HomeController());
   final isLoading = false.obs;
   final initialSize = 0.7.obs;
 
@@ -38,7 +33,7 @@ class RequestController extends GetxController {
   final userId = 0.obs;
   final transactionId = "".obs;
   final paymentId = "".obs;
-  final totalCost = 0.0.obs;
+  final amount = "".obs;
   final spImageUrl = "".obs;
   final spName = "".obs;
   final spCompany = "".obs;
@@ -48,6 +43,7 @@ class RequestController extends GetxController {
   final accuracy = 0.0.obs;
   final isPendingTrxnAvailable = false.obs;
   final isDeleted = false.obs;
+  late CameraPosition kGooglePlex;
   final customerHasTransaction = false.obs;
   Rx<Duration> countdownDuration =
       Duration(hours: 6).obs; // Replace with your desired end hour
@@ -58,7 +54,6 @@ class RequestController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-
     await getCurrentLocation();
 
     final box = await GetStorage();
@@ -86,15 +81,18 @@ class RequestController extends GetxController {
       );
       latitude.value = position.latitude;
       longitude.value = position.longitude;
+      log("getCurrentLocation new ${latitude.value} ${longitude.value}");
 
-      currentLocation.value = LatLng(position.latitude, position.longitude);
+      kGooglePlex = CameraPosition(
+        target: LatLng(latitude.value, longitude.value),
+        zoom: 12,
+        tilt: 59.440717697143555,
+        bearing: 12.8334901395799,
+      );
+      update();
     } catch (e) {
       print(e);
     }
-  }
-
-  void onMapCreated(GoogleMapController controller) {
-    googleMapController = controller;
   }
 
   void openPhoneDialer() async {
@@ -127,10 +125,10 @@ class RequestController extends GetxController {
     update(); // Update the UI with the new marker
   }
 
-  // Future<void> onMapCreated(GoogleMapController controller) async {
-  //   _controller.complete(controller);
-  //   await addMarker(); // Add the initial marker when the map is created
-  // }
+  Future<void> onMapCreated(GoogleMapController controller) async {
+    _controller.complete(controller);
+    await addMarker(); // Add the initial marker when the map is created
+  }
 
   Future<void> cancelRequest() async {
     var client = http.Client();
@@ -165,7 +163,7 @@ class RequestController extends GetxController {
       initialSize.value = 0.85;
 
       transactionStatus.value = data["txStatusCode"]!;
-      totalCost.value = data['totalCost'];
+      amount.value = data['unitCost'];
 
       isDeleted.value = data["deleted"]!;
 
@@ -247,7 +245,7 @@ class RequestController extends GetxController {
           spName.value = data["spName"]!;
           spPhoneNumber.value = data["spPhoneNumber"]!;
 
-          totalCost.value = data['totalCost'];
+          amount.value = data['unitCost'].toString();
 
           // bool _isDeleted = data['deleted'];
 
@@ -255,7 +253,7 @@ class RequestController extends GetxController {
           transactionId.value = _transactionId;
           // isDeleted.value = _isDeleted;
 
-          log(">>>>>>>>>>>>" + totalCost.toString());
+          log(">>>>>>>>>>>>" + amount.toString());
 
           initialSize.value = 0.85;
 
@@ -284,7 +282,7 @@ class RequestController extends GetxController {
         "&payment_method=" +
         paymentMethod.toString() +
         "&amount=" +
-        totalCost.value.toString();
+        amount.value.trim();
 
     try {
       http.Response response = await http.get(Uri.parse(url));

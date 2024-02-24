@@ -43,17 +43,6 @@ class RequestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(controller.latitude.value.toString() +
-        "  " +
-        controller.longitude.value.toString());
-
-    CameraPosition _kGooglePlex = CameraPosition(
-      target: LatLng(controller.latitude.value, controller.longitude.value),
-      zoom: 12,
-      tilt: 59.440717697143555,
-      bearing: 12.8334901395799,
-    );
-
     return Scaffold(
       bottomSheet: InteractiveBottomSheet(
         options: InteractiveBottomSheetOptions(
@@ -98,28 +87,30 @@ class RequestView extends StatelessWidget {
           indicatorRadius: 10,
         ),
       ),
-      body: GoogleMap(
-        mapToolbarEnabled: true,
-        mapType: MapType.normal,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(controller.latitude.value, controller.longitude.value),
-
-          //target: LatLng(5.663041, -0.153383),
-          zoom: 12,
-          tilt: 59.440717697143555,
-          bearing: 12.8334901395799,
-        ),
-        // onMapCreated: (GoogleMapController controller) {
-        //   _controller.complete(controller);
-        // },
-        onMapCreated: controller.onMapCreated,
-        markers: Set<Marker>.of(controller.markers.values),
+      body: Obx(
+        () {
+          final LatLng? currentLocation = controller.currentLocation.value;
+          return GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: currentLocation ?? LatLng(5.700004, -0.222509),
+              zoom: 15,
+            ),
+            onMapCreated: controller.onMapCreated,
+            markers: currentLocation != null
+                ? Set<Marker>.of([
+                    Marker(
+                      markerId: MarkerId('currentLocation'),
+                      position: currentLocation,
+                      infoWindow: InfoWindow(
+                        title: 'Current Location',
+                      ),
+                    ),
+                  ])
+                : Set<Marker>(),
+          );
+        },
       ),
     );
-    // GoogleMap(
-    //   mapType: MapType.hybrid,
-    //   initialCameraPosition: _kGooglePlex,
-    // ));
   }
 
   Widget transactionHistory() {
@@ -472,8 +463,8 @@ class RequestView extends StatelessWidget {
                           "Fee",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        subtitle:
-                            Obx(() => Text('GHS ${controller.amount.value}')),
+                        subtitle: Obx(
+                            () => Text('GHS ${controller.totalCost.value}')),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
