@@ -31,7 +31,7 @@ class RequestController extends GetxController {
   // late GoogleMapController googleMapController;
 
   final isLoading = false.obs;
-  final initialSize = 0.7.obs;
+  final initialSize = 0.8.obs;
 
   final Map<MarkerId, Marker> markers = {};
   final transactionStatus = 0.obs;
@@ -54,6 +54,30 @@ class RequestController extends GetxController {
 
   DateTime now = DateTime.now();
   final box = GetStorage();
+
+  final currentStep = 0.obs;
+  final questions = [
+    'Did the Service Provider and team Undertake the work with the required personal protective gear?',
+    'Did the operator make any cash demand other than your receipted payment to iCesspool?',
+    'Did the Operator cause any damage to property during the operations?',
+    'Did the Operator cover well all opened inspection ports of your tanks/bio-digester and cleaned all spills after the operation?',
+    'Did Operator use any abusive language on persons within household?',
+  ];
+
+  var ratingCommentController = TextEditingController();
+  var rating = 0.0.obs;
+
+  // void nextStep() {
+  //   if (currentStep.value < questions.length - 1) {
+  //     currentStep.value++;
+  //   }
+  // }
+
+  // void prevStep() {
+  //   if (currentStep.value > 0) {
+  //     currentStep.value--;
+  //   }
+  // }
 
   @override
   onInit() async {
@@ -151,29 +175,31 @@ class RequestController extends GetxController {
   }
 
   Future checkUserTransactionStates() async {
-    //  try {
-    _firestore
-        .collection('transaction')
-        .where('customerId', isEqualTo: userId.value)
-        .where('deleted', isEqualTo: false)
-        .snapshots()
-        .listen((snapshot) {
-      // documents.assignAll(snapshot.docs);
-      documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
+    try {
+      _firestore
+          .collection('transaction')
+          .where('customerId', isEqualTo: userId.value)
+          .where('deleted', isEqualTo: false)
+          .snapshots()
+          .listen((snapshot) {
+        // documents.assignAll(snapshot.docs);
+        documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
 
-      var data = documents[0];
-      initialSize.value = 0.85;
+        var data = documents[0];
+        initialSize.value = 0.85;
 
-      transactionStatus.value = data["txStatusCode"]!;
-      totalCost.value = data['totalCost'];
+        transactionStatus.value = data["txStatusCode"]!;
+        totalCost.value = data['totalCost'];
 
-      isDeleted.value = data["deleted"]!;
+        isDeleted.value = data["deleted"]!;
 
-      log(">>>>>>>>>> checkUserTransactionStates called");
-    });
-    // } catch (e) {
-    //   log(e.toString());
-    // }
+        log(">>>>>>>>>> checkUserTransactionStates called");
+        inspect(data);
+        log("data ${data}");
+      });
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> checkAvailableRequest1() async {
@@ -249,20 +275,10 @@ class RequestController extends GetxController {
 
           totalCost.value = data['totalCost'];
 
-          // bool _isDeleted = data['deleted'];
-
           transactionStatus.value = txStatusCode!;
           transactionId.value = _transactionId;
-          // isDeleted.value = _isDeleted;
-
-          log(">>>>>>>>>>>>" + totalCost.toString());
 
           initialSize.value = 0.85;
-
-          return txStatusCode;
-        } else {
-          // Handle the case where data is null
-          return null;
         }
       } else {
         // If no documents match the query
@@ -338,5 +354,25 @@ class RequestController extends GetxController {
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return '${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds';
+  }
+
+  void confirmClaim() {}
+
+  void denyClaim() {}
+
+  Future<void> submitRating() async {
+    var client = http.Client();
+
+    await client.post(
+      Uri.parse(Constants.UPDATE_TRANSACTION_STATUS_API_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'comment': ratingCommentController.text,
+        'transactionId': transactionId.value,
+        'rating': rating.value.toString(),
+      }),
+    );
   }
 }

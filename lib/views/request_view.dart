@@ -11,8 +11,11 @@ import 'package:icesspool/contants.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
+import 'package:icesspool/widgets/question-card.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 import 'package:icesspool/widgets/small-button.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
 
@@ -48,7 +51,7 @@ class RequestView extends StatelessWidget {
         options: InteractiveBottomSheetOptions(
             expand: false,
             maxSize: .9,
-            initialSize: 0.5, // controller.initialSize.value,
+            initialSize: 0.8, // controller.initialSize.value,
             minimumSize: 0.5),
         child: Obx(() => Column(
               children: [
@@ -62,9 +65,21 @@ class RequestView extends StatelessWidget {
                                   ? spFound(context)
                                   : controller.transactionStatus.value == 3
                                       ? orderInPlace(context)
-                                      : controller.transactionStatus.value == 7
-                                          ? searchingForDifferentSP(context)
-                                          : servicesView()
+                                      : controller.transactionStatus.value == 9
+                                          ? orderInPlace(context)
+                                          : controller.transactionStatus
+                                                      .value ==
+                                                  12
+                                              ? searchingForDifferentSP(context)
+                                              : controller.transactionStatus
+                                                          .value ==
+                                                      14
+                                                  ? workStarted(context)
+                                                  : controller.transactionStatus
+                                                              .value ==
+                                                          15
+                                                      ? rateSp(context)
+                                                      : servicesView()
                         ],
                       ),
               ],
@@ -137,104 +152,100 @@ class RequestView extends StatelessWidget {
 
   Widget orderInPlace(context) {
     return Obx(
-      () => Visibility(
-        visible: controller.transactionStatus.value == 3 &&
-            controller.customerHasTransaction.value,
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                  // color: MyColors.primary.shade100,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        SvgPicture.asset('assets/images/job-progress.svg',
-                            height: 200, semanticsLabel: 'In progress'),
-                        // CircularProgressIndicator(
-                        //   valueColor: AlwaysStoppedAnimation<Color>(MyColors.primary),
-                        // ),
-                        // SizedBox(width: 16.0),
-                        Text(
-                          'Service provider is on the way',
+      () => Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                // color: MyColors.primary.shade100,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      SvgPicture.asset('assets/images/job-progress.svg',
+                          height: 150, semanticsLabel: 'In progress'),
+                      // CircularProgressIndicator(
+                      //   valueColor: AlwaysStoppedAnimation<Color>(MyColors.primary),
+                      // ),
+                      // SizedBox(width: 16.0),
+                      Text(
+                        'Service provider is on the way',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Hold on the service provider is on the way.You can call the Service provider',
                           style: TextStyle(
-                              fontSize: 20.0, fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black54),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Hold on the service provider is on the way.You can call the Service provider',
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black54),
-                          ),
-                        ),
+                      ),
 
-                        // GifController _controller = GifController(vsync: this);
-                        SizedBox(width: 20.0),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: LinearProgressIndicator(
-                            minHeight: 10,
-                            backgroundColor: Colors.grey[
-                                200], // Background color of the progress bar
-                            valueColor: AlwaysStoppedAnimation<Color>(MyColors
-                                .primary), // Color of the progress indicator
+                      // GifController _controller = GifController(vsync: this);
+                      SizedBox(width: 20.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: LinearProgressIndicator(
+                          minHeight: 10,
+                          backgroundColor: Colors.grey[
+                              200], // Background color of the progress bar
+                          valueColor: AlwaysStoppedAnimation<Color>(MyColors
+                              .primary), // Color of the progress indicator
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundImage: NetworkImage(
+                                  "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundImage: NetworkImage(
-                                    "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                controller.spName.value,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
                               ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  controller.spName.value,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black),
-                                ),
-                                Text(
-                                  controller.spCompany.value,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SmallButton(
+                              Text(
+                                controller.spCompany.value,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SmallButton(
+                        onPressed: () {
+                          controller.openPhoneDialer();
+                        },
+                        showLoading: false,
+                        label: IconButton(
+                          icon: Icon(Icons.call),
                           onPressed: () {
                             controller.openPhoneDialer();
                           },
-                          showLoading: false,
-                          label: IconButton(
-                            icon: Icon(Icons.call),
-                            onPressed: () {
-                              controller.openPhoneDialer();
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -549,6 +560,277 @@ class RequestView extends StatelessWidget {
     );
   }
 
+  Widget workStarted(context) {
+    //SP found, show details of sp with image make payment
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              // color: MyColors.primary.shade100,
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Work has started',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      // SvgPicture.asset('assets/images/payment.svg',
+                      //     height: 200, semanticsLabel: 'Searching'),
+
+                      // SizedBox(height: 10.0),
+                      Text(
+                        'Service Provider says work has started.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black54),
+                      ),
+                      SizedBox(height: 10.0),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Obx(() => CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: NetworkImage(
+                                      "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                                )),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(() => Text(
+                                    controller.spName.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  )),
+                              Obx(() => Text(
+                                    controller.spCompany.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                      // GifController _controller = GifController(vsync: this);
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: LinearProgressIndicator(
+                      //     minHeight: 10,
+                      //     backgroundColor: Colors
+                      //         .grey[200], // Background color of the progress bar
+                      //     valueColor: AlwaysStoppedAnimation<Color>(
+                      //         MyColors.primary), // Color of the progress indicator
+                      //   ),
+                      // ),
+
+                      SmallButton(
+                        onPressed: () {
+                          controller.openPhoneDialer();
+                        },
+                        showLoading: false,
+                        label: IconButton(
+                          icon: Icon(Icons.call),
+                          onPressed: () {
+                            controller.openPhoneDialer();
+                          },
+                        ),
+                      ),
+                      Divider(),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ProgressIconButton(
+                            onPressed: () {
+                              controller.confirmClaim();
+                            },
+                            isLoading: controller.isLoading.value,
+                            iconData: FontAwesome.thumbs_up,
+                            label: 'Confirm claim',
+                            iconColor: Colors.white,
+                            progressColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: controller.isLoading.value
+                                ? MyColors.secondary
+                                : MyColors.secondary,
+                            borderColor: MyColors.secondary,
+                          ),
+                          ProgressIconButton(
+                            onPressed: () {
+                              controller.denyClaim();
+                            },
+                            isLoading: controller.isLoading.value,
+                            iconData: FontAwesome.thumbs_down,
+                            label: 'Deny claim',
+                            iconColor: Colors.white,
+                            progressColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: controller.isLoading.value
+                                ? MyColors.primary
+                                : MyColors.primary,
+                            borderColor: MyColors.primary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget rateSp(context) {
+    return Column(
+      children: [
+        SvgPicture.asset('assets/images/rating.svg',
+            height: 200, semanticsLabel: 'Searching'),
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "How was the service?",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            )),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: RatingBar.builder(
+            initialRating: controller.rating.value,
+            minRating: 1,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              print(rating);
+            },
+          ),
+        ),
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+          child: TextField(
+            controller: controller.ratingCommentController,
+            decoration: InputDecoration(
+              labelText: 'Enter comment',
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              border: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        SmallButton(
+          onPressed: () {
+            controller.submitRating();
+          },
+          showLoading: false,
+          label: Text("Submit"),
+        ),
+      ],
+    );
+
+    // return Container(
+    //   child: Column(
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     children: [
+    //       Padding(
+    //         padding: const EdgeInsets.all(16.0),
+    //         child: Container(
+    //           // color: MyColors.primary.shade100,
+    //           child: Padding(
+    //               padding: const EdgeInsets.all(8.0),
+    //               child: Column(
+    //                 children: [
+    //                   Text(
+    //                     'Rate Service Provider',
+    //                     style: TextStyle(
+    //                         fontSize: 20.0, fontWeight: FontWeight.bold),
+    //                   ),
+    //                   // SvgPicture.asset('assets/images/payment.svg',
+    //                   //     height: 200, semanticsLabel: 'Searching'),
+
+    //                   // SizedBox(height: 10.0),
+    //                   Text(
+    //                     'Kindly take a moment to rate our Service Provider',
+    //                     style: TextStyle(
+    //                         fontWeight: FontWeight.normal,
+    //                         color: Colors.black54),
+    //                   ),
+    //                   SizedBox(height: 10.0),
+
+    //                   Divider(),
+    //                   Text(
+    //                     'Did the Service Provider and team Undertake the work with the required personal protective gear?',
+    //                     style: TextStyle(
+    //                         fontWeight: FontWeight.normal,
+    //                         color: Colors.black54),
+    //                   ),
+    //                   Text(
+    //                     'Did the operator make any cash demand other than your receipted payment to iCesspool?',
+    //                     style: TextStyle(
+    //                         fontWeight: FontWeight.normal,
+    //                         color: Colors.black54),
+    //                   ),
+    //                   Text(
+    //                     'Did the Operator cause any damage to property during the operations?',
+    //                     style: TextStyle(
+    //                         fontWeight: FontWeight.normal,
+    //                         color: Colors.black54),
+    //                   ),
+    //                   Text(
+    //                     'Did the Operator cover well all opened inspection ports of your tanks/bio-digester and cleaned all spills after the operation?',
+    //                     style: TextStyle(
+    //                         fontWeight: FontWeight.normal,
+    //                         color: Colors.black54),
+    //                   ),
+    //                   Text(
+    //                     'Did Operator use any abusive language on persons within household?',
+    //                     style: TextStyle(
+    //                         fontWeight: FontWeight.normal,
+    //                         color: Colors.black54),
+    //                   ),
+    //                   Row(
+    //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //                     children: [
+    //                       ProgressIconButton(
+    //                         onPressed: () {
+    //                           controller.submitRating();
+    //                         },
+    //                         isLoading: controller.isLoading.value,
+    //                         iconData: FontAwesome.thumbs_up,
+    //                         label: 'Submit',
+    //                         iconColor: Colors.white,
+    //                         progressColor: Colors.white,
+    //                         textColor: Colors.white,
+    //                         backgroundColor: controller.isLoading.value
+    //                             ? MyColors.secondary
+    //                             : MyColors.secondary,
+    //                         borderColor: MyColors.secondary,
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ],
+    //               )),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+  }
+
   Widget servicesView() {
     return Column(
       children: [
@@ -610,31 +892,6 @@ class RequestView extends StatelessWidget {
             ),
           ],
         ),
-        // ListTile(
-        //   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-        //   title: Text(
-        //     'Biodigester',
-        //     style: TextStyle(fontSize: 12),
-        //   ),
-        //   leading: Icon(Icons.history),
-        //   subtitle: Text(
-        //     'Dansoman - 21/11/2023',
-        //     style: TextStyle(fontSize: 10),
-        //   ),
-        // ),
-        // Divider(),
-        // ListTile(
-        //   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-        //   title: Text(
-        //     'Tanker Water',
-        //     style: TextStyle(fontSize: 12),
-        //   ),
-        //   leading: Icon(Icons.history),
-        //   subtitle: Text(
-        //     'Sowutuom - 11/01/2023',
-        //     style: TextStyle(fontSize: 10),
-        //   ),
-        // ),
       ],
     );
   }
