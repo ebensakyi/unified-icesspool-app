@@ -64,4 +64,6 @@ class Constants {
   static String TIME_SCHEDULE_API_URL = BASE_URL + "/config/time-schedule";
 
   static String RESEND_OTP_API_URL = BASE_URL + "/auth/resend-otp";
+
+  static String RATE_SERVICE_API_URL = BASE_URL + "/services/rate-service";
 }

@@ -706,7 +706,7 @@ class RequestView extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: RatingBar.builder(
             initialRating: controller.rating.value,
-            minRating: 1,
+            minRating: 0.5,
             direction: Axis.horizontal,
             allowHalfRating: true,
             itemCount: 5,
@@ -716,13 +716,13 @@ class RequestView extends StatelessWidget {
               color: Colors.amber,
             ),
             onRatingUpdate: (rating) {
-              print(rating);
+              controller.rating.value = rating;
             },
           ),
         ),
         Padding(
           padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
           child: TextField(
             controller: controller.ratingCommentController,
             decoration: InputDecoration(

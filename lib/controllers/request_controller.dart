@@ -39,7 +39,9 @@ class RequestController extends GetxController {
   final transactionId = "".obs;
   final paymentId = "".obs;
   final totalCost = 0.0.obs;
+  final spId = "".obs;
   final spImageUrl = "".obs;
+
   final spName = "".obs;
   final spCompany = "".obs;
   final spPhoneNumber = "".obs;
@@ -272,6 +274,7 @@ class RequestController extends GetxController {
           spCompany.value = data["spCompany"]!;
           spName.value = data["spName"]!;
           spPhoneNumber.value = data["spPhoneNumber"]!;
+          spId.value = data["spId"]!;
 
           totalCost.value = data['totalCost'];
 
@@ -364,13 +367,14 @@ class RequestController extends GetxController {
     var client = http.Client();
 
     await client.post(
-      Uri.parse(Constants.UPDATE_TRANSACTION_STATUS_API_URL),
+      Uri.parse(Constants.RATE_SERVICE_API_URL),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'comment': ratingCommentController.text,
         'transactionId': transactionId.value,
+        'spId': spId.value,
         'rating': rating.value.toString(),
       }),
     );
