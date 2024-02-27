@@ -58,29 +58,7 @@ class RequestView extends StatelessWidget {
                 !controller.customerHasTransaction.value
                     ? servicesView()
                     : Column(
-                        children: [
-                          controller.transactionStatus.value == 1
-                              ? searchingForSP(context)
-                              : controller.transactionStatus.value == 2
-                                  ? spFound(context)
-                                  : controller.transactionStatus.value == 3
-                                      ? orderInPlace(context)
-                                      : controller.transactionStatus.value == 9
-                                          ? orderInPlace(context)
-                                          : controller.transactionStatus
-                                                      .value ==
-                                                  12
-                                              ? searchingForDifferentSP(context)
-                                              : controller.transactionStatus
-                                                          .value ==
-                                                      14
-                                                  ? workStarted(context)
-                                                  : controller.transactionStatus
-                                                              .value ==
-                                                          15
-                                                      ? rateSp(context)
-                                                      : servicesView()
-                        ],
+                        children: [displayViewByStatus(context)],
                       ),
               ],
             )),
@@ -574,6 +552,8 @@ class RequestView extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
+                      SvgPicture.asset('assets/images/searching.svg',
+                          height: 200, semanticsLabel: 'Searching'),
                       Text(
                         'Work has started',
                         style: TextStyle(
@@ -652,7 +632,7 @@ class RequestView extends StatelessWidget {
                         children: [
                           ProgressIconButton(
                             onPressed: () {
-                              controller.confirmClaim();
+                              controller.respondClaim();
                             },
                             isLoading: controller.isLoading.value,
                             iconData: FontAwesome.thumbs_up,
@@ -667,7 +647,7 @@ class RequestView extends StatelessWidget {
                           ),
                           ProgressIconButton(
                             onPressed: () {
-                              controller.denyClaim();
+                              controller.respondClaim();
                             },
                             isLoading: controller.isLoading.value,
                             iconData: FontAwesome.thumbs_down,
@@ -741,95 +721,141 @@ class RequestView extends StatelessWidget {
         ),
       ],
     );
-
-    // return Container(
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     children: [
-    //       Padding(
-    //         padding: const EdgeInsets.all(16.0),
-    //         child: Container(
-    //           // color: MyColors.primary.shade100,
-    //           child: Padding(
-    //               padding: const EdgeInsets.all(8.0),
-    //               child: Column(
-    //                 children: [
-    //                   Text(
-    //                     'Rate Service Provider',
-    //                     style: TextStyle(
-    //                         fontSize: 20.0, fontWeight: FontWeight.bold),
-    //                   ),
-    //                   // SvgPicture.asset('assets/images/payment.svg',
-    //                   //     height: 200, semanticsLabel: 'Searching'),
-
-    //                   // SizedBox(height: 10.0),
-    //                   Text(
-    //                     'Kindly take a moment to rate our Service Provider',
-    //                     style: TextStyle(
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black54),
-    //                   ),
-    //                   SizedBox(height: 10.0),
-
-    //                   Divider(),
-    //                   Text(
-    //                     'Did the Service Provider and team Undertake the work with the required personal protective gear?',
-    //                     style: TextStyle(
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black54),
-    //                   ),
-    //                   Text(
-    //                     'Did the operator make any cash demand other than your receipted payment to iCesspool?',
-    //                     style: TextStyle(
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black54),
-    //                   ),
-    //                   Text(
-    //                     'Did the Operator cause any damage to property during the operations?',
-    //                     style: TextStyle(
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black54),
-    //                   ),
-    //                   Text(
-    //                     'Did the Operator cover well all opened inspection ports of your tanks/bio-digester and cleaned all spills after the operation?',
-    //                     style: TextStyle(
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black54),
-    //                   ),
-    //                   Text(
-    //                     'Did Operator use any abusive language on persons within household?',
-    //                     style: TextStyle(
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black54),
-    //                   ),
-    //                   Row(
-    //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //                     children: [
-    //                       ProgressIconButton(
-    //                         onPressed: () {
-    //                           controller.submitRating();
-    //                         },
-    //                         isLoading: controller.isLoading.value,
-    //                         iconData: FontAwesome.thumbs_up,
-    //                         label: 'Submit',
-    //                         iconColor: Colors.white,
-    //                         progressColor: Colors.white,
-    //                         textColor: Colors.white,
-    //                         backgroundColor: controller.isLoading.value
-    //                             ? MyColors.secondary
-    //                             : MyColors.secondary,
-    //                         borderColor: MyColors.secondary,
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 ],
-    //               )),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
+
+  confirmWorkStarted(context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              // color: MyColors.primary.shade100,
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      SvgPicture.asset('assets/images/searching.svg',
+                          height: 200, semanticsLabel: 'Searching'),
+                      Text(
+                        'Is the Service Provider at your premises',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      // SvgPicture.asset('assets/images/payment.svg',
+                      //     height: 200, semanticsLabel: 'Searching'),
+
+                      // SizedBox(height: 10.0),
+                      Text(
+                        'Service Provider says work has started.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black54),
+                      ),
+                      SizedBox(height: 10.0),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Obx(() => CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: NetworkImage(
+                                      "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                                )),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(() => Text(
+                                    controller.spName.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  )),
+                              Obx(() => Text(
+                                    controller.spCompany.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                      // GifController _controller = GifController(vsync: this);
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: LinearProgressIndicator(
+                      //     minHeight: 10,
+                      //     backgroundColor: Colors
+                      //         .grey[200], // Background color of the progress bar
+                      //     valueColor: AlwaysStoppedAnimation<Color>(
+                      //         MyColors.primary), // Color of the progress indicator
+                      //   ),
+                      // ),
+
+                      SmallButton(
+                        onPressed: () {
+                          controller.openPhoneDialer();
+                        },
+                        showLoading: false,
+                        label: IconButton(
+                          icon: Icon(Icons.call),
+                          onPressed: () {
+                            controller.openPhoneDialer();
+                          },
+                        ),
+                      ),
+                      Divider(),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ProgressIconButton(
+                            onPressed: () {
+                              controller.respondClaim();
+                            },
+                            isLoading: controller.isLoading.value,
+                            iconData: FontAwesome.thumbs_up,
+                            label: 'Confirm claim',
+                            iconColor: Colors.white,
+                            progressColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: controller.isLoading.value
+                                ? MyColors.secondary
+                                : MyColors.secondary,
+                            borderColor: MyColors.secondary,
+                          ),
+                          ProgressIconButton(
+                            onPressed: () {
+                              controller.respondClaim();
+                            },
+                            isLoading: controller.isLoading.value,
+                            iconData: FontAwesome.thumbs_down,
+                            label: 'Deny claim',
+                            iconColor: Colors.white,
+                            progressColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: controller.isLoading.value
+                                ? MyColors.primary
+                                : MyColors.primary,
+                            borderColor: MyColors.primary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  offerResassigned(context) {}
 
   Widget servicesView() {
     return Column(
@@ -895,6 +921,43 @@ class RequestView extends StatelessWidget {
       ],
     );
   }
+
+  displayViewByStatus(context) {
+    switch (controller.transactionStatus.value) {
+      case Constants.OFFER_MADE:
+        return searchingForSP(context);
+
+      case Constants.OFFER_ACCEPTED:
+        return spFound(context);
+
+      case Constants.PAYMENT_MADE:
+        return orderInPlace(context);
+      case Constants.WORK_STARTED_REQUEST:
+        return confirmWorkStarted(context);
+
+      case Constants.WORK_COMPLETED_REQUEST:
+        return confirmWorkCompleted(context);
+      case Constants.OFFER_CANCELLED_SP:
+        return searchingForDifferentSP(context);
+
+      case Constants.OFFER_CANCELLED_CL:
+        return servicesView();
+      case Constants.OFFER_REASSIGNED:
+        return offerResassigned(context);
+
+      case Constants.WORK_COMPLETED:
+        return rateSp(context);
+
+      case Constants.OFFER_RATED:
+        return servicesView();
+
+      default:
+        servicesView();
+    }
+    //  controller.transactionStatus.value ==
+  }
+
+  confirmWorkCompleted(context) {}
 }
 
 // Widget buildListTile(String title, String value) {

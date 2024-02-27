@@ -66,4 +66,24 @@ class Constants {
   static String RESEND_OTP_API_URL = BASE_URL + "/auth/resend-otp";
 
   static String RATE_SERVICE_API_URL = BASE_URL + "/services/rate-service";
+
+  static String RESPONSE_CLAIM_API_URL = BASE_URL + "/client-tx-update";
+
+  static const int OFFER_MADE = 1;
+  static const int OFFER_ACCEPTED = 2;
+  static const int PAYMENT_MADE = 3;
+  static const int WORK_STARTED_REQUEST = 4; //SP
+  static const int WORK_STARTED = 41; // CL
+  static const int WORK_NOT_STARTED = 40; // CL
+
+  static const int WORK_COMPLETED_REQUEST = 6; //SP OR CL
+
+  static const int WORK_COMPLETED = 51; //ADMIN, CL
+  static const int WORK_NOT_COMPLETED = 50; //ADMIN, CL
+
+  static const int OFFER_CLOSED = 6; //ADMIN
+  static const int OFFER_RATED = 7; // CL
+  static const int OFFER_CANCELLED_SP = 8; //SP
+  static const int OFFER_CANCELLED_CL = 9; //CL
+  static const int OFFER_REASSIGNED = 10;
 }

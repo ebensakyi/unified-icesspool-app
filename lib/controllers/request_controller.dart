@@ -359,9 +359,38 @@ class RequestController extends GetxController {
     return '${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds';
   }
 
-  void confirmClaim() {}
+  // Future<void> confirmClaim() async {
+  //    var client = http.Client();
 
-  void denyClaim() {}
+  //   await client.post(
+  //     Uri.parse(Constants.CONFIRM_CLAIM_API_URL),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, String>{
+  //       'comment': ratingCommentController.text,
+  //       'transactionId': transactionId.value,
+  //       'spId': spId.value,
+  //       'rating': rating.value.toString(),
+  //     }),
+  //   );
+  // }
+
+  Future<void> respondClaim() async {
+    var client = http.Client();
+
+    await client.post(
+      Uri.parse(Constants.RESPONSE_CLAIM_API_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'comment': ratingCommentController.text,
+        'transactionId': transactionId.value,
+        'userId': userId.value.toString(),
+      }),
+    );
+  }
 
   Future<void> submitRating() async {
     var client = http.Client();
