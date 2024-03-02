@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -31,7 +30,7 @@ class LoginController extends GetxController {
 
   final loginFormKey = GlobalKey();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   final obscurePassword = true.obs;
