@@ -1,4 +1,4 @@
-import 'dart:developer';
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +11,6 @@ import 'package:icesspool/contants.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
-import 'package:icesspool/widgets/question-card.dart';
 import 'package:icesspool/widgets/service-widget.dart';
 import 'package:icesspool/widgets/small-button.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -55,7 +54,7 @@ class RequestView extends StatelessWidget {
             bottomSheet: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 final maxHeight = constraints.maxHeight;
-                final minHeight = constraints.maxHeight * 0.5; // Minimum height
+                // final minHeight = constraints.maxHeight * 0.5; // Minimum height
                 final initialSize = controller.contentHeight.value > 0
                     ? (controller.contentHeight.value / maxHeight)
                     : 0.8;

@@ -19,7 +19,6 @@ import 'package:icesspool/widgets/small-button.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/bindings/home_binding.dart';
 import 'package:icesspool/views/home_view.dart';
-import 'package:icesspool/views/request_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 
