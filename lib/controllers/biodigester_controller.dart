@@ -36,7 +36,6 @@ class BiodigesterController extends GetxController {
   final selectedRequestType = "".obs;
   final selectedImagePath = "".obs;
   final selectedImageSize = "".obs;
-  final count = 0.obs;
   final userId = 0.obs;
 
   final displayName = "".obs;
@@ -44,6 +43,7 @@ class BiodigesterController extends GetxController {
   final photoURL = "".obs;
   final phoneNumber = "".obs;
   final address = "".obs;
+
   final descriptionController = TextEditingController();
 
   final longitude = 0.0.obs;
@@ -218,80 +218,82 @@ class BiodigesterController extends GetxController {
   // }
 
   Future sendRequest(context) async {
-    //  try {
-    bool result = await InternetConnectionChecker().hasConnection;
-    if (!result) {
+    try {
+      bool result = await InternetConnectionChecker().hasConnection;
+      if (!result) {
+        isLoading.value = false;
+        return Get.snackbar(
+            "Internet Error", "Poor internet access. Please try again later...",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: MyColors.Red,
+            colorText: Colors.white);
+      }
+      isLoading.value = true;
+
+      var uri = Uri.parse(Constants.BIODIGESTER_TRANSACTION_API_URL);
+
+      var transactionId = controller.serviceAreaId.value.toString() +
+          "3" +
+          generateTransactionCode();
+
+      var address = await getAddressFromLatLng(
+          controller.longitude.value, controller.longitude.value);
+
+      final Map<String, dynamic> data = {
+        'transactionId': transactionId,
+        'requestDetails': selectedServices,
+        'userId': controller.userId.value,
+        'customerLng': controller.longitude.value,
+        'customerLat': controller.latitude.value,
+        'community': controller.community.value,
+        'accuracy': controller.accuracy.value,
+        'totalCost': calculateTotalCost(selectedServices),
+        'serviceAreaId': controller.serviceAreaId.value,
+        'scheduledDate': selectedDate.value.toIso8601String(),
+        'timeFrame': selectedTimeRangeId.value,
+        'address': address
+      };
+
+      final response = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data),
+      );
+      var json = await response.body;
+
+      if (response.statusCode == 200) {
+        print('Post request successful! Response: ${json}');
+        isLoading.value = false;
+        requestController.isPendingTrxnAvailable.value = true;
+
+        requestController.transactionStatus.value = 1;
+        requestController.transactionId.value = transactionId;
+        var response = jsonDecode(json);
+
+        var totalCost = double.tryParse(response["totalCost"]);
+        requestController.totalCost.value = totalCost!;
+
+        Get.back();
+      } else {
+        isLoading.value = false;
+        print(
+            'Failed to send POST request. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
       isLoading.value = false;
-      return Get.snackbar(
-          "Internet Error", "Poor internet access. Please try again later...",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: MyColors.Red,
-          colorText: Colors.white);
+      log(e.toString());
+      return showToast(
+        backgroundColor: Colors.red.shade800,
+        alignment: Alignment.center,
+        'Connection to server refused. Please try again later.',
+        context: context,
+        animation: StyledToastAnimation.scale,
+        duration: Duration(seconds: 4),
+        position: StyledToastPosition.center,
+      );
     }
-    isLoading.value = true;
-
-    var uri = Uri.parse(Constants.BIODIGESTER_TRANSACTION_API_URL);
-
-    var transactionId = controller.serviceAreaId.value.toString() +
-        "3" +
-        generateTransactionCode();
-
-    var address = await getAddressFromLatLng(
-        controller.longitude.value, controller.longitude.value);
-
-    final Map<String, dynamic> data = {
-      'transactionId': transactionId,
-      'requestDetails': selectedServices,
-      'userId': controller.userId.value,
-      'customerLng': controller.longitude.value,
-      'customerLat': controller.latitude.value,
-      'accuracy': controller.accuracy.value,
-      'totalCost': calculateTotalCost(selectedServices),
-      'serviceAreaId': controller.serviceAreaId.value,
-      'scheduledDate': selectedDate.value.toIso8601String(),
-      'timeFrame': selectedTimeRangeId.value,
-      'address': address
-    };
-
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
-    var json = await response.body;
-
-    if (response.statusCode == 200) {
-      print('Post request successful! Response: ${json}');
-      isLoading.value = false;
-      requestController.isPendingTrxnAvailable.value = true;
-
-      requestController.transactionStatus.value = 1;
-      requestController.transactionId.value = transactionId;
-      var response = jsonDecode(json);
-
-      var totalCost = double.tryParse(response["totalCost"]);
-      requestController.totalCost.value = totalCost!;
-
-      Get.back();
-    } else {
-      isLoading.value = false;
-      print('Failed to send POST request. Status code: ${response.statusCode}');
-    }
-    // } catch (e) {
-    //   isLoading.value = false;
-    //   log(e.toString());
-    //   return showToast(
-    //     backgroundColor: Colors.red.shade800,
-    //     alignment: Alignment.center,
-    //     'Connection to server refused. Please try again later.',
-    //     context: context,
-    //     animation: StyledToastAnimation.scale,
-    //     duration: Duration(seconds: 4),
-    //     position: StyledToastPosition.center,
-    //   );
-    // }
   }
 
   showSubmissionReport() async {

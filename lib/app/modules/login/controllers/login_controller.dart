@@ -43,7 +43,7 @@ class LoginController extends GetxController {
     await requestPermissions();
     final box = await GetStorage();
 
-    var disclosureViewed = box.read("disclosureViewed");
+    var disclosureViewed = box.read("disclosureViewed") ?? false;
 
     if (!disclosureViewed) {
       await showPermissionDisclosure();
@@ -200,6 +200,7 @@ class LoginController extends GetxController {
         },
       );
       isLoading.value = false;
+      inspect(response);
 
       if (response.statusCode == 200) {
         passwordController.text = "";
@@ -213,11 +214,16 @@ class LoginController extends GetxController {
         final box = await GetStorage();
 
         if (user["userTypeId"] != 4) {
-          return Get.snackbar(
-              "Error", "Your account doesn't allow you to access client app",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: MyColors.Red,
-              colorText: Colors.white);
+          showToast(
+            backgroundColor: Colors.red.shade800,
+            alignment: Alignment.topCenter,
+            'Wrong user name or password',
+            context: context,
+            animation: StyledToastAnimation.fade,
+            duration: Duration(seconds: 2),
+            position: StyledToastPosition.center,
+          );
+          return http.Response('Error', 408);
         }
 
         var userId = user["id"];
@@ -239,8 +245,6 @@ class LoginController extends GetxController {
         var json = await response.body;
 
         var user = jsonDecode(json);
-
-        inspect(user);
 
         var userId = user["id"];
         var email = user["email"];

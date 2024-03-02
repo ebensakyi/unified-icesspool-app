@@ -24,14 +24,12 @@ class RequestController extends GetxController {
   late GoogleMapController googleMapController;
 
   Rx<LatLng?> currentLocation = Rx<LatLng?>(null);
-
-  final community = "".obs;
+  final contentHeight = 0.0.obs;
   // final Completer<GoogleMapController> _controller = Completer();
   // late Rx<CameraPosition> kGooglePlex;
   // late GoogleMapController googleMapController;
 
   final isLoading = false.obs;
-  final initialSize = 0.8.obs;
 
   final Map<MarkerId, Marker> markers = {};
   final transactionStatus = 0.obs;
@@ -50,7 +48,7 @@ class RequestController extends GetxController {
   final accuracy = 0.0.obs;
   final isPendingTrxnAvailable = false.obs;
   final isDeleted = false.obs;
-  final customerHasTransaction = false.obs;
+  final customerHasTransaction = 0.obs;
   Rx<Duration> countdownDuration =
       Duration(hours: 6).obs; // Replace with your desired end hour
 
@@ -80,6 +78,12 @@ class RequestController extends GetxController {
   //     currentStep.value--;
   //   }
   // }
+  void updateContentHeight(double height) {
+    log(height.toString());
+
+    contentHeight.value = height * 1.2;
+    update(); // Notify listeners to rebuild the UI
+  }
 
   @override
   onInit() async {
@@ -114,6 +118,7 @@ class RequestController extends GetxController {
       longitude.value = position.longitude;
 
       currentLocation.value = LatLng(position.latitude, position.longitude);
+      update();
     } catch (e) {
       print(e);
     }
@@ -188,7 +193,6 @@ class RequestController extends GetxController {
         documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
 
         var data = documents[0];
-        initialSize.value = 0.85;
 
         transactionStatus.value = data["txStatusCode"]!;
         totalCost.value = data['totalCost'];
@@ -216,7 +220,7 @@ class RequestController extends GetxController {
           .listen((QuerySnapshot querySnapshot) {
         if (querySnapshot.docs.isNotEmpty) {
           isPendingTrxnAvailable.value = true;
-          customerHasTransaction.value = true;
+          customerHasTransaction.value = 1;
 
           // If there is at least one document matching the query
           DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
@@ -233,14 +237,12 @@ class RequestController extends GetxController {
             transactionId.value = _transactionId;
             // isDeleted.value = _isDeleted;
             //amount.value = data['unitCost'];
-
-            initialSize.value = 0.85;
           } else {
             // Handle the case where data is null
           }
         } else {
           // If no documents match the query
-          customerHasTransaction.value = false;
+          customerHasTransaction.value = 2;
         }
       });
     } catch (e) {
@@ -280,8 +282,6 @@ class RequestController extends GetxController {
 
           transactionStatus.value = txStatusCode!;
           transactionId.value = _transactionId;
-
-          initialSize.value = 0.85;
         }
       } else {
         // If no documents match the query

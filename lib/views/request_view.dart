@@ -18,6 +18,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:interactive_bottom_sheet/interactive_bottom_sheet.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 import '../controllers/home_controller.dart';
 import '../controllers/request_controller.dart';
@@ -28,8 +29,8 @@ import 'biodigester_main_view.dart';
 
 class RequestView extends StatelessWidget {
   final loginController = Get.put(LoginController());
-  final controller = Get.put(RequestController());
   final homeController = Get.put(HomeController());
+  final contentKey = GlobalKey();
 
   // final Completer<GoogleMapController> _controller =
   //     Completer<GoogleMapController>();
@@ -46,64 +47,98 @@ class RequestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomSheet: InteractiveBottomSheet(
-        options: InteractiveBottomSheetOptions(
-            expand: false,
-            maxSize: .9,
-            initialSize: 0.8, // controller.initialSize.value,
-            minimumSize: 0.5),
-        child: Obx(() => Column(
-              children: [
-                !controller.customerHasTransaction.value
-                    ? servicesView()
-                    : Column(
-                        children: [displayViewByStatus(context)],
-                      ),
-              ],
-            )),
+    return GetBuilder<RequestController>(
+        init: RequestController(),
+        initState: (_) {},
+        builder: (RequestController controller) {
+          return Scaffold(
+            bottomSheet: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                final maxHeight = constraints.maxHeight;
+                final minHeight = constraints.maxHeight * 0.5; // Minimum height
+                final initialSize = controller.contentHeight.value > 0
+                    ? (controller.contentHeight.value / maxHeight)
+                    : 0.8;
 
-        //  controller.transactionStatus.value == 1
-        //     ? searchingForSP(context)
-        //     : controller.transactionStatus.value == 2
-        //         ? spFound(context)
-        //         : controller.transactionStatus.value == 3
-        //             ? searchingForSP(context)
-        //             : servicesView(),
-        draggableAreaOptions: DraggableAreaOptions(
-          //topBorderRadius: 20,
-          // height: 75,
-          // backgroundColor: Colors.grey,
-          indicatorColor: Color.fromARGB(255, 230, 230, 230),
-          indicatorWidth: 40,
-          indicatorHeight: 5,
-          indicatorRadius: 10,
-        ),
-      ),
-      body: Obx(
-        () {
-          final LatLng? currentLocation = controller.currentLocation.value;
-          return GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: currentLocation ?? LatLng(5.700004, -0.222509),
-              zoom: 15,
+                return InteractiveBottomSheet(
+                  options: InteractiveBottomSheetOptions(
+                      expand: false,
+                      initialSize: controller.contentHeight.value > 0
+                          ? controller.contentHeight.value / maxHeight
+                          : 0.8,
+                      maxSize: 0.9,
+                      minimumSize: initialSize * 0.5),
+                  child: Builder(
+                    builder: (BuildContext context) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        final RenderBox renderBox = contentKey.currentContext!
+                            .findRenderObject() as RenderBox;
+
+                        controller.updateContentHeight(renderBox.size.height);
+                      });
+
+                      return Column(
+                        key: contentKey,
+                        children: [
+                          controller.customerHasTransaction.value == 1
+                              ? Column(
+                                  children: [
+                                    displayViewByStatus(context, controller)
+                                  ],
+                                )
+                              : controller.customerHasTransaction.value == 2
+                                  ? servicesView()
+                                  : servicesView(),
+                        ],
+                      );
+                    },
+                  ),
+                  draggableAreaOptions: DraggableAreaOptions(
+                    indicatorColor: Color.fromARGB(255, 230, 230, 230),
+                    indicatorWidth: 40,
+                    indicatorHeight: 5,
+                    indicatorRadius: 10,
+                  ),
+                );
+              },
             ),
-            onMapCreated: controller.onMapCreated,
-            markers: currentLocation != null
-                ? Set<Marker>.of([
-                    Marker(
-                      markerId: MarkerId('currentLocation'),
-                      position: currentLocation,
-                      infoWindow: InfoWindow(
-                        title: 'Current Location',
-                      ),
-                    ),
-                  ])
-                : Set<Marker>(),
+            body: Obx(
+              () {
+                final LatLng? currentLocation =
+                    controller.currentLocation.value;
+                return currentLocation == null
+                    ? Shimmer(
+                        duration: Duration(seconds: 3), //Default value
+                        interval: Duration(
+                            seconds: 5), //Default value: Duration(seconds: 0)
+                        color: Colors.white, //Default value
+                        colorOpacity: 0, //Default value
+                        enabled: true, //Default value
+                        direction: ShimmerDirection.fromLTRB(), //Default Value
+                        child: Container(
+                          color: Colors.grey.shade300,
+                        ),
+                      )
+                    : GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: currentLocation,
+                          zoom: 15,
+                        ),
+                        onMapCreated: controller.onMapCreated,
+                        markers: Set<Marker>.of([
+                          Marker(
+                            markerId: MarkerId('currentLocation'),
+                            position: currentLocation,
+                            infoWindow: InfoWindow(
+                              title: 'Current Location',
+                            ),
+                          ),
+                        ]),
+                      );
+              },
+            ),
           );
-        },
-      ),
-    );
+        });
   }
 
   Widget transactionHistory() {
@@ -128,7 +163,7 @@ class RequestView extends StatelessWidget {
         });
   }
 
-  Widget orderInPlace(context) {
+  Widget orderInPlace(context, controller) {
     return Obx(
       () => Container(
         child: Column(
@@ -229,8 +264,8 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  Widget searchingForSP(context) {
-    return Container(
+  Widget searchingForSP(context, controller) {
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -374,7 +409,7 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  Widget spFound(context) {
+  Widget spFound(context, controller) {
     //SP found, show details of sp with image make payment
     return Container(
       child: Column(
@@ -538,7 +573,7 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  Widget workStarted(context) {
+  Widget workStarted(context, controller) {
     //SP found, show details of sp with image make payment
     return Container(
       child: Column(
@@ -671,7 +706,7 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  Widget rateSp(context) {
+  Widget rateSp(context, controller) {
     return Column(
       children: [
         SvgPicture.asset('assets/images/rating.svg',
@@ -723,7 +758,33 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  confirmWorkStarted(context) {
+  Widget shimmerEffect(context, controller) {
+    return Shimmer(
+      duration: Duration(seconds: 3), //Default value
+      interval: Duration(seconds: 5), //Default value: Duration(seconds: 0)
+      color: Colors.white, //Default value
+      colorOpacity: 0, //Default value
+      enabled: true, //Default value
+      direction: ShimmerDirection.fromLTRB(), //Default Value
+      child: Container(
+        color: Colors.grey.shade300,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(height: 600),
+                Container(height: 600),
+                Container(height: 600)
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  confirmWorkStarted(context, controller) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -922,21 +983,21 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  displayViewByStatus(context) {
+  displayViewByStatus(context, controller) {
     switch (controller.transactionStatus.value) {
       case Constants.OFFER_MADE:
-        return searchingForSP(context);
+        return searchingForSP(context, controller);
 
       case Constants.OFFER_ACCEPTED:
-        return spFound(context);
+        return spFound(context, controller);
 
       case Constants.PAYMENT_MADE:
-        return orderInPlace(context);
+        return orderInPlace(context, controller);
       case Constants.WORK_STARTED_REQUEST:
-        return confirmWorkStarted(context);
+        return confirmWorkStarted(context, controller);
 
-      case Constants.WORK_COMPLETED_REQUEST:
-        return confirmWorkCompleted(context);
+      case Constants.WORK_STARTED:
+        return workStarted(context, controller);
       case Constants.OFFER_CANCELLED_SP:
         return searchingForDifferentSP(context);
 
@@ -946,7 +1007,7 @@ class RequestView extends StatelessWidget {
         return offerResassigned(context);
 
       case Constants.WORK_COMPLETED:
-        return rateSp(context);
+        return rateSp(context, controller);
 
       case Constants.OFFER_RATED:
         return servicesView();
@@ -958,7 +1019,6 @@ class RequestView extends StatelessWidget {
   }
 
   confirmWorkCompleted(context) {}
-}
 
 // Widget buildListTile(String title, String value) {
 //   return ListTile(
@@ -970,14 +1030,15 @@ class RequestView extends StatelessWidget {
 //   );
 // }
 
-openBioDigesterMainView() {
-  return Get.to(() => BioDigesterMainView());
-}
+  openBioDigesterMainView() {
+    return Get.to(() => BioDigesterMainView());
+  }
 
-openTankerMainView() {
-  return Get.to(() => EmptyingMainView());
-}
+  openTankerMainView() {
+    return Get.to(() => EmptyingMainView());
+  }
 
-openWaterMainView() {
-  return Get.to(() => WaterMainView());
+  openWaterMainView() {
+    return Get.to(() => WaterMainView());
+  }
 }
