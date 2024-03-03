@@ -1,8 +1,8 @@
 class Constants {
   //static const String BASE_URL = "https://new.icesspool.net/api";
 
-  //static const String BASE_URL = "http://10.0.2.2:3000/api";
-  static const String BASE_URL = "http://192.168.8.100:3000/api";
+  static const String BASE_URL = "http://10.0.2.2:3000/api";
+  // static const String BASE_URL = "http://192.168.8.100:3000/api";
 
   static String LOGIN_API_URL = BASE_URL + "/auth/login/mobile";
 
@@ -15,7 +15,7 @@ class Constants {
       BASE_URL + "/user/services-available";
 
   static const String BIODIGESTER_TRANSACTION_API_URL =
-      BASE_URL + "/services/biodigester/transaction/make-request";
+      BASE_URL + "/transaction/biodigester/transaction/make-request";
 
   static const String CANCELLED_BY_CUSTOMER = "10";
   static const String UPDATE_TRANSACTION_STATUS_API_URL =
