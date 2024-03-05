@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/controllers/request_controller.dart';
@@ -24,6 +25,8 @@ import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 class BiodigesterController extends GetxController {
   final controller = Get.put(HomeController());
   final requestController = Get.put(RequestController());
+  var initialLocation = LatLng(0.0, 0.0);
+  TextEditingController googlePlacesController = TextEditingController();
 
   final formKey = new GlobalKey<FormState>();
 

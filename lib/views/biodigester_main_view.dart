@@ -2,7 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 import 'package:icesspool/app/modules/services/views/services_view.dart';
+import 'package:icesspool/contants.dart';
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/model/time_range.dart';
 import 'package:icesspool/themes/colors.dart';
@@ -20,6 +24,7 @@ import '../widgets/sub-service-widget2.dart';
 class BioDigesterMainView extends StatelessWidget {
   final controller = Get.put(BiodigesterController());
   final homeController = Get.put(HomeController());
+  late GoogleMapController mapController;
 
   BioDigesterMainView({super.key});
 
@@ -262,6 +267,106 @@ class BioDigesterMainView extends StatelessWidget {
                       );
                     },
                     steps: <Step>[
+                      Step(
+                        subtitle: Text('Make a selection here'),
+                        title: const Text('Location'),
+                        content: Column(
+                          children: [
+                            // Container(
+                            //   height: 250,
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.only(
+                            //       topLeft: Radius.circular(20),
+                            //       topRight: Radius.circular(20),
+                            //     ),
+                            //     color: Colors.white,
+                            //   ),
+                            //   child: ClipRRect(
+                            //     borderRadius: BorderRadius.only(
+                            //       topLeft: Radius.circular(20),
+                            //       topRight: Radius.circular(20),
+                            //     ),
+                            //     child: controller.latitude.value == 0.0
+                            //         ? GoogleMap(
+                            //             initialCameraPosition: CameraPosition(
+                            //               target: LatLng(8.200769, -1.199562),
+                            //               zoom: 12,
+                            //             ),
+                            //             markers: Set<Marker>(),
+                            //             myLocationEnabled: false,
+                            //             zoomControlsEnabled: false,
+                            //             scrollGesturesEnabled: false,
+                            //           )
+                            //         : Obx(
+                            //             () => GoogleMap(
+                            //               onMapCreated:
+                            //                   (GoogleMapController ctl) {
+                            //                 mapController = ctl;
+                            //                 // Call animateCamera to move the camera to the initial location
+                            //                 mapController.animateCamera(
+                            //                   CameraUpdate.newLatLngZoom(
+                            //                       controller.initialLocation,
+                            //                       12),
+                            //                 );
+                            //               },
+                            //               initialCameraPosition: CameraPosition(
+                            //                 target: LatLng(
+                            //                     controller.latitude.value,
+                            //                     controller.longitude.value),
+                            //                 zoom: 12,
+                            //               ),
+                            //               markers: Set<Marker>(),
+                            //               myLocationEnabled: false,
+                            //               zoomControlsEnabled: false,
+                            //               scrollGesturesEnabled: false,
+                            //             ),
+                            //           ),
+                            //   ),
+                            // ),
+                            placesAutoCompleteTextField(),
+
+                            Form(
+                              key: formKey1,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              child: Obx(
+                                () => Dropdown(
+                                  onChangedCallback: (newValue) {
+                                    controller.selectedServices.value = [];
+
+                                    controller.selectedRequestType.value =
+                                        newValue;
+                                  },
+                                  value: controller.returnValue(
+                                      controller.selectedRequestType.value),
+                                  initialValue: controller.returnValue(
+                                      controller.selectedRequestType.value),
+                                  dropdownItems: [
+                                    DropdownMenuItem(
+                                      child: Text("Biodigester Maintenance"),
+                                      value: "1",
+                                    ),
+                                    DropdownMenuItem(
+                                      child:
+                                          Text("New Biodigester Construction"),
+                                      value: "2",
+                                    ),
+                                  ],
+                                  hintText: '',
+                                  labelText: "What is your need? *",
+                                  validator: (value) {
+                                    return Validator.dropdownValidator(value);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        isActive: controller.currentStep >= 0,
+                        state: controller.currentStep >= 0
+                            ? StepState.complete
+                            : StepState.disabled,
+                      ),
                       Step(
                         subtitle: Text('Make a selection here'),
                         title: const Text('Bio-digester needs'),
@@ -955,5 +1060,55 @@ class BioDigesterMainView extends StatelessWidget {
             )
           : SizedBox.shrink(),
     ]);
+  }
+
+  placesAutoCompleteTextField() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: GooglePlaceAutoCompleteTextField(
+        textEditingController: controller.googlePlacesController,
+        googleAPIKey: Constants.GOOGLE_KEY,
+        inputDecoration: InputDecoration(
+          hintText: "Search your location",
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+        ),
+        debounceTime: 400,
+        countries: ["in", "fr"],
+        isLatLngRequired: true,
+        getPlaceDetailWithLatLng: (Prediction prediction) {
+          print("placeDetails" + prediction.lat.toString());
+        },
+
+        itemClick: (Prediction prediction) {
+          controller.googlePlacesController.text = prediction.description ?? "";
+          controller.googlePlacesController.selection =
+              TextSelection.fromPosition(
+                  TextPosition(offset: prediction.description?.length ?? 0));
+        },
+        seperatedBuilder: Divider(),
+        containerHorizontalPadding: 10,
+
+        // OPTIONAL// If you want to customize list view item builder
+        itemBuilder: (context, index, Prediction prediction) {
+          return Container(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Icon(Icons.location_on),
+                SizedBox(
+                  width: 7,
+                ),
+                Expanded(child: Text("${prediction.description ?? ""}"))
+              ],
+            ),
+          );
+        },
+
+        isCrossBtnShown: true,
+
+        // default 600 ms ,
+      ),
+    );
   }
 }

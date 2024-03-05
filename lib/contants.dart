@@ -84,4 +84,6 @@ class Constants {
   static const int OFFER_CANCELLED_SP = 8; //SP
   static const int OFFER_CANCELLED_CL = 9; //CL
   static const int OFFER_REASSIGNED = 10;
+
+  static const String GOOGLE_KEY = "AIzaSyCLc4_aCF6feLCH5bjVlpwGpFSV_y6sQdE";
 }

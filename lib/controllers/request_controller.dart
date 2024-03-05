@@ -31,6 +31,7 @@ class RequestController extends GetxController {
 
   final pmIsLoading = false.obs;
   final pcIsLoading = false.obs;
+  final isLoading = false.obs;
 
   final Map<MarkerId, Marker> markers = {};
   final transactionStatus = 0.obs;
@@ -50,6 +51,7 @@ class RequestController extends GetxController {
   final accuracy = 0.0.obs;
   final isPendingTrxnAvailable = false.obs;
   final isDeleted = false.obs;
+
   final customerHasTransaction = 2.obs;
   Rx<Duration> countdownDuration =
       Duration(hours: 6).obs; // Replace with your desired end hour
@@ -353,7 +355,7 @@ class RequestController extends GetxController {
               "Payment already initiated. Please wait for it to be processed");
         }
       } else {
-        log('initiateTellerPayment> Error: ${response.reasonPhrase}');
+        log('initiateTellerPayment>> Error: ${response}');
       }
     } catch (error) {
       log('initiateTellerPayment> Error: $error');
