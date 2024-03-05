@@ -17,8 +17,6 @@ class Constants {
   static const String BIODIGESTER_TRANSACTION_API_URL =
       BASE_URL + "/mobile-request/biodigester/make-request";
 
-  static const String UPDATE_TRANSACTION_STATUS_API_URL =
-      BASE_URL + "/services/update-transaction-status";
   static const String BIODIGESTER_SERVICES_AVAILABLE_API_URL =
       BASE_URL + "/user/biodigester-services-available";
 
@@ -66,7 +64,8 @@ class Constants {
 
   static String RATE_SERVICE_API_URL = BASE_URL + "/services/rate-service";
 
-  static String RESPONSE_CLAIM_API_URL = BASE_URL + "/client-tx-update";
+  static const String UPDATE_TRANSACTION_STATUS_API_URL =
+      BASE_URL + "/mobile-request/update-tx/client";
 
   static const int OFFER_MADE = 1;
   static const int OFFER_ACCEPTED = 2;

@@ -29,15 +29,14 @@ class RequestController extends GetxController {
   // late Rx<CameraPosition> kGooglePlex;
   // late GoogleMapController googleMapController;
 
-  final pmIsLoading = false.obs;
-  final pcIsLoading = false.obs;
+  final isLoading = false.obs;
 
   final Map<MarkerId, Marker> markers = {};
   final transactionStatus = 0.obs;
   final userId = 0.obs;
   final transactionId = "".obs;
   final paymentId = "".obs;
-  final totalCost = "".obs;
+  final totalCost = 0.0.obs;
   final paymentStatus = 0.obs;
   final spId = "".obs;
   final spImageUrl = "".obs;
@@ -50,7 +49,7 @@ class RequestController extends GetxController {
   final accuracy = 0.0.obs;
   final isPendingTrxnAvailable = false.obs;
   final isDeleted = false.obs;
-  final customerHasTransaction = 2.obs;
+  final customerHasTransaction = 0.obs;
   Rx<Duration> countdownDuration =
       Duration(hours: 6).obs; // Replace with your desired end hour
 
@@ -104,9 +103,9 @@ class RequestController extends GetxController {
     // }
 
     // startCountdown();
-    // await checkAvailableRequest1();
+    await checkAvailableRequest1();
 
-    // await checkUserTransactionStates();
+    await checkUserTransactionStates();
   }
 
   Future<void> getCurrentLocation() async {
@@ -178,7 +177,6 @@ class RequestController extends GetxController {
     );
 
     transactionStatus.value = 0;
-    customerHasTransaction.value = 2;
     // box.remove('countdownDuration');
   }
 
@@ -206,7 +204,7 @@ class RequestController extends GetxController {
     }
   }
 
-  Future<void> checkAvailableRequest() async {
+  Future<void> checkAvailableRequest1() async {
     try {
       // Listen to changes in the Firestore collection
       _firestore
@@ -227,8 +225,6 @@ class RequestController extends GetxController {
               documentSnapshot.data() as Map<String, dynamic>?;
 
           if (data != null) {
-            isPendingTrxnAvailable.value = true;
-
             int? txStatusCode = data['txStatusCode'];
             String _transactionId = data['transactionId'];
             // bool _isDeleted = data['deleted'];
@@ -238,20 +234,6 @@ class RequestController extends GetxController {
             transactionId.value = _transactionId;
             // isDeleted.value = _isDeleted;
             //amount.value = data['unitCost'];
-
-            paymentStatus.value = data['paymentStatus'];
-
-            spImageUrl.value = data['spImageUrl'];
-            spCompany.value = data["spCompany"];
-            spName.value = data["spName"];
-            spPhoneNumber.value = data["spPhoneNumber"];
-            spId.value = data["spId"].toString();
-
-            totalCost.value = data['discountedTotalCost'].toString();
-            log(data['discountedTotalCost']);
-
-            transactionStatus.value = txStatusCode;
-            transactionId.value = _transactionId;
           } else {
             // Handle the case where data is null
           }
@@ -265,59 +247,52 @@ class RequestController extends GetxController {
     }
   }
 
-//   Future checkAvailableRequest1() async {
-//     try {
-//       QuerySnapshot querySnapshot = await _firestore
-//           .collection('transaction')
-//           .where('customerId', isEqualTo: userId.value) // Add your where clause
-//           .where('deleted', isEqualTo: false) // Add your where clause
+  Future checkAvailableRequest() async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('transaction')
+          .where('customerId', isEqualTo: userId.value) // Add your where clause
+          .where('deleted', isEqualTo: false) // Add your where clause
 
-//           .limit(1) // Limit the result to 1 document
-//           .get();
+          .limit(1) // Limit the result to 1 document
+          .get();
 
-//       if (querySnapshot.docs.isNotEmpty) {
-//         isPendingTrxnAvailable.value = true;
+      if (querySnapshot.docs.isNotEmpty) {
+        isPendingTrxnAvailable.value = true;
 
-// // If there is at least one document matching the query
-//         DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+// If there is at least one document matching the query
+        DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
 
-//         Map<String, dynamic>? data =
-//             documentSnapshot.data() as Map<String, dynamic>?;
+        Map<String, dynamic>? data =
+            documentSnapshot.data() as Map<String, dynamic>?;
 
-//         if (data != null) {
-//           // int? txStatusCode = data['txStatusCode'];
-//           // paymentStatus.value = data['paymentStatus'];
+        if (data != null) {
+          int? txStatusCode = data['txStatusCode'];
+          paymentStatus.value = data['paymentStatus'];
 
-//           // String _transactionId = data['transactionId'];
-//           // spImageUrl.value = data['spImageUrl'];
-//           // spCompany.value = data["spCompany"]!;
-//           // spName.value = data["spName"]!;
-//           // spPhoneNumber.value = data["spPhoneNumber"]!;
-//           // spId.value = data["spId"]!;
+          String _transactionId = data['transactionId'];
+          spImageUrl.value = data['spImageUrl'];
+          spCompany.value = data["spCompany"]!;
+          spName.value = data["spName"]!;
+          spPhoneNumber.value = data["spPhoneNumber"]!;
+          spId.value = data["spId"]!;
 
-//           // totalCost.value = data['discountedTotalCost'];
+          totalCost.value = data['discountedTotalCost'];
 
-//           // transactionStatus.value = txStatusCode!;
-//           // transactionId.value = _transactionId;
-//         }
-//       } else {
-//         // If no documents match the query
-//         return null;
-//       }
-//     } catch (e) {
-//       log(e.toString());
-//     }
-//   }
+          transactionStatus.value = txStatusCode!;
+          transactionId.value = _transactionId;
+        }
+      } else {
+        // If no documents match the query
+        return null;
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
   Future initiateTellerPayment(paymentMethod) async {
-    if (paymentMethod == "momo") {
-      pmIsLoading.value = true;
-    } else {
-      pcIsLoading.value = true;
-    }
-    log("initiateTellerPayment");
     paymentId.value = generatePaymentCode(12);
-    log("initiateTellerPayment ${paymentId.value}");
 
     String url = Constants.INITIATE_PAYMENT_URL +
         "?transactionId=" +
@@ -332,6 +307,7 @@ class RequestController extends GetxController {
     try {
       http.Response response = await http.get(Uri.parse(url));
 
+      isLoading.value = true;
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonMap = json.decode(response.body);
 
@@ -340,7 +316,7 @@ class RequestController extends GetxController {
         // String token = jsonMap['response']['token'];
         String checkoutUrl = jsonMap['response']['checkout_url'];
         int code = jsonMap['response']['code'];
-        pmIsLoading.value = false;
+        isLoading.value = false;
 
         if (code == 200) {
           Get.to(() => PaymentView(),
@@ -353,11 +329,11 @@ class RequestController extends GetxController {
               "Payment already initiated. Please wait for it to be processed");
         }
       } else {
-        log('initiateTellerPayment> Error: ${response.reasonPhrase}');
+        print('initiateTellerPayment> Error: ${response.reasonPhrase}');
       }
     } catch (error) {
-      log('initiateTellerPayment> Error: $error');
-      pmIsLoading.value = false;
+      print('initiateTellerPayment> Error: $error');
+      isLoading.value = false;
     }
   }
 

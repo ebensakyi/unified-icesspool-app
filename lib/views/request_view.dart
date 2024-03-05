@@ -51,13 +51,11 @@ class RequestView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<RequestController>(
         init: RequestController(),
-        initState: (_) {},
         builder: (RequestController controller) {
           return Scaffold(
             bottomSheet: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 final maxHeight = constraints.maxHeight;
-                // final minHeight = constraints.maxHeight * 0.5; // Minimum height
                 final initialSize = controller.contentHeight.value > 0
                     ? (controller.contentHeight.value / maxHeight)
                     : 0.8;
@@ -73,8 +71,8 @@ class RequestView extends StatelessWidget {
                   child: Builder(
                     builder: (BuildContext context) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        final RenderBox renderBox = contentKey.currentContext!
-                            .findRenderObject() as RenderBox;
+                        final RenderBox renderBox = contentKey.currentContext
+                            ?.findRenderObject() as RenderBox;
 
                         controller.updateContentHeight(renderBox.size.height);
                       });
@@ -499,7 +497,7 @@ class RequestView extends StatelessWidget {
                             onPressed: () {
                               controller.initiateTellerPayment("momo");
                             },
-                            isLoading: controller.isLoading.value,
+                            isLoading: controller.pmIsLoading.value,
                             iconData: Icons.mobile_friendly_sharp,
                             label: 'Pay with MoMo',
                             iconColor: Colors.white,
@@ -514,7 +512,7 @@ class RequestView extends StatelessWidget {
                             onPressed: () {
                               controller.initiateTellerPayment("card");
                             },
-                            isLoading: controller.isLoading.value,
+                            isLoading: controller.pcIsLoading.value,
                             iconData: Icons.payment_sharp,
                             label: 'Pay with Card',
                             iconColor: Colors.white,
@@ -709,54 +707,57 @@ class RequestView extends StatelessWidget {
   }
 
   Widget rateSp(context, controller) {
-    return Column(
-      children: [
-        SvgPicture.asset('assets/images/rating.svg',
-            height: 200, semanticsLabel: 'Searching'),
-        Padding(
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset('assets/images/rating.svg',
+              height: 200, semanticsLabel: 'Searching'),
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "How was the service?",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              )),
+          Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "How was the service?",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            )),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: RatingBar.builder(
-            initialRating: controller.rating.value,
-            minRating: 0.5,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-            itemBuilder: (context, _) => Icon(
-              Icons.star,
-              color: Colors.amber,
+            child: RatingBar.builder(
+              initialRating: controller.rating.value,
+              minRating: 0.5,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+              onRatingUpdate: (rating) {
+                controller.rating.value = rating;
+              },
             ),
-            onRatingUpdate: (rating) {
-              controller.rating.value = rating;
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+            child: TextField(
+              controller: controller.ratingCommentController,
+              decoration: InputDecoration(
+                labelText: 'Enter comment',
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          SmallButton(
+            onPressed: () {
+              controller.submitRating();
             },
+            showLoading: false,
+            label: Text("Submit"),
           ),
-        ),
-        Padding(
-          padding:
-              const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
-          child: TextField(
-            controller: controller.ratingCommentController,
-            decoration: InputDecoration(
-              labelText: 'Enter comment',
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              border: OutlineInputBorder(),
-            ),
-          ),
-        ),
-        SmallButton(
-          onPressed: () {
-            controller.submitRating();
-          },
-          showLoading: false,
-          label: Text("Submit"),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -1011,7 +1012,6 @@ class RequestView extends StatelessWidget {
       case Constants.OFFER_CANCELLED_CL:
         return servicesView();
       case Constants.OFFER_REASSIGNED:
-        inspect("here");
         return offerResassigned(context, controller);
       case Constants.WORK_COMPLETED_REQUEST:
         return confirmWorkCompleted(context, controller);
@@ -1027,7 +1027,7 @@ class RequestView extends StatelessWidget {
     //  controller.transactionStatus.value ==
   }
 
-  confirmWorkCompleted(contex, controller) {
+  confirmWorkCompleted(context, controller) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -1120,7 +1120,7 @@ class RequestView extends StatelessWidget {
                         children: [
                           ProgressIconButton(
                             onPressed: () {
-                              controller.confirmJobStartedClaim();
+                              controller.confirmJobCompletedClaim();
                             },
                             isLoading: controller.isLoading.value,
                             iconData: FontAwesome.thumbs_up,
@@ -1135,7 +1135,7 @@ class RequestView extends StatelessWidget {
                           ),
                           ProgressIconButton(
                             onPressed: () {
-                              controller.denyJobStartedClaim();
+                              controller.denyJobCompletedClaim();
                             },
                             isLoading: controller.isLoading.value,
                             iconData: FontAwesome.thumbs_down,
