@@ -273,40 +273,90 @@ class LoginView extends StatelessWidget {
                 //   ),
                 // ),
 
+                // Padding(
+                //   padding: const EdgeInsets.all(40.0),
+                //   child: Container(
+                //       child: CarouselSlider.builder(
+                //     options: CarouselOptions(
+                //       height: 60.0,
+                //       aspectRatio: 2.0,
+                //       enlargeCenterPage: true,
+                //       viewportFraction: 1,
+                //       autoPlay: true,
+                //     ),
+                //     itemCount: (imageList.length / 2).round(),
+                //     itemBuilder: (context, index, realIdx) {
+                //       final int first = index * 2;
+                //       final int second = first + 1;
+                //       return Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [first, second].map((idx) {
+                //           return Expanded(
+                //             flex: 1,
+                //             child: Container(
+                //               width: MediaQuery.of(context).size.width,
+                //               margin: EdgeInsets.symmetric(horizontal: 5.0),
+                //               decoration: BoxDecoration(color: Colors.white),
+                //               child: Image.asset(
+                //                 imageList[idx],
+                //               ),
+                //             ),
+                //           );
+                //         }).toList(),
+                //       );
+                //     },
+                //   )),
+                // ),
+
                 Padding(
                   padding: const EdgeInsets.all(40.0),
                   child: Container(
-                      child: CarouselSlider.builder(
-                    options: CarouselOptions(
-                      height: 60.0,
-                      aspectRatio: 2.0,
-                      enlargeCenterPage: true,
-                      viewportFraction: 1,
-                      autoPlay: true,
-                    ),
-                    itemCount: (imageList.length / 2).round(),
-                    itemBuilder: (context, index, realIdx) {
-                      final int first = index * 2;
-                      final int second = first + 1;
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [first, second].map((idx) {
-                          return Expanded(
-                            flex: 1,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(color: Colors.white),
-                              child: Image.asset(
-                                imageList[idx],
-                              ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Image.asset(
+                              width: 64,
+                              height: 64,
+                              imageList[0],
                             ),
-                          );
-                        }).toList(),
-                      );
-                    },
-                  )),
-                ),
+                            Image.asset(
+                              width: 64,
+                              height: 64,
+                              imageList[1],
+                            ),
+                            Image.asset(
+                              width: 64,
+                              height: 64,
+                              imageList[2],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Image.asset(
+                              width: 64,
+                              height: 64,
+                              imageList[3],
+                            ),
+                            Image.asset(
+                              width: 64,
+                              height: 64,
+                              imageList[4],
+                            ),
+                            Image.asset(
+                              width: 64,
+                              height: 64,
+                              imageList[5],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           ],

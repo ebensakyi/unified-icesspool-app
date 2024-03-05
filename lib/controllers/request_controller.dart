@@ -37,6 +37,7 @@ class RequestController extends GetxController {
   final transactionId = "".obs;
   final paymentId = "".obs;
   final totalCost = 0.0.obs;
+  final paymentStatus = 0.obs;
   final spId = "".obs;
   final spImageUrl = "".obs;
 
@@ -79,8 +80,6 @@ class RequestController extends GetxController {
   //   }
   // }
   void updateContentHeight(double height) {
-    log(height.toString());
-
     contentHeight.value = height * 1.2;
     update(); // Notify listeners to rebuild the UI
   }
@@ -173,7 +172,7 @@ class RequestController extends GetxController {
       },
       body: jsonEncode(<String, String>{
         'transactionId': transactionId.value,
-        'status': Constants.CANCELLED_BY_CUSTOMER,
+        'status': Constants.OFFER_CANCELLED_CL.toString(),
       }),
     );
 
@@ -195,13 +194,10 @@ class RequestController extends GetxController {
         var data = documents[0];
 
         transactionStatus.value = data["txStatusCode"]!;
+        paymentStatus.value = data["paymentStatus"]!;
         totalCost.value = data['totalCost'];
 
         isDeleted.value = data["deleted"]!;
-
-        log(">>>>>>>>>> checkUserTransactionStates called");
-        inspect(data);
-        log("data ${data}");
       });
     } catch (e) {
       log(e.toString());
@@ -234,6 +230,7 @@ class RequestController extends GetxController {
             // bool _isDeleted = data['deleted'];
 
             transactionStatus.value = txStatusCode!;
+            paymentStatus.value = data['paymentStatus'];
             transactionId.value = _transactionId;
             // isDeleted.value = _isDeleted;
             //amount.value = data['unitCost'];
@@ -271,6 +268,8 @@ class RequestController extends GetxController {
 
         if (data != null) {
           int? txStatusCode = data['txStatusCode'];
+          paymentStatus.value = data['paymentStatus'];
+
           String _transactionId = data['transactionId'];
           spImageUrl.value = data['spImageUrl'];
           spCompany.value = data["spCompany"]!;
@@ -376,7 +375,7 @@ class RequestController extends GetxController {
   //   );
   // }
 
-  Future<void> respondClaim() async {
+  Future<void> confirmJobStartedClaim() async {
     var client = http.Client();
 
     await client.post(
@@ -386,6 +385,54 @@ class RequestController extends GetxController {
       },
       body: jsonEncode(<String, String>{
         'comment': ratingCommentController.text,
+        'transactionId': transactionId.value,
+        'userId': userId.value.toString(),
+      }),
+    );
+  }
+
+  Future<void> denyJobStartedClaim() async {
+    var client = http.Client();
+
+    await client.post(
+      Uri.parse(Constants.RESPONSE_CLAIM_API_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'status': Constants.WORK_NOT_STARTED.toString(),
+        'transactionId': transactionId.value,
+        'userId': userId.value.toString(),
+      }),
+    );
+  }
+
+  Future<void> confirmJobCompletedClaim() async {
+    var client = http.Client();
+
+    await client.post(
+      Uri.parse(Constants.RESPONSE_CLAIM_API_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'status': Constants.WORK_COMPLETED.toString(),
+        'transactionId': transactionId.value,
+        'userId': userId.value.toString(),
+      }),
+    );
+  }
+
+  Future<void> denyJobCompletedClaim() async {
+    var client = http.Client();
+
+    await client.post(
+      Uri.parse(Constants.RESPONSE_CLAIM_API_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'status': Constants.WORK_NOT_COMPLETED.toString(),
         'transactionId': transactionId.value,
         'userId': userId.value.toString(),
       }),

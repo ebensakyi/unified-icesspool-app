@@ -1,5 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -355,7 +358,7 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  Widget searchingForDifferentSP(context) {
+  Widget searchingForDifferentSP(context, controller) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -915,7 +918,12 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  offerResassigned(context) {}
+  offerResassigned(context, controller) {
+    if (controller.paymentStatus.value == 1) {
+      return orderInPlace(context, controller);
+    }
+    return spFound(context, controller);
+  }
 
   Widget servicesView() {
     return Column(
@@ -998,13 +1006,15 @@ class RequestView extends StatelessWidget {
       case Constants.WORK_STARTED:
         return workStarted(context, controller);
       case Constants.OFFER_CANCELLED_SP:
-        return searchingForDifferentSP(context);
+        return searchingForDifferentSP(context, controller);
 
       case Constants.OFFER_CANCELLED_CL:
         return servicesView();
       case Constants.OFFER_REASSIGNED:
-        return offerResassigned(context);
-
+        inspect("here");
+        return offerResassigned(context, controller);
+      case Constants.WORK_COMPLETED_REQUEST:
+        return confirmWorkCompleted(context, controller);
       case Constants.WORK_COMPLETED:
         return rateSp(context, controller);
 
@@ -1017,7 +1027,137 @@ class RequestView extends StatelessWidget {
     //  controller.transactionStatus.value ==
   }
 
-  confirmWorkCompleted(context) {}
+  confirmWorkCompleted(contex, controller) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              // color: MyColors.primary.shade100,
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      SvgPicture.asset('assets/images/searching.svg',
+                          height: 200, semanticsLabel: 'Searching'),
+                      Text(
+                        'Has the Service Provider completed the work?',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      // SvgPicture.asset('assets/images/payment.svg',
+                      //     height: 200, semanticsLabel: 'Searching'),
+
+                      // SizedBox(height: 10.0),
+                      Text(
+                        'Service Provider says he has completed the work.',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black54),
+                      ),
+                      SizedBox(height: 10.0),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Obx(() => CircleAvatar(
+                                  radius: 25,
+                                  backgroundImage: NetworkImage(
+                                      "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                                )),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(() => Text(
+                                    controller.spName.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  )),
+                              Obx(() => Text(
+                                    controller.spCompany.value,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black),
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                      // GifController _controller = GifController(vsync: this);
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: LinearProgressIndicator(
+                      //     minHeight: 10,
+                      //     backgroundColor: Colors
+                      //         .grey[200], // Background color of the progress bar
+                      //     valueColor: AlwaysStoppedAnimation<Color>(
+                      //         MyColors.primary), // Color of the progress indicator
+                      //   ),
+                      // ),
+
+                      SmallButton(
+                        onPressed: () {
+                          controller.openPhoneDialer();
+                        },
+                        showLoading: false,
+                        label: IconButton(
+                          icon: Icon(Icons.call),
+                          onPressed: () {
+                            controller.openPhoneDialer();
+                          },
+                        ),
+                      ),
+                      Divider(),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ProgressIconButton(
+                            onPressed: () {
+                              controller.confirmJobStartedClaim();
+                            },
+                            isLoading: controller.isLoading.value,
+                            iconData: FontAwesome.thumbs_up,
+                            label: 'Confirm claim',
+                            iconColor: Colors.white,
+                            progressColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: controller.isLoading.value
+                                ? MyColors.secondary
+                                : MyColors.secondary,
+                            borderColor: MyColors.secondary,
+                          ),
+                          ProgressIconButton(
+                            onPressed: () {
+                              controller.denyJobStartedClaim();
+                            },
+                            isLoading: controller.isLoading.value,
+                            iconData: FontAwesome.thumbs_down,
+                            label: 'Deny claim',
+                            iconColor: Colors.white,
+                            progressColor: Colors.white,
+                            textColor: Colors.white,
+                            backgroundColor: controller.isLoading.value
+                                ? MyColors.primary
+                                : MyColors.primary,
+                            borderColor: MyColors.primary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
 // Widget buildListTile(String title, String value) {
 //   return ListTile(
