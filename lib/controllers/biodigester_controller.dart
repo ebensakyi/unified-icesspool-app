@@ -6,6 +6,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/controllers/request_controller.dart';
@@ -90,6 +91,8 @@ class BiodigesterController extends GetxController {
   StepperType stepperType = StepperType.vertical;
 
   Rx<DateTime> selectedDate = DateTime.now().obs;
+
+  var selectedLocation = Prediction().obs;
 
   // Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
 
@@ -238,8 +241,8 @@ class BiodigesterController extends GetxController {
           "3" +
           generateTransactionCode();
 
-      var address = await getAddressFromLatLng(
-          controller.longitude.value, controller.longitude.value);
+      // var address = await getAddressFromLatLng(
+      //     controller.longitude.value, controller.longitude.value);
 
       final Map<String, dynamic> data = {
         'transactionId': transactionId,
@@ -247,13 +250,15 @@ class BiodigesterController extends GetxController {
         'userId': controller.userId.value,
         'customerLng': controller.longitude.value,
         'customerLat': controller.latitude.value,
-        'community': controller.community.value,
+        'address': selectedLocation.value.description,
+        'placeLat': selectedLocation.value.lat,
+        'placeLng': selectedLocation.value.lng,
+        'placeId': selectedLocation.value.placeId,
         'accuracy': controller.accuracy.value,
         'totalCost': calculateTotalCost(selectedServices),
         'serviceAreaId': controller.serviceAreaId.value,
         'scheduledDate': selectedDate.value.toIso8601String(),
-        'timeFrame': selectedTimeRangeId.value,
-        'address': address
+        'timeFrame': selectedTimeRangeId.value
       };
 
       final response = await http.post(
@@ -512,32 +517,32 @@ class BiodigesterController extends GetxController {
     //     'Check out this app for sanitation reporting. https://play.google.com/store/apps/details?id=com.icesspool.unified');
   }
 
-  Future<String?> getAddressFromLatLng(double lat, double lng) async {
-    lat = 5.549576;
-    lng = -0.254363;
-    final apiKey = Constants.GOOGLE_MAPS_API_KEY;
-    final apiUrl =
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey';
+  // Future<String?> getAddressFromLatLng(double lat, double lng) async {
+  //   lat = 5.549576;
+  //   lng = -0.254363;
+  //   final apiKey = Constants.GOOGLE_MAPS_API_KEY;
+  //   final apiUrl =
+  //       'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey';
 
-    try {
-      final response = await http.get(Uri.parse(apiUrl));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['status'] == 'OK') {
-          return data['results'][0]['formatted_address'];
-        } else {
-          print('Error: ${data['status']}');
-          return null;
-        }
-      } else {
-        print('Error: ${response.statusCode}');
-        return null;
-      }
-    } catch (e) {
-      print('Error: $e');
-      return null;
-    }
-  }
+  //   try {
+  //     final response = await http.get(Uri.parse(apiUrl));
+  //     if (response.statusCode == 200) {
+  //       final data = json.decode(response.body);
+  //       if (data['status'] == 'OK') {
+  //         return data['results'][0]['formatted_address'];
+  //       } else {
+  //         print('Error: ${data['status']}');
+  //         return null;
+  //       }
+  //     } else {
+  //       print('Error: ${response.statusCode}');
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //     return null;
+  //   }
+  // }
 
   @override
   void onReady() {
@@ -568,7 +573,7 @@ class BiodigesterController extends GetxController {
   }
 
   continued() {
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       currentStep.value += 1;
     } else {
       //   _submitRequest();

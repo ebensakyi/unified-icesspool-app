@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -70,69 +72,22 @@ class BioDigesterMainView extends StatelessWidget {
                                 ? SolidButton(
                                     onPressed: () {
                                       //First step section
-                                      if (formKey1.currentState!.validate()) {
-                                        if (controller
-                                                .selectedRequestType.value ==
-                                            "2") {
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (context) {
-                                              String contentText =
-                                                  "How many people will be using the toilet?";
-                                              return StatefulBuilder(
-                                                builder: (context, setState) {
-                                                  return AlertDialog(
-                                                    title:
-                                                        Text("Cancel Request"),
-                                                    content: Container(
-                                                      height: 250,
-                                                      child: Column(
-                                                        children: [
-                                                          Text(contentText),
-                                                          SmallTextBox(
-                                                              label:
-                                                                  "No. of adults",
-                                                              controller: controller
-                                                                  .adultsNumber),
-                                                          SmallTextBox(
-                                                              label:
-                                                                  "No. of children",
-                                                              controller: controller
-                                                                  .childrenNumber)
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
-                                                        child: Text("Previous"),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          controller
-                                                              .calcUsers();
-                                                          //  controller.cancelRequest();
-                                                          Navigator.pop(
-                                                              context);
-                                                          // setState(() {
-                                                          //   contentText =
-                                                          //       "Changed Content of Dialog";
-                                                          // });
-                                                        },
-                                                        child: Text("Ok"),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                          );
-                                        }
-                                        controller.getBiodigesterPricing();
+                                      if (controller
+                                              .selectedLocation.value.lat !=
+                                          null) {
                                         controller.continued();
+                                      } else {
+                                        showToast(
+                                          backgroundColor:
+                                              Colors.yellow.shade800,
+                                          alignment: Alignment.center,
+                                          'Please enter your location',
+                                          context: context,
+                                          animation: StyledToastAnimation.scale,
+                                          duration: Duration(seconds: 4),
+                                          position: StyledToastPosition.center,
+                                        );
+                                        return;
                                       }
                                     },
                                     showLoading: false,
@@ -143,16 +98,14 @@ class BioDigesterMainView extends StatelessWidget {
                                 : controller.currentStep == 1
                                     ? SolidButton(
                                         onPressed: () {
-                                          //Second step section
-
                                           if (controller
-                                                  .selectedServices.length ==
-                                              0) {
+                                                  .selectedRequestType.value ==
+                                              "") {
                                             showToast(
                                               backgroundColor:
                                                   Colors.yellow.shade800,
                                               alignment: Alignment.center,
-                                              'Please select service',
+                                              'Please select request type',
                                               context: context,
                                               animation:
                                                   StyledToastAnimation.scale,
@@ -177,14 +130,14 @@ class BioDigesterMainView extends StatelessWidget {
                                     : controller.currentStep == 2
                                         ? SolidButton(
                                             onPressed: () {
-                                              if (controller.selectedTimeRangeId
-                                                      .value ==
+                                              if (controller.selectedServices
+                                                      .length ==
                                                   0) {
-                                                return showToast(
+                                                showToast(
                                                   backgroundColor:
-                                                      Colors.red.shade800,
+                                                      Colors.yellow.shade800,
                                                   alignment: Alignment.center,
-                                                  'Please select time frame for the job',
+                                                  'Please select service',
                                                   context: context,
                                                   animation:
                                                       StyledToastAnimation
@@ -194,54 +147,92 @@ class BioDigesterMainView extends StatelessWidget {
                                                   position: StyledToastPosition
                                                       .center,
                                                 );
+                                                return;
                                               }
-                                              if (controller
-                                                      .calculateHoursDifference() <
-                                                  4) {
-                                                return showToast(
-                                                  backgroundColor:
-                                                      Colors.red.shade800,
-                                                  alignment: Alignment.center,
-                                                  'Please select date and time at least 4 hrs from now',
-                                                  context: context,
-                                                  animation:
-                                                      StyledToastAnimation
-                                                          .scale,
-                                                  duration:
-                                                      Duration(seconds: 4),
-                                                  position: StyledToastPosition
-                                                      .center,
-                                                );
-                                              }
-                                              // if (controller.selectedServices
-                                              //         .length ==
-                                              //     0) {
-                                              //   return;
-                                              // }
                                               if (formKey2.currentState!
-                                                  .validate())
+                                                  .validate()) {
+                                                // controller
+                                                //     .selectedTimeRangeId.value = 1;
                                                 controller.continued();
+                                              }
                                             },
                                             showLoading: false,
                                             label: Text('Next'),
                                             buttonColor: MyColors.primary,
                                             textColor: Colors.white,
                                           )
-                                        : Obx(() => ProgressButton(
-                                              onPressed: () {
-                                                controller.sendRequest(context);
-                                              },
-                                              isLoading:
-                                                  controller.isLoading.value,
-                                              label: 'Submit',
-                                              progressColor: Colors.white,
-                                              textColor: Colors.white,
-                                              backgroundColor:
-                                                  controller.isLoading.value
-                                                      ? MyColors.secondary
-                                                      : MyColors.secondary,
-                                              borderColor: MyColors.secondary,
-                                            )),
+                                        : controller.currentStep == 3
+                                            ? SolidButton(
+                                                onPressed: () {
+                                                  if (controller
+                                                          .selectedTimeRangeId
+                                                          .value ==
+                                                      0) {
+                                                    return showToast(
+                                                      backgroundColor:
+                                                          Colors.red.shade800,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      'Please select time frame for the job',
+                                                      context: context,
+                                                      animation:
+                                                          StyledToastAnimation
+                                                              .scale,
+                                                      duration:
+                                                          Duration(seconds: 4),
+                                                      position:
+                                                          StyledToastPosition
+                                                              .center,
+                                                    );
+                                                  }
+                                                  if (controller
+                                                          .calculateHoursDifference() <
+                                                      4) {
+                                                    return showToast(
+                                                      backgroundColor:
+                                                          Colors.red.shade800,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      'Please select date and time at least 4 hrs from now',
+                                                      context: context,
+                                                      animation:
+                                                          StyledToastAnimation
+                                                              .scale,
+                                                      duration:
+                                                          Duration(seconds: 4),
+                                                      position:
+                                                          StyledToastPosition
+                                                              .center,
+                                                    );
+                                                  }
+                                                  // controller.continued();
+
+                                                  if (formKey2.currentState!
+                                                      .validate())
+                                                    controller.continued();
+                                                },
+                                                showLoading: false,
+                                                label: Text('Next'),
+                                                buttonColor: MyColors.primary,
+                                                textColor: Colors.white,
+                                              )
+                                            : Obx(() => ProgressButton(
+                                                  onPressed: () {
+                                                    controller
+                                                        .sendRequest(context);
+                                                  },
+                                                  isLoading: controller
+                                                      .isLoading.value,
+                                                  label: 'Submit',
+                                                  progressColor: Colors.white,
+                                                  textColor: Colors.white,
+                                                  backgroundColor:
+                                                      controller.isLoading.value
+                                                          ? MyColors.secondary
+                                                          : MyColors.secondary,
+                                                  borderColor:
+                                                      MyColors.secondary,
+                                                )),
                             SizedBox(
                               width: 20,
                             ),
@@ -268,96 +259,64 @@ class BioDigesterMainView extends StatelessWidget {
                     },
                     steps: <Step>[
                       Step(
-                        subtitle: Text('Make a selection here'),
+                        subtitle: Text('Enter your location here'),
                         title: const Text('Location'),
                         content: Column(
                           children: [
-                            // Container(
-                            //   height: 250,
-                            //   decoration: BoxDecoration(
-                            //     borderRadius: BorderRadius.only(
-                            //       topLeft: Radius.circular(20),
-                            //       topRight: Radius.circular(20),
-                            //     ),
-                            //     color: Colors.white,
-                            //   ),
-                            //   child: ClipRRect(
-                            //     borderRadius: BorderRadius.only(
-                            //       topLeft: Radius.circular(20),
-                            //       topRight: Radius.circular(20),
-                            //     ),
-                            //     child: controller.latitude.value == 0.0
-                            //         ? GoogleMap(
-                            //             initialCameraPosition: CameraPosition(
-                            //               target: LatLng(8.200769, -1.199562),
-                            //               zoom: 12,
-                            //             ),
-                            //             markers: Set<Marker>(),
-                            //             myLocationEnabled: false,
-                            //             zoomControlsEnabled: false,
-                            //             scrollGesturesEnabled: false,
-                            //           )
-                            //         : Obx(
-                            //             () => GoogleMap(
-                            //               onMapCreated:
-                            //                   (GoogleMapController ctl) {
-                            //                 mapController = ctl;
-                            //                 // Call animateCamera to move the camera to the initial location
-                            //                 mapController.animateCamera(
-                            //                   CameraUpdate.newLatLngZoom(
-                            //                       controller.initialLocation,
-                            //                       12),
-                            //                 );
-                            //               },
-                            //               initialCameraPosition: CameraPosition(
-                            //                 target: LatLng(
-                            //                     controller.latitude.value,
-                            //                     controller.longitude.value),
-                            //                 zoom: 12,
-                            //               ),
-                            //               markers: Set<Marker>(),
-                            //               myLocationEnabled: false,
-                            //               zoomControlsEnabled: false,
-                            //               scrollGesturesEnabled: false,
-                            //             ),
-                            //           ),
-                            //   ),
-                            // ),
-                            placesAutoCompleteTextField(),
-
-                            Form(
-                              key: formKey1,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              child: Obx(
-                                () => Dropdown(
-                                  onChangedCallback: (newValue) {
-                                    controller.selectedServices.value = [];
-
-                                    controller.selectedRequestType.value =
-                                        newValue;
-                                  },
-                                  value: controller.returnValue(
-                                      controller.selectedRequestType.value),
-                                  initialValue: controller.returnValue(
-                                      controller.selectedRequestType.value),
-                                  dropdownItems: [
-                                    DropdownMenuItem(
-                                      child: Text("Biodigester Maintenance"),
-                                      value: "1",
-                                    ),
-                                    DropdownMenuItem(
-                                      child:
-                                          Text("New Biodigester Construction"),
-                                      value: "2",
-                                    ),
-                                  ],
-                                  hintText: '',
-                                  labelText: "What is your need? *",
-                                  validator: (value) {
-                                    return Validator.dropdownValidator(value);
-                                  },
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 0),
+                              child: GooglePlaceAutoCompleteTextField(
+                                textEditingController:
+                                    controller.googlePlacesController,
+                                googleAPIKey: Constants.GOOGLE_MAPS_API_KEY,
+                                inputDecoration: InputDecoration(
+                                  hintText: "Search your location",
+                                  border: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
                                 ),
+                                debounceTime: 400,
+                                countries: ["gh"],
+                                isLatLngRequired: true,
+                                getPlaceDetailWithLatLng:
+                                    (Prediction prediction) {
+                                  controller.selectedLocation.value =
+                                      prediction;
+                                },
+
+                                itemClick: (Prediction prediction) {
+                                  controller.googlePlacesController.text =
+                                      prediction.description ?? "";
+                                  controller.googlePlacesController.selection =
+                                      TextSelection.fromPosition(TextPosition(
+                                          offset:
+                                              prediction.description?.length ??
+                                                  0));
+                                },
+                                seperatedBuilder: Divider(),
+                                containerHorizontalPadding: 10,
+
+                                // OPTIONAL// If you want to customize list view item builder
+                                itemBuilder:
+                                    (context, index, Prediction prediction) {
+                                  return Container(
+                                    padding: EdgeInsets.all(10),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.location_on),
+                                        SizedBox(
+                                          width: 7,
+                                        ),
+                                        Expanded(
+                                            child: Text(
+                                                "${prediction.description ?? ""}"))
+                                      ],
+                                    ),
+                                  );
+                                },
+
+                                isCrossBtnShown: true,
+
+                                // default 600 ms ,
                               ),
                             ),
                           ],
@@ -1062,53 +1021,54 @@ class BioDigesterMainView extends StatelessWidget {
     ]);
   }
 
-  placesAutoCompleteTextField() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: GooglePlaceAutoCompleteTextField(
-        textEditingController: controller.googlePlacesController,
-        googleAPIKey: Constants.GOOGLE_KEY,
-        inputDecoration: InputDecoration(
-          hintText: "Search your location",
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-        ),
-        debounceTime: 400,
-        countries: ["in", "fr"],
-        isLatLngRequired: true,
-        getPlaceDetailWithLatLng: (Prediction prediction) {
-          print("placeDetails" + prediction.lat.toString());
-        },
+  // placesAutoCompleteTextField() {
+  //   return Container(
+  //     height: 100,
+  //     padding: EdgeInsets.symmetric(horizontal: 0),
+  //     child: GooglePlaceAutoCompleteTextField(
+  //       textEditingController: controller.googlePlacesController,
+  //       googleAPIKey: Constants.GOOGLE_MAPS_API_KEY,
+  //       inputDecoration: InputDecoration(
+  //         hintText: "Search your location",
+  //         border: InputBorder.none,
+  //         enabledBorder: InputBorder.none,
+  //       ),
+  //       debounceTime: 400,
+  //       countries: ["gh", "fr"],
+  //       isLatLngRequired: true,
+  //       getPlaceDetailWithLatLng: (Prediction prediction) {
+  //         print("placeDetails" + prediction.lat.toString());
+  //       },
 
-        itemClick: (Prediction prediction) {
-          controller.googlePlacesController.text = prediction.description ?? "";
-          controller.googlePlacesController.selection =
-              TextSelection.fromPosition(
-                  TextPosition(offset: prediction.description?.length ?? 0));
-        },
-        seperatedBuilder: Divider(),
-        containerHorizontalPadding: 10,
+  //       itemClick: (Prediction prediction) {
+  //         controller.googlePlacesController.text = prediction.description ?? "";
+  //         controller.googlePlacesController.selection =
+  //             TextSelection.fromPosition(
+  //                 TextPosition(offset: prediction.description?.length ?? 0));
+  //       },
+  //       seperatedBuilder: Divider(),
+  //       containerHorizontalPadding: 10,
 
-        // OPTIONAL// If you want to customize list view item builder
-        itemBuilder: (context, index, Prediction prediction) {
-          return Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Icon(Icons.location_on),
-                SizedBox(
-                  width: 7,
-                ),
-                Expanded(child: Text("${prediction.description ?? ""}"))
-              ],
-            ),
-          );
-        },
+  //       // OPTIONAL// If you want to customize list view item builder
+  //       itemBuilder: (context, index, Prediction prediction) {
+  //         return Container(
+  //           padding: EdgeInsets.all(10),
+  //           child: Row(
+  //             children: [
+  //               Icon(Icons.location_on),
+  //               SizedBox(
+  //                 width: 7,
+  //               ),
+  //               Expanded(child: Text("${prediction.description ?? ""}"))
+  //             ],
+  //           ),
+  //         );
+  //       },
 
-        isCrossBtnShown: true,
+  //       isCrossBtnShown: true,
 
-        // default 600 ms ,
-      ),
-    );
-  }
+  //       // default 600 ms ,
+  //     ),
+  //   );
+  // }
 }

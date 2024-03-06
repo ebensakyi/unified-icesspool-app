@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:developer';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -751,7 +750,7 @@ class RequestView extends StatelessWidget {
           ),
           SmallButton(
             onPressed: () {
-              controller.submitRating();
+              controller.submitRating(context);
             },
             showLoading: false,
             label: Text("Submit"),
@@ -992,6 +991,7 @@ class RequestView extends StatelessWidget {
   }
 
   displayViewByStatus(context, controller) {
+    log("displayViewByStatus=> ${controller.transactionStatus.value}");
     switch (controller.transactionStatus.value) {
       case Constants.OFFER_MADE:
         return searchingForSP(context, controller);
@@ -1017,7 +1017,10 @@ class RequestView extends StatelessWidget {
         return confirmWorkCompleted(context, controller);
       case Constants.WORK_COMPLETED:
         return rateSp(context, controller);
-
+      case Constants.OFFER_CLOSED:
+        return rateSp(context, controller);
+      case Constants.WORK_NOT_COMPLETED:
+        return workStarted(context, controller);
       case Constants.OFFER_RATED:
         return servicesView();
 

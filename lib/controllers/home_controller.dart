@@ -42,7 +42,7 @@ class HomeController extends GetxController {
   final photoURL = "".obs;
   final phoneNumber = "".obs;
   final address = "".obs;
-  final community = "".obs;
+  // final community = "".obs;
   final descriptionController = TextEditingController();
 
   final longitude = 0.0.obs;
@@ -78,7 +78,7 @@ class HomeController extends GetxController {
     firstName.value = box.read('firstName')!;
     lastName.value = box.read('lastName')!;
 
-    await getAddressFromCoords();
+    // await getAddressFromCoords();
 
     await initPackageInfo();
 

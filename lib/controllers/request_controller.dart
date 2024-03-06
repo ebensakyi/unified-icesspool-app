@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -470,20 +471,34 @@ class RequestController extends GetxController {
     );
   }
 
-  Future<void> submitRating() async {
-    var client = http.Client();
+  Future<void> submitRating(context) async {
+    try {
+      var client = http.Client();
 
-    await client.post(
-      Uri.parse(Constants.RATE_SERVICE_API_URL),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'comment': ratingCommentController.text,
-        'transactionId': transactionId.value,
-        'spId': spId.value,
-        'rating': rating.value.toString(),
-      }),
-    );
+      var response = await client.post(
+        Uri.parse(Constants.RATE_SERVICE_API_URL),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'comment': ratingCommentController.text,
+          'transactionId': transactionId.value,
+          'spId': spId.value,
+          'rating': rating.value.toString(),
+        }),
+      );
+      showToast(
+        backgroundColor: Colors.green.shade800,
+        alignment: Alignment.topCenter,
+        'Service provider rated successfully',
+        context: context,
+        animation: StyledToastAnimation.fade,
+        duration: Duration(seconds: 2),
+        position: StyledToastPosition.center,
+      );
+      ratingCommentController.text = "";
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

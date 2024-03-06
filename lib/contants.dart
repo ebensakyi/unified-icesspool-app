@@ -62,7 +62,8 @@ class Constants {
 
   static String RESEND_OTP_API_URL = BASE_URL + "/auth/resend-otp";
 
-  static String RATE_SERVICE_API_URL = BASE_URL + "/services/rate-service";
+  static String RATE_SERVICE_API_URL =
+      BASE_URL + "/mobile-request/rate-service";
 
   static const String UPDATE_TRANSACTION_STATUS_API_URL =
       BASE_URL + "/mobile-request/update-tx/client";
@@ -74,7 +75,7 @@ class Constants {
   static const int WORK_STARTED = 41; // CL
   static const int WORK_NOT_STARTED = 40; // CL
 
-  static const int WORK_COMPLETED_REQUEST = 6; //SP OR CL
+  static const int WORK_COMPLETED_REQUEST = 5; //SP OR CL
 
   static const int WORK_COMPLETED = 51; //ADMIN, CL
   static const int WORK_NOT_COMPLETED = 50; //ADMIN, CL
@@ -84,6 +85,4 @@ class Constants {
   static const int OFFER_CANCELLED_SP = 8; //SP
   static const int OFFER_CANCELLED_CL = 9; //CL
   static const int OFFER_REASSIGNED = 10;
-
-  static const String GOOGLE_KEY = "AIzaSyCLc4_aCF6feLCH5bjVlpwGpFSV_y6sQdE";
 }
