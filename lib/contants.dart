@@ -1,5 +1,5 @@
 class Constants {
-  //static const String BASE_URL = "https://new.icesspool.net/api";
+  //static const String BASE_URL = "https://app.icesspool.net/api";
 
   // static const String BASE_URL = "http://10.0.2.2:3000/api";
   static const String BASE_URL = "http://192.168.8.100:3000/api";
@@ -10,18 +10,18 @@ class Constants {
       "https://icesspool-files.s3.amazonaws.com/uploads/";
 
   static const String USER_SERVICE_AREA_API_URL =
-      BASE_URL + "/user/user-service-area";
+      BASE_URL + "/user-service-area";
   static const String SERVICES_AVAILABLE_API_URL =
-      BASE_URL + "/user/services-available";
+      BASE_URL + "/services-available";
 
   static const String BIODIGESTER_TRANSACTION_API_URL =
-      BASE_URL + "/mobile-request/biodigester/make-request";
+      BASE_URL + "/service-request/biodigester/make-request";
 
   static const String BIODIGESTER_SERVICES_AVAILABLE_API_URL =
       BASE_URL + "/user/biodigester-services-available";
 
   static const String BIODIGESTER_PRICING_API_URL =
-      BASE_URL + "/services/biodigester/pricing";
+      BASE_URL + "/pricing/biodigester-service";
 
   static const String GOOGLE_MAPS_API_KEY =
       "AIzaSyCLc4_aCF6feLCH5bjVlpwGpFSV_y6sQdE";
@@ -52,21 +52,17 @@ class Constants {
     {"name": "Mosquito Breeding Sites"},
   ];
 
-  static List REPORT_STATUS = [
-    {"name": "Pending"},
-    {"name": "Completed"},
-    {"name": "In progress"},
-  ];
-
-  static String TIME_SCHEDULE_API_URL = BASE_URL + "/config/time-schedule";
+  static String TIME_SCHEDULE_API_URL = BASE_URL + "/configure/time-schedule";
 
   static String RESEND_OTP_API_URL = BASE_URL + "/auth/resend-otp";
 
   static String RATE_SERVICE_API_URL =
-      BASE_URL + "/mobile-request/rate-service";
+      BASE_URL + "/service-request/rate-service";
 
   static const String UPDATE_TRANSACTION_STATUS_API_URL =
-      BASE_URL + "/mobile-request/update-tx/client";
+      BASE_URL + "/service-request/update-tx/client";
+  static String TRANSACTION_HISTORY_API_URL =
+      BASE_URL + "/service-request/transaction-history";
 
   static const int OFFER_MADE = 1;
   static const int OFFER_ACCEPTED = 2;

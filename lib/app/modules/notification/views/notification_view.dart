@@ -15,7 +15,7 @@ class NotificationView extends GetView<NotificationController> {
       ),
       body: const Center(
         child: Text(
-          'NotificationView is working',
+          'No notifications available',
           style: TextStyle(fontSize: 20),
         ),
       ),

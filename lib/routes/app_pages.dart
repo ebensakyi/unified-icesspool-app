@@ -26,6 +26,8 @@ import '../app/modules/services/bindings/services_binding.dart';
 import '../app/modules/services/views/services_view.dart';
 import '../app/modules/setting/bindings/setting_binding.dart';
 import '../app/modules/setting/views/setting_view.dart';
+import '../app/modules/transaction-history/bindings/transaction_history_binding.dart';
+import '../app/modules/transaction-history/views/transaction_history_view.dart';
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
 import '../bindings/single_report_binding.dart';
@@ -59,13 +61,7 @@ class AppPages {
       //transition: Transition.rightToLeftWithFade,
       //transitionDuration: Duration(milliseconds: 500),
     ),
-    GetPage(
-      name: _Paths.SINGLE_REPORT,
-      page: () => SingleReportView(),
-      binding: SingleReportBinding(),
-      //transition: Transition.rightToLeftWithFade,
-      //transitionDuration: Duration(milliseconds: 500),
-    ),
+
     GetPage(
       name: _Paths.COMPLETE_PAYMENT,
       page: () => const CompletePaymentView(),
@@ -130,6 +126,11 @@ class AppPages {
       name: _Paths.RESET_PASSWORD,
       page: () => ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRANSACTION_HISTORY,
+      page: () => TransactionHistoryView(),
+      binding: TransactionHistoryBinding(),
     ),
   ];
 }

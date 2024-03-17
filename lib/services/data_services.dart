@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:http/http.dart' as http;
+import 'package:icesspool/model/offer.dart';
 
 import '../contants.dart';
 import '../model/district.dart';
@@ -58,6 +62,27 @@ class DataServices {
     }
   }
 
+  static Future getTransactionHistory(userId) async {
+    try {
+      var client = http.Client();
+      var uri =
+          Uri.parse(Constants.TRANSACTION_HISTORY_API_URL + "?userId=$userId");
+
+      var response = await client.get(uri);
+      inspect(response);
+
+      if (response.statusCode == 200) {
+        var json = response.body;
+        return jsonDecode(json);
+
+        // return OfferItemFromJson(json);
+      }
+      return [];
+    } catch (e) {
+      inspect(e);
+      return [];
+    }
+  }
   // static Future<List<ReportCategory>> getReportCategories() async {
   //   try {
   //     var client = http.Client();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icesspool/app/modules/transaction-history/views/transaction_history_view.dart';
 import 'package:icesspool/views/report_history_view.dart';
 import 'package:icesspool/views/request_view.dart';
 
@@ -62,7 +63,7 @@ class HomeView extends StatelessWidget {
   Widget getBody() {
     List<Widget> pages = [
       RequestView(),
-      ReportHistoryView(),
+      TransactionHistoryView(),
       // ServicesBlogView(),
       SettingView()
     ];

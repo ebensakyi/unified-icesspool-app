@@ -9,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/core/location_service.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:icesspool/services/data_services.dart';
 import 'package:package_info/package_info.dart';
 
 import '../contants.dart';
@@ -22,8 +23,6 @@ class HomeController extends GetxController {
   final AppName = "".obs;
   final AppVersion = "".obs;
   final isLoading = false.obs;
-
-  final reports = [].obs;
 
   var emptyingServiceAvailable = false.obs;
   var waterServiceAvailable = false.obs;
@@ -50,8 +49,6 @@ class HomeController extends GetxController {
   final accuracy = 0.0.obs;
   final inactiveColor = Colors.grey.obs;
   final currentIndex = 0.obs;
-  var currentTitle = "Report".obs;
-  List<String> titlesList = ["Home", "Report Status", "About"];
 
   late List<Placemark> placemarks = [];
 
@@ -61,11 +58,12 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+    final box = await GetStorage();
+
     changeTabIndex(0);
 
     await getCurrentLocation();
     await getUserServiceArea();
-    final box = await GetStorage();
 
     final position = await LocationService.determinePosition();
 
@@ -73,10 +71,14 @@ class HomeController extends GetxController {
     longitude.value = position.longitude;
     accuracy.value = position.accuracy;
 
-    userId.value = box.read('userId') ?? 0;
+    userId.value = box.read('userId');
     phoneNumber.value = box.read('phoneNumber')!;
     firstName.value = box.read('firstName')!;
     lastName.value = box.read('lastName')!;
+
+    email.value = box.read('email') ?? "";
+    photoURL.value = box.read('photoURL') ?? "";
+    log("HomeController ININT==> ${userId.value}");
 
     // await getAddressFromCoords();
 
@@ -86,9 +88,7 @@ class HomeController extends GetxController {
     //     await placemarkFromCoordinates(latitude.value, longitude.value);
 
     // displayName.value = prefs.getString('displayName') ?? "";
-    email.value = box.read('email') ?? "";
-    photoURL.value = box.read('photoURL') ?? "";
-    phoneNumber.value = box.read('phoneNumber') ?? "";
+
     // await getAvailableServices();
 
     super.onInit();
@@ -97,14 +97,16 @@ class HomeController extends GetxController {
   Future<void> changeTabIndex(int index) async {
     try {
       currentIndex.value = index;
-      currentTitle.value = titlesList[index];
+      // currentTitle.value = titlesList[index];
 
       await getUserServiceArea();
 
-      if (index == 1) {
+      if (index == 0) {
         // isLoading.value = true;
         // // reports.value = await DataServices.getReports(userId);
         // isLoading.value = false;
+      } else if (index == 1) {
+        await DataServices.getTransactionHistory(userId);
       }
 
       update();
@@ -187,6 +189,7 @@ class HomeController extends GetxController {
 
   Future<void> getUserServiceArea() async {
     final String apiUrl = Constants.USER_SERVICE_AREA_API_URL;
+
     final Map<String, String> params = {
       'lat': latitude.value.toString(),
       'lng': longitude.value.toString(),

@@ -1,6 +1,5 @@
-import 'dart:developer';
+// ignore_for_file: must_be_immutable
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,6 @@ import '../controllers/biodigester_controller.dart';
 import '../core/validator.dart';
 import '../widgets/dropdown.dart';
 import '../widgets/outline-button.dart';
-import '../widgets/small-text-box.dart';
 import '../widgets/sub-service-widget2.dart';
 
 class BioDigesterMainView extends StatelessWidget {
@@ -638,29 +636,29 @@ class BioDigesterMainView extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: CarouselSlider(
-                    options: CarouselOptions(height: 80.0, autoPlay: true),
-                    items: [
-                      "assets/images/crs.jpg",
-                      "assets/images/ssgl.png",
-                      "assets/images/tama.png",
-                      "assets/images/espa.png",
-                      "assets/images/gama.jpg"
-                    ].map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(color: Colors.white),
-                              child: Image.asset('$i'));
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(10.0),
+                //   child: CarouselSlider(
+                //     options: CarouselOptions(height: 80.0, autoPlay: true),
+                //     items: [
+                //       "assets/images/crs.jpg",
+                //       "assets/images/ssgl.png",
+                //       "assets/images/tama.png",
+                //       "assets/images/espa.png",
+                //       "assets/images/gama.jpg"
+                //     ].map((i) {
+                //       return Builder(
+                //         builder: (BuildContext context) {
+                //           return Container(
+                //               width: MediaQuery.of(context).size.width,
+                //               margin: EdgeInsets.symmetric(horizontal: 5.0),
+                //               decoration: BoxDecoration(color: Colors.white),
+                //               child: Image.asset('$i'));
+                //         },
+                //       );
+                //     }).toList(),
+                //   ),
+                // ),
               ],
             ),
           ),
