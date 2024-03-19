@@ -770,8 +770,6 @@ class BioDigesterMainView extends StatelessWidget {
     final int index5 = controller.getBiodigesterServiceIndex(5);
     final int index6 = controller.getBiodigesterServiceIndex(6);
 
-    print(controller.biodigesterPricings);
-
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       controller.biodigesterServicesAvailable.contains(4) && index4 != -1
           ? Column(

@@ -443,12 +443,9 @@ class BiodigesterController extends GetxController {
     try {
       final response = await http.get(uri);
 
-      //print(response.body);
-
       if (response.statusCode == 200) {
         List data = json.decode(response.body);
 
-        //   log("getBiodigesterPricing===>$data");
         List<Map<String, dynamic>> typedData =
             List<Map<String, dynamic>>.from(data);
 

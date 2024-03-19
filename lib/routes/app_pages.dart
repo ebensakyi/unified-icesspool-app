@@ -18,6 +18,8 @@ import '../app/modules/privacy/bindings/privacy_binding.dart';
 import '../app/modules/privacy/views/privacy_view.dart';
 import '../app/modules/profile/bindings/profile_binding.dart';
 import '../app/modules/profile/views/profile_view.dart';
+import '../app/modules/register/bindings/register_binding.dart';
+import '../app/modules/register/views/register_view.dart';
 import '../app/modules/reset-password/bindings/reset_password_binding.dart';
 import '../app/modules/reset-password/views/reset_password_view.dart';
 import '../app/modules/safety/bindings/safety_binding.dart';
@@ -131,6 +133,11 @@ class AppPages {
       name: _Paths.TRANSACTION_HISTORY,
       page: () => TransactionHistoryView(),
       binding: TransactionHistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.REGISTER,
+      page: () => RegisterView(),
+      binding: RegisterBinding(),
     ),
   ];
 }

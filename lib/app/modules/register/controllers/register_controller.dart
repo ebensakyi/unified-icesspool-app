@@ -1,20 +1,20 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:icesspool/bindings/otp_binding.dart';
-import 'package:icesspool/views/otp_page_view.dart';
-
 import 'package:http/http.dart' as http;
+import 'package:icesspool/bindings/otp_binding.dart';
+import 'package:icesspool/contants.dart';
+import 'package:icesspool/themes/colors.dart';
+import 'package:icesspool/views/otp_page_view.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../contants.dart';
-import '../themes/colors.dart';
-
-class SignupController extends GetxController {
+class RegisterController extends GetxController {
   var isLoading = false.obs;
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
@@ -24,31 +24,44 @@ class SignupController extends GetxController {
   var cpasswordController = TextEditingController();
 
   var client = http.Client();
-
-  // final loginFormKey = GlobalKey();
-
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final GoogleSignIn googleSignIn = GoogleSignIn();
+  final count = 0.obs;
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   @override
-  void onInit() async {
-    super.onInit();
-    await GetStorage();
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  Future<void> openUrl() async {
+    final url = Uri.parse(
+        "https://esicapps-files.s3.eu-west-2.amazonaws.com/privacy-policy/sr-privacy.html");
+    await launch(url.toString());
   }
 
   Future signup(context) async {
     try {
-      // bool result = await InternetConnectionChecker().hasConnection;
-      // if (result == false) {
-      //   isLoading.value = false;
-      //   return Get.snackbar(
-      //       "Internet Error", "Poor internet access. Please try again later...",
-      //       snackPosition: SnackPosition.TOP,
-      //       backgroundColor: MyColors.Red,
-      //       colorText: MyColors.White);
-      // }
+      isLoading.value = true;
+
+      bool result = await InternetConnectionChecker().hasConnection;
+      if (result == false) {
+        isLoading.value = false;
+        return Get.snackbar(
+            "Internet Error", "Poor internet access. Please try again later...",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: MyColors.Red,
+            colorText: Colors.white);
+      }
 
       var uri = Uri.parse(Constants.SIGNUP_API_URL);
+      inspect(uri);
       var response = await client
           .post(
         uri,
@@ -56,10 +69,10 @@ class SignupController extends GetxController {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-          'firstName': firstNameController.text,
-          'lastName': lastNameController.text,
+          'firstName': firstNameController.text.trim(),
+          'lastName': lastNameController.text.trim(),
           'phoneNumber': phoneNumberController.text,
-          'password': passwordController.text,
+          'password': passwordController.text.trim(),
         }),
       )
           .timeout(
@@ -76,6 +89,9 @@ class SignupController extends GetxController {
               'Error', 408); // Request Timeout response status code
         },
       );
+
+      inspect(response);
+
       isLoading.value = false;
 
       if (response.statusCode == 200) {
@@ -123,7 +139,6 @@ class SignupController extends GetxController {
         //     colorText: Colors.white);
       }
     } catch (e) {
-      log(e.toString());
       isLoading.value = false;
       // Get.snackbar("Error", "Couldnt connect to the server. Please try again",
       //     snackPosition: SnackPosition.TOP,

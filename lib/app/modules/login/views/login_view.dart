@@ -7,9 +7,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/app/modules/forget-password/views/forget_password_view.dart';
 import 'package:icesspool/app/modules/login/controllers/login_controller.dart';
+import 'package:icesspool/app/modules/register/views/register_view.dart';
 import 'package:icesspool/core/mask_formatter.dart';
 import 'package:icesspool/core/validator.dart';
 import 'package:icesspool/themes/colors.dart';
+import 'package:icesspool/views/signup_view%20copy.dart';
 import 'package:icesspool/views/signup_view.dart';
 import 'package:icesspool/widgets/progress-button.dart';
 import 'package:icesspool/widgets/progress-outline-button.dart';
@@ -22,12 +24,12 @@ class LoginView extends StatelessWidget {
   final inputMasker = InputMasker();
 
   final imageList = [
-    "assets/images/crs.jpg",
+    "assets/images/gama.jpg",
     "assets/images/ssgl.png",
     "assets/images/tama.png",
     "assets/images/espa.png",
-    "assets/images/gama.jpg",
     "assets/images/crs.jpg",
+    "assets/images/gama.jpg",
   ];
   @override
   Widget build(BuildContext context) {
@@ -208,7 +210,7 @@ class LoginView extends StatelessWidget {
                                   child: ProgressOutlineButton(
                                     primaryColor: MyColors.secondary,
                                     onPressed: () {
-                                      Get.to(() => SignupView());
+                                      Get.to(() => RegisterView());
                                     },
                                     isLoading: controller.isLoading.value,
                                     label: 'Signup',

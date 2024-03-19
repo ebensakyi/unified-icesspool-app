@@ -34,7 +34,6 @@ class ProfileController extends GetxController {
     lastNameController.text = box.read("lastName");
     phoneNumberController.text = box.read("phoneNumber");
     emailController.text = box.read("email") ?? "";
-    inspect(box.read("phoneNumber"));
 
     // log("firstName.value===> ${firstName.value}");
     super.onInit();

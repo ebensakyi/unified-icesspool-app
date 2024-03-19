@@ -4,7 +4,6 @@ import 'dart:developer';
 
 class Validator {
   static String? textFieldValidator(String value) {
-    log("textFieldValidator $value");
     if (value == null || value.trim() == "" || value == "null") {
       return "Please enter value. Field cannot be empty.";
     }
