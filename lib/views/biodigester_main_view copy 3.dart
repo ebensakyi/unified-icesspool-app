@@ -759,7 +759,7 @@ class BioDigesterMainView extends StatelessWidget {
               onPressed: () {
                 controller.isSelected1.value = !controller.isSelected1.value;
 
-                controller.addOrRemoveItem(controller.selectedServices, {
+                controller.addService(controller.selectedServices, {
                   "id": controller
                       .biodigesterPricings[index1].biodigesterServiceId
                       .toInt(),
@@ -788,7 +788,7 @@ class BioDigesterMainView extends StatelessWidget {
               onPressed: () {
                 controller.isSelected2.value = !controller.isSelected2.value;
 
-                controller.addOrRemoveItem(controller.selectedServices, {
+                controller.addService(controller.selectedServices, {
                   "id": controller
                       .biodigesterPricings[index2].biodigesterServiceId
                       .toInt(),
@@ -817,7 +817,7 @@ class BioDigesterMainView extends StatelessWidget {
               onPressed: () {
                 controller.isSelected3.value = !controller.isSelected3.value;
 
-                controller.addOrRemoveItem(controller.selectedServices, {
+                controller.addService(controller.selectedServices, {
                   "id": controller
                       .biodigesterPricings[index3].biodigesterServiceId
                       .toInt(),
@@ -858,7 +858,7 @@ class BioDigesterMainView extends StatelessWidget {
                     controller.isSelected4.value =
                         !controller.isSelected4.value;
 
-                    controller.addOrRemoveItem(controller.selectedServices, {
+                    controller.addService(controller.selectedServices, {
                       "id": controller.biodigesterPricings[index4].id.toInt(),
                       "unitCost": controller.isStandard()
                           ? controller.biodigesterPricings[index4].standardCost
@@ -937,7 +937,7 @@ class BioDigesterMainView extends StatelessWidget {
                     controller.isSelected5.value =
                         !controller.isSelected5.value;
 
-                    controller.addOrRemoveItem(controller.selectedServices, {
+                    controller.addService(controller.selectedServices, {
                       "id": controller.biodigesterPricings[index5].id.toInt(),
                       "unitCost": controller.isStandard()
                           ? controller.biodigesterPricings[index5].standardCost
@@ -1022,7 +1022,7 @@ class BioDigesterMainView extends StatelessWidget {
                     //         ? MyColors.primary
                     //         : Colors.grey;
 
-                    controller.addOrRemoveItem(controller.selectedServices, {
+                    controller.addService(controller.selectedServices, {
                       "id": controller.biodigesterPricings[index6].id.toInt(),
                       "unitCost": controller.isStandard()
                           ? controller.biodigesterPricings[index6].standardCost

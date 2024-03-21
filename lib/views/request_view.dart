@@ -991,7 +991,6 @@ class RequestView extends StatelessWidget {
   }
 
   displayViewByStatus(context, controller) {
-    log("displayViewByStatus=> ${controller.transactionStatus.value}");
     switch (controller.transactionStatus.value) {
       case Constants.OFFER_MADE:
         return searchingForSP(context, controller);

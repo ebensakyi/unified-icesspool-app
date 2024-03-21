@@ -583,7 +583,8 @@ class BiodigesterController extends GetxController {
     currentStep.value > 0 ? currentStep.value -= 1 : null;
   }
 
-  void addOrRemoveItem(myArray, Map<String, dynamic> newItem) {
+  void addService(myArray, Map<String, dynamic> newItem) {
+    // myArray.value = [];
     int indexOfExistingItem = myArray.indexWhere(
       (item) => item["id"] == newItem["id"],
     );
@@ -597,6 +598,21 @@ class BiodigesterController extends GetxController {
       print("Added: $newItem");
     }
   }
+
+  // void addOrRemoveItem(myArray, Map<String, dynamic> newItem) {
+  //   int indexOfExistingItem = myArray.indexWhere(
+  //     (item) => item["id"] == newItem["id"],
+  //   );
+
+  //   if (indexOfExistingItem != -1) {
+  //     // Remove the existing item
+  //     myArray.removeAt(indexOfExistingItem);
+  //   } else {
+  //     // Add the item
+  //     myArray.add(newItem);
+  //     print("Added: $newItem");
+  //   }
+  // }
 
   calculateTotalCost(myArray) {
     double totalCost = selectedServices.fold(0, (sum, item) {

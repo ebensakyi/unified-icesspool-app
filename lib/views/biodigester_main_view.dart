@@ -1,5 +1,8 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
@@ -115,78 +118,76 @@ class BioDigesterMainView extends StatelessWidget {
                                             return;
                                           }
 
-                                          if (formKey1.currentState!
-                                              .validate()) {
-                                            if (controller.selectedRequestType
-                                                    .value ==
-                                                "2") {
-                                              showDialog(
-                                                barrierDismissible: false,
-                                                context: context,
-                                                builder: (context) {
-                                                  String contentText =
-                                                      "How many people will be using the toilet?";
-                                                  return StatefulBuilder(
-                                                    builder:
-                                                        (context, setState) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                            "Cancel Request"),
-                                                        content: Container(
-                                                          height: 250,
-                                                          child: Column(
-                                                            children: [
-                                                              Text(contentText),
-                                                              SmallTextBox(
-                                                                  label:
-                                                                      "No. of adults",
-                                                                  controller:
-                                                                      controller
-                                                                          .adultsNumber),
-                                                              SmallTextBox(
-                                                                  label:
-                                                                      "No. of children",
-                                                                  controller:
-                                                                      controller
-                                                                          .childrenNumber)
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        actions: <Widget>[
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    context),
-                                                            child:
-                                                                Text("Cancel"),
-                                                          ),
-                                                          TextButton(
-                                                            onPressed: () {
-                                                              controller
-                                                                  .calcUsers();
-                                                              //  controller.cancelRequest();
-                                                              Navigator.pop(
-                                                                  context);
-                                                              // setState(() {
-                                                              //   contentText =
-                                                              //       "Changed Content of Dialog";
-                                                              // });
-                                                            },
-                                                            child: Text("Ok"),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              );
-                                            }
-                                          }
-
                                           if (formKey2.currentState!
                                               .validate()) {
                                             // controller
                                             //     .selectedTimeRangeId.value = 1;
+
+                                            if (controller.selectedRequestType
+                                                    .value ==
+                                                "1") {
+                                              inspect(
+                                                  "controller.selectedRequestType 1");
+                                              controller.addService(
+                                                  controller.selectedServices, {
+                                                "id": controller
+                                                    .biodigesterPricings[0]
+                                                    .biodigesterServiceId
+                                                    .toInt(),
+                                                "unitCost": controller
+                                                    .biodigesterPricings[0].cost
+                                                    .toString(),
+                                                "name": controller
+                                                    .biodigesterPricings[0].name
+                                                    .toString(),
+                                              });
+                                            }
+
+                                            if (controller.selectedRequestType
+                                                    .value ==
+                                                "2") {
+                                              inspect(
+                                                  "controller.selectedRequestType 2");
+                                              // controller.addOrRemoveItem(
+                                              //     controller.selectedServices, {
+                                              //   "id": controller
+                                              //       .biodigesterPricings[1]
+                                              //       .biodigesterServiceId
+                                              //       .toInt(),
+                                              //   "unitCost": controller
+                                              //       .biodigesterPricings[1].cost
+                                              //       .toString(),
+                                              //   "name": controller
+                                              //       .biodigesterPricings[1].name
+                                              //       .toString(),
+                                              // });
+
+                                              controller.addService(
+                                                  controller.selectedServices, {
+                                                "id": controller
+                                                    .biodigesterPricings[1].id
+                                                    .toInt(),
+                                                "unitCost": controller
+                                                        .isStandard()
+                                                    ? controller
+                                                        .biodigesterPricings[1]
+                                                        .standardCost
+                                                        .toString()
+                                                    : controller.isLarge()
+                                                        ? controller
+                                                            .biodigesterPricings[
+                                                                1]
+                                                            .largeCost
+                                                        : controller
+                                                            .biodigesterPricings[
+                                                                1]
+                                                            .doubleLargeCost,
+                                                "name": controller
+                                                    .biodigesterPricings[1].name
+                                                    .toString()
+                                              });
+                                            }
+
                                             controller.continued();
                                           }
                                         },
@@ -434,6 +435,58 @@ class BioDigesterMainView extends StatelessWidget {
 
                                     controller.selectedRequestType.value =
                                         newValue;
+
+                                    if (controller.selectedRequestType.value ==
+                                        "2") {
+                                      showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (context) {
+                                          String contentText =
+                                              "How many people will be using the toilet?";
+                                          return StatefulBuilder(
+                                            builder: (context, setState) {
+                                              return AlertDialog(
+                                                title: Text("Cancel Request"),
+                                                content: Container(
+                                                  height: 250,
+                                                  child: Column(
+                                                    children: [
+                                                      Text(contentText),
+                                                      SmallTextBox(
+                                                          label:
+                                                              "No. of adults",
+                                                          controller: controller
+                                                              .adultsNumber),
+                                                      SmallTextBox(
+                                                          label:
+                                                              "No. of children",
+                                                          controller: controller
+                                                              .childrenNumber)
+                                                    ],
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: Text("Cancel"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      controller.calcUsers();
+                                                      //  controller.cancelRequest();
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text("Ok"),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }
                                   },
                                   value: controller.returnValue(
                                       controller.selectedRequestType.value),
@@ -757,17 +810,17 @@ class BioDigesterMainView extends StatelessWidget {
               subTitle:
                   controller.biodigesterPricings[index1].shortDesc.toString(),
               onPressed: () {
-                controller.isSelected1.value = !controller.isSelected1.value;
+                // controller.isSelected1.value = !controller.isSelected1.value;
 
-                controller.addOrRemoveItem(controller.selectedServices, {
-                  "id": controller
-                      .biodigesterPricings[index1].biodigesterServiceId
-                      .toInt(),
-                  "unitCost":
-                      controller.biodigesterPricings[index1].cost.toString(),
-                  "name":
-                      controller.biodigesterPricings[index1].name.toString(),
-                });
+                // controller.addService(controller.selectedServices, {
+                //   "id": controller
+                //       .biodigesterPricings[index1].biodigesterServiceId
+                //       .toInt(),
+                //   "unitCost":
+                //       controller.biodigesterPricings[index1].cost.toString(),
+                //   "name":
+                //       controller.biodigesterPricings[index1].name.toString(),
+                // });
               },
               price: "GHS " +
                   controller.biodigesterPricings[index1].cost.toString(),
@@ -796,21 +849,21 @@ class BioDigesterMainView extends StatelessWidget {
                   subTitle: controller.biodigesterPricings[index2].shortDesc
                       .toString(),
                   onPressed: () {
-                    controller.isSelected4.value =
-                        !controller.isSelected4.value;
+                    // controller.isSelected4.value =
+                    //     !controller.isSelected4.value;
 
-                    controller.addOrRemoveItem(controller.selectedServices, {
-                      "id": controller.biodigesterPricings[index2].id.toInt(),
-                      "unitCost": controller.isStandard()
-                          ? controller.biodigesterPricings[index2].standardCost
-                              .toString()
-                          : controller.isLarge()
-                              ? controller.biodigesterPricings[index2].largeCost
-                              : controller
-                                  .biodigesterPricings[index2].doubleLargeCost,
-                      "name": controller.biodigesterPricings[index2].name
-                          .toString(),
-                    });
+                    // controller.addService(controller.selectedServices, {
+                    //   "id": controller.biodigesterPricings[index2].id.toInt(),
+                    //   "unitCost": controller.isStandard()
+                    //       ? controller.biodigesterPricings[index2].standardCost
+                    //           .toString()
+                    //       : controller.isLarge()
+                    //           ? controller.biodigesterPricings[index2].largeCost
+                    //           : controller
+                    //               .biodigesterPricings[index2].doubleLargeCost,
+                    //   "name": controller.biodigesterPricings[index2].name
+                    //       .toString(),
+                    // });
                   },
                   price: controller.isStandard()
                       ? "GHS " +
