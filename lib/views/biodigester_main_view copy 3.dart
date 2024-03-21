@@ -742,8 +742,8 @@ class BioDigesterMainView extends StatelessWidget {
 
   Widget biodigesterServicing() {
     final int index1 = controller.getBiodigesterServiceIndex(1);
-    // final int index2 = controller.getBiodigesterServiceIndex(2);
-    // final int index3 = controller.getBiodigesterServiceIndex(3);
+    final int index2 = controller.getBiodigesterServiceIndex(2);
+    final int index3 = controller.getBiodigesterServiceIndex(3);
 
     return Column(children: [
       controller.biodigesterServicesAvailable.contains(1) && index1 != -1
@@ -775,14 +775,73 @@ class BioDigesterMainView extends StatelessWidget {
               description: Text(""),
             )
           : SizedBox.shrink(),
+      controller.biodigesterServicesAvailable.contains(2) && index2 != -1
+          ? SubServiceWidget2(
+              activeBgColor: MyColors.primary,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title: controller.biodigesterPricings[index2].name,
+              subTitle:
+                  controller.biodigesterPricings[index2].shortDesc.toString(),
+              onPressed: () {
+                controller.isSelected2.value = !controller.isSelected2.value;
+
+                controller.addOrRemoveItem(controller.selectedServices, {
+                  "id": controller
+                      .biodigesterPricings[index2].biodigesterServiceId
+                      .toInt(),
+                  "unitCost":
+                      controller.biodigesterPricings[index2].cost.toString(),
+                  "name":
+                      controller.biodigesterPricings[index2].name.toString(),
+                });
+              },
+              price: "GHS " +
+                  controller.biodigesterPricings[index2].cost.toString(),
+              isSelected: controller.isSelected2.value,
+              description: Text(""),
+            )
+          : SizedBox.shrink(),
+      controller.biodigesterServicesAvailable.contains(3) && index3 != -1
+          ? SubServiceWidget2(
+              activeBgColor: MyColors.primary,
+              inactiveBgColor: MyColors.SubServiceColor2,
+              isAvailable: false,
+              path: "assets/images/biodigester.png",
+              size: 32,
+              title: controller.biodigesterPricings[index3].name,
+              subTitle:
+                  controller.biodigesterPricings[index3].shortDesc.toString(),
+              onPressed: () {
+                controller.isSelected3.value = !controller.isSelected3.value;
+
+                controller.addOrRemoveItem(controller.selectedServices, {
+                  "id": controller
+                      .biodigesterPricings[index3].biodigesterServiceId
+                      .toInt(),
+                  "unitCost":
+                      controller.biodigesterPricings[index3].cost.toString(),
+                  "name": controller.biodigesterPricings[index3].name.toString()
+                });
+              },
+              price: "GHS " +
+                  controller.biodigesterPricings[index3].cost.toString(),
+              isSelected: controller.isSelected3.value,
+              description: Text(""),
+            )
+          : SizedBox.shrink(),
     ]);
   }
 
   Widget biodigesterConstruction() {
-    final int index2 = controller.getBiodigesterServiceIndex(2);
+    final int index4 = controller.getBiodigesterServiceIndex(4);
+    final int index5 = controller.getBiodigesterServiceIndex(5);
+    final int index6 = controller.getBiodigesterServiceIndex(6);
 
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-      controller.biodigesterServicesAvailable.contains(2) && index2 != -1
+      controller.biodigesterServicesAvailable.contains(4) && index4 != -1
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -792,36 +851,36 @@ class BioDigesterMainView extends StatelessWidget {
                   isAvailable: false,
                   path: "assets/images/biodigester.png",
                   size: 32,
-                  title: controller.biodigesterPricings[index2].name,
-                  subTitle: controller.biodigesterPricings[index2].shortDesc
+                  title: controller.biodigesterPricings[index4].name,
+                  subTitle: controller.biodigesterPricings[index4].shortDesc
                       .toString(),
                   onPressed: () {
                     controller.isSelected4.value =
                         !controller.isSelected4.value;
 
                     controller.addOrRemoveItem(controller.selectedServices, {
-                      "id": controller.biodigesterPricings[index2].id.toInt(),
+                      "id": controller.biodigesterPricings[index4].id.toInt(),
                       "unitCost": controller.isStandard()
-                          ? controller.biodigesterPricings[index2].standardCost
+                          ? controller.biodigesterPricings[index4].standardCost
                               .toString()
                           : controller.isLarge()
-                              ? controller.biodigesterPricings[index2].largeCost
+                              ? controller.biodigesterPricings[index4].largeCost
                               : controller
-                                  .biodigesterPricings[index2].doubleLargeCost,
-                      "name": controller.biodigesterPricings[index2].name
+                                  .biodigesterPricings[index4].doubleLargeCost,
+                      "name": controller.biodigesterPricings[index4].name
                           .toString(),
                     });
                   },
                   price: controller.isStandard()
                       ? "GHS " +
-                          controller.biodigesterPricings[index2].standardCost
+                          controller.biodigesterPricings[index4].standardCost
                               .toString()
                       : controller.isLarge()
                           ? "GHS " +
-                              controller.biodigesterPricings[index2].largeCost
+                              controller.biodigesterPricings[index4].largeCost
                           : "GHS " +
                               controller
-                                  .biodigesterPricings[index2].doubleLargeCost,
+                                  .biodigesterPricings[index4].doubleLargeCost,
                   isSelected: controller.isSelected4.value,
                   description: Column(
                     children: [
@@ -851,6 +910,170 @@ class BioDigesterMainView extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 16),
                               child: Text(
                                 "Two large digesters",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
+              ],
+            )
+          : SizedBox.shrink(),
+      controller.biodigesterServicesAvailable.contains(5) && index5 != -1
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SubServiceWidget2(
+                  activeBgColor: MyColors.primary,
+                  inactiveBgColor: MyColors.SubServiceColor2,
+                  isAvailable: false,
+                  path: "assets/images/biodigester.png",
+                  size: 32,
+                  title: controller.biodigesterPricings[index5].name,
+                  subTitle: controller.biodigesterPricings[index5].shortDesc
+                      .toString(),
+                  onPressed: () {
+                    controller.isSelected5.value =
+                        !controller.isSelected5.value;
+
+                    controller.addOrRemoveItem(controller.selectedServices, {
+                      "id": controller.biodigesterPricings[index5].id.toInt(),
+                      "unitCost": controller.isStandard()
+                          ? controller.biodigesterPricings[index5].standardCost
+                              .toString()
+                          : controller.isLarge()
+                              ? controller.biodigesterPricings[index5].largeCost
+                              : controller
+                                  .biodigesterPricings[index5].doubleLargeCost,
+                      "name": controller.biodigesterPricings[index5].name
+                          .toString(),
+                    });
+                  },
+                  price: controller.isStandard()
+                      ? "GHS " +
+                          controller.biodigesterPricings[index5].standardCost
+                              .toString()
+                      : controller.isLarge()
+                          ? "GHS " +
+                              controller.biodigesterPricings[index5].largeCost
+                          : "GHS " +
+                              controller
+                                  .biodigesterPricings[index5].doubleLargeCost,
+                  isSelected: controller.isSelected5.value,
+                  description: Column(
+                    children: [
+                      Obx(
+                        () => Visibility(
+                          visible: controller.totalUsers.value < 15,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: Text(
+                              "Small digester + seat",
+                              style: TextStyle(color: Colors.red.shade700),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Obx(() => Visibility(
+                            visible: controller.totalUsers.value > 15 &&
+                                controller.totalUsers.value < 25,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Large digesters",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.totalUsers.value > 25,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Two large digesters + seat",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
+              ],
+            )
+          : SizedBox.shrink(),
+      controller.biodigesterServicesAvailable.contains(6) && index6 != -1
+          ? Column(
+              children: [
+                SubServiceWidget2(
+                  activeBgColor: MyColors.primary,
+                  inactiveBgColor: MyColors.SubServiceColor2,
+                  isAvailable: false,
+                  path: "assets/images/biodigester.png",
+                  size: 32,
+                  title: controller.biodigesterPricings[index6].name,
+                  subTitle: controller.biodigesterPricings[index6].shortDesc
+                      .toString(),
+                  onPressed: () {
+                    controller.isSelected6.value =
+                        !controller.isSelected6.value;
+                    // controller.selectedColor3.value =
+                    //     controller.selectedColor3.value == Colors.grey
+                    //         ? MyColors.primary
+                    //         : Colors.grey;
+
+                    controller.addOrRemoveItem(controller.selectedServices, {
+                      "id": controller.biodigesterPricings[index6].id.toInt(),
+                      "unitCost": controller.isStandard()
+                          ? controller.biodigesterPricings[index6].standardCost
+                              .toString()
+                          : controller.isLarge()
+                              ? controller.biodigesterPricings[index6].largeCost
+                              : controller
+                                  .biodigesterPricings[index6].doubleLargeCost,
+                      "name": controller.biodigesterPricings[index6].name
+                          .toString(),
+                    });
+                  },
+                  price: controller.isStandard()
+                      ? "GHS " +
+                          controller.biodigesterPricings[index6].standardCost
+                              .toString()
+                      : controller.isLarge()
+                          ? "GHS " +
+                              controller.biodigesterPricings[index6].largeCost
+                          : "GHS " +
+                              controller
+                                  .biodigesterPricings[index6].doubleLargeCost,
+                  isSelected: controller.isSelected6.value,
+                  description: Column(
+                    children: [
+                      Obx(() => Visibility(
+                            visible: controller.isStandard(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Small Digester + Superstructure + Toilet Seat + Wash hand Basin",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.isLarge(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Large Digester + Superstructure + Toilet Seat + Wash hand basin",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.isDoubleLarge(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Two large Digester + Superstructure + Toilet Seat + Wash hand basin",
                                 style: TextStyle(color: Colors.red.shade700),
                               ),
                             ),

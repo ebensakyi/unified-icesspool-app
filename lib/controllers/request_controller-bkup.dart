@@ -61,7 +61,7 @@ class RequestController extends GetxController {
     'Did the Service Provider and team Undertake the work with the required personal protective gear?',
     'Did the operator make any cash demand other than your receipted payment to iCesspool?',
     'Did the Operator cause any damage to property during the operations?',
-    'Did the Operator cover well all opened inspection ports of your tanks/bio-digester and cleaned all spills after the operation?',
+    'Did the Operator cover well all opened inspection ports of your tanks/biodigester and cleaned all spills after the operation?',
     'Did Operator use any abusive language on persons within household?',
   ];
 
