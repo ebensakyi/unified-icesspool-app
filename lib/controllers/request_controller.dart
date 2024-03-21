@@ -497,7 +497,7 @@ class RequestController extends GetxController {
         context: context,
         animation: StyledToastAnimation.fade,
         duration: Duration(seconds: 2),
-        position: StyledToastPosition.center,
+        position: StyledToastPosition.top,
       );
       ratingCommentController.text = "";
     } catch (e) {

@@ -62,7 +62,7 @@ class BioDigesterMainView extends StatelessWidget {
                         : StepperType.horizontal,
                     physics: const ScrollPhysics(),
                     currentStep: controller.currentStep.value,
-                    onStepTapped: (step) => controller.tapped(step),
+                    //onStepTapped: (step) => controller.tapped(step),
                     onStepContinue: controller.continued,
                     onStepCancel: controller.cancel,
                     controlsBuilder: (context, _) {
@@ -87,7 +87,7 @@ class BioDigesterMainView extends StatelessWidget {
                                           context: context,
                                           animation: StyledToastAnimation.scale,
                                           duration: Duration(seconds: 4),
-                                          position: StyledToastPosition.center,
+                                          position: StyledToastPosition.top,
                                         );
                                         return;
                                       }
@@ -112,8 +112,7 @@ class BioDigesterMainView extends StatelessWidget {
                                               animation:
                                                   StyledToastAnimation.scale,
                                               duration: Duration(seconds: 4),
-                                              position:
-                                                  StyledToastPosition.center,
+                                              position: StyledToastPosition.top,
                                             );
                                             return;
                                           }

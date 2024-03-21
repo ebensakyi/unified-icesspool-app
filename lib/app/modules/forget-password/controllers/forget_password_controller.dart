@@ -49,7 +49,7 @@ class ForgetPasswordController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
         return;
       }
@@ -84,7 +84,7 @@ class ForgetPasswordController extends GetxController {
             context: context,
             animation: StyledToastAnimation.fade,
             duration: Duration(seconds: 2),
-            position: StyledToastPosition.center,
+            position: StyledToastPosition.top,
           );
           return http.Response(
               'Error', 408); // Request Timeout response status code
@@ -107,7 +107,7 @@ class ForgetPasswordController extends GetxController {
             context: context,
             animation: StyledToastAnimation.fade,
             duration: Duration(seconds: 2),
-            position: StyledToastPosition.center,
+            position: StyledToastPosition.top,
           );
           return;
         }
@@ -128,7 +128,7 @@ class ForgetPasswordController extends GetxController {
         context: context,
         animation: StyledToastAnimation.fade,
         duration: Duration(seconds: 2),
-        position: StyledToastPosition.center,
+        position: StyledToastPosition.top,
       );
     }
   }

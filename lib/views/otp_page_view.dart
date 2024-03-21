@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -99,15 +101,17 @@ class OtpPageView extends GetView<OtpController> {
                                     controller: controller.num4Controller)),
                           ],
                         ),
-                        SmallButton(
-                          onPressed: () {
-                            controller.verifyOtp();
-                          },
-                          showLoading: false,
-                          label: Text("Verify"),
-                          textColor: Colors.white,
-                          backgroundColor: MyColors.secondary,
-                        ),
+                        Obx(() {
+                          return SmallButton(
+                            onPressed: () {
+                              controller.verifyOtp(context);
+                            },
+                            showLoading: controller.isLoading.value,
+                            label: Text("Verify"),
+                            textColor: Colors.white,
+                            backgroundColor: MyColors.secondary,
+                          );
+                        }),
                       ],
                     ),
                   ),

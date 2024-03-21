@@ -84,7 +84,7 @@ class BioDigesterMainView extends StatelessWidget {
                                           context: context,
                                           animation: StyledToastAnimation.scale,
                                           duration: Duration(seconds: 4),
-                                          position: StyledToastPosition.center,
+                                          position: StyledToastPosition.top,
                                         );
                                         return;
                                       }
@@ -109,8 +109,7 @@ class BioDigesterMainView extends StatelessWidget {
                                               animation:
                                                   StyledToastAnimation.scale,
                                               duration: Duration(seconds: 4),
-                                              position:
-                                                  StyledToastPosition.center,
+                                              position: StyledToastPosition.top,
                                             );
                                             return;
                                           }

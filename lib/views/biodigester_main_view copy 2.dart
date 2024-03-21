@@ -151,7 +151,7 @@
 //                                                   StyledToastAnimation.scale,
 //                                               duration: Duration(seconds: 4),
 //                                               position:
-//                                                   StyledToastPosition.center,
+//                                                   StyledToastPosition.top,
 //                                             );
 //                                             return;
 //                                           }

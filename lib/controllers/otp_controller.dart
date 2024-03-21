@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,8 @@ import '../views/home_view.dart';
 
 class OtpController extends GetxController {
   var client = http.Client();
+
+  late FocusNode focusNode1;
 
   final isLoading = false.obs;
 
@@ -46,12 +49,27 @@ class OtpController extends GetxController {
     super.onInit();
   }
 
-  verifyOtp() async {
+  verifyOtp(context) async {
     try {
       var code = "${num1Controller.text}" +
           "${num2Controller.text}" +
           "${num3Controller.text}" +
           "${num4Controller.text}";
+      if (code.length != 4) {
+        showToast(
+          backgroundColor: Colors.red.shade800,
+          alignment: Alignment.topCenter,
+          'Enter OTP before proceeding',
+          context: context,
+          animation: StyledToastAnimation.slideFromBottom,
+          duration: Duration(seconds: 3),
+          position: StyledToastPosition.top,
+        );
+
+        return false;
+      }
+
+      isLoading.value = true;
 
       var uri = Uri.parse(Constants.VALIDATE_ACCOUNT_API_URL);
       var response = await client
@@ -71,17 +89,23 @@ class OtpController extends GetxController {
         onTimeout: () {
           // Time has run out, do what you wanted to do.
           isLoading.value = false;
-          Get.snackbar("Server Error",
-              "A server timeout error occured. Please try again later...",
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
+
+          showToast(
+            backgroundColor: Colors.red.shade800,
+            alignment: Alignment.topCenter,
+            'A server timeout error occured. Please try again later',
+            context: context,
+            animation: StyledToastAnimation.fade,
+            duration: Duration(seconds: 3),
+            position: StyledToastPosition.top,
+          );
+
           return http.Response(
               'Error', 408); // Request Timeout response status code
         },
       );
       isLoading.value = false;
-
+      inspect(response);
       if (response.statusCode == 200) {
         var json = await response.body;
 
@@ -103,9 +127,35 @@ class OtpController extends GetxController {
         box.write('isLogin', true);
         Get.off(() => HomeView(),
             binding: HomeBinding(), arguments: [userId, phoneNumber]);
+      } else if (response.statusCode == 400) {
+        num1Controller.text = "";
+        num2Controller.text = "";
+        num3Controller.text = "";
+        num4Controller.text = "";
+
+        showToast(
+          backgroundColor: Colors.red.shade800,
+          alignment: Alignment.topCenter,
+          'OTP does not exist. Please check and try again.',
+          context: context,
+          animation: StyledToastAnimation.fade,
+          duration: Duration(seconds: 3),
+          position: StyledToastPosition.top,
+        );
       }
     } catch (e) {
+      isLoading.value = false;
+
       inspect(e);
+      return showToast(
+        backgroundColor: Colors.red.shade800,
+        alignment: Alignment.topCenter,
+        'A server error occured. Please try again later',
+        context: context,
+        animation: StyledToastAnimation.fade,
+        duration: Duration(seconds: 3),
+        position: StyledToastPosition.top,
+      );
     }
   }
 

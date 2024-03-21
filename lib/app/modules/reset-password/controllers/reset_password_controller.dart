@@ -57,7 +57,7 @@ class ResetPasswordController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
         return;
       }
@@ -88,7 +88,7 @@ class ResetPasswordController extends GetxController {
             context: context,
             animation: StyledToastAnimation.fade,
             duration: Duration(seconds: 2),
-            position: StyledToastPosition.center,
+            position: StyledToastPosition.top,
           );
           return http.Response(
               'Error', 408); // Request Timeout response status code
@@ -110,7 +110,7 @@ class ResetPasswordController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
 
         // phoneNumberController.text = "";
@@ -133,7 +133,7 @@ class ResetPasswordController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
         return;
       }
@@ -148,7 +148,7 @@ class ResetPasswordController extends GetxController {
         context: context,
         animation: StyledToastAnimation.fade,
         duration: Duration(seconds: 2),
-        position: StyledToastPosition.center,
+        position: StyledToastPosition.top,
       );
     }
   }

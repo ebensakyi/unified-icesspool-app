@@ -153,11 +153,15 @@ class LoginController extends GetxController {
       bool result = await InternetConnectionChecker().hasConnection;
       if (result == false) {
         isLoading.value = false;
-        return Get.snackbar(
-            "Internet Error", "Poor internet access. Please try again later...",
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: MyColors.Red,
-            colorText: Colors.white);
+        return showToast(
+          backgroundColor: Colors.red.shade800,
+          alignment: Alignment.topCenter,
+          'Poor internet access. Please try again later...',
+          context: context,
+          animation: StyledToastAnimation.fade,
+          duration: Duration(seconds: 3),
+          position: StyledToastPosition.top,
+        );
       }
       isLoading.value = true;
 
@@ -191,7 +195,7 @@ class LoginController extends GetxController {
             context: context,
             animation: StyledToastAnimation.fade,
             duration: Duration(seconds: 2),
-            position: StyledToastPosition.center,
+            position: StyledToastPosition.top,
           );
           return http.Response(
               'Error', 408); // Request Timeout response status code
@@ -219,7 +223,7 @@ class LoginController extends GetxController {
             context: context,
             animation: StyledToastAnimation.fade,
             duration: Duration(seconds: 2),
-            position: StyledToastPosition.center,
+            position: StyledToastPosition.top,
           );
           return http.Response('Error', 408);
         }
@@ -256,7 +260,7 @@ class LoginController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 4),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
         Get.to(() => OtpPageView(),
             binding: OtpBinding(), arguments: [userId, phoneNumber]);
@@ -268,7 +272,7 @@ class LoginController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
       }
     } catch (e) {
@@ -282,7 +286,7 @@ class LoginController extends GetxController {
         context: context,
         animation: StyledToastAnimation.fade,
         duration: Duration(seconds: 2),
-        position: StyledToastPosition.center,
+        position: StyledToastPosition.top,
       );
     }
   }
@@ -296,7 +300,10 @@ class LoginController extends GetxController {
               padding: const EdgeInsets.all(8.0),
               //child: CircularProgressIndicator(),
             ),
-            Text("Permissions Required"),
+            Align(
+              alignment: Alignment.center,
+              child: Text("Permissions Required"),
+            ),
           ],
         ),
         content: Column(
@@ -312,6 +319,7 @@ class LoginController extends GetxController {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SmallButton(
+                  backgroundColor: MyColors.Red,
                   onPressed: () async {
                     final box = await GetStorage();
                     box.write('disclosureViewed', true);
@@ -319,11 +327,10 @@ class LoginController extends GetxController {
                   },
                   showLoading: false,
                   label: Text("Accept"),
-                  textColor: MyColors.primary,
+                  textColor: Colors.white,
                 ),
                 SmallButton(
-                  backgroundColor: MyColors.Red,
-                  onPressed: () {
+                  onPressed: () async {
                     if (Platform.isAndroid) {
                       SystemNavigator.pop();
                     } else if (Platform.isIOS) {
@@ -332,8 +339,8 @@ class LoginController extends GetxController {
                   },
                   showLoading: false,
                   label: Text("Deny"),
-                  textColor: Colors.white,
-                )
+                  textColor: MyColors.primary,
+                ),
               ],
             ),
           ],

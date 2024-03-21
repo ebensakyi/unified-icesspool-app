@@ -20,31 +20,34 @@ class OtpBox extends StatelessWidget {
         height: 60,
         child: AspectRatio(
           aspectRatio: 1.0,
-          child: TextField(
-            controller: this.controller,
-            autofocus: true,
-            onChanged: (value) {
-              if (value.length == 1 && last == false) {
-                FocusScope.of(context).nextFocus();
-              }
-              if (value.length == 0 && first == false) {
-                FocusScope.of(context).previousFocus();
-              }
-            },
-            showCursor: false,
-            readOnly: false,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            keyboardType: TextInputType.number,
-            maxLength: 1,
-            decoration: InputDecoration(
-              counter: Offstage(),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: Colors.black12),
-                  borderRadius: BorderRadius.circular(12)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: MyColors.primary),
-                  borderRadius: BorderRadius.circular(12)),
+          child: Center(
+            child: TextField(
+              controller: this.controller,
+              autofocus: true,
+              onChanged: (value) {
+                if (value.length == 1 && last == false) {
+                  FocusScope.of(context).nextFocus();
+                }
+                if (value.length == 0 && first == false) {
+                  FocusScope.of(context).previousFocus();
+                }
+              },
+              showCursor: false,
+              readOnly: false,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              keyboardType: TextInputType.number,
+              maxLength: 1,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(0),
+                counter: Offstage(),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2, color: Colors.black12),
+                    borderRadius: BorderRadius.circular(12)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2, color: MyColors.primary),
+                    borderRadius: BorderRadius.circular(12)),
+              ),
             ),
           ),
         ),

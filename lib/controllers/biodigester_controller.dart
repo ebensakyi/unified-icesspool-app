@@ -298,7 +298,7 @@ class BiodigesterController extends GetxController {
         context: context,
         animation: StyledToastAnimation.scale,
         duration: Duration(seconds: 4),
-        position: StyledToastPosition.center,
+        position: StyledToastPosition.top,
       );
     }
   }

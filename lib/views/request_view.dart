@@ -938,7 +938,7 @@ class RequestView extends StatelessWidget {
                   path: "assets/images/biodigester.png",
                   size: 32,
                   title: 'Biodigester',
-                  subTitle: 'Service or build a new biodigester',
+                  subTitle: 'Emptying and new biodigester\n construction',
                   onTap: openBioDigesterMainView,
                 ),
               );
@@ -950,7 +950,7 @@ class RequestView extends StatelessWidget {
                   path: "assets/images/toilet-tanker.png",
                   size: 32,
                   title: 'Septic Tank',
-                  subTitle: 'Empty your Septic tank',
+                  subTitle: 'Empty your Septic tank\n',
                   onTap: openTankerMainView,
                 ),
               );
@@ -967,7 +967,7 @@ class RequestView extends StatelessWidget {
                   path: "assets/images/water-tanker.png",
                   size: 32,
                   title: 'Tanker Water',
-                  subTitle: 'Request for bulk water',
+                  subTitle: 'Request for bulk water\n',
                   onTap: openWaterMainView,
                 ),
               );
@@ -978,7 +978,7 @@ class RequestView extends StatelessWidget {
                 path: "assets/images/more.png",
                 size: 32,
                 title: 'Learn More',
-                subTitle: 'Learn more about our services',
+                subTitle: 'Learn more about our services\n',
                 onTap: () {
                   Get.to(() => ServicesView());
                 },

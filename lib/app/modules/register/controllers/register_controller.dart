@@ -129,7 +129,7 @@ class RegisterController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
 
         // Get.snackbar("Error",
@@ -152,7 +152,7 @@ class RegisterController extends GetxController {
         // context: context,
         animation: StyledToastAnimation.scale,
         duration: Duration(seconds: 4),
-        position: StyledToastPosition.center,
+        position: StyledToastPosition.top,
       );
     }
   }

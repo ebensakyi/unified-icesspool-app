@@ -76,7 +76,7 @@ class ProfileController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
         return;
       }
@@ -90,7 +90,7 @@ class ProfileController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
         return;
       }
@@ -129,7 +129,7 @@ class ProfileController extends GetxController {
             context: context,
             animation: StyledToastAnimation.fade,
             duration: Duration(seconds: 2),
-            position: StyledToastPosition.center,
+            position: StyledToastPosition.top,
           );
           return http.Response(
               'Error', 408); // Request Timeout response status code
@@ -155,7 +155,7 @@ class ProfileController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
         box.write("email", emailController.text);
         Get.deleteAll();
@@ -168,7 +168,7 @@ class ProfileController extends GetxController {
           context: context,
           animation: StyledToastAnimation.fade,
           duration: Duration(seconds: 2),
-          position: StyledToastPosition.center,
+          position: StyledToastPosition.top,
         );
       }
     } catch (e) {
@@ -182,7 +182,7 @@ class ProfileController extends GetxController {
         context: context,
         animation: StyledToastAnimation.fade,
         duration: Duration(seconds: 2),
-        position: StyledToastPosition.center,
+        position: StyledToastPosition.top,
       );
     }
   }
