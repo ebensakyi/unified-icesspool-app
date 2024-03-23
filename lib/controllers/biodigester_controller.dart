@@ -82,8 +82,6 @@ class BiodigesterController extends GetxController {
   final selectedStartTime = "".obs;
 
   var currentIndex = 0.obs;
-  var currentTitle = "Report".obs;
-  List<String> titlesList = ["Home", "Report Status", "About"];
 
   late List<Placemark> placemarks = [];
 
@@ -168,7 +166,7 @@ class BiodigesterController extends GetxController {
   Future<void> changeTabIndex(int index) async {
     try {
       currentIndex.value = index;
-      currentTitle.value = titlesList[index];
+      // currentTitle.value = titlesList[index];
 
       //await getUserArea();
 
@@ -671,7 +669,6 @@ class BiodigesterController extends GetxController {
         " " +
         formatTime(convertToTimeOfDay(selectedStartTime.value));
 
-    log(givenDateString);
     // Splitting the given date string into date and time parts
     List<String> parts = givenDateString.split(" ");
     String datePart = parts[0];

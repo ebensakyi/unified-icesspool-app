@@ -549,7 +549,7 @@
 //                             homeController.emptyingServiceAvailable.value,
 //                         path: "assets/images/toilet-tanker.png",
 //                         size: 32,
-//                         title: 'Septic Tank',
+//                         title: 'Toilet Truck',
 //                         subTitle: 'Empty your Septic tank',
 //                         onTap: openTankerMainView,
 //                       ),

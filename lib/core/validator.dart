@@ -3,6 +3,13 @@
 import 'dart:developer';
 
 class Validator {
+  static String? textFieldValidator1(String value,String msg) {
+    log("textFieldValidator $value");
+    if (value == null || value.trim() == "" || value == "null") {
+      return msg;
+    }
+    return null;
+  }
   static String? textFieldValidator(String value) {
     log("textFieldValidator $value");
     if (value == null || value.trim() == "" || value == "null") {

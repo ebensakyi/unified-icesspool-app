@@ -28,8 +28,12 @@ import '../app/modules/services/bindings/services_binding.dart';
 import '../app/modules/services/views/services_view.dart';
 import '../app/modules/setting/bindings/setting_binding.dart';
 import '../app/modules/setting/views/setting_view.dart';
+import '../app/modules/toilet-truck/bindings/toilet_truck_binding.dart';
+import '../app/modules/toilet-truck/views/toilet_truck_view.dart';
 import '../app/modules/transaction-history/bindings/transaction_history_binding.dart';
 import '../app/modules/transaction-history/views/transaction_history_view.dart';
+import '../app/modules/water-tanker/bindings/water_tanker_binding.dart';
+import '../app/modules/water-tanker/views/water_tanker_view.dart';
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
 import '../bindings/single_report_binding.dart';
@@ -138,6 +142,16 @@ class AppPages {
       name: _Paths.REGISTER,
       page: () => RegisterView(),
       binding: RegisterBinding(),
+    ),
+    GetPage(
+      name: _Paths.TOILET_TRUCK,
+      page: () => ToiletTruckView(),
+      binding: ToiletTruckBinding(),
+    ),
+    GetPage(
+      name: _Paths.WATER_TANKER,
+      page: () => const WaterTankerView(),
+      binding: WaterTankerBinding(),
     ),
   ];
 }

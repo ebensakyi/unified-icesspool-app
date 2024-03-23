@@ -21,6 +21,8 @@ abstract class Routes {
   static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
   static const TRANSACTION_HISTORY = _Paths.TRANSACTION_HISTORY;
   static const REGISTER = _Paths.REGISTER;
+  static const TOILET_TRUCK = _Paths.TOILET_TRUCK;
+  static const WATER_TANKER = _Paths.WATER_TANKER;
 }
 
 abstract class _Paths {
@@ -43,4 +45,6 @@ abstract class _Paths {
   static const RESET_PASSWORD = '/reset-password';
   static const TRANSACTION_HISTORY = '/transaction-history';
   static const REGISTER = '/register';
+  static const TOILET_TRUCK = '/toilet-truck';
+  static const WATER_TANKER = '/water-tanker';
 }
