@@ -1,14 +1,21 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
+import 'package:icesspool/contants.dart';
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/controllers/request_controller.dart';
+import 'package:icesspool/core/random.dart';
 import 'package:icesspool/model/time_range.dart';
+import 'package:icesspool/themes/colors.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class ToiletTruckController extends GetxController {
   final controller = Get.put(HomeController());
@@ -44,12 +51,7 @@ class ToiletTruckController extends GetxController {
   final adultsNumber = TextEditingController();
   final totalUsers = 0.obs;
 
-  final digesterEmptyingAvailable = false.obs;
-  final soakawayServicingAvailable = false.obs;
-  final drainfieldServicingAvailable = false.obs;
-  final biodigesterAvailable = false.obs;
-  final biodigesterWithSeatAvailable = false.obs;
-  final standaloneAvailable = false.obs;
+  var pricing = [].obs;
 
   final isSelected1 = false.obs;
   final isSelected2 = false.obs;
@@ -85,7 +87,6 @@ class ToiletTruckController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     getPricing(context!);
   }
 
@@ -110,13 +111,10 @@ class ToiletTruckController extends GetxController {
   }
 
   continued() {
+    log(currentStep.toString());
     if (currentStep < 4) {
       currentStep.value += 1;
-    } else {
-      //   _submitRequest();
-      //  _formSubmitted = true;
-    }
-    if (currentStep == 3) {}
+    } else {}
   }
 
   cancel() {
@@ -178,9 +176,112 @@ class ToiletTruckController extends GetxController {
     return DateFormat('h:mm a').format(dateTime);
   }
 
-  void sendRequest(BuildContext context) {}
+  Future sendRequest(BuildContext context) async {
+    try {
+      bool result = await InternetConnectionChecker().hasConnection;
+      if (!result) {
+        isLoading.value = false;
+        return Get.snackbar(
+            "Internet Error", "Poor internet access. Please try again later...",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: MyColors.Red,
+            colorText: Colors.white);
+      }
+      isLoading.value = true;
 
-  void getPricing(BuildContext context) {
-    inspect(controller.serviceAreaId.value);
+      var uri = Uri.parse(Constants.TOILET_TRUCK_TRANSACTION_API_URL);
+
+      var transactionId = controller.serviceAreaId.value.toString() +
+          "1" +
+          generateTransactionCode();
+
+      // var address = await getAddressFromLatLng(
+      //     controller.longitude.value, controller.longitude.value);
+
+      final Map<String, dynamic> data = {
+        'transactionId': transactionId,
+        'userId': controller.userId.value,
+        'customerLng': controller.longitude.value,
+        'customerLat': controller.latitude.value,
+        'address': selectedLocation.value.description,
+        'placeLat': selectedLocation.value.lat,
+        'placeLng': selectedLocation.value.lng,
+        'placeId': selectedLocation.value.placeId,
+        'accuracy': controller.accuracy.value,
+        'totalCost': "calculateTotalCost(selectedServices)",
+        'serviceAreaId': controller.serviceAreaId.value,
+        'scheduledDate': selectedDate.value.toIso8601String(),
+        'timeFrame': selectedTimeRangeId.value
+      };
+
+      final response = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data),
+      );
+      var json = await response.body;
+
+      if (response.statusCode == 200) {
+        print('Post request successful! Response: ${json}');
+        isLoading.value = false;
+        requestController.isPendingTrxnAvailable.value = true;
+
+        requestController.transactionStatus.value = 1;
+        requestController.transactionId.value = transactionId;
+        var response = jsonDecode(json);
+
+        var totalCost = double.tryParse(response["totalCost"]);
+        requestController.totalCost.value = totalCost.toString();
+
+        Get.back();
+      } else {
+        isLoading.value = false;
+        print(
+            'Failed to send POST request. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      isLoading.value = false;
+      log(e.toString());
+      return showToast(
+        backgroundColor: Colors.red.shade800,
+        alignment: Alignment.center,
+        'Connection to server refused. Please try again later.',
+        context: context,
+        animation: StyledToastAnimation.scale,
+        duration: Duration(seconds: 4),
+        position: StyledToastPosition.top,
+      );
+    }
+  }
+
+  Future<void> getPricing(BuildContext context) async {
+    log("serviceAreaId=> " + controller.serviceAreaId.value.toString());
+    final String apiUrl = Constants.TOILET_TRUCK_AVAILABLE_API_URL;
+    final Map<String, String> params = {
+      'serviceAreaId': controller.serviceAreaId.value.toString(),
+      'userLatitude': controller.latitude.value.toString(),
+      'userLongitude': controller.longitude.value.toString(),
+    };
+
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // Successful response
+        final data = json.decode(response.body);
+        pricing.value = data["price"];
+        print(pricing.value);
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception getAvailableBiodigesterPricing: $error');
+    }
   }
 }

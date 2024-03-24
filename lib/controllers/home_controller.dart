@@ -78,7 +78,6 @@ class HomeController extends GetxController {
 
     email.value = box.read('email') ?? "";
     photoURL.value = box.read('photoURL') ?? "";
-    log("HomeController ININT==> ${userId.value}");
 
     // await getAddressFromCoords();
 

@@ -3,13 +3,14 @@
 import 'dart:developer';
 
 class Validator {
-  static String? textFieldValidator1(String value,String msg) {
+  static String? textFieldValidator1(String value, String msg) {
     log("textFieldValidator $value");
     if (value == null || value.trim() == "" || value == "null") {
       return msg;
     }
     return null;
   }
+
   static String? textFieldValidator(String value) {
     log("textFieldValidator $value");
     if (value == null || value.trim() == "" || value == "null") {
@@ -33,6 +34,13 @@ class Validator {
   }
 
   static String? phoneValidator(String value) {
+    if (value == "") {
+      return "Please enter phone number";
+
+      // if (value[1] != "2" && value[1] != "5") {
+      //   return "Phone number must have with '2' or '5' in 2nd position ";
+      // }
+    }
     if ((value.length != 10)) {
       return "Please enter a valid phone number";
     }
@@ -42,18 +50,9 @@ class Validator {
     //     value[1] != "5") {
     //   return "Please enter a valid phone number";
     // }
-    if (value != "") {
-      if (value[0] != "0") {
-        return "Phone number must start with '0' ";
-      }
-      // if (value[1] != "2" && value[1] != "5") {
-      //   return "Phone number must have with '2' or '5' in 2nd position ";
-      // }
-    }
-    if (value != "") {
-      if (value[0] != "0") {
-        return "Phone number must start with '0' ";
-      }
+
+    if (value[0] != "0") {
+      return "Phone number must start with '0' ";
     }
 
     return null;

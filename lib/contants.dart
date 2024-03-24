@@ -1,8 +1,8 @@
 class Constants {
   //static const String BASE_URL = "https://app.icesspool.net/api";
 
-  // static const String BASE_URL = "http://10.0.2.2:3000/api";
-  static const String BASE_URL = "http://172.30.13.241:3000/api";
+  static const String BASE_URL = "http://10.0.2.2:3000/api";
+  // static const String BASE_URL = "http://172.30.13.241:3000/api";
 
   static String LOGIN_API_URL = BASE_URL + "/auth/login/mobile";
 
@@ -81,4 +81,10 @@ class Constants {
   static const int OFFER_CANCELLED_SP = 8; //SP
   static const int OFFER_CANCELLED_CL = 9; //CL
   static const int OFFER_REASSIGNED = 10;
+
+  static String TOILET_TRUCK_TRANSACTION_API_URL =
+      BASE_URL + "/service-request/toilet-truck/make-request";
+
+  static String TOILET_TRUCK_AVAILABLE_API_URL =
+      BASE_URL + "/pricing/toilet-truck-service/price";
 }
