@@ -260,7 +260,7 @@ class ToiletTruckController extends GetxController {
     log("serviceAreaId=> " + controller.serviceAreaId.value.toString());
     final String apiUrl = Constants.TOILET_TRUCK_AVAILABLE_API_URL;
     final Map<String, String> params = {
-      'serviceAreaId': controller.serviceAreaId.value.toString(),
+      'serviceArea': controller.serviceAreaId.value.toString(),
       'userLatitude': controller.latitude.value.toString(),
       'userLongitude': controller.longitude.value.toString(),
     };

@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:developer';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -70,6 +69,26 @@ class BioDigesterMainView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16),
                         child: Row(
                           children: <Widget>[
+                            OutlineButton(
+                              onPressed: () {
+                                controller.cancel();
+                              },
+                              showLoading: false,
+                              borderColor: MyColors.primary,
+                              textColor: MyColors.primary,
+                              label: Text("Previous"),
+                              // sho: false,
+                              // iconData: Icons.cancel,
+                              // label: "Cancel",
+                              // iconColor: Colors.white,
+                              // progressColor: Colors.white,
+                              // textColor: Colors.white,
+                              // backgroundColor: MyColors.primary,
+                              // borderColor: MyColors.primary,
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
                             controller.currentStep == 0
                                 ? SolidButton(
                                     onPressed: () {
@@ -117,6 +136,45 @@ class BioDigesterMainView extends StatelessWidget {
                                             return;
                                           }
 
+                                          if (controller
+                                                  .selectedRequestType.value ==
+                                              "2") {
+                                            if (controller.adultsNumber.text
+                                                    .toString() ==
+                                                "") {
+                                              showToast(
+                                                backgroundColor:
+                                                    Colors.yellow.shade800,
+                                                alignment: Alignment.center,
+                                                'Please enter number of adults',
+                                                context: context,
+                                                animation:
+                                                    StyledToastAnimation.scale,
+                                                duration: Duration(seconds: 4),
+                                                position:
+                                                    StyledToastPosition.top,
+                                              );
+                                              return;
+                                            }
+                                            if (controller.childrenNumber.text
+                                                    .toString() ==
+                                                "") {
+                                              showToast(
+                                                backgroundColor:
+                                                    Colors.yellow.shade800,
+                                                alignment: Alignment.center,
+                                                'Please enter number of children',
+                                                context: context,
+                                                animation:
+                                                    StyledToastAnimation.scale,
+                                                duration: Duration(seconds: 4),
+                                                position:
+                                                    StyledToastPosition.top,
+                                              );
+                                              return;
+                                            }
+                                          }
+
                                           if (formKey2.currentState!
                                               .validate()) {
                                             // controller
@@ -125,10 +183,7 @@ class BioDigesterMainView extends StatelessWidget {
                                             if (controller.selectedRequestType
                                                     .value ==
                                                 "1") {
-                                              inspect(
-                                                  "controller.selectedRequestType 1");
-                                              controller.addService(
-                                                  controller.selectedServices, {
+                                              controller.addService({
                                                 "id": controller
                                                     .biodigesterPricings[0]
                                                     .biodigesterServiceId
@@ -136,33 +191,26 @@ class BioDigesterMainView extends StatelessWidget {
                                                 "unitCost": controller
                                                     .biodigesterPricings[0].cost
                                                     .toString(),
+                                                "biodigesterService": controller
+                                                    .biodigesterPricings[0]
+                                                    .biodigesterServiceId
+                                                    .toString(),
+                                                "biodigesterType": controller
+                                                    .biodigesterPricings[0].type
+                                                    .toString(),
                                                 "name": controller
                                                     .biodigesterPricings[0].name
                                                     .toString(),
                                               });
+                                              controller.continued();
                                             }
 
                                             if (controller.selectedRequestType
                                                     .value ==
                                                 "2") {
-                                              inspect(
-                                                  "controller.selectedRequestType 2");
-                                              // controller.addOrRemoveItem(
-                                              //     controller.selectedServices, {
-                                              //   "id": controller
-                                              //       .biodigesterPricings[1]
-                                              //       .biodigesterServiceId
-                                              //       .toInt(),
-                                              //   "unitCost": controller
-                                              //       .biodigesterPricings[1].cost
-                                              //       .toString(),
-                                              //   "name": controller
-                                              //       .biodigesterPricings[1].name
-                                              //       .toString(),
-                                              // });
+                                              controller.calcUsers();
 
-                                              controller.addService(
-                                                  controller.selectedServices, {
+                                              controller.addService({
                                                 "id": controller
                                                     .biodigesterPricings[1].id
                                                     .toInt(),
@@ -183,11 +231,17 @@ class BioDigesterMainView extends StatelessWidget {
                                                             .doubleLargeCost,
                                                 "name": controller
                                                     .biodigesterPricings[1].name
-                                                    .toString()
+                                                    .toString(),
+                                                "biodigesterService": controller
+                                                    .biodigesterPricings[1]
+                                                    .biodigesterServiceId
+                                                    .toString(),
+                                                "biodigesterType": controller
+                                                    .biodigesterPricings[1].type
+                                                    .toString(),
                                               });
+                                              controller.continued();
                                             }
-
-                                            controller.continued();
                                           }
                                         },
                                         showLoading: false,
@@ -198,25 +252,25 @@ class BioDigesterMainView extends StatelessWidget {
                                     : controller.currentStep == 2
                                         ? SolidButton(
                                             onPressed: () {
-                                              if (controller.selectedServices
-                                                      .length ==
-                                                  0) {
-                                                showToast(
-                                                  backgroundColor:
-                                                      Colors.yellow.shade800,
-                                                  alignment: Alignment.center,
-                                                  'Please select service',
-                                                  context: context,
-                                                  animation:
-                                                      StyledToastAnimation
-                                                          .scale,
-                                                  duration:
-                                                      Duration(seconds: 4),
-                                                  position: StyledToastPosition
-                                                      .center,
-                                                );
-                                                return;
-                                              }
+                                              // if (controller.selectedServices
+                                              //         .length ==
+                                              //     0) {
+                                              //   showToast(
+                                              //     backgroundColor:
+                                              //         Colors.yellow.shade800,
+                                              //     alignment: Alignment.center,
+                                              //     'Please select service',
+                                              //     context: context,
+                                              //     animation:
+                                              //         StyledToastAnimation
+                                              //             .scale,
+                                              //     duration:
+                                              //         Duration(seconds: 4),
+                                              //     position: StyledToastPosition
+                                              //         .center,
+                                              //   );
+                                              //   return;
+                                              // }
                                               if (formKey2.currentState!
                                                   .validate()) {
                                                 // controller
@@ -301,26 +355,6 @@ class BioDigesterMainView extends StatelessWidget {
                                                   borderColor:
                                                       MyColors.secondary,
                                                 )),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            OutlineButton(
-                              onPressed: () {
-                                controller.cancel();
-                              },
-                              showLoading: false,
-                              borderColor: MyColors.primary,
-                              textColor: MyColors.primary,
-                              label: Text("Previous"),
-                              // sho: false,
-                              // iconData: Icons.cancel,
-                              // label: "Cancel",
-                              // iconColor: Colors.white,
-                              // progressColor: Colors.white,
-                              // textColor: Colors.white,
-                              // backgroundColor: MyColors.primary,
-                              // borderColor: MyColors.primary,
-                            )
                           ],
                         ),
                       );
@@ -427,87 +461,190 @@ class BioDigesterMainView extends StatelessWidget {
                               key: formKey1,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              child: Obx(
-                                () => Dropdown(
-                                  onChangedCallback: (newValue) {
-                                    controller.selectedServices.value = [];
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Obx(
+                                    () => Dropdown(
+                                      onChangedCallback: (newValue) {
+                                        controller.selectedServices.value = [];
 
-                                    controller.selectedRequestType.value =
-                                        newValue;
+                                        controller.selectedRequestType.value =
+                                            newValue;
 
-                                    if (controller.selectedRequestType.value ==
-                                        "2") {
-                                      showDialog(
-                                        barrierDismissible: false,
-                                        context: context,
-                                        builder: (context) {
-                                          String contentText =
-                                              "How many people will be using the toilet?";
-                                          return StatefulBuilder(
-                                            builder: (context, setState) {
-                                              return AlertDialog(
-                                                title: Text("Cancel Request"),
-                                                content: Container(
-                                                  height: 250,
-                                                  child: Column(
-                                                    children: [
-                                                      Text(contentText),
-                                                      SmallTextBox(
-                                                          label:
-                                                              "No. of adults",
-                                                          controller: controller
-                                                              .adultsNumber),
-                                                      SmallTextBox(
-                                                          label:
-                                                              "No. of children",
-                                                          controller: controller
-                                                              .childrenNumber)
-                                                    ],
-                                                  ),
-                                                ),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    child: Text("Cancel"),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      controller.calcUsers();
-                                                      //  controller.cancelRequest();
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text("Ok"),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                      );
-                                    }
-                                  },
-                                  value: controller.returnValue(
-                                      controller.selectedRequestType.value),
-                                  initialValue: controller.returnValue(
-                                      controller.selectedRequestType.value),
-                                  dropdownItems: [
-                                    DropdownMenuItem(
-                                      child: Text("Biodigester Maintenance"),
-                                      value: "1",
+                                        // if (controller.selectedRequestType.value ==
+                                        //     "2") {
+                                        //   showDialog(
+                                        //     barrierDismissible: false,
+                                        //     context: context,
+                                        //     builder: (context) {
+                                        //       String contentText =
+                                        //           "How many people will be using the toilet?";
+                                        //       return StatefulBuilder(
+                                        //         builder: (context, setState) {
+                                        //           return AlertDialog(
+                                        //             title: Text(
+                                        //                 "New Biodigester Needs"),
+                                        //             content: Container(
+                                        //               height: 250,
+                                        //               child: Column(
+                                        //                 children: [
+                                        //                   Text(contentText),
+                                        //                   SmallTextBox(
+                                        //                       label:
+                                        //                           "No. of adults",
+                                        //                       controller: controller
+                                        //                           .adultsNumber),
+                                        //                   SmallTextBox(
+                                        //                       label:
+                                        //                           "No. of children",
+                                        //                       controller: controller
+                                        //                           .childrenNumber)
+                                        //                 ],
+                                        //               ),
+                                        //             ),
+                                        //             actions: <Widget>[
+                                        //               TextButton(
+                                        //                 onPressed: () =>
+                                        //                     Navigator.pop(context),
+                                        //                 child: Text("Cancel"),
+                                        //               ),
+                                        //               TextButton(
+                                        //                 onPressed: () {
+                                        //                   // inspect(controller
+                                        //                   //     .adultsNumber.text
+                                        //                   //     .toString());
+                                        //                   // log(controller
+                                        //                   //     .adultsNumber.text
+                                        //                   //     .toString());
+                                        //                   // print(controller
+                                        //                   //     .adultsNumber.text
+                                        //                   //     .toString());
+                                        //                   if (controller
+                                        //                           .adultsNumber.text
+                                        //                           .toString() ==
+                                        //                       "") {
+                                        //                     showToast(
+                                        //                       backgroundColor:
+                                        //                           Colors.yellow
+                                        //                               .shade800,
+                                        //                       alignment:
+                                        //                           Alignment.center,
+                                        //                       'Please enter number of adults',
+                                        //                       context: context,
+                                        //                       animation:
+                                        //                           StyledToastAnimation
+                                        //                               .scale,
+                                        //                       duration: Duration(
+                                        //                           seconds: 4),
+                                        //                       position:
+                                        //                           StyledToastPosition
+                                        //                               .top,
+                                        //                     );
+                                        //                     return;
+                                        //                   }
+                                        //                   if (controller
+                                        //                           .childrenNumber
+                                        //                           .text
+                                        //                           .toString() ==
+                                        //                       "") {
+                                        //                     showToast(
+                                        //                       backgroundColor:
+                                        //                           Colors.yellow
+                                        //                               .shade800,
+                                        //                       alignment:
+                                        //                           Alignment.center,
+                                        //                       'Please enter number of children',
+                                        //                       context: context,
+                                        //                       animation:
+                                        //                           StyledToastAnimation
+                                        //                               .scale,
+                                        //                       duration: Duration(
+                                        //                           seconds: 4),
+                                        //                       position:
+                                        //                           StyledToastPosition
+                                        //                               .top,
+                                        //                     );
+                                        //                     return;
+                                        //                   }
+                                        //                   controller.calcUsers();
+                                        //                   //  controller.cancelRequest();
+                                        //                   Navigator.pop(context);
+                                        //                 },
+                                        //                 child: Text("Ok"),
+                                        //               ),
+                                        //             ],
+                                        //           );
+                                        //         },
+                                        //       );
+                                        //     },
+                                        //   );
+                                        // }
+                                      },
+                                      value: controller.returnValue(
+                                          controller.selectedRequestType.value),
+                                      initialValue: controller.returnValue(
+                                          controller.selectedRequestType.value),
+                                      dropdownItems: [
+                                        DropdownMenuItem(
+                                          child:
+                                              Text("Biodigester Maintenance"),
+                                          value: "1",
+                                        ),
+                                        DropdownMenuItem(
+                                          child: Text(
+                                              "New Biodigester Construction"),
+                                          value: "2",
+                                        ),
+                                      ],
+                                      hintText: '',
+                                      labelText: "What is your need? *",
+                                      validator: (value) {
+                                        return Validator.dropdownValidator(
+                                            value);
+                                      },
                                     ),
-                                    DropdownMenuItem(
-                                      child:
-                                          Text("New Biodigester Construction"),
-                                      value: "2",
+                                  ),
+                                  Text(
+                                      "How many people will be using the toilet?"),
+                                  Obx(
+                                    () => Visibility(
+                                      visible: controller
+                                              .selectedRequestType.value ==
+                                          "2",
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SmallTextBox(
+                                              label: "No. of adults",
+                                              controller:
+                                                  controller.adultsNumber,
+                                              validator: (value) {
+                                                return Validator
+                                                    .textFieldValidator(value);
+                                              },
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            SmallTextBox(
+                                              label: "No. of children",
+                                              controller:
+                                                  controller.childrenNumber,
+                                              validator: (value) {
+                                                return Validator
+                                                    .textFieldValidator(value);
+                                              },
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                  hintText: '',
-                                  labelText: "What is your need? *",
-                                  validator: (value) {
-                                    return Validator.dropdownValidator(value);
-                                  },
-                                ),
+                                  )
+                                ],
                               ),
                             ),
                           ],
@@ -554,7 +691,7 @@ class BioDigesterMainView extends StatelessWidget {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Colors.yellow.withOpacity(
-                                          0.3), // Light yellow background
+                                          0.2), // Light yellow background
                                       borderRadius: BorderRadius.circular(
                                           10.0), // Adjust the radius as needed
                                     ),
@@ -572,11 +709,31 @@ class BioDigesterMainView extends StatelessWidget {
                                   ),
                                 ),
 
-                                ElevatedButton(
-                                  onPressed: () {
-                                    controller.selectDate(context);
-                                  },
-                                  child: Text("Select date"),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(
+                                        elevation: MaterialStateProperty.all(0),
+                                        shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        controller.selectDate(context);
+                                      },
+                                      child: Text("Select date"),
+                                    ),
+                                  ),
                                 ),
                                 Obx(() {
                                   final selectedDate =
@@ -592,108 +749,68 @@ class BioDigesterMainView extends StatelessWidget {
 
                                   return Text(' $formattedDate');
                                 }),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Divider(),
+                                // Padding(
+                                //   padding: const EdgeInsets.all(8.0),
+                                //   child: Divider(),
+                                // ),
+                                SizedBox(
+                                  height: 20,
                                 ),
                                 Obx(() {
                                   if (controller.timeRanges.isEmpty) {
                                     return CircularProgressIndicator();
                                   } else {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors
-                                                .grey), // Set border color
-                                        borderRadius: BorderRadius.circular(
-                                            100), // Set border radius
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8.0, right: 8),
-                                        child: DropdownButton<int>(
-                                          alignment: Alignment.center,
-                                          hint: Text('Select Time Range'),
-                                          value: controller
-                                              .selectedTimeRangeId.value,
-                                          onChanged: (int? value) {
-                                            if (value != null) {
-                                              TimeRange selectedTimeRange =
-                                                  controller.timeRanges
-                                                      .firstWhere((ts) =>
-                                                          ts.id == value);
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors
+                                                  .grey), // Set border color
+                                          borderRadius: BorderRadius.circular(
+                                              10), // Set border radius
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, right: 8),
+                                          child: DropdownButton<int>(
+                                            borderRadius:
+                                                BorderRadius.all(Radius.zero),
+                                            alignment: Alignment.center,
+                                            hint: Text('Select Time Range'),
+                                            value: controller
+                                                .selectedTimeRangeId.value,
+                                            onChanged: (int? value) {
+                                              if (value != null) {
+                                                TimeRange selectedTimeRange =
+                                                    controller.timeRanges
+                                                        .firstWhere((ts) =>
+                                                            ts.id == value);
 
-                                              controller.selectedTimeRangeId
-                                                  .value = value;
-                                              controller
-                                                      .selectedStartTime.value =
-                                                  selectedTimeRange.start_time;
-                                            }
-                                          },
-                                          underline: Container(),
-                                          items: controller.timeRanges
-                                              .map<DropdownMenuItem<int>>((ts) {
-                                            return DropdownMenuItem<int>(
-                                              value: ts.id,
-                                              child: Text(ts.time_schedule),
-                                            );
-                                          }).toList(),
+                                                controller.selectedTimeRangeId
+                                                    .value = value;
+                                                controller.selectedStartTime
+                                                        .value =
+                                                    selectedTimeRange
+                                                        .start_time;
+                                              }
+                                            },
+                                            underline: Container(),
+                                            items: controller.timeRanges
+                                                .map<DropdownMenuItem<int>>(
+                                                    (ts) {
+                                              return DropdownMenuItem<int>(
+                                                value: ts.id,
+                                                child: Text(ts.time_schedule),
+                                              );
+                                            }).toList(),
+                                          ),
                                         ),
                                       ),
                                     );
                                   }
                                 }),
-
-                                // Dropdown<TimeSchedule>(
-                                //   onChangedCallback: (newValue) {
-                                //     controller.selectedServices.value = [];
-
-                                //     controller.selectedRequestType.value =
-                                //         newValue;
-                                //   },
-                                //   value: controller.returnValue(
-                                //       controller.selectedRequestType.value),
-                                //   initialValue: controller.returnValue(
-                                //       controller.selectedRequestType.value),
-                                //   dropdownItems: controller.timeSchedules.map(
-                                //     (element) => DropdownMenuItem(
-                                //       child: Text("${element.time_schedule}"),
-                                //       value: element.id,
-                                //     ),
-                                //   ),
-
-                                // [
-                                //   DropdownMenuItem(
-                                //     child: Text("Biodigester Maintenance"),
-                                //     value: "1",
-                                //   ),
-                                //   DropdownMenuItem(
-                                //     child:
-                                //         Text("New Biodigester Construction"),
-                                //     value: "2",
-                                //   ),
-                                // ],
-                                //   hintText: '',
-                                //   labelText: "Select time frame? *",
-                                //   validator: (value) {
-                                //     return Validator.dropdownValidator(value);
-                                //   },
-                                // ),
-                                // ElevatedButton(
-                                //   onPressed: () {
-                                //     controller.selectTime(context);
-                                //   },
-                                //   child: Text("Pick time"),
-                                // ),
-                                // Obx(() {
-                                //   final selectedTime =
-                                //       controller.selectedTime.value;
-
-                                //   final formattedTime =
-                                //       controller.formatTime(selectedTime);
-
-                                //   return Text(' ${formattedTime}');
-                                // }),
                               ],
                             )),
                         isActive: controller.currentStep >= 0,
@@ -711,40 +828,52 @@ class BioDigesterMainView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Invoice for Selected Services',
+                                'Invoice for Service',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 10),
                               // Use ListView.builder to loop through myArray and display in a Column
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: controller.selectedServices.length,
-                                itemBuilder: (context, index) {
-                                  final item =
-                                      controller.selectedServices[index];
-                                  return Column(
-                                    children: [
-                                      ListTile(
-                                        title: Text('${item["name"]}'),
-                                        subtitle:
-                                            Text('GHS ${item["unitCost"]}'),
-                                      ),
-                                      Divider(
-                                        height: 1,
-                                        color: Colors.grey,
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
+                              Obx(() => ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        controller.selectedServices.length,
+                                    itemBuilder: (context, index) {
+                                      final item =
+                                          controller.selectedServices[index];
+                                      return Column(
+                                        children: [
+                                          ListTile(
+                                            title: Text('${item["name"]}'),
+                                            subtitle:
+                                                Text('GHS ${item["unitCost"]}'),
+                                          ),
+                                          Divider(
+                                            height: 1,
+                                            color: Colors.grey,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  )),
                               Align(
                                 alignment: Alignment.topRight,
-                                child: Text(
-                                  "Total Bill: GHS ${controller.calculateTotalCost(controller.selectedServices)}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "Total Fee: ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Obx(() => Text(
+                                          "GHS ${controller.calculateTotalCost(controller.selectedServices)}",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                  ],
                                 ),
                               )
                             ],

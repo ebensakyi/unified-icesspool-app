@@ -568,6 +568,7 @@ class BiodigesterController extends GetxController {
   }
 
   continued() {
+    log("currentStep.value  ${currentStep.value}");
     if (currentStep < 4) {
       currentStep.value += 1;
     } else {
@@ -581,18 +582,19 @@ class BiodigesterController extends GetxController {
     currentStep.value > 0 ? currentStep.value -= 1 : null;
   }
 
-  void addService(myArray, Map<String, dynamic> newItem) {
+  void addService(Map<String, dynamic> newItem) {
+    inspect(newItem);
     // myArray.value = [];
-    int indexOfExistingItem = myArray.indexWhere(
+    int indexOfExistingItem = selectedServices.indexWhere(
       (item) => item["id"] == newItem["id"],
     );
 
     if (indexOfExistingItem != -1) {
       // Remove the existing item
-      myArray.removeAt(indexOfExistingItem);
+      selectedServices.removeAt(indexOfExistingItem);
     } else {
       // Add the item
-      myArray.add(newItem);
+      selectedServices.add(newItem);
       print("Added: $newItem");
     }
   }

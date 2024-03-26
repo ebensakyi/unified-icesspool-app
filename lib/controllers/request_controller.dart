@@ -179,7 +179,6 @@ class RequestController extends GetxController {
         'status': Constants.OFFER_CANCELLED_CL.toString(),
       }),
     );
-    inspect(response);
     transactionStatus.value = 0;
     customerHasTransaction.value = 2;
     // box.remove('countdownDuration');
