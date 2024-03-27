@@ -1,8 +1,8 @@
 class Constants {
-  //static const String BASE_URL = "https://app.icesspool.net/api";
+  static const String BASE_URL = "https://app.icesspool.net/api";
 
-  static const String BASE_URL = "http://10.0.2.2:3000/api";
-  // static const String BASE_URL = "http://172.30.13.241:3000/api";
+  //static const String BASE_URL = "http://10.0.2.2:3000/api";
+  //static const String BASE_URL = "http://172.30.13.241:3000/api";
 
   static String LOGIN_API_URL = BASE_URL + "/auth/login/mobile";
 
@@ -40,18 +40,6 @@ class Constants {
   static String RESET_PASSWORD_API_URL =
       BASE_URL + "/auth/reset-password/mobile";
 
-  static List REPORT_CATEGORY = [
-    "",
-    {"name": "Garbage Accumulation"},
-    {"name": "Overflowing Dumpsters"},
-    {"name": "Illegal Dumping"},
-    {"name": "Contaminated Water Sources"},
-    {"name": "Sewage Problems"},
-    {"name": "Inadequate Public Toilets"},
-    {"name": "Chemical Spills"},
-    {"name": "Mosquito Breeding Sites"},
-  ];
-
   static String TIME_SCHEDULE_API_URL = BASE_URL + "/configure/time-schedule";
 
   static String RESEND_OTP_API_URL = BASE_URL + "/auth/resend-otp";
@@ -60,7 +48,7 @@ class Constants {
       BASE_URL + "/service-request/rate-service";
 
   static const String UPDATE_TRANSACTION_STATUS_API_URL =
-      BASE_URL + "/service-request/update-tx/client";
+      BASE_URL + "/service-request/update-transaction/client";
   static String TRANSACTION_HISTORY_API_URL =
       BASE_URL + "/service-request/transaction-history";
 

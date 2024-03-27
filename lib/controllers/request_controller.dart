@@ -168,7 +168,6 @@ class RequestController extends GetxController {
 
   Future<void> cancelRequest() async {
     var client = http.Client();
-
     var response = await client.post(
       Uri.parse(Constants.UPDATE_TRANSACTION_STATUS_API_URL),
       headers: <String, String>{
@@ -179,6 +178,9 @@ class RequestController extends GetxController {
         'status': Constants.OFFER_CANCELLED_CL.toString(),
       }),
     );
+    log("cancel===========>");
+    inspect(response);
+
     transactionStatus.value = 0;
     customerHasTransaction.value = 2;
     // box.remove('countdownDuration');

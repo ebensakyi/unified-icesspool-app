@@ -306,7 +306,7 @@ class RequestView extends StatelessWidget {
                             Colors.amber), // Color of the progress indicator
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 30.0),
                     ProgressOutlineIconButton(
                         onPressed: () {
                           showDialog(

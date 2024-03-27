@@ -53,8 +53,7 @@ class BioDigesterMainView extends StatelessWidget {
                 Expanded(
                   child: Stepper(
                     connectorThickness: 0.4,
-                    connectorColor:
-                        MaterialStatePropertyAll(MyColors.secondary),
+                    connectorColor: MaterialStatePropertyAll(MyColors.primary),
                     type: MediaQuery.of(context).orientation ==
                             Orientation.portrait
                         ? StepperType.vertical
@@ -96,6 +95,8 @@ class BioDigesterMainView extends StatelessWidget {
                                       if (controller
                                               .selectedLocation.value.lat !=
                                           null) {
+                                        controller.selectedRequestType.value =
+                                            "";
                                         controller.continued();
                                       } else {
                                         showToast(
@@ -113,7 +114,7 @@ class BioDigesterMainView extends StatelessWidget {
                                     },
                                     showLoading: false,
                                     label: Text("Next"),
-                                    buttonColor: MyColors.primary,
+                                    buttonColor: MyColors.secondary,
                                     textColor: Colors.white,
                                   )
                                 : controller.currentStep == 1
@@ -249,7 +250,7 @@ class BioDigesterMainView extends StatelessWidget {
                                         },
                                         showLoading: false,
                                         label: Text('Next'),
-                                        buttonColor: MyColors.primary,
+                                        buttonColor: MyColors.secondary,
                                         textColor: Colors.white,
                                       )
                                     : controller.currentStep == 2
@@ -283,7 +284,7 @@ class BioDigesterMainView extends StatelessWidget {
                                             },
                                             showLoading: false,
                                             label: Text('Next'),
-                                            buttonColor: MyColors.primary,
+                                            buttonColor: MyColors.secondary,
                                             textColor: Colors.white,
                                           )
                                         : controller.currentStep == 3
@@ -338,7 +339,7 @@ class BioDigesterMainView extends StatelessWidget {
                                                 },
                                                 showLoading: false,
                                                 label: Text('Next'),
-                                                buttonColor: MyColors.primary,
+                                                buttonColor: MyColors.secondary,
                                                 textColor: Colors.white,
                                               )
                                             : Obx(() => ProgressButton(
@@ -652,8 +653,8 @@ class BioDigesterMainView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        isActive: controller.currentStep >= 0,
-                        state: controller.currentStep >= 0
+                        isActive: controller.currentStep >= 1,
+                        state: controller.currentStep >= 1
                             ? StepState.complete
                             : StepState.disabled,
                       ),
@@ -673,8 +674,8 @@ class BioDigesterMainView extends StatelessWidget {
                                     : biodigesterConstruction(),
                               ],
                             )),
-                        isActive: controller.currentStep >= 0,
-                        state: controller.currentStep >= 1
+                        isActive: controller.currentStep >= 2,
+                        state: controller.currentStep >= 2
                             ? StepState.complete
                             : StepState.disabled,
                       ),
@@ -816,8 +817,8 @@ class BioDigesterMainView extends StatelessWidget {
                                 }),
                               ],
                             )),
-                        isActive: controller.currentStep >= 0,
-                        state: controller.currentStep >= 1
+                        isActive: controller.currentStep >= 3,
+                        state: controller.currentStep >= 3
                             ? StepState.complete
                             : StepState.disabled,
                       ),
@@ -882,8 +883,8 @@ class BioDigesterMainView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        isActive: controller.currentStep >= 0,
-                        state: controller.currentStep >= 2
+                        isActive: controller.currentStep >= 4,
+                        state: controller.currentStep >= 4
                             ? StepState.complete
                             : StepState.disabled,
                       ),

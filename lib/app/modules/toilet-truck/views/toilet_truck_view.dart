@@ -409,8 +409,8 @@ class ToiletTruckView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        isActive: controller.currentStep >= 0,
-                        state: controller.currentStep >= 0
+                        isActive: controller.currentStep >= 1,
+                        state: controller.currentStep >= 1
                             ? StepState.complete
                             : StepState.disabled,
                       ),
@@ -482,8 +482,8 @@ class ToiletTruckView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        isActive: controller.currentStep >= 0,
-                        state: controller.currentStep >= 0
+                        isActive: controller.currentStep >= 2,
+                        state: controller.currentStep >= 2
                             ? StepState.complete
                             : StepState.disabled,
                       ),
@@ -732,8 +732,8 @@ class ToiletTruckView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        isActive: controller.currentStep >= 0,
-                        state: controller.currentStep >= 2
+                        isActive: controller.currentStep >= 3,
+                        state: controller.currentStep >= 3
                             ? StepState.complete
                             : StepState.disabled,
                       ),
