@@ -177,12 +177,15 @@ class BioDigesterMainView extends StatelessWidget {
 
                                           if (formKey2.currentState!
                                               .validate()) {
+                                            log("formKey2");
                                             // controller
                                             //     .selectedTimeRangeId.value = 1;
 
                                             if (controller.selectedRequestType
                                                     .value ==
                                                 "1") {
+                                              log(controller
+                                                  .selectedRequestType.value);
                                               controller.addService({
                                                 "id": controller
                                                     .biodigesterPricings[0]
