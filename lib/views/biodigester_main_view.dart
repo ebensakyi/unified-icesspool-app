@@ -178,9 +178,9 @@ class BioDigesterMainView extends StatelessWidget {
 
                                           if (formKey2.currentState!
                                               .validate()) {
-                                            log("formKey2");
-                                            // controller
-                                            //     .selectedTimeRangeId.value = 1;
+                                            log("formKey2==>");
+                                            log(controller
+                                                .selectedRequestType.value);
 
                                             if (controller.selectedRequestType
                                                     .value ==
@@ -219,37 +219,7 @@ class BioDigesterMainView extends StatelessWidget {
                                                     .biodigesterPricings[1].id
                                                     .toInt(),
                                                 "unitCost": controller
-                                                        .isStandard()
-                                                    ? controller
-                                                        .biodigesterPricings[1]
-                                                        .standardCost
-                                                        .toString()
-                                                    : controller.isLarge()
-                                                        ? controller
-                                                            .biodigesterPricings[
-                                                                1]
-                                                            .largeCost
-                                                        : controller
-                                                                .isStandardX2()
-                                                            ? controller
-                                                                    .biodigesterPricings[
-                                                                        1]
-                                                                    .standardCost *
-                                                                2
-                                                            : controller
-                                                                    .isStandardX3()
-                                                                ? controller
-                                                                        .biodigesterPricings[
-                                                                            1]
-                                                                        .standardCost *
-                                                                    3
-                                                                : controller
-                                                                        .isStandardX4()
-                                                                    ? controller
-                                                                            .biodigesterPricings[1]
-                                                                            .standardCost *
-                                                                        4
-                                                                    : 0,
+                                                    .calculateUnitCost(),
                                                 "name": controller
                                                     .biodigesterPricings[1].name
                                                     .toString(),
@@ -1014,29 +984,7 @@ class BioDigesterMainView extends StatelessWidget {
                     //       .toString(),
                     // });
                   },
-                  price: controller.isStandard()
-                      ? "GHS " +
-                          controller.biodigesterPricings[index2].standardCost
-                              .toString()
-                      : controller.isLarge()
-                          ? "GHS " +
-                              controller.biodigesterPricings[index2].largeCost
-                          : controller.isStandardX2()
-                              ? "GHS " +
-                                  controller.biodigesterPricings[index2]
-                                          .standardCost *
-                                      2
-                              : controller.isStandardX3()
-                                  ? "GHS " +
-                                      controller.biodigesterPricings[index2]
-                                              .standardCost *
-                                          3
-                                  : controller.isStandardX4()
-                                      ? "GHS " +
-                                          controller.biodigesterPricings[index2]
-                                                  .standardCost *
-                                              4
-                                      : "",
+                  price: 'GHS ${controller.calculateUnitCost()}',
                   isSelected: controller.isSelected4.value,
                   description: Column(
                     children: [

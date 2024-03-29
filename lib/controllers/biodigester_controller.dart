@@ -490,10 +490,10 @@ class BiodigesterController extends GetxController {
               cost: item['cost'],
               standardCost: item['standardCost'],
               largeCost: item['largeCost'],
-              doubleLargeCost: item['doubleLargeCost'],
             ))
         .toList();
-
+    log("formattedData==>");
+    inspect(formattedData);
     return formattedData;
   }
 
@@ -509,6 +509,23 @@ class BiodigesterController extends GetxController {
 
   //   return formattedData;
   // }
+
+  double calculateUnitCost() {
+    if (isStandard()) {
+      return double.parse(biodigesterPricings[1].standardCost);
+    } else if (isLarge()) {
+      return double.parse(biodigesterPricings[1].largeCost);
+    } else if (isStandardX2()) {
+      inspect(double.parse(biodigesterPricings[1].standardCost) * 2);
+      return double.parse(biodigesterPricings[1].standardCost) * 2;
+    } else if (isStandardX3()) {
+      return double.parse(biodigesterPricings[1].standardCost) * 3;
+    } else if (isStandardX4()) {
+      return double.parse(biodigesterPricings[1].standardCost) * 4;
+    } else {
+      return 0;
+    }
+  }
 
   void shareApplication() async {
     Share.text(
