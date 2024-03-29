@@ -95,15 +95,23 @@ class BiodigesterController extends GetxController {
   // Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
 
   bool isStandard() {
-    return totalUsers.value <= 15;
+    return totalUsers.value <= 10;
   }
 
   bool isLarge() {
-    return totalUsers.value > 15 && totalUsers.value <= 25;
+    return totalUsers.value > 10 && totalUsers.value <= 15;
   }
 
-  bool isDoubleLarge() {
-    return totalUsers.value > 25;
+  bool isStandardX2() {
+    return totalUsers.value > 15 && totalUsers.value <= 20;
+  }
+
+  bool isStandardX3() {
+    return totalUsers.value > 20 && totalUsers.value <= 30;
+  }
+
+  bool isStandardX4() {
+    return totalUsers.value > 30 && totalUsers.value <= 40;
   }
 
   Future<void> selectDate(BuildContext context) async {

@@ -26,10 +26,12 @@ class ProfileController extends GetxController {
   var passwordController = TextEditingController();
 
   var cpasswordController = TextEditingController();
+  var userId = "";
   @override
   onInit() async {
     final box = await GetStorage();
 
+    userId = box.read("userId");
     firstNameController.text = box.read("firstName");
     lastNameController.text = box.read("lastName");
     phoneNumberController.text = box.read("phoneNumber");
@@ -54,8 +56,6 @@ class ProfileController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 
   Future<void> logout() async {
     Get.deleteAll();
@@ -185,5 +185,18 @@ class ProfileController extends GetxController {
         position: StyledToastPosition.top,
       );
     }
+  }
+
+  Future deleteAccount() async {
+    var uri = Uri.parse(Constants.PROFILE_API_URL);
+    var response = await client.delete(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'userId': userId,
+      }),
+    );
   }
 }

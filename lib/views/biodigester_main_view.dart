@@ -230,9 +230,26 @@ class BioDigesterMainView extends StatelessWidget {
                                                                 1]
                                                             .largeCost
                                                         : controller
-                                                            .biodigesterPricings[
-                                                                1]
-                                                            .doubleLargeCost,
+                                                                .isStandardX2()
+                                                            ? controller
+                                                                    .biodigesterPricings[
+                                                                        1]
+                                                                    .standardCost *
+                                                                2
+                                                            : controller
+                                                                    .isStandardX3()
+                                                                ? controller
+                                                                        .biodigesterPricings[
+                                                                            1]
+                                                                        .standardCost *
+                                                                    3
+                                                                : controller
+                                                                        .isStandardX4()
+                                                                    ? controller
+                                                                            .biodigesterPricings[1]
+                                                                            .standardCost *
+                                                                        4
+                                                                    : 0,
                                                 "name": controller
                                                     .biodigesterPricings[1].name
                                                     .toString(),
@@ -1004,9 +1021,22 @@ class BioDigesterMainView extends StatelessWidget {
                       : controller.isLarge()
                           ? "GHS " +
                               controller.biodigesterPricings[index2].largeCost
-                          : "GHS " +
-                              controller
-                                  .biodigesterPricings[index2].doubleLargeCost,
+                          : controller.isStandardX2()
+                              ? "GHS " +
+                                  controller.biodigesterPricings[index2]
+                                          .standardCost *
+                                      2
+                              : controller.isStandardX3()
+                                  ? "GHS " +
+                                      controller.biodigesterPricings[index2]
+                                              .standardCost *
+                                          3
+                                  : controller.isStandardX4()
+                                      ? "GHS " +
+                                          controller.biodigesterPricings[index2]
+                                                  .standardCost *
+                                              4
+                                      : "",
                   isSelected: controller.isSelected4.value,
                   description: Column(
                     children: [
@@ -1031,15 +1061,35 @@ class BioDigesterMainView extends StatelessWidget {
                             ),
                           )),
                       Obx(() => Visibility(
-                            visible: controller.isDoubleLarge(),
+                            visible: controller.isStandardX2(),
                             child: Padding(
                               padding: const EdgeInsets.only(left: 16),
                               child: Text(
-                                "Two large digesters",
+                                "Two standard digesters",
                                 style: TextStyle(color: Colors.red.shade700),
                               ),
                             ),
-                          ))
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.isStandardX3(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Three standard digesters",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
+                      Obx(() => Visibility(
+                            visible: controller.isStandardX4(),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16),
+                              child: Text(
+                                "Four standard digesters",
+                                style: TextStyle(color: Colors.red.shade700),
+                              ),
+                            ),
+                          )),
                     ],
                   ),
                 ),

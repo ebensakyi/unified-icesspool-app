@@ -144,7 +144,7 @@ class ProfileView extends GetView<ProfileController> {
                         child: SolidButton(
                           // primaryColor: MyColors.secondary,
                           onPressed: () {
-                            controller.logout();
+                            controller.deleteAccount();
                           },
                           // isLoading: controller.isLoading.value,
                           // iconData: Icons.delete_forever_outlined,
