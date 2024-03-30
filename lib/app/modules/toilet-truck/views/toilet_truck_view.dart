@@ -429,7 +429,7 @@ class ToiletTruckView extends StatelessWidget {
                                     .entries
                                     .map((entry) {
                                   int index = entry.key;
-                                  inspect(index);
+
                                   Map<String, dynamic> element = entry.value;
 
                                   return ToiletTruckPricing(
@@ -446,8 +446,50 @@ class ToiletTruckView extends StatelessWidget {
                                     price: "GHS ${element["price"]}",
                                     isSelected:
                                         controller.isSelectedList[index],
-                                    description:
-                                        Text(element["tankVolume"].toString()),
+                                    description: RichText(
+                                      text: TextSpan(
+                                        text: element["tankVolume"].toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: MyColors.primary,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: ' m',
+                                            style: TextStyle(
+                                              fontSize:
+                                                  12, // Adjust the size for superscript
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
+                                              // Move the superscript text up by half its font size
+                                              // You can adjust this value based on your font and size
+                                              //baseline: TextBaseline.ideographic,
+                                              letterSpacing: -1,
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: '3',
+                                            style: TextStyle(
+                                              fontSize:
+                                                  12, // Adjust the size for superscript
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              textBaseline:
+                                                  TextBaseline.alphabetic,
+                                              // Move the superscript text up by half its font size
+                                              // You can adjust this value based on your font and size
+                                              //baseline: TextBaseline.ideographic,
+                                              letterSpacing: -1,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    //  Text(element["tankVolume"].toString()+" m"),
                                   );
                                 }).toList(),
                               ),

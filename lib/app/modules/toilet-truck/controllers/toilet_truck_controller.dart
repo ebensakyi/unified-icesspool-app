@@ -41,15 +41,9 @@ class ToiletTruckController extends GetxController {
   final phoneNumber = "".obs;
   final address = "".obs;
 
-  final descriptionController = TextEditingController();
-
   final longitude = 0.0.obs;
   final latitude = 0.0.obs;
   final accuracy = 0.0.obs;
-
-  final childrenNumber = TextEditingController();
-  final adultsNumber = TextEditingController();
-  final totalUsers = 0.obs;
 
   var pricing = [].obs;
 
@@ -79,6 +73,9 @@ class ToiletTruckController extends GetxController {
 
   var phoneNumberController = TextEditingController();
   BuildContext? context = Get.context;
+
+  var selectedPrice = {}.obs;
+
   @override
   void onInit() {
     super.onInit();
