@@ -424,7 +424,14 @@ class ToiletTruckView extends StatelessWidget {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               child: Column(
-                                children: controller.pricing.map((element) {
+                                children: controller.pricing
+                                    .asMap()
+                                    .entries
+                                    .map((entry) {
+                                  int index = entry.key;
+                                  inspect(index);
+                                  Map<String, dynamic> element = entry.value;
+
                                   return ToiletTruckPricing(
                                     activeBgColor: MyColors.primary,
                                     inactiveBgColor: MyColors.SubServiceColor2,
@@ -433,51 +440,16 @@ class ToiletTruckView extends StatelessWidget {
                                     size: 32,
                                     title: element["name"],
                                     subTitle: "",
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      controller.updateSelectedIndex(index);
+                                    },
                                     price: "GHS ${element["price"]}",
-                                    isSelected: controller.isSelected1.value,
-                                    description: Text(""),
+                                    isSelected:
+                                        controller.isSelectedList[index],
+                                    description:
+                                        Text(element["tankVolume"].toString()),
                                   );
                                 }).toList(),
-                                // ToiletTruckPricing(
-                                //   activeBgColor: MyColors.primary,
-                                //   inactiveBgColor: MyColors.SubServiceColor2,
-                                //   isAvailable: false,
-                                //   path: "assets/images/biodigester.png",
-                                //   size: 32,
-                                //   title: "Small truck",
-                                //   subTitle: "",
-                                //   onPressed: () {},
-                                //   price: "GHS 300",
-                                //   isSelected: controller.isSelected1.value,
-                                //   description: Text(""),
-                                // ),
-                                // ToiletTruckPricing(
-                                //   activeBgColor: MyColors.primary,
-                                //   inactiveBgColor: MyColors.SubServiceColor2,
-                                //   isAvailable: false,
-                                //   path: "assets/images/biodigester.png",
-                                //   size: 32,
-                                //   title: "Medium truck",
-                                //   subTitle: "",
-                                //   onPressed: () {},
-                                //   price: "GHS 500",
-                                //   isSelected: controller.isSelected1.value,
-                                //   description: Text(""),
-                                // ),
-                                // ToiletTruckPricing(
-                                //   activeBgColor: MyColors.primary,
-                                //   inactiveBgColor: MyColors.SubServiceColor2,
-                                //   isAvailable: false,
-                                //   path: "assets/images/biodigester.png",
-                                //   size: 32,
-                                //   title: "Large truck",
-                                //   subTitle: "",
-                                //   onPressed: () {},
-                                //   price: "GHS 800",
-                                //   isSelected: controller.isSelected1.value,
-                                //   description: Text(""),
-                                // )
                               ),
                             ),
                           ],

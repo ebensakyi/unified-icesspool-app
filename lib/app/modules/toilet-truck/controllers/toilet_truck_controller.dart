@@ -53,12 +53,7 @@ class ToiletTruckController extends GetxController {
 
   var pricing = [].obs;
 
-  final isSelected1 = false.obs;
-  final isSelected2 = false.obs;
-  final isSelected3 = false.obs;
-  final isSelected4 = false.obs;
-  final isSelected5 = false.obs;
-  final isSelected6 = false.obs;
+  final isSelectedList = [].obs;
 
   // final biodigesterServicesAvailable = [].obs;
   // final RxList<BiodigesterPricing> biodigesterPricings =
@@ -257,7 +252,6 @@ class ToiletTruckController extends GetxController {
   }
 
   Future<void> getPricing(BuildContext context) async {
-    log("serviceAreaId=> " + controller.serviceAreaId.value.toString());
     final String apiUrl = Constants.TOILET_TRUCK_AVAILABLE_API_URL;
     final Map<String, String> params = {
       'serviceArea': controller.serviceAreaId.value.toString(),
@@ -274,7 +268,10 @@ class ToiletTruckController extends GetxController {
         // Successful response
         final data = json.decode(response.body);
         pricing.value = data["price"];
-        print(pricing.value);
+
+        for (var i = 0; i < pricing.length; i++) {
+          isSelectedList.add(false);
+        }
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -283,5 +280,9 @@ class ToiletTruckController extends GetxController {
       // Handle exception
       print('Exception getAvailableBiodigesterPricing: $error');
     }
+  }
+
+  void updateSelectedIndex(int index) {
+    isSelectedList.value = List.generate(pricing.length, (i) => i == index);
   }
 }

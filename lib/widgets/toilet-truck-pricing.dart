@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icesspool/themes/colors.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class ToiletTruckPricing extends StatelessWidget {
   final String path;
@@ -61,7 +62,7 @@ class ToiletTruckPricing extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.list_alt_sharp),
+                    Icon(FontAwesome.truck_droplet_solid),
                     SizedBox(width: 8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,14 +94,14 @@ class ToiletTruckPricing extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: description,
+                        ),
                       ],
                     ),
                   ],
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: description, // Align description to the left
               ),
             ],
           ),
