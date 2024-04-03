@@ -12,7 +12,8 @@ import 'package:icesspool/widgets/solid-button.dart';
 
 import '../controllers/forget_password_controller.dart';
 
-class ForgetPasswordView extends GetView<ForgetPasswordController> {
+class ForgetPasswordView extends StatelessWidget {
+  final controller = Get.put(ForgetPasswordController());
   InputMasker inputMasker = new InputMasker();
   final formKey = GlobalKey<FormState>();
   ForgetPasswordView({Key? key}) : super(key: key);

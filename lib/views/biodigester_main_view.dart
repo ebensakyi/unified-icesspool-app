@@ -596,8 +596,13 @@ class BioDigesterMainView extends StatelessWidget {
                                       },
                                     ),
                                   ),
-                                  Text(
-                                      "How many people will be using the toilet?"),
+                                  Obx(() => Visibility(
+                                        visible: controller
+                                                .selectedRequestType.value ==
+                                            "2",
+                                        child: Text(
+                                            "How many people will be using the toilet?"),
+                                      )),
                                   Obx(
                                     () => Visibility(
                                       visible: controller

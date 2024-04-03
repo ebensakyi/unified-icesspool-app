@@ -979,7 +979,7 @@ class RequestView extends StatelessWidget {
                 path: "assets/images/more.png",
                 size: 32,
                 title: 'Learn More',
-                subTitle: 'Learn more about our services\n\n',
+                subTitle: 'Learn more about \nour services\n',
                 onTap: () {
                   Get.to(() => ServicesView());
                 },

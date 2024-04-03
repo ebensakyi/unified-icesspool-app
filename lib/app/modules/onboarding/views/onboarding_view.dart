@@ -123,7 +123,7 @@ class OnboardingView extends GetView<OnboardingController> {
                 fontWeight: FontWeight.normal,
                 color: MyColors.primary),
           ),
-          image: _buildSvgImage('services.svg'),
+          image: _buildSvgImage('ob1.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
@@ -136,19 +136,19 @@ class OnboardingView extends GetView<OnboardingController> {
             ),
           ),
           bodyWidget: Text(
-            "Take a photo of the sanitation issue and provide a brief description. We'll take care of the rest!",
+            "Become a Service Provider and make money",
             style: TextStyle(
               color: MyColors.primary,
               fontSize: 18.0,
               fontWeight: FontWeight.normal,
             ),
           ),
-          image: _buildSvgImage('make-request.svg'),
+          image: _buildSvgImage('ob2.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
           titleWidget: Text(
-            "Track Your Requests",
+            "Easy Requests",
             style: TextStyle(
               color: MyColors.secondary,
               fontSize: 20.0,
@@ -156,7 +156,7 @@ class OnboardingView extends GetView<OnboardingController> {
             ),
           ),
           bodyWidget: Text(
-            "Monitor the status of your sanitation requests in real-time. We'll keep you updated from submission to completion.",
+            "We are on standby to take request 24/7",
             style: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.normal,
@@ -176,7 +176,7 @@ class OnboardingView extends GetView<OnboardingController> {
             ),
           ),
           bodyWidget: Text(
-            "You're all set to start using CleanCity. Help us keep our city clean by submitting sanitation requests whenever you spot an issue.",
+            "Make your request now!",
             style: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.normal,

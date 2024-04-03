@@ -32,8 +32,6 @@ class ForgetPasswordController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
-
   void login(BuildContext context) {}
 
   Future<void> forgotPassword(context) async {

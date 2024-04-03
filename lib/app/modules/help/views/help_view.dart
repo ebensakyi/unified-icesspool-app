@@ -73,20 +73,20 @@ class HelpView extends GetView<HelpController> {
             description,
             style: TextStyle(fontSize: 16.0),
           ),
-          SizedBox(height: 10.0),
-          ElevatedButton(
-            onPressed: () {
-              // Handle button press according to the help item
-              if (title == 'FAQs') {
-                // Navigate to FAQs screen
-              } else if (title == 'Contact Us') {
-                // Navigate to Contact Us screen
-              } else if (title == 'Feedback') {
-                // Navigate to Feedback screen
-              }
-            },
-            child: Text('Learn More'),
-          ),
+          // SizedBox(height: 10.0),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     // Handle button press according to the help item
+          //     if (title == 'FAQs') {
+          //       // Navigate to FAQs screen
+          //     } else if (title == 'Contact Us') {
+          //       // Navigate to Contact Us screen
+          //     } else if (title == 'Feedback') {
+          //       // Navigate to Feedback screen
+          //     }
+          //   },
+          //   child: Text('Learn More'),
+          // ),
         ],
       ),
     );
