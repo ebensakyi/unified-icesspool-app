@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:icesspool/bindings/otp_binding.dart';
 import 'package:icesspool/contants.dart';
 import 'package:icesspool/themes/colors.dart';
@@ -19,9 +18,12 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/bindings/home_binding.dart';
 import 'package:icesspool/views/home_view.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger_plus/logger_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LoginController extends GetxController {
+  var logger = new Logger();
+
   var isLoading = false.obs;
   var phoneNumberController = TextEditingController();
   var passwordController = TextEditingController();
@@ -31,7 +33,7 @@ class LoginController extends GetxController {
   final loginFormKey = GlobalKey();
 
   //final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  //final GoogleSignIn googleSignIn = GoogleSignIn();
 
   final obscurePassword = true.obs;
   @override
@@ -143,10 +145,10 @@ class LoginController extends GetxController {
   //   }
   // }
 
-  Future<void> logoutGoogle() async {
-    await googleSignIn.signOut();
-    Get.back(); // navigate to your wanted page after logout.
-  }
+  // Future<void> logoutGoogle() async {
+  //   await googleSignIn.signOut();
+  //   Get.back(); // navigate to your wanted page after logout.
+  // }
 
   Future login(context) async {
     try {
@@ -227,7 +229,7 @@ class LoginController extends GetxController {
           );
           return http.Response('Error', 408);
         }
-
+        logger.e(user);
         var userId = user["id"];
         var email = user["email"];
         var phoneNumber = user["phoneNumber"];

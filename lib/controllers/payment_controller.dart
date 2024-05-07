@@ -96,7 +96,8 @@ Page resource error:
       // Update the specific field in the document
       await documentReference.update({
         'txStatusCode': 3,
-        'paymentDone': true
+        'paymentDone': true,
+        'paymentStatus': 1
         // Add more fields as needed
       });
 

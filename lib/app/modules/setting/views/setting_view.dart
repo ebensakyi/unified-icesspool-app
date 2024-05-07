@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:icesspool/app/modules/change-password/views/change_password_view.dart';
 import 'package:icesspool/app/modules/help/views/help_view.dart';
 import 'package:icesspool/app/modules/notification/views/notification_view.dart';
 import 'package:icesspool/app/modules/privacy/views/privacy_view.dart';
@@ -40,6 +41,13 @@ class SettingView extends GetView<SettingController> {
                     trailing: Icon(Icons.chevron_right),
                     onTap: () {
                       Get.to(() => ProfileView());
+                    }),
+                ListTile(
+                    leading: Icon(Icons.password_outlined),
+                    title: Text('Change Password'),
+                    trailing: Icon(Icons.chevron_right),
+                    onTap: () {
+                      Get.to(() => ChangePasswordView());
                     }),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

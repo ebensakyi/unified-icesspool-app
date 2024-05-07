@@ -17,6 +17,7 @@ import '../bindings/payment_binding.dart';
 import '../contants.dart';
 import '../core/random.dart';
 import 'home_controller.dart';
+import 'package:logger_plus/logger_plus.dart';
 
 class RequestController extends GetxController {
   final controller = Get.put(HomeController());
@@ -29,6 +30,7 @@ class RequestController extends GetxController {
   // final Completer<GoogleMapController> _controller = Completer();
   // late Rx<CameraPosition> kGooglePlex;
   // late GoogleMapController googleMapController;
+  var logger = new Logger();
 
   final pmIsLoading = false.obs;
   final pcIsLoading = false.obs;
@@ -231,8 +233,6 @@ class RequestController extends GetxController {
               documentSnapshot.data() as Map<String, dynamic>?;
           log("REQUEST CONTROLLER - checkAvailableRequest ");
 
-          log(data.toString());
-
           if (data != null) {
             isPendingTrxnAvailable.value = true;
 
@@ -248,14 +248,14 @@ class RequestController extends GetxController {
 
             paymentStatus.value = data['paymentStatus'];
 
-            spImageUrl.value = data['spImageUrl'];
+            spImageUrl.value = data['spImageUrl'] ?? "";
             spCompany.value = data["spCompany"];
             spName.value = data["spName"];
             spPhoneNumber.value = data["spPhoneNumber"];
             spId.value = data["spId"].toString();
 
             totalCost.value = data['discountedTotalCost'].toString();
-            log(data['discountedTotalCost']);
+            logger.i(data['discountedTotalCost']);
 
             transactionStatus.value = txStatusCode;
             transactionId.value = _transactionId;
@@ -331,11 +331,11 @@ class RequestController extends GetxController {
         transactionId.value +
         "&paymentId=" +
         paymentId.value +
-        "&payment_method=" +
+        "&paymentMethod=" +
         paymentMethod.toString() +
         "&amount=" +
         totalCost.value.toString();
-
+    logger.wtf(url);
     try {
       http.Response response = await http.get(Uri.parse(url));
 
@@ -348,6 +348,7 @@ class RequestController extends GetxController {
         String checkoutUrl = jsonMap['response']['checkout_url'];
         int code = jsonMap['response']['code'];
         pmIsLoading.value = false;
+        pcIsLoading.value = false;
 
         if (code == 200) {
           Get.to(() => PaymentView(),

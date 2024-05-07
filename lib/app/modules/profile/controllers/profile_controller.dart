@@ -9,35 +9,56 @@ import 'package:icesspool/app/modules/login/views/login_view.dart';
 import 'package:icesspool/contants.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:logger_plus/logger_plus.dart';
 
 class ProfileController extends GetxController {
-  var client = http.Client();
-  final firstNameController = TextEditingController();
-  var lastNameController = TextEditingController();
+  var logger = new Logger();
 
-  var emailController = TextEditingController();
-  var photoURL = "".obs;
+  var client = http.Client();
+  var firstNameController = TextEditingController();
+  var lastNameController = TextEditingController();
   var phoneNumberController = TextEditingController();
+  var emailController = TextEditingController();
+
+  var firstName = "";
+  var lastName = "";
+  var phoneNumber = "";
+  var email = "";
+
+  var photoURL = "";
 
   var isLoading = false.obs;
 
-  final count = 0.obs;
-
-  var passwordController = TextEditingController();
-
-  var cpasswordController = TextEditingController();
   var userId = "";
   @override
   onInit() async {
-    final box = await GetStorage();
+    try {
+      firstNameController.text = "firstName";
 
-    userId = box.read("userId");
-    firstNameController.text = box.read("firstName");
-    lastNameController.text = box.read("lastName");
-    phoneNumberController.text = box.read("phoneNumber");
-    emailController.text = box.read("email") ?? "";
+      final box = await GetStorage();
+      userId = box.read("userId").toString();
+      // logger.i(box.read("userId"));
+      // log("PROFILE CONTROLLER - ");
 
-    // log("firstName.value===> ${firstName.value}");
+      // logger.d(box.read("firstName"));
+      // logger.d(box.read("lastName"));
+      // logger.d(box.read("phoneNumber"));
+      // logger.d(box.read("email"));
+
+      // firstName = box.read("firstName");
+      // lastName = box.read("lastName");
+      // phoneNumber = box.read("phoneNumber");
+      // email = box.read("email") ?? "";
+
+      firstNameController.text = box.read("firstName");
+
+      lastNameController.text = box.read("lastName");
+      phoneNumberController.text = box.read("phoneNumber");
+      emailController.text = box.read("email") ?? "";
+    } catch (e) {
+      logger.e(e);
+    }
+
     super.onInit();
   }
 
@@ -81,19 +102,6 @@ class ProfileController extends GetxController {
         return;
       }
 
-      if (cpasswordController.text != passwordController.text) {
-        isLoading.value = false;
-        showToast(
-          backgroundColor: Colors.red.shade800,
-          alignment: Alignment.topCenter,
-          'Passwords do not match.',
-          context: context,
-          animation: StyledToastAnimation.fade,
-          duration: Duration(seconds: 2),
-          position: StyledToastPosition.top,
-        );
-        return;
-      }
       isLoading.value = true;
 
       var uri = Uri.parse(Constants.PROFILE_API_URL);
@@ -105,7 +113,6 @@ class ProfileController extends GetxController {
         },
         body: jsonEncode(<String, String>{
           'phoneNumber': phoneNumberController.text,
-          'password': passwordController.text,
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
           'email': emailController.text,
@@ -138,7 +145,6 @@ class ProfileController extends GetxController {
       isLoading.value = false;
 
       if (response.statusCode == 200) {
-        passwordController.text = "";
         phoneNumberController.text = "";
 
         var json = await response.body;

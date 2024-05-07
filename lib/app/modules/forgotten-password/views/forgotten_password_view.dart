@@ -18,20 +18,15 @@ import 'package:upgrader/upgrader.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../forgotten-password/views/forgotten_password_view.dart';
+import '../controllers/forgotten_password_controller.dart';
 
-class LoginView extends StatelessWidget {
+class ForgottenPasswordView extends StatelessWidget {
+  ForgottenPasswordView({Key? key}) : super(key: key);
+
   final controller = Get.put(LoginController());
   final formKey = GlobalKey<FormState>();
   final inputMasker = InputMasker();
 
-  final imageList = [
-    "assets/images/gama.jpg",
-    "assets/images/ssgl.png",
-    "assets/images/tama.png",
-    "assets/images/espa.png",
-    "assets/images/crs.jpg",
-    "assets/images/gama.jpg",
-  ];
   @override
   Widget build(BuildContext context) {
     FocusScope.of(context).requestFocus(FocusNode());
@@ -55,7 +50,7 @@ class LoginView extends StatelessWidget {
                           key: formKey,
                           child: Column(
                             children: [
-                              getImageAsset("assets/images/logo_2.png", 150.0),
+                              getImageAsset("assets/images/logo_2.png", 200.0),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 16, right: 16, bottom: 16),
@@ -108,64 +103,7 @@ class LoginView extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16, right: 16, bottom: 16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Password ',
-                                      style: TextStyle(
-                                          color: Colors.black54, fontSize: 16),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Obx(() => GestureDetector(
-                                          onTap: () {
-                                            // Request focus on the first text field when tapped
-                                            FocusScope.of(context)
-                                                .requestFocus(FocusNode());
-                                          },
-                                          child: TextFormField(
-                                            obscureText: controller
-                                                .obscurePassword.value,
-                                            controller:
-                                                controller.passwordController,
-                                            decoration: InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      vertical: 10,
-                                                      horizontal: 10),
-                                              labelText: '',
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              prefixIcon:
-                                                  Icon(Icons.password_outlined),
-                                              suffixIcon: Obx(() => IconButton(
-                                                    icon: Icon(
-                                                      controller.obscurePassword
-                                                              .value
-                                                          ? Icons.visibility
-                                                          : Icons
-                                                              .visibility_off,
-                                                    ),
-                                                    onPressed: () => controller
-                                                        .togglePasswordVisibility(),
-                                                  )),
-                                            ),
-                                            validator: (value) {
-                                              return Validator
-                                                  .passwordValidator(value!);
-                                            },
-                                          ),
-                                        ))
-                                  ],
-                                ),
-                              ),
+
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: SizedBox(
@@ -192,32 +130,7 @@ class LoginView extends StatelessWidget {
                                       )),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 16.0),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: InkWell(
-                                    child: Text("Forgot password?"),
-                                    onTap: () =>
-                                        Get.to(() => ForgetPasswordView()),
-                                  ),
-                                ),
-                              ),
-                              Text("Or"),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: ProgressOutlineButton(
-                                    primaryColor: MyColors.secondary,
-                                    onPressed: () {
-                                      Get.to(() => RegisterView());
-                                    },
-                                    isLoading: controller.isLoading.value,
-                                    label: 'Signup',
-                                  ),
-                                ),
-                              ),
+
                               Text.rich(
                                 TextSpan(
                                   text: 'By logging in you accept the',
@@ -311,55 +224,7 @@ class LoginView extends StatelessWidget {
                 //   )),
                 // ),
 
-                Padding(
-                  padding: const EdgeInsets.all(40.0),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Image.asset(
-                              width: 54,
-                              height: 54,
-                              imageList[0],
-                            ),
-                            Image.asset(
-                              width: 54,
-                              height: 54,
-                              imageList[1],
-                            ),
-                            Image.asset(
-                              width: 54,
-                              height: 54,
-                              imageList[2],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Image.asset(
-                              width: 54,
-                              height: 54,
-                              imageList[3],
-                            ),
-                            Image.asset(
-                              width: 54,
-                              height: 54,
-                              imageList[4],
-                            ),
-                            Image.asset(
-                              width: 54,
-                              height: 54,
-                              imageList[5],
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
+
               ],
             ),
           ],

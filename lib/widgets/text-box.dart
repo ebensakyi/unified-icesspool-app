@@ -40,8 +40,6 @@ class TextBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
-        readOnly: readOnly,
-        obscureText: obscureText,
         initialValue: initialValue,
         controller: controller,
         keyboardType: fieldType,

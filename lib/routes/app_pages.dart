@@ -2,10 +2,14 @@ import 'package:get/get.dart';
 
 import '../app/modules/about/bindings/about_binding.dart';
 import '../app/modules/about/views/about_view.dart';
+import '../app/modules/change-password/bindings/change_password_binding.dart';
+import '../app/modules/change-password/views/change_password_view.dart';
 import '../app/modules/complete-payment/bindings/complete_payment_binding.dart';
 import '../app/modules/complete-payment/views/complete_payment_view.dart';
 import '../app/modules/forget-password/bindings/forget_password_binding.dart';
 import '../app/modules/forget-password/views/forget_password_view.dart';
+import '../app/modules/forgotten-password/bindings/forgotten_password_binding.dart';
+import '../app/modules/forgotten-password/views/forgotten_password_view.dart';
 import '../app/modules/help/bindings/help_binding.dart';
 import '../app/modules/help/views/help_view.dart';
 import '../app/modules/login/bindings/login_binding.dart';
@@ -95,7 +99,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => const ProfileView(),
+      page: () => ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(
@@ -152,6 +156,16 @@ class AppPages {
       name: _Paths.WATER_TANKER,
       page: () => const WaterTankerView(),
       binding: WaterTankerBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORGOTTEN_PASSWORD,
+      page: () => ForgottenPasswordView(),
+      binding: ForgottenPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHANGE_PASSWORD,
+      page: () => ChangePasswordView(),
+      binding: ChangePasswordBinding(),
     ),
   ];
 }

@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 
 class ForgetPasswordController extends GetxController {
   var client = http.Client();
-  final count = 0.obs;
 
   var phoneNumberController = TextEditingController();
 
@@ -22,17 +21,7 @@ class ForgetPasswordController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void login(BuildContext context) {}
 
   Future<void> forgotPassword(context) async {
     try {
@@ -69,16 +58,12 @@ class ForgetPasswordController extends GetxController {
         onTimeout: () {
           // Time has run out, do what you wanted to do.
           isLoading.value = false;
-          // Get.snackbar("Server Error",
-          //     "A server timeout error occured. Please try again later...",
-          //     snackPosition: SnackPosition.TOP,
-          //     backgroundColor: MyColors.Red,
-          //     colorText: Colors.white);
+
 
           showToast(
             backgroundColor: Colors.red.shade800,
             alignment: Alignment.topCenter,
-            'A server timeout error occured. Please try again later...',
+            'A server timeout error occurred. Please try again later...',
             context: context,
             animation: StyledToastAnimation.fade,
             duration: Duration(seconds: 2),
@@ -122,7 +107,7 @@ class ForgetPasswordController extends GetxController {
       showToast(
         backgroundColor: Colors.red.shade800,
         alignment: Alignment.topCenter,
-        'Couldnt connect to the server. Please try again',
+        'Couldn\'t connect to the server. Please try again',
         context: context,
         animation: StyledToastAnimation.fade,
         duration: Duration(seconds: 2),

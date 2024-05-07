@@ -216,11 +216,17 @@ class RequestView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundImage: NetworkImage(
-                                  "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
-                            ),
+                            child: controller.spImageUrl.value != ""
+                                ? CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage: NetworkImage(
+                                        "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                                  )
+                                : CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage:
+                                        AssetImage("assets/images/avatar.png"),
+                                  ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,17 +445,32 @@ class RequestView extends StatelessWidget {
                             color: Colors.black54),
                       ),
                       SizedBox(height: 10.0),
+                      Text(
+                        'ID: ${controller.transactionId.value}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black54),
+                      ),
+                      SizedBox(height: 10.0),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
-                            child: Obx(() => CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: NetworkImage(
-                                      "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
-                                )),
+                            child: Obx(
+                              () => controller.spImageUrl.value != ""
+                                  ? CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: NetworkImage(
+                                          "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: AssetImage(
+                                          "assets/images/avatar.png"),
+                                    ),
+                            ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -605,17 +626,32 @@ class RequestView extends StatelessWidget {
                             color: Colors.black54),
                       ),
                       SizedBox(height: 10.0),
+                      Text(
+                        'ID: ${controller.transactionId.value}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black54),
+                      ),
+                      SizedBox(height: 10.0),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
-                            child: Obx(() => CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: NetworkImage(
-                                      "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
-                                )),
+                            child: Obx(
+                              () => controller.spImageUrl.value != ""
+                                  ? CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: NetworkImage(
+                                          "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: AssetImage(
+                                          "assets/images/avatar.png"),
+                                    ),
+                            ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

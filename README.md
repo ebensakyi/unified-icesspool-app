@@ -16,7 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-flutter build appbundle --build-name=1.0.3 --build-number=3
+flutter build appbundle --build-name=1.0.9 --build-number=10
 
 
 

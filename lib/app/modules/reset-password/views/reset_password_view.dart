@@ -13,7 +13,7 @@ import '../controllers/reset_password_controller.dart';
 
 class ResetPasswordView extends GetView<ResetPasswordController> {
   ResetPasswordView({Key? key}) : super(key: key);
-  InputMasker inputMasker = new InputMasker();
+  // InputMasker inputMasker = new InputMasker();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -128,9 +128,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                                           ),
                                           prefixIcon: Icon(Icons.phone_android),
                                         ),
-                                        inputFormatters: [
-                                          inputMasker.phoneMask
-                                        ],
+
                                       ),
                                     ],
                                   ),
@@ -153,7 +151,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                                         obscureText: true,
                                         controller:
                                             controller.passwordController,
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.text,
                                         maxLengthEnforcement:
                                             MaxLengthEnforcement.enforced,
                                         onSaved: (value) {
@@ -172,9 +170,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                                           ),
                                           prefixIcon: Icon(Icons.password),
                                         ),
-                                        inputFormatters: [
-                                          inputMasker.phoneMask
-                                        ],
+
                                         validator: (value) {
                                           return Validator.passwordValidator(
                                               value!);
@@ -201,7 +197,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                                         obscureText: true,
                                         controller:
                                             controller.cpasswordController,
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.text,
                                         maxLengthEnforcement:
                                             MaxLengthEnforcement.enforced,
                                         onSaved: (value) {
@@ -220,9 +216,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                                           ),
                                           prefixIcon: Icon(Icons.password),
                                         ),
-                                        inputFormatters: [
-                                          inputMasker.phoneMask
-                                        ],
+
                                         validator: (value) {
                                           // return Validator.confirmPasswordValidator(
                                           //     value!,

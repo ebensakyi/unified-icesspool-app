@@ -61,7 +61,6 @@ class RegisterController extends GetxController {
       }
 
       var uri = Uri.parse(Constants.SIGNUP_API_URL);
-      inspect(uri);
       var response = await client
           .post(
         uri,

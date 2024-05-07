@@ -32,7 +32,7 @@ class BiodigesterController extends GetxController {
   final formKey = new GlobalKey<FormState>();
 
   final isLoading = false.obs;
-  final isVisble = true.obs;
+  final isVisible = true.obs;
 
   final transactionId = "".obs;
 
@@ -114,33 +114,20 @@ class BiodigesterController extends GetxController {
     return totalUsers.value > 30 && totalUsers.value <= 40;
   }
 
-  Future<void> selectDate(BuildContext context) async {
+  Future<void> selectDate(context) async {
+    var lastDate = selectedRequestType == "1" ? 5 : 7;
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate.value,
       firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 1, 1, 1).add(Duration(days: 14)),
+      lastDate: DateTime.now().add(
+          Duration(days: lastDate)), // Set lastDate to 5 days from current date
     );
     if (picked != null) {
       selectedDate.value = picked;
     }
   }
 
-  // Future<void> selectTime(BuildContext context) async {
-  //   final TimeOfDay? picked = await showTimePicker(
-  //     context: context,
-  //     initialTime: selectedTime.value,
-  //     builder: (BuildContext context, Widget? child) {
-  //       return MediaQuery(
-  //         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-  //         child: child!,
-  //       );
-  //     },
-  //   );
-  //   if (picked != null) {
-  //     selectedTime.value = picked;
-  //   }
-  // }
 
   @override
   void onInit() async {
