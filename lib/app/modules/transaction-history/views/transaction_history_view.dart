@@ -2,6 +2,8 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/core/utils.dart';
+import 'package:icesspool/widgets/small-text-box.dart';
+import 'package:icons_plus/icons_plus.dart';
 import '../controllers/transaction_history_controller.dart';
 
 class TransactionHistoryView extends StatelessWidget {
@@ -36,6 +38,9 @@ class TransactionHistoryView extends StatelessWidget {
                     child: Card(
                       elevation: 1,
                       child: ListTile(
+                        leading: Icon(ZondIcons.list),
+                        trailing: IconButton(
+                            onPressed: () {}, icon: Icon(ZondIcons.repost)),
                         title: Text(item['service']),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
