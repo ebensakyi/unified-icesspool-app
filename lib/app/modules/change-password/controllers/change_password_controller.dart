@@ -6,7 +6,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:icesspool/app/modules/login/views/login_view.dart';
-import 'package:icesspool/contants.dart';
+import 'package:icesspool/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger_plus/logger_plus.dart';
 

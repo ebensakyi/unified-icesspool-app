@@ -7,7 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
-import 'package:icesspool/contants.dart';
+import 'package:icesspool/constants.dart';
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/controllers/request_controller.dart';
 import 'package:icesspool/core/random.dart';

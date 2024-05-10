@@ -12,7 +12,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:icesspool/services/data_services.dart';
 import 'package:package_info/package_info.dart';
 
-import '../contants.dart';
+import '../constants.dart';
 import '../widgets/small-button.dart';
 import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 

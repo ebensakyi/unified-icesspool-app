@@ -13,7 +13,7 @@ import 'package:icesspool/views/payment_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../bindings/payment_binding.dart';
-import '../contants.dart';
+import '../constants.dart';
 import '../core/random.dart';
 import 'home_controller.dart';
 

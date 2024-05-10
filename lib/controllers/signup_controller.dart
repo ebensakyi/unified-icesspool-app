@@ -11,7 +11,7 @@ import 'package:icesspool/views/otp_page_view.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../contants.dart';
+import '../constants.dart';
 import '../themes/colors.dart';
 
 class SignupController extends GetxController {

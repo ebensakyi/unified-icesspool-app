@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:icesspool/app/modules/services/views/services_view.dart';
-import 'package:icesspool/contants.dart';
+import 'package:icesspool/constants.dart';
 import 'package:icesspool/core/validator.dart';
 import 'package:icesspool/model/time_range.dart';
 import 'package:icesspool/themes/colors.dart';

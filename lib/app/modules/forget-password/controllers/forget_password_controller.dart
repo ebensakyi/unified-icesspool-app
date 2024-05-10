@@ -6,7 +6,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/app/modules/reset-password/bindings/reset_password_binding.dart';
 import 'package:icesspool/app/modules/reset-password/views/reset_password_view.dart';
-import 'package:icesspool/contants.dart';
+import 'package:icesspool/constants.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,8 +20,6 @@ class ForgetPasswordController extends GetxController {
   void onInit() {
     super.onInit();
   }
-
-
 
   Future<void> forgotPassword(context) async {
     try {
@@ -58,7 +56,6 @@ class ForgetPasswordController extends GetxController {
         onTimeout: () {
           // Time has run out, do what you wanted to do.
           isLoading.value = false;
-
 
           showToast(
             backgroundColor: Colors.red.shade800,

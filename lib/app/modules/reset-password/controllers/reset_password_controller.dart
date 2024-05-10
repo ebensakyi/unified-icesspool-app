@@ -7,7 +7,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/app/modules/login/bindings/login_binding.dart';
 import 'package:icesspool/app/modules/login/views/login_view.dart';
-import 'package:icesspool/contants.dart';
+import 'package:icesspool/constants.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
 

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/controllers/home_controller.dart';
 
-import '../contants.dart';
+import '../constants.dart';
 
 class SingleReportController extends GetxController {
   final controller = Get.put(HomeController());

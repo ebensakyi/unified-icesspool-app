@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/model/offer.dart';
 
-import '../contants.dart';
+import '../constants.dart';
 import '../model/district.dart';
 import '../model/report.dart';
 import '../model/reportCategory.dart';

@@ -9,7 +9,7 @@ import 'package:icesspool/core/location_service.dart';
 import 'package:icesspool/model/district.dart';
 import 'package:geocoding/geocoding.dart';
 
-import '../contants.dart';
+import '../constants.dart';
 import '../services/data_services.dart';
 
 class ReportController extends GetxController {

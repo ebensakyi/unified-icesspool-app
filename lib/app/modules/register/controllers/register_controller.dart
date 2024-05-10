@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:icesspool/bindings/otp_binding.dart';
-import 'package:icesspool/contants.dart';
+import 'package:icesspool/constants.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/otp_page_view.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';

@@ -10,7 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/app/modules/login/controllers/login_controller.dart';
 import 'package:icesspool/app/modules/services/views/services_view.dart';
 import 'package:icesspool/app/modules/toilet-truck/views/toilet_truck_view.dart';
-import 'package:icesspool/contants.dart';
+import 'package:icesspool/constants.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
@@ -210,6 +210,7 @@ class RequestView extends StatelessWidget {
                               .primary), // Color of the progress indicator
                         ),
                       ),
+                      Text(controller.transactionId.value),
                       SizedBox(height: 20.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

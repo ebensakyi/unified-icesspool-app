@@ -16,7 +16,7 @@ import 'package:icesspool/core/location_service.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
 
-import '../contants.dart';
+import '../constants.dart';
 import '../core/random.dart';
 import '../model/biodigester_pricing.dart';
 import '../themes/colors.dart';
@@ -127,7 +127,6 @@ class BiodigesterController extends GetxController {
       selectedDate.value = picked;
     }
   }
-
 
   @override
   void onInit() async {
