@@ -43,6 +43,7 @@ class RequestController extends GetxController {
   final paymentId = "".obs;
   final totalCost = "".obs;
   final paymentStatus = 0.obs;
+  final paymentDone = false.obs;
   final spId = "".obs;
   final spImageUrl = "".obs;
 
@@ -203,6 +204,7 @@ class RequestController extends GetxController {
 
         transactionStatus.value = data["txStatusCode"]!;
         paymentStatus.value = data["paymentStatus"]!;
+        paymentDone.value = data["paymentDone"]!;
         totalCost.value = data['discountedTotalCost'];
 
         isDeleted.value = data["deleted"]!;

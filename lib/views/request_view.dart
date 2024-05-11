@@ -957,7 +957,8 @@ class RequestView extends StatelessWidget {
   }
 
   offerResassigned(context, controller) {
-    if (controller.paymentStatus.value == 1) {
+    if (controller.paymentStatus.value == 1 ||
+        controller.paymentDone.value == true) {
       return orderInPlace(context, controller);
     }
     return spFound(context, controller);
