@@ -15,19 +15,15 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-
 flutter build appbundle --build-name=1.0.9 --build-number=10
-
-
 
 !W/, !D/, !E/
 
-
 ////Morning
+
 1. activate one time login.
 2. update all userIds and phone numbers to actual dynamic ones
 3. work on login for sp
-
 
 1.Total No. of Users (0-10) - Standard Digester, cost GH¢2000.
 
@@ -40,3 +36,15 @@ flutter build appbundle --build-name=1.0.9 --build-number=10
     5.Total No. of Users (31- 40) - 4 Standard Digester, Cost is 4X Standard Cost.
 
     6.Beyond a total of 40 users, the system should reject with a message prompt. 'Your Total Number of Users entered exceed capacity of biodigesters we offer, kindly review or consider other technologies'
+
+
+    Key issues after the texting today.
+
+1. Customer is requested to pay again when and already paid offer is cancelled by SP and resigned to SP. (reccom. - payment should be onetime and transferrable to New SP when old SP cancels his acceptance.
+2. SP Earnings doesn't reflect on withdraw page for SP to withdraw their funds. (SP App).
+3. History folder for customers app does not record completed transactions.
+4. SP app needs a history folder as well to enable SPs view their previous works.
+5. Backend administrator Can't add new SP account to the SP list. Looks like the list is full.
+6. Let's provide a button on customer app to enable end the transaction and review SP performance too.
+7. App notification
+
