@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:icesspool/core/location_service.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:icesspool/services/data_services.dart';
+import 'package:logger_plus/logger_plus.dart';
 import 'package:package_info/package_info.dart';
 
 import '../constants.dart';
@@ -18,6 +20,8 @@ import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 
 class HomeController extends GetxController {
   //final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  var logger = new Logger();
+  var client = http.Client();
 
   final formKey = new GlobalKey<FormState>();
   final AppName = "".obs;
@@ -90,6 +94,12 @@ class HomeController extends GetxController {
 
     // await getAvailableServices();
 
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    messaging.getToken().then((value) async {
+      updateUserFCM(value);
+
+      //box.write("fcmId", value.toString());
+    });
     super.onInit();
   }
 
@@ -132,45 +142,66 @@ class HomeController extends GetxController {
       );
       latitude.value = position.latitude;
       longitude.value = position.longitude;
-      log("getCurrentLocation ${latitude.value} ${longitude.value}");
     } catch (e) {
       print(e);
     }
   }
 
-  showSubmissionReport() async {
-    Get.dialog(
-      AlertDialog(
-        title: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              //child: CircularProgressIndicator(),
-            ),
-            Text("Report submitted"),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-                "Report submitted successfully.\nYour MMDA would be notified so that the issue can be resolve.\n\nCheck on the status by clicking on the status tab.\n\n Thank you!"),
-            SizedBox(
-              height: 10.0,
-            ),
-            SmallButton(
-              onPressed: () {
-                Get.back();
-              },
-              showLoading: false,
-              label: "OK",
-            )
-          ],
-        ),
-      ),
-      barrierDismissible: false,
-    );
+  updateUserFCM(fcmId) async {
+    try {
+      logger.d(fcmId);
+      var uri = Uri.parse(Constants.FCM_API_URL);
+
+      var response = await client.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'fcmId': fcmId,
+          'userId': userId.value.toString(),
+        }),
+      );
+
+      logger.d(response);
+    } catch (e) {
+      inspect(e);
+      logger.i(e);
+    }
   }
+  // showSubmissionReport() async {
+  //   Get.dialog(
+  //     AlertDialog(
+  //       title: Row(
+  //         children: [
+  //           Padding(
+  //             padding: const EdgeInsets.all(8.0),
+  //             //child: CircularProgressIndicator(),
+  //           ),
+  //           Text("Report submitted"),
+  //         ],
+  //       ),
+  //       content: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           Text(
+  //               "Report submitted successfully.\nYour MMDA would be notified so that the issue can be resolve.\n\nCheck on the status by clicking on the status tab.\n\n Thank you!"),
+  //           SizedBox(
+  //             height: 10.0,
+  //           ),
+  //           SmallButton(
+  //             onPressed: () {
+  //               Get.back();
+  //             },
+  //             showLoading: false,
+  //             label: "OK",
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //     barrierDismissible: false,
+  //   );
+  // }
 
   getAddressFromCoords() async {
     placemarks =

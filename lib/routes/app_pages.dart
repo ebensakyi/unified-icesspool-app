@@ -154,7 +154,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.WATER_TANKER,
-      page: () => const WaterTankerView(),
+      page: () => WaterTankerView(),
       binding: WaterTankerBinding(),
     ),
     GetPage(

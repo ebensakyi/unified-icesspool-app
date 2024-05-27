@@ -478,8 +478,7 @@ class BiodigesterController extends GetxController {
               largeCost: item['largeCost'],
             ))
         .toList();
-    log("formattedData==>");
-    inspect(formattedData);
+
     return formattedData;
   }
 
@@ -502,7 +501,6 @@ class BiodigesterController extends GetxController {
     } else if (isLarge()) {
       return double.parse(biodigesterPricings[1].largeCost);
     } else if (isStandardX2()) {
-      inspect(double.parse(biodigesterPricings[1].standardCost) * 2);
       return double.parse(biodigesterPricings[1].standardCost) * 2;
     } else if (isStandardX3()) {
       return double.parse(biodigesterPricings[1].standardCost) * 3;
@@ -579,7 +577,6 @@ class BiodigesterController extends GetxController {
   }
 
   continued() {
-    log("currentStep.value  ${currentStep.value}");
     if (currentStep < 4) {
       currentStep.value += 1;
     } else {
@@ -670,7 +667,6 @@ class BiodigesterController extends GetxController {
   }
 
   TimeOfDay convertToTimeOfDay(String timeString) {
-    log("timeString $timeString");
     List<String> parts = timeString.split(":");
     int hour = int.parse(parts[0]);
     int minute = int.parse(parts[1]);

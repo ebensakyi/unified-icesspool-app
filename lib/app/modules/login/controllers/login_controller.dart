@@ -229,7 +229,6 @@ class LoginController extends GetxController {
           );
           return http.Response('Error', 408);
         }
-        logger.e(user);
         var userId = user["id"];
         var email = user["email"];
         var phoneNumber = user["phoneNumber"];

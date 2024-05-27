@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icesspool/app/modules/transaction-history/views/transaction_history_view.dart';
+import 'package:icesspool/core/notification_controller.dart';
 import 'package:icesspool/views/report_history_view.dart';
 import 'package:icesspool/views/request_view.dart';
 
@@ -10,6 +11,8 @@ import '../themes/colors.dart';
 import '../widgets/custom-animated-bottom-bar.dart';
 
 class HomeView extends StatelessWidget {
+  final NotificationController _notificationController = Get.find();
+
   final controller = Get.put(HomeController());
   HomeView({super.key});
 

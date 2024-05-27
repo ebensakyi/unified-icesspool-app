@@ -78,4 +78,11 @@ class Constants {
       BASE_URL + "/pricing/toilet-truck-service/price";
 
   static String CHANGE_PASSWORD_API_URL = BASE_URL + "/auth/change-password";
+
+  static String FCM_API_URL = BASE_URL + "/auth/fcm";
+
+  static String WATER_TYPES_API_URL = BASE_URL + "/configure/water-type";
+
+  static String WATER_TANKER_AVAILABLE_API_URL =
+      BASE_URL + "/configure/truck-classification";
 }

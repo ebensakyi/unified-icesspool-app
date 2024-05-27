@@ -180,7 +180,6 @@ class OtpController extends GetxController {
       if (response.statusCode == 200) {
         // Successful response
         final data = json.decode(response.body);
-        inspect(data);
 
         // biodigesterServicesAvailable.value = data;
       } else {

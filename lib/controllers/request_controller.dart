@@ -50,6 +50,7 @@ class RequestController extends GetxController {
   final spName = "".obs;
   final spCompany = "".obs;
   final spPhoneNumber = "".obs;
+  final scheduleTime = "".obs;
   final longitude = 0.0.obs;
   final latitude = 0.0.obs;
   final accuracy = 0.0.obs;
@@ -181,8 +182,6 @@ class RequestController extends GetxController {
         'status': Constants.OFFER_CANCELLED_CL.toString(),
       }),
     );
-    log("cancel===========>");
-    inspect(response);
 
     transactionStatus.value = 0;
     customerHasTransaction.value = 2;
@@ -206,6 +205,8 @@ class RequestController extends GetxController {
         paymentStatus.value = data["paymentStatus"]!;
         paymentDone.value = data["paymentDone"]!;
         totalCost.value = data['discountedTotalCost'];
+        scheduleTime.value =
+            data["scheduledDate"].split('T')[0]! + " " + data["scheduledTime"]!;
 
         isDeleted.value = data["deleted"]!;
       });
@@ -233,7 +234,6 @@ class RequestController extends GetxController {
 
           Map<String, dynamic>? data =
               documentSnapshot.data() as Map<String, dynamic>?;
-          log("REQUEST CONTROLLER - checkAvailableRequest ");
 
           if (data != null) {
             isPendingTrxnAvailable.value = true;
@@ -243,21 +243,22 @@ class RequestController extends GetxController {
             // bool _isDeleted = data['deleted'];
 
             transactionStatus.value = txStatusCode!;
-            paymentStatus.value = data['paymentStatus'];
             transactionId.value = _transactionId;
-            // isDeleted.value = _isDeleted;
-            //amount.value = data['unitCost'];
+            paymentDone.value = data['paymentDone'];
 
             paymentStatus.value = data['paymentStatus'];
 
             spImageUrl.value = data['spImageUrl'] ?? "";
             spCompany.value = data["spCompany"];
+            scheduleTime.value = data["scheduledDate"].split('T')[0] +
+                " " +
+                data["scheduledTime"];
+
             spName.value = data["spName"];
             spPhoneNumber.value = data["spPhoneNumber"];
             spId.value = data["spId"].toString();
 
             totalCost.value = data['discountedTotalCost'].toString();
-            logger.i(data['discountedTotalCost']);
 
             transactionStatus.value = txStatusCode;
             transactionId.value = _transactionId;

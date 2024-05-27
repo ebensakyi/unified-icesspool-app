@@ -10,7 +10,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:icesspool/app/modules/login/controllers/login_controller.dart';
 import 'package:icesspool/app/modules/services/views/services_view.dart';
 import 'package:icesspool/app/modules/toilet-truck/views/toilet_truck_view.dart';
+import 'package:icesspool/app/modules/water-tanker/views/water_tanker_view.dart';
 import 'package:icesspool/constants.dart';
+import 'package:icesspool/core/notification_controller.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/views/emptying_main_view.dart';
 import 'package:icesspool/views/water_main_view.dart';
@@ -30,6 +32,8 @@ import '../widgets/progress-outline-icon-button.dart';
 import 'biodigester_main_view.dart';
 
 class RequestView extends StatelessWidget {
+  final NotificationController _notificationController = Get.find();
+
   final loginController = Get.put(LoginController());
   final homeController = Get.put(HomeController());
   final contentKey = GlobalKey();
@@ -190,12 +194,33 @@ class RequestView extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Hold on the service provider is on the way.You can call the Service provider',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black54),
-                        ),
+                        child: Obx(() => RichText(
+                              text: TextSpan(
+                                text:
+                                    'Offer is now active. Expect the Service Provider at the scheduled time ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black54,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: '(${controller.scheduleTime.value})',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        '.\nYou can contact our support services 0501411644 for enquiries',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
                       ),
 
                       // GifController _controller = GifController(vsync: this);
@@ -453,45 +478,80 @@ class RequestView extends StatelessWidget {
                             color: Colors.black54),
                       ),
                       SizedBox(height: 10.0),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
-                            child: Obx(
-                              () => controller.spImageUrl.value != ""
-                                  ? CircleAvatar(
-                                      radius: 25,
-                                      backgroundImage: NetworkImage(
-                                          "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
-                                    )
-                                  : CircleAvatar(
-                                      radius: 25,
-                                      backgroundImage: AssetImage(
-                                          "assets/images/avatar.png"),
-                                    ),
-                            ),
+                            child: controller.spImageUrl.value != ""
+                                ? CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage: NetworkImage(
+                                        "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                                  )
+                                : CircleAvatar(
+                                    radius: 25,
+                                    backgroundImage:
+                                        AssetImage("assets/images/avatar.png"),
+                                  ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Obx(() => Text(
-                                    controller.spName.value,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black),
-                                  )),
-                              Obx(() => Text(
-                                    controller.spCompany.value,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black),
-                                  )),
+                              Text(
+                                controller.spName.value,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              ),
+                              Text(
+                                controller.spCompany.value,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black),
+                              ),
                             ],
                           ),
                         ],
                       ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(right: 8.0),
+                      //       child: Obx(
+                      //         () => controller.spImageUrl.value != ""
+                      //             ? CircleAvatar(
+                      //                 radius: 25,
+                      //                 backgroundImage: NetworkImage(
+                      //                     "${Constants.AWS_S3_URL}${controller.spImageUrl.value}"),
+                      //               )
+                      //             : CircleAvatar(
+                      //                 radius: 25,
+                      //                 backgroundImage: AssetImage(
+                      //                     "assets/images/avatar.png"),
+                      //               ),
+                      //       ),
+                      //     ),
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         Obx(() => Text(
+                      //               controller.spName.value,
+                      //               style: TextStyle(
+                      //                   fontWeight: FontWeight.normal,
+                      //                   color: Colors.black),
+                      //             )),
+                      //         Obx(() => Text(
+                      //               controller.spCompany.value,
+                      //               style: TextStyle(
+                      //                   fontWeight: FontWeight.normal,
+                      //                   color: Colors.black),
+                      //             )),
+                      //       ],
+                      //     ),
+                      //   ],
+                      // ),
                       // GifController _controller = GifController(vsync: this);
                       // Padding(
                       //   padding: const EdgeInsets.all(8.0),
@@ -621,7 +681,7 @@ class RequestView extends StatelessWidget {
 
                       // SizedBox(height: 10.0),
                       Text(
-                        'Service Provider says work has started.',
+                        'You confirmed that work has started.',
                         style: TextStyle(
                             fontWeight: FontWeight.normal,
                             color: Colors.black54),
@@ -699,41 +759,41 @@ class RequestView extends StatelessWidget {
                       ),
                       Divider(),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ProgressIconButton(
-                            onPressed: () {
-                              controller.respondClaim();
-                            },
-                            isLoading: controller.isLoading.value,
-                            iconData: FontAwesome.thumbs_up,
-                            label: 'Confirm claim',
-                            iconColor: Colors.white,
-                            progressColor: Colors.white,
-                            textColor: Colors.white,
-                            backgroundColor: controller.isLoading.value
-                                ? MyColors.secondary
-                                : MyColors.secondary,
-                            borderColor: MyColors.secondary,
-                          ),
-                          ProgressIconButton(
-                            onPressed: () {
-                              controller.respondClaim();
-                            },
-                            isLoading: controller.isLoading.value,
-                            iconData: FontAwesome.thumbs_down,
-                            label: 'Deny claim',
-                            iconColor: Colors.white,
-                            progressColor: Colors.white,
-                            textColor: Colors.white,
-                            backgroundColor: controller.isLoading.value
-                                ? MyColors.primary
-                                : MyColors.primary,
-                            borderColor: MyColors.primary,
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //   children: [
+                      //     ProgressIconButton(
+                      //       onPressed: () {
+
+                      //       },
+                      //       isLoading: controller.isLoading.value,
+                      //       iconData: FontAwesome.thumbs_up,
+                      //       label: 'Confirm claim',
+                      //       iconColor: Colors.white,
+                      //       progressColor: Colors.white,
+                      //       textColor: Colors.white,
+                      //       backgroundColor: controller.isLoading.value
+                      //           ? MyColors.secondary
+                      //           : MyColors.secondary,
+                      //       borderColor: MyColors.secondary,
+                      //     ),
+                      //     ProgressIconButton(
+                      //       onPressed: () {
+                      //         controller.respondClaim();
+                      //       },
+                      //       isLoading: controller.isLoading.value,
+                      //       iconData: FontAwesome.thumbs_down,
+                      //       label: 'Deny claim',
+                      //       iconColor: Colors.white,
+                      //       progressColor: Colors.white,
+                      //       textColor: Colors.white,
+                      //       backgroundColor: controller.isLoading.value
+                      //           ? MyColors.primary
+                      //           : MyColors.primary,
+                      //       borderColor: MyColors.primary,
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   )),
             ),
@@ -840,7 +900,7 @@ class RequestView extends StatelessWidget {
                       SvgPicture.asset('assets/images/searching.svg',
                           height: 200, semanticsLabel: 'Searching'),
                       Text(
-                        'Is the Service Provider at your premises',
+                        'Has the Service Provider started the work?',
                         style: TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
@@ -917,11 +977,40 @@ class RequestView extends StatelessWidget {
                         children: [
                           ProgressIconButton(
                             onPressed: () {
-                              controller.respondClaim();
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  String contentText =
+                                      "Are you sure the SP has started work.\nAction cannot be reversed?.\nYou can click cancel to dismiss dialog or Ok to confirm action";
+                                  return StatefulBuilder(
+                                    builder: (context, setState) {
+                                      return AlertDialog(
+                                        title: Text("Cancel Request"),
+                                        content: Text(contentText),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text("Cancel"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              controller
+                                                  .confirmJobStartedClaim();
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Ok"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              );
                             },
                             isLoading: controller.isLoading.value,
                             iconData: FontAwesome.thumbs_up,
-                            label: 'Confirm claim',
+                            label: 'Yes',
                             iconColor: Colors.white,
                             progressColor: Colors.white,
                             textColor: Colors.white,
@@ -932,11 +1021,11 @@ class RequestView extends StatelessWidget {
                           ),
                           ProgressIconButton(
                             onPressed: () {
-                              controller.respondClaim();
+                              controller.denyJobStartedClaim();
                             },
                             isLoading: controller.isLoading.value,
                             iconData: FontAwesome.thumbs_down,
-                            label: 'Deny claim',
+                            label: 'No',
                             iconColor: Colors.white,
                             progressColor: Colors.white,
                             textColor: Colors.white,
@@ -1219,6 +1308,6 @@ class RequestView extends StatelessWidget {
   }
 
   openWaterMainView() {
-    return Get.to(() => WaterMainView());
+    return Get.to(() => WaterTankerView());
   }
 }

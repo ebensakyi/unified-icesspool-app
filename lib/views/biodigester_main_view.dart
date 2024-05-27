@@ -178,15 +178,9 @@ class BioDigesterMainView extends StatelessWidget {
 
                                           if (formKey2.currentState!
                                               .validate()) {
-                                            log("formKey2==>");
-                                            log(controller
-                                                .selectedRequestType.value);
-
                                             if (controller.selectedRequestType
                                                     .value ==
                                                 "1") {
-                                              log(controller
-                                                  .selectedRequestType.value);
                                               controller.addService({
                                                 "id": controller
                                                     .biodigesterPricings[0]
@@ -243,6 +237,43 @@ class BioDigesterMainView extends StatelessWidget {
                                     : controller.currentStep == 2
                                         ? SolidButton(
                                             onPressed: () {
+                                              if (controller
+                                                      .calculateUnitCost() ==
+                                                  0) {
+                                                showDialog(
+                                                  barrierDismissible: false,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return StatefulBuilder(
+                                                      builder:
+                                                          (context, setState) {
+                                                        return AlertDialog(
+                                                          title: Text("Info"),
+                                                          content: Container(
+                                                            height: 100,
+                                                            child: Column(
+                                                              children: [
+                                                                Text(
+                                                                    "Number of users inputted exceeds the capacity of available service range.\nPlease review downwards or contact support: 0501611644 for further information"),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      context),
+                                                              child: Text("OK"),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                );
+
+                                                return;
+                                              }
                                               // if (controller.selectedServices
                                               //         .length ==
                                               //     0) {
@@ -930,9 +961,8 @@ class BioDigesterMainView extends StatelessWidget {
               isAvailable: false,
               path: "assets/images/biodigester.png",
               size: 32,
-              title: controller.biodigesterPricings[index1].name,
-              subTitle:
-                  controller.biodigesterPricings[index1].shortDesc.toString(),
+              title: "Servicing",
+              subTitle: controller.biodigesterPricings[index1].name,
               onPressed: () {
                 // controller.isSelected1.value = !controller.isSelected1.value;
 
@@ -969,9 +999,8 @@ class BioDigesterMainView extends StatelessWidget {
                   isAvailable: false,
                   path: "assets/images/biodigester.png",
                   size: 32,
-                  title: controller.biodigesterPricings[index2].name,
-                  subTitle: controller.biodigesterPricings[index2].shortDesc
-                      .toString(),
+                  title: "New Construction",
+                  subTitle: controller.biodigesterPricings[index2].name,
                   onPressed: () {
                     // controller.isSelected4.value =
                     //     !controller.isSelected4.value;

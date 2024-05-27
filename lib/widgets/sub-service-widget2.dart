@@ -84,7 +84,14 @@ class SubServiceWidget2 extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(
+                            subTitle,
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
                           child: Text(
                             price,
                             style: TextStyle(

@@ -48,3 +48,6 @@ flutter build appbundle --build-name=1.0.9 --build-number=10
 6. Let's provide a button on customer app to enable end the transaction and review SP performance too.
 7. App notification
 
+1. If phonenumber or email exist show message when adding service provider
+2. Deactivate provider not working well
+3. Reject duplicate withdrawal request

@@ -68,8 +68,6 @@ class DataServices {
       var uri =
           Uri.parse(Constants.TRANSACTION_HISTORY_API_URL + "?userId=$userId");
 
-      inspect(uri);
-
       var response = await client.get(uri);
 
       if (response.statusCode == 200) {

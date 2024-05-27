@@ -13,7 +13,7 @@ class TransactionHistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaction History'),
+        title: Text('Transaction History'),
         centerTitle: true,
       ),
       body: Obx(() {
@@ -40,11 +40,16 @@ class TransactionHistoryView extends StatelessWidget {
                       child: ListTile(
                         leading: Icon(ZondIcons.list),
                         trailing: IconButton(
-                            onPressed: () {}, icon: Icon(ZondIcons.repost)),
+                            onPressed: () {
+                              Get.snackbar("Info", "Feature not available yet",
+                                  colorText: Colors.red);
+                            },
+                            icon: Icon(ZondIcons.repost)),
                         title: Text(item['service']),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text('${item['address']}'),
                             Text('GHS ${item['discountedCost']}'),
                             Text(Utils.convertTime('${item['createdAt']}')),
                           ],

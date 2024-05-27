@@ -17,12 +17,10 @@ class TransactionHistoryController extends GetxController {
     final box = await GetStorage();
 
     userId.value = box.read('userId');
-    logger.d(userId.value);
     isLoading.value = true;
     transactionHistory.value =
         await DataServices.getTransactionHistory(userId.value);
 
-    logger.wtf(transactionHistory);
     isLoading.value = false;
   }
 
