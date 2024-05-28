@@ -34,16 +34,25 @@ class WaterTankerController extends GetxController {
   var waterVolumes = <WaterVolume>[].obs;
   var selectedWaterVolumeIndex = (-1).obs;
   var selectedWaterVolumeId = ''.obs;
+  var selectedWaterVolumeName = ''.obs;
+  var selectedWaterVolumeCapacity = ''.obs;
+
+  var selectedWaterTypeName = ''.obs;
 
   void selectWaterType(int index) {
     selectedWaterTypeIndex.value = index;
     selectedWaterTypeId.value = waterTypes[index].id.toString();
+    selectedWaterTypeName.value = waterTypes[index].name.toString();
+
     print("Selected ID: ${selectedWaterTypeId.value}");
   }
 
   void selectWaterVolume(int index) {
     selectedWaterVolumeIndex.value = index;
     selectedWaterVolumeId.value = waterVolumes[index].id.toString();
+    selectedWaterVolumeName.value = waterVolumes[index].name.toString();
+    selectedWaterVolumeCapacity.value =
+        waterVolumes[index].tankCapacity.toString();
   }
 
   @override
@@ -101,7 +110,7 @@ class WaterTankerController extends GetxController {
       }
       isLoading.value = true;
 
-      var uri = Uri.parse(Constants.BIODIGESTER_TRANSACTION_API_URL);
+      var uri = Uri.parse(Constants.WATER_TRANSACTION_API_URL);
 
       var transactionId = controller.serviceAreaId.value.toString() +
           "2" +
@@ -112,19 +121,15 @@ class WaterTankerController extends GetxController {
 
       final Map<String, dynamic> data = {
         'transactionId': transactionId,
-        // 'requestDetails': selectedServices,
-        // 'userId': controller.userId.value,
-        // 'customerLng': controller.longitude.value,
-        // 'customerLat': controller.latitude.value,
-        // 'address': selectedLocation.value.description,
-        // 'placeLat': selectedLocation.value.lat,
-        // 'placeLng': selectedLocation.value.lng,
-        // 'placeId': selectedLocation.value.placeId,
-        // 'accuracy': controller.accuracy.value,
-        // 'totalCost': calculateTotalCost(selectedServices),
-        // 'serviceAreaId': controller.serviceAreaId.value,
-        // 'scheduledDate': selectedDate.value.toIso8601String(),
-        // 'timeFrame': selectedTimeRangeId.value
+        'userId': controller.userId.value,
+        'customerLng': controller.longitude.value,
+        'customerLat': controller.latitude.value,
+        'address': selectedLocation.value.description,
+        'placeLat': selectedLocation.value.lat,
+        'placeLng': selectedLocation.value.lng,
+        'placeId': selectedLocation.value.placeId,
+        'accuracy': controller.accuracy.value,
+        'serviceAreaId': controller.serviceAreaId.value,
       };
 
       final response = await http.post(
@@ -137,7 +142,6 @@ class WaterTankerController extends GetxController {
       var json = await response.body;
 
       if (response.statusCode == 200) {
-        print('Post request successful! Response: ${json}');
         isLoading.value = false;
         requestController.isPendingTrxnAvailable.value = true;
 
@@ -145,8 +149,8 @@ class WaterTankerController extends GetxController {
         requestController.transactionId.value = transactionId;
         var response = jsonDecode(json);
 
-        var totalCost = double.tryParse(response["totalCost"]);
-        requestController.totalCost.value = totalCost.toString();
+        //var totalCost = double.tryParse(response["totalCost"]);
+        // requestController.totalCost.value = totalCost.toString();
 
         Get.back();
       } else {

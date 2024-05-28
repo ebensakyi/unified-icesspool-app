@@ -135,49 +135,36 @@ class WaterTankerView extends StatelessWidget {
                                       )
                                     : controller.currentStep == 2
                                         ? SolidButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              if (controller.selectedWaterTypeId
+                                                      .value !=
+                                                  "") {
+                                                controller.continued();
+                                              } else {
+                                                showToast(
+                                                  backgroundColor:
+                                                      Colors.yellow.shade800,
+                                                  alignment: Alignment.center,
+                                                  'Please select tanker volume',
+                                                  context: context,
+                                                  animation:
+                                                      StyledToastAnimation
+                                                          .scale,
+                                                  duration:
+                                                      Duration(seconds: 4),
+                                                  position:
+                                                      StyledToastPosition.top,
+                                                );
+                                                return;
+                                              }
+                                            },
                                             showLoading: false,
                                             label: Text('Next'),
                                             buttonColor: MyColors.secondary,
                                             textColor: Colors.white,
                                           )
                                         : controller.currentStep == 3
-                                            ? SolidButton(
-                                                onPressed: () {
-                                                  // if (controller
-                                                  //         .selectedTimeRangeId
-                                                  //         .value ==
-                                                  //     0) {
-                                                  //   return showToast(
-                                                  //     backgroundColor:
-                                                  //         Colors.red.shade800,
-                                                  //     alignment:
-                                                  //         Alignment.center,
-                                                  //     'Please select time frame for the job',
-                                                  //     context: context,
-                                                  //     animation:
-                                                  //         StyledToastAnimation
-                                                  //             .scale,
-                                                  //     duration:
-                                                  //         Duration(seconds: 4),
-                                                  //     position:
-                                                  //         StyledToastPosition
-                                                  //             .center,
-                                                  //   );
-                                                  // }
-
-                                                  // controller.continued();
-
-                                                  if (formKey2.currentState!
-                                                      .validate())
-                                                    controller.continued();
-                                                },
-                                                showLoading: false,
-                                                label: Text('Next'),
-                                                buttonColor: MyColors.secondary,
-                                                textColor: Colors.white,
-                                              )
-                                            : Obx(() => ProgressButton(
+                                            ? Obx(() => ProgressButton(
                                                   onPressed: () {
                                                     controller
                                                         .sendRequest(context);
@@ -193,7 +180,8 @@ class WaterTankerView extends StatelessWidget {
                                                           : MyColors.secondary,
                                                   borderColor:
                                                       MyColors.secondary,
-                                                )),
+                                                ))
+                                            : SizedBox.shrink()
                           ],
                         ),
                       );
@@ -202,65 +190,70 @@ class WaterTankerView extends StatelessWidget {
                       Step(
                         subtitle: Text('Enter your location here'),
                         title: const Text('Location'),
-                        content: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 0),
-                              child: GooglePlaceAutoCompleteTextField(
-                                textEditingController:
-                                    controller.googlePlacesController,
-                                googleAPIKey: Constants.GOOGLE_MAPS_API_KEY,
-                                inputDecoration: InputDecoration(
-                                  hintText: "Search your location",
-                                  border: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
+                        content: Form(
+                          key: formKey1,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 0),
+                                child: GooglePlaceAutoCompleteTextField(
+                                  textEditingController:
+                                      controller.googlePlacesController,
+                                  googleAPIKey: Constants.GOOGLE_MAPS_API_KEY,
+                                  inputDecoration: InputDecoration(
+                                    hintText: "Search your location",
+                                    border: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                  ),
+                                  debounceTime: 400,
+                                  countries: ["gh"],
+                                  isLatLngRequired: true,
+                                  getPlaceDetailWithLatLng:
+                                      (Prediction prediction) {
+                                    controller.selectedLocation.value =
+                                        prediction;
+                                  },
+
+                                  itemClick: (Prediction prediction) {
+                                    controller.googlePlacesController.text =
+                                        prediction.description ?? "";
+                                    controller
+                                            .googlePlacesController.selection =
+                                        TextSelection.fromPosition(TextPosition(
+                                            offset: prediction
+                                                    .description?.length ??
+                                                0));
+                                  },
+                                  seperatedBuilder: Divider(),
+                                  containerHorizontalPadding: 10,
+
+                                  // OPTIONAL// If you want to customize list view item builder
+                                  itemBuilder:
+                                      (context, index, Prediction prediction) {
+                                    return Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.location_on),
+                                          SizedBox(
+                                            width: 7,
+                                          ),
+                                          Expanded(
+                                              child: Text(
+                                                  "${prediction.description ?? ""}"))
+                                        ],
+                                      ),
+                                    );
+                                  },
+
+                                  isCrossBtnShown: true,
+
+                                  // default 600 ms ,
                                 ),
-                                debounceTime: 400,
-                                countries: ["gh"],
-                                isLatLngRequired: true,
-                                getPlaceDetailWithLatLng:
-                                    (Prediction prediction) {
-                                  controller.selectedLocation.value =
-                                      prediction;
-                                },
-
-                                itemClick: (Prediction prediction) {
-                                  controller.googlePlacesController.text =
-                                      prediction.description ?? "";
-                                  controller.googlePlacesController.selection =
-                                      TextSelection.fromPosition(TextPosition(
-                                          offset:
-                                              prediction.description?.length ??
-                                                  0));
-                                },
-                                seperatedBuilder: Divider(),
-                                containerHorizontalPadding: 10,
-
-                                // OPTIONAL// If you want to customize list view item builder
-                                itemBuilder:
-                                    (context, index, Prediction prediction) {
-                                  return Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.location_on),
-                                        SizedBox(
-                                          width: 7,
-                                        ),
-                                        Expanded(
-                                            child: Text(
-                                                "${prediction.description ?? ""}"))
-                                      ],
-                                    ),
-                                  );
-                                },
-
-                                isCrossBtnShown: true,
-
-                                // default 600 ms ,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         isActive: controller.currentStep >= 0,
                         state: controller.currentStep >= 0
@@ -273,7 +266,7 @@ class WaterTankerView extends StatelessWidget {
                         content: Column(
                           children: [
                             Form(
-                              key: formKey1,
+                              key: formKey2,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               child: Column(
@@ -300,7 +293,7 @@ class WaterTankerView extends StatelessWidget {
                                                               .selectedWaterTypeIndex
                                                               .value ==
                                                           index
-                                                      ? Colors.blue
+                                                      ? MyColors.secondary
                                                       : Colors.grey,
                                                   width: 2.0,
                                                 ),
@@ -315,17 +308,20 @@ class WaterTankerView extends StatelessWidget {
                                                             .selectedWaterTypeIndex
                                                             .value ==
                                                         index
-                                                    ? Colors.blue
-                                                        .withOpacity(0.2)
+                                                    ? MyColors.Red.withOpacity(
+                                                        0.2)
                                                     : Colors.transparent,
-                                                onTap: () => controller
-                                                    .selectWaterType(index),
+                                                onTap: () {
+                                                  controller
+                                                      .selectWaterType(index);
+                                                },
                                                 trailing: controller
                                                             .selectedWaterTypeIndex
                                                             .value ==
                                                         index
                                                     ? Icon(Icons.check,
-                                                        color: Colors.blue)
+                                                        color:
+                                                            MyColors.secondary)
                                                     : null,
                                               ),
                                             );
@@ -377,7 +373,7 @@ class WaterTankerView extends StatelessWidget {
                                                               .selectedWaterVolumeIndex
                                                               .value ==
                                                           index
-                                                      ? Colors.blue
+                                                      ? MyColors.secondary
                                                       : Colors.grey,
                                                   width: 2.0,
                                                 ),
@@ -386,23 +382,39 @@ class WaterTankerView extends StatelessWidget {
                                               ),
                                               child: ListTile(
                                                 subtitle: Text("Tap to select"),
-                                                title: Text(controller
-                                                    .waterVolumes[index].name),
+                                                title: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      controller
+                                                          .waterVolumes[index]
+                                                          .name,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(controller
+                                                        .waterVolumes[index]
+                                                        .tankCapacity),
+                                                  ],
+                                                ),
                                                 tileColor: controller
                                                             .selectedWaterVolumeIndex
                                                             .value ==
                                                         index
-                                                    ? Colors.blue
+                                                    ? MyColors.secondary
                                                         .withOpacity(0.2)
                                                     : Colors.transparent,
                                                 onTap: () => controller
-                                                    .selectWaterType(index),
+                                                    .selectWaterVolume(index),
                                                 trailing: controller
                                                             .selectedWaterVolumeIndex
                                                             .value ==
                                                         index
                                                     ? Icon(Icons.check,
-                                                        color: Colors.blue)
+                                                        color:
+                                                            MyColors.secondary)
                                                     : null,
                                               ),
                                             );
@@ -425,7 +437,7 @@ class WaterTankerView extends StatelessWidget {
                         content: Form(
                           key: formKey4,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            // mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
@@ -434,49 +446,10 @@ class WaterTankerView extends StatelessWidget {
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               SizedBox(height: 10),
-                              // Use ListView.builder to loop through myArray and display in a Column
-                              // Obx(() => ListView.builder(
-                              //       shrinkWrap: true,
-                              //       itemCount:
-                              //           controller.selectedServices.length,
-                              //       itemBuilder: (context, index) {
-                              //         final item =
-                              //             controller.selectedServices[index];
-                              //         return Column(
-                              //           children: [
-                              //             ListTile(
-                              //               title: Text('${item["name"]}'),
-                              //               subtitle:
-                              //                   Text('GHS ${item["unitCost"]}'),
-                              //             ),
-                              //             Divider(
-                              //               height: 1,
-                              //               color: Colors.grey,
-                              //             ),
-                              //           ],
-                              //         );
-                              //       },
-                              //     )),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "Total Fee: ",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    // Obx(() => Text(
-                                    //       "GHS ${controller.calculateTotalCost(controller.selectedServices)}",
-                                    //       style: TextStyle(
-                                    //           fontSize: 20,
-                                    //           fontWeight: FontWeight.bold),
-                                    //     )),
-                                  ],
-                                ),
-                              )
+                              Text(
+                                  "Water Type ${controller.selectedWaterTypeName.value}"),
+                              Text(
+                                  "Water Volume ${controller.selectedWaterVolumeName.value}")
                             ],
                           ),
                         ),
