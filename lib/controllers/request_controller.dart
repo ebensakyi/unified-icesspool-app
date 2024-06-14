@@ -43,7 +43,6 @@ class RequestController extends GetxController {
   final paymentId = "".obs;
   final totalCost = "".obs;
   final paymentStatus = 0.obs;
-  final paymentDone = false.obs;
   final spId = "".obs;
   final spImageUrl = "".obs;
 
@@ -201,9 +200,18 @@ class RequestController extends GetxController {
 
         var data = documents[0];
 
+        logger.d(data);
+
+        spImageUrl.value = data['spImageUrl'] ?? "";
+        spCompany.value = data["spCompany"];
+        scheduleTime.value =
+            data["scheduledDate"].split('T')[0] + " " + data["scheduledTime"];
+
+        spName.value = data["spName"];
+        spPhoneNumber.value = data["spPhoneNumber"];
+
         transactionStatus.value = data["txStatusCode"]!;
         paymentStatus.value = data["paymentStatus"]!;
-        paymentDone.value = data["paymentDone"]!;
         totalCost.value = data['discountedTotalCost'];
         scheduleTime.value =
             data["scheduledDate"].split('T')[0]! + " " + data["scheduledTime"]!;
@@ -244,7 +252,8 @@ class RequestController extends GetxController {
 
             transactionStatus.value = txStatusCode!;
             transactionId.value = _transactionId;
-            paymentDone.value = data['paymentDone'];
+
+            // logger.d(data);
 
             paymentStatus.value = data['paymentStatus'];
 

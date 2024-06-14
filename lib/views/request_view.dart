@@ -32,8 +32,6 @@ import '../widgets/progress-outline-icon-button.dart';
 import 'biodigester_main_view.dart';
 
 class RequestView extends StatelessWidget {
-  final NotificationController _notificationController = Get.find();
-
   final loginController = Get.put(LoginController());
   final homeController = Get.put(HomeController());
   final contentKey = GlobalKey();
@@ -1046,8 +1044,7 @@ class RequestView extends StatelessWidget {
   }
 
   offerResassigned(context, controller) {
-    if (controller.paymentStatus.value == 1 ||
-        controller.paymentDone.value == true) {
+    if (controller.paymentStatus.value == 1) {
       return orderInPlace(context, controller);
     }
     return spFound(context, controller);

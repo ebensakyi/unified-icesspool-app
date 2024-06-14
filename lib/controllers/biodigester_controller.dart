@@ -229,9 +229,9 @@ class BiodigesterController extends GetxController {
 
       var uri = Uri.parse(Constants.BIODIGESTER_TRANSACTION_API_URL);
 
-      var transactionId = controller.serviceAreaId.value.toString() +
-          "3" +
-          generateTransactionCode();
+      var transactionId = generateTransactionCode() +
+          controller.serviceAreaId.value.toString() +
+          "3";
 
       // var address = await getAddressFromLatLng(
       //     controller.longitude.value, controller.longitude.value);
@@ -591,7 +591,6 @@ class BiodigesterController extends GetxController {
   }
 
   void addService(Map<String, dynamic> newItem) {
-    inspect(newItem);
     // myArray.value = [];
     int indexOfExistingItem = selectedServices.indexWhere(
       (item) => item["id"] == newItem["id"],
@@ -678,6 +677,8 @@ class BiodigesterController extends GetxController {
         " " +
         formatTime(convertToTimeOfDay(selectedStartTime.value));
 
+    inspect(givenDateString);
+
     // Splitting the given date string into date and time parts
     List<String> parts = givenDateString.split(" ");
     String datePart = parts[0];
@@ -709,8 +710,8 @@ class BiodigesterController extends GetxController {
     DateTime currentDateTime = DateTime.now();
 
     // Calculate the difference in hours
-    int hoursDifference = currentDateTime.difference(givenDateTime).inHours;
+    int hoursDifference = givenDateTime.difference(currentDateTime).inHours;
 
-    return hoursDifference.abs();
+    return hoursDifference;
   }
 }

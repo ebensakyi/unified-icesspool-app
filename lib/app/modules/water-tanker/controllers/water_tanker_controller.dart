@@ -188,7 +188,6 @@ class WaterTankerController extends GetxController {
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
 
-        inspect(data);
         waterVolumes.value =
             List<WaterVolume>.from(data.map((x) => WaterVolume.fromJson(x)));
       } else {
@@ -245,15 +244,20 @@ class WaterType {
 class WaterVolume {
   int id;
   String name;
+  String description;
   String tankCapacity;
   WaterVolume(
-      {required this.id, required this.name, required this.tankCapacity});
+      {required this.id,
+      required this.name,
+      required this.tankCapacity,
+      required this.description});
 
   factory WaterVolume.fromJson(Map<String, dynamic> json) {
     return WaterVolume(
       id: json['id'],
       name: json['name'],
       tankCapacity: json['tankCapacity'],
+      description: json['description'],
     );
   }
 }

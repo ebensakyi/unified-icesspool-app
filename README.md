@@ -15,8 +15,7 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-flutter build appbundle --build-name=1.0.9 --build-number=10
-
+flutter build appbundle --release --build-name=1.2.0 --build-number=20
 !W/, !D/, !E/
 
 ////Morning

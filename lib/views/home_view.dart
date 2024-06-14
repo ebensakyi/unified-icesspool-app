@@ -11,8 +11,6 @@ import '../themes/colors.dart';
 import '../widgets/custom-animated-bottom-bar.dart';
 
 class HomeView extends StatelessWidget {
-  final NotificationController _notificationController = Get.find();
-
   final controller = Get.put(HomeController());
   HomeView({super.key});
 

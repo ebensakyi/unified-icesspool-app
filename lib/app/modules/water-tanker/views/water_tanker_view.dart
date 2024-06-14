@@ -381,7 +381,9 @@ class WaterTankerView extends StatelessWidget {
                                                     BorderRadius.circular(8.0),
                                               ),
                                               child: ListTile(
-                                                subtitle: Text("Tap to select"),
+                                                subtitle: Text(controller
+                                                    .waterVolumes[index]
+                                                    .description),
                                                 title: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -394,9 +396,9 @@ class WaterTankerView extends StatelessWidget {
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
-                                                    Text(controller
-                                                        .waterVolumes[index]
-                                                        .tankCapacity),
+                                                    // Text(controller
+                                                    //     .waterVolumes[index]
+                                                    //     .tankCapacity),
                                                   ],
                                                 ),
                                                 tileColor: controller
@@ -447,9 +449,9 @@ class WaterTankerView extends StatelessWidget {
                               ),
                               SizedBox(height: 10),
                               Text(
-                                  "Water Type ${controller.selectedWaterTypeName.value}"),
+                                  "Water Type ${controller.selectedWaterTypeName.value.toUpperCase()}"),
                               Text(
-                                  "Water Volume ${controller.selectedWaterVolumeName.value}")
+                                  "Water Volume ${controller.selectedWaterVolumeName.value.toUpperCase()}")
                             ],
                           ),
                         ),
