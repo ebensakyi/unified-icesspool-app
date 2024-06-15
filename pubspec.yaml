@@ -61,6 +61,7 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   logger_plus: ^0.0.6+4
   accordion: ^2.6.0
+  flutter_launcher_icons: ^0.13.1
 
 
  
@@ -86,3 +87,8 @@ flutter:
     - assets/ca/lets-encrypt-r3.pem
 
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  remove_alpha_ios: true
