@@ -27,19 +27,13 @@ bool onboardingViewed = false;
 bool isLogin = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // var initializationSettingsAndroid =
-  //     AndroidInitializationSettings('@mipmap/ic_launcher');
-  // var initializationSettingsIOS = DarwinInitializationSettings();
-  // var initializationSettings = InitializationSettings(
-  //     android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-  // await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Get.putAsync<NotificationService>(
       () async => await NotificationService().init());
 
   await GetStorage.init();
 
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
   final box = GetStorage();
 
   // await Firebase.initializeApp(
@@ -59,63 +53,8 @@ void main() async {
   isLogin = box.read('isLogin') ?? false;
   onboardingViewed = box.read('onboardingViewed') ?? false;
 
-  // messaging.setForegroundNotificationPresentationOptions(
-  //     alert: true, badge: true, sound: true);
-
-  // // Handle incoming FCM messages
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-  //   // var title = message.notification!.title;
-  //   // var body = message.notification!.body;
-
-  //   // inspect(message);
-  //   // Get.snackbar(
-  //   //   title!,
-  //   //   body!,
-  //   //   snackPosition: SnackPosition.BOTTOM,
-  //   //   backgroundColor: Colors.black87,
-  //   //   colorText: Colors.white,
-  //   //   duration: Duration(seconds: 8),
-  //   //   borderRadius: 10.0,
-  //   //   margin: EdgeInsets.all(10.0),
-  //   //   padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-  //   //   isDismissible: true,
-  //   // );
-  //   // print('Received a foreground message:>> ${message}');
-  //   // print('Received a foreground message: ${message.notification?.title}');
-
-  //   // Display notification using flutter_local_notifications
-  //   await displayNotification(flutterLocalNotificationsPlugin, message);
-  // });
   runApp(const MyApp());
 }
-
-// Future<void> displayNotification(
-//     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-//     RemoteMessage message) async {
-//   try {
-//     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-//       '1',
-//       'ICESSPOOL',
-//       importance: Importance.max,
-//       priority: Priority.high,
-//     );
-
-//     // var iOSPlatformChannelSpecifics = DarwinInitializationSettings();
-//     var platformChannelSpecifics = NotificationDetails(
-//         android: androidPlatformChannelSpecifics,
-//         iOS: DarwinNotificationDetails());
-
-//     await flutterLocalNotificationsPlugin.show(
-//       0, // notification id
-//       message.notification!.title, // title of notification
-//       message.notification!.body, // body of notification
-//       platformChannelSpecifics,
-//       payload: 'Custom_Sound',
-//     );
-//   } catch (e) {
-//     log("displayNotification==> " + e.toString());
-//   }
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -128,46 +67,10 @@ class MyApp extends StatelessWidget {
         initialBinding: InitialBindings(),
         title: 'iCesspool',
         debugShowCheckedModeBanner: false,
-        // theme: ThemeData(
-        //   cardColor: Colors.indigo.shade100,
-        //   primaryColor: Colors.grey.shade800,
-
-        //   textTheme: TextTheme(
-        //     displaySmall: TextStyle(
-        //       color: Colors.blueGrey.shade700,
-        //     ),
-        //   ),
-        //   // appBarTheme: AppBarTheme(
-        //   //   backgroundColor: Colors.blueGrey.shade800,
-        //   //   elevation: 0,
-        //   //   centerTitle: true,
-        //   // ),
-        // ),
-        // darkTheme: ThemeData(
-        //   brightness: Brightness.dark,
-        //   scaffoldBackgroundColor: Colors.grey.shade900,
-        //   textTheme: TextTheme(
-        //     displaySmall: TextStyle(
-        //       color: Colors.white,
-        //       fontSize: 24,
-        //     ),
-        //   ),
-        // ),
-        // theme: ThemeData(
-        //     primarySwatch: Colors.indigo,
-        //     visualDensity: VisualDensity.adaptivePlatformDensity,
-        //     useMaterial3: true),
-
         initialRoute: !onboardingViewed
             ? AppPages.ONBOARDING
             : (isLogin ? AppPages.HOME : AppPages.INITIAL),
         getPages: AppPages.routes,
-
-        // routes: {"/": (ctx) => LoginView()},
-
-        // routes: {
-        //   '/': (context) => !isLogin! ? LoginView() : HomeView(),
-        // },
       );
     });
   }
