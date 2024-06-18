@@ -15,11 +15,6 @@ import 'bindings/initial_binding.dart';
 import 'firebase_options.dart';
 import 'routes/app_pages.dart';
 
-// bool get isInDebugMode {
-//   bool inDebugMode = false;
-//   assert(inDebugMode = true);
-//   return inDebugMode;
-// }
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
@@ -40,8 +35,8 @@ void main() async {
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
 
-  await Firebase.initializeApp(
-      name: "dev project", options: DefaultFirebaseOptions.currentPlatform);
+  // await Firebase.initializeApp(
+  //     name: "dev project", options: DefaultFirebaseOptions.currentPlatform);
 
   ByteData data =
       await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');

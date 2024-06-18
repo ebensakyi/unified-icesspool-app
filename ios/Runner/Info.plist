@@ -28,8 +28,6 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<!-- <key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to allow you to take and upload photos for your profile and inspection pictures</string> -->
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need access to your location to pick the location of your current location. This will help Service Providers to locate you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
