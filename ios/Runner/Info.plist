@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>ICESSPOOL App</string>
+	<string>ICESSPOOL</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -28,8 +28,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to allow you to take and upload photos for your profile and inspection pictures</string>
+	<!-- <key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to allow you to take and upload photos for your profile and inspection pictures</string> -->
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need access to your location to pick the location of your current location. This will help Service Providers to locate you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
