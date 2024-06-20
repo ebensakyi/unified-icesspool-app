@@ -101,7 +101,7 @@ class ReportController extends GetxController {
   @override
   void onInit() async {
     final position = await LocationService.determinePosition();
-    latitude.value = position.latitude;
+    latitude.value = position!.latitude;
     longitude.value = position.longitude;
 
     final box = await GetStorage();

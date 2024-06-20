@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,10 +19,15 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 bool onboardingViewed = false;
 bool isLogin = false;
-void main() async {
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  print("Initializing Firebase...");
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   await Get.putAsync<NotificationService>(
       () async => await NotificationService().init());
 
@@ -31,19 +35,16 @@ void main() async {
 
   final box = GetStorage();
 
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-
-  // await Firebase.initializeApp(
-  //     name: "dev project", options: DefaultFirebaseOptions.currentPlatform);
-
-  ByteData data =
-      await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
-  SecurityContext.defaultContext
-      .setTrustedCertificatesBytes(data.buffer.asUint8List());
-
-  //isViewed = prefs.getBool('onBoard');
+  try {
+    print("Loading SSL certificate...");
+    ByteData data =
+        await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
+    SecurityContext.defaultContext
+        .setTrustedCertificatesBytes(data.buffer.asUint8List());
+    print("SSL certificate loaded.");
+  } catch (e) {
+    print("Error loading SSL certificate: $e");
+  }
 
   isLogin = box.read('isLogin') ?? false;
   onboardingViewed = box.read('onboardingViewed') ?? false;
@@ -54,7 +55,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {

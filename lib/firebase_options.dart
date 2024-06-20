@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '314314044157',
     projectId: 'unified-icesspool-app',
     storageBucket: 'unified-icesspool-app.appspot.com',
-    iosBundleId: 'com.icesspool.unified',
+    iosBundleId: 'com.icesspool.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

@@ -15,6 +15,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:icesspool/core/location_service.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
+import 'package:logger_plus/logger_plus.dart';
 
 import '../constants.dart';
 import '../core/random.dart';
@@ -27,6 +28,7 @@ class BiodigesterController extends GetxController {
   final controller = Get.put(HomeController());
   final requestController = Get.put(RequestController());
   var initialLocation = LatLng(0.0, 0.0);
+  var logger = new Logger();
   TextEditingController googlePlacesController = TextEditingController();
 
   final formKey = new GlobalKey<FormState>();
@@ -130,6 +132,8 @@ class BiodigesterController extends GetxController {
 
   @override
   void onInit() async {
+    final position = await LocationService.determinePosition();
+
     // await getUserArea();
     await getAvailableBiodigesterServices();
     await getBiodigesterPricing();
@@ -137,12 +141,11 @@ class BiodigesterController extends GetxController {
 
     final box = await GetStorage();
 
-    final position = await LocationService.determinePosition();
-    latitude.value = position.latitude;
+    latitude.value = position!.latitude;
     longitude.value = position.longitude;
     accuracy.value = position.accuracy;
 
-    userId.value = box.read('userId') ?? 0;
+    userId.value = box.read('userId');
 
     await getAddressFromCoords();
 
@@ -252,7 +255,7 @@ class BiodigesterController extends GetxController {
         'scheduledDate': selectedDate.value.toIso8601String(),
         'timeFrame': selectedTimeRangeId.value
       };
-
+      logger.d(data);
       final response = await http.post(
         uri,
         headers: <String, String>{
@@ -279,6 +282,7 @@ class BiodigesterController extends GetxController {
         isLoading.value = false;
         print(
             'Failed to send POST request. Status code: ${response.statusCode}');
+        logger.d(response.body);
       }
     } catch (e) {
       isLoading.value = false;

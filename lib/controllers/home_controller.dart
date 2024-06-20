@@ -71,7 +71,7 @@ class HomeController extends GetxController {
 
     final position = await LocationService.determinePosition();
 
-    latitude.value = position.latitude;
+    latitude.value = position!.latitude;
     longitude.value = position.longitude;
     accuracy.value = position.accuracy;
 
