@@ -46,7 +46,12 @@ class LoginController extends GetxController {
     var disclosureViewed = box.read("disclosureViewed") ?? false;
 
     if (!disclosureViewed) {
-      await showPermissionDisclosure();
+      if (Platform.isAndroid) {
+        // Android-specific code
+        await showPermissionDisclosure();
+      } else if (Platform.isIOS) {
+        // iOS-specific code
+      }
     }
   }
 

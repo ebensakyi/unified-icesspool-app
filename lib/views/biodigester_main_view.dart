@@ -237,9 +237,12 @@ class BioDigesterMainView extends StatelessWidget {
                                     : controller.currentStep == 2
                                         ? SolidButton(
                                             onPressed: () {
-                                              if (controller
-                                                      .calculateUnitCost() ==
-                                                  0) {
+                                              if (controller.selectedServices[0]
+                                                          ["id"] ==
+                                                      2 &&
+                                                  controller
+                                                          .calculateUnitCost() ==
+                                                      0) {
                                                 showDialog(
                                                   barrierDismissible: false,
                                                   context: context,
