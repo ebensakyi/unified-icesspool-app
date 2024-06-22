@@ -257,7 +257,7 @@ class BioDigesterMainView extends StatelessWidget {
                                                             child: Column(
                                                               children: [
                                                                 Text(
-                                                                    "Number of users inputted exceeds the capacity of available service range.\nPlease review downwards or contact support: 0501611644 for further information"),
+                                                                    "Number of users inputted exceeds the capacity of available service range.\nPlease review downwards or contact support: 0501611644 for further information."),
                                                               ],
                                                             ),
                                                           ),
