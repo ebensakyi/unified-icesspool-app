@@ -1123,7 +1123,7 @@ class RequestView extends StatelessWidget {
       case Constants.OFFER_ACCEPTED:
         return spFound(context, controller);
 
-      case Constants.PAYMENT_MADE:
+      case Constants.OFFER_IN_PROGRESS:
         return orderInPlace(context, controller);
       case Constants.WORK_STARTED_REQUEST:
         return confirmWorkStarted(context, controller);

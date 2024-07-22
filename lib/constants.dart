@@ -56,21 +56,26 @@ class Constants {
 
   static const int OFFER_MADE = 1;
   static const int OFFER_ACCEPTED = 2;
-  static const int PAYMENT_MADE = 3;
-  static const int WORK_STARTED_REQUEST = 4; //SP
-  static const int WORK_STARTED = 41; // CL
-  static const int WORK_NOT_STARTED = 40; // CL
+  static const int OFFER_IN_PROGRESS = 3;
+  static const int OFFER_COMPLETED = 4;
+  static const int OFFER_CLOSED = 5;
 
-  static const int WORK_COMPLETED_REQUEST = 5; //SP OR CL
+  static const int OFFER_RATED = 6; // CL
+  static const int OFFER_CANCELLED_SP = 7; //SP
+  static const int OFFER_CANCELLED_CL = 8; //CL
+  static const int OFFER_REASSIGNED = 9;
 
-  static const int WORK_COMPLETED = 51; //ADMIN, CL
-  static const int WORK_NOT_COMPLETED = 50; //ADMIN, CL
+//Requests and Approvals
+  static const int WORK_STARTED_REQUEST = 20; //SP
+  static const int WORK_STARTED = 21; // CL
+  static const int WORK_NOT_STARTED = 22; // CL
 
-  static const int OFFER_CLOSED = 6; //ADMIN
-  static const int OFFER_RATED = 7; // CL
-  static const int OFFER_CANCELLED_SP = 8; //SP
-  static const int OFFER_CANCELLED_CL = 9; //CL
-  static const int OFFER_REASSIGNED = 10;
+  static const int WORK_COMPLETED_REQUEST = 30; //SP OR CL
+  static const int WORK_COMPLETED = 31; //ADMIN, CL
+  static const int WORK_NOT_COMPLETED = 32; //ADMIN, CL
+
+  // static const int OFFER_CLOSE_REQUEST_CL = 40; // CL
+  // static const int OFFER_CLOSE_REQUEST_SP = 41; //SP
 
   static String TOILET_TRUCK_TRANSACTION_API_URL =
       BASE_URL + "/service-request/toilet-truck/make-request";
