@@ -11,6 +11,7 @@ import 'package:google_places_flutter/model/prediction.dart';
 import 'package:icesspool/app/modules/services/views/services_view.dart';
 import 'package:icesspool/constants.dart';
 import 'package:icesspool/controllers/home_controller.dart';
+import 'package:icesspool/core/utils.dart';
 import 'package:icesspool/model/time_range.dart';
 import 'package:icesspool/themes/colors.dart';
 import 'package:icesspool/widgets/progress-button.dart';
@@ -332,8 +333,13 @@ class BioDigesterMainView extends StatelessWidget {
                                                               .center,
                                                     );
                                                   }
-                                                  if (controller
-                                                          .calculateHoursDifference() <
+                                                  if (Utils.calculateHoursDifference(
+                                                          controller
+                                                              .selectedDate
+                                                              .value,
+                                                          controller
+                                                              .selectedStartTime
+                                                              .value) <
                                                       4) {
                                                     return showToast(
                                                       backgroundColor:
@@ -640,8 +646,8 @@ class BioDigesterMainView extends StatelessWidget {
                                     width: double.infinity,
                                     child: ElevatedButton(
                                       style: ButtonStyle(
-                                        elevation: MaterialStateProperty.all(0),
-                                        shape: MaterialStateProperty.all<
+                                        elevation: WidgetStateProperty.all(0),
+                                        shape: WidgetStateProperty.all<
                                             RoundedRectangleBorder>(
                                           RoundedRectangleBorder(
                                             borderRadius:

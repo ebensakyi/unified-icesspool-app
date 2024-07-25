@@ -149,7 +149,6 @@ class HomeController extends GetxController {
 
   updateUserFCM(fcmId) async {
     try {
-      logger.d(fcmId);
       var uri = Uri.parse(Constants.FCM_API_URL);
 
       var response = await client.post(

@@ -58,3 +58,10 @@ flutter build appbundle --release --build-name=1.2.0 --build-number=20
 
 
 
+TOILET
+1. Show price but don't process payment
+
+WATER
+1. No price shown at all. No payment process
+
+Allow customer to select sp. So no broadcasting or all broadcasting 
