@@ -65,3 +65,8 @@ WATER
 1. No price shown at all. No payment process
 
 Allow customer to select sp. So no broadcasting or all broadcasting 
+
+
+
+1. Add service provider id and details to request if chosen
+2. Prevent skipping water volume

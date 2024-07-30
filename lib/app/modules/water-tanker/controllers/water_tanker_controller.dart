@@ -34,7 +34,7 @@ class WaterTankerController extends GetxController {
   StepperType stepperType = StepperType.vertical;
   final List<TimeRange> timeRanges = <TimeRange>[].obs;
 
-  final List<ServiceProvider> serviceProviders = <ServiceProvider>[].obs;
+  final serviceProviders = <ServiceProvider>[].obs;
 
   var waterTypes = <WaterType>[].obs;
   var selectedWaterTypeIndex = (-1).obs;
@@ -47,7 +47,13 @@ class WaterTankerController extends GetxController {
   var selectedWaterVolumeCapacity = ''.obs;
   var serviceProviderName = ''.obs;
   var serviceProviderId = ''.obs;
+  var spPicture = ''.obs;
+  var spPhoneNumber = ''.obs;
   var selectedWaterTypeName = ''.obs;
+
+  var companyName = ''.obs;
+
+  var showCancelButton = false.obs;
 
   void selectWaterType(int index) {
     selectedWaterTypeIndex.value = index;
@@ -150,7 +156,7 @@ class WaterTankerController extends GetxController {
   }
 
   continued() {
-    if (currentStep < 4) {
+    if (currentStep < 5) {
       currentStep.value += 1;
     } else {
       //   _submitRequest();
@@ -209,6 +215,15 @@ class WaterTankerController extends GetxController {
         'placeId': selectedLocation.value.placeId,
         'accuracy': controller.accuracy.value,
         'serviceAreaId': controller.serviceAreaId.value,
+        'scheduledDate': selectedDate.value.toIso8601String(),
+        'timeFrame': selectedTimeRangeId.value,
+        ////////////////////////////////////////////
+        'spName': serviceProviderName.value,
+        'spCompany': companyName.value,
+        'spPhoneNumber': spPhoneNumber.value,
+        'spImageUrl': spPicture.value,
+        'spId': serviceProviderId.value,
+        'requestType': serviceProviderId.value != "" ? "DIRECT" : "BROADCAST"
       };
 
       final response = await http.post(
@@ -238,6 +253,7 @@ class WaterTankerController extends GetxController {
             'Failed to send POST request. Status code: ${response.statusCode}');
       }
     } catch (e) {
+      logger.e(e);
       isLoading.value = false;
       return showToast(
         backgroundColor: Colors.red.shade800,
@@ -257,6 +273,7 @@ class WaterTankerController extends GetxController {
     final Map<String, String> params = {
       'serviceId': '2',
       'serviceAreaId': controller.serviceAreaId.value.toString(),
+      'device': Constants.DEVICE
     };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
@@ -268,10 +285,6 @@ class WaterTankerController extends GetxController {
 
         waterVolumes.value =
             List<WaterVolume>.from(data.map((x) => WaterVolume.fromJson(x)));
-        inspect(waterVolumes[0]);
-        print(waterVolumes);
-
-        logger.w(waterVolumes);
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -298,10 +311,10 @@ class WaterTankerController extends GetxController {
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         logger.i(data[0]);
-        inspect(data);
+        // inspect(data);
 
-        // serviceProviders.value =
-        //     List<ServiceProvider>.from(data.map((x) => ServiceProvider.fromJson(x)));
+        serviceProviders.value = List<ServiceProvider>.from(
+            data.map((x) => ServiceProvider.fromJson(x)));
       } else {
         // Handle error
         print('Error: ${response.statusCode}');
@@ -351,6 +364,47 @@ class WaterTankerController extends GetxController {
       return id;
     } catch (e) {}
   }
+
+  String getServiceProviderCompany(String value) {
+    try {
+      for (var i = 0; i < serviceProviders.length; i++) {
+        // log(primaryDataController.communities[i].name);
+
+        if (serviceProviders[i].spName.trim() == value.trim()) {
+          companyName.value = serviceProviders[i].companyName.toString();
+        }
+      }
+      return companyName.value;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  getServiceProviderPhoneNumber(String value) {
+    try {
+      for (var i = 0; i < serviceProviders.length; i++) {
+        // log(primaryDataController.communities[i].name);
+
+        if (serviceProviders[i].spName.trim() == value.trim()) {
+          spPhoneNumber.value = serviceProviders[i].spPhoneNumber.toString();
+        }
+      }
+      return spPhoneNumber.value;
+    } catch (e) {}
+  }
+
+  getServiceProviderPicture(String value) {
+    try {
+      for (var i = 0; i < serviceProviders.length; i++) {
+        // log(primaryDataController.communities[i].name);
+
+        if (serviceProviders[i].spName.trim() == value.trim()) {
+          spPicture.value = serviceProviders[i].avatar.toString();
+        }
+      }
+      return spPicture.value;
+    } catch (e) {}
+  }
 }
 
 class ServiceProvider {
@@ -358,19 +412,25 @@ class ServiceProvider {
   int serviceId;
   String spName;
   String companyName;
+  String avatar;
+  String spPhoneNumber;
 
   ServiceProvider(
       {required this.id,
       required this.serviceId,
       required this.spName,
-      required this.companyName});
+      required this.companyName,
+      required this.spPhoneNumber,
+      required this.avatar});
 
   factory ServiceProvider.fromJson(Map<String, dynamic> json) {
     return ServiceProvider(
         id: json['id'],
+        spPhoneNumber: json['spPhoneNumber'],
         serviceId: json['serviceId'],
         spName: json['spName'],
-        companyName: json['companyName']);
+        companyName: json['companyName'],
+        avatar: json['avatar']);
   }
 }
 

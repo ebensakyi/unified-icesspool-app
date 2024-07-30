@@ -108,7 +108,7 @@ class HomeController extends GetxController {
       currentIndex.value = index;
       // currentTitle.value = titlesList[index];
 
-      await getUserServiceArea();
+      // await getUserServiceArea();
 
       if (index == 0) {
         // isLoading.value = true;
@@ -162,7 +162,7 @@ class HomeController extends GetxController {
         }),
       );
 
-      logger.d(response);
+      logger.d(response.statusCode);
     } catch (e) {
       inspect(e);
       logger.i(e);
@@ -225,9 +225,11 @@ class HomeController extends GetxController {
     };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+    logger.w(uri);
 
     try {
       final response = await http.get(uri);
+      logger.w(response.statusCode);
 
       if (response.statusCode == 200) {
         // Successful response
@@ -265,58 +267,6 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  // returnValue(exp) {
-  //   if (exp == "" || exp == "null" || exp == "") {
-  //     return "null";
-  //   } else {
-  //     return exp;
-  //   }
-  // }
-
-  // getItemId(value) {
-  //   try {
-  //     var id;
-  //     for (var i = 0; i < districts.length; i++) {
-  //       if (districts[i].name.trim() == value.trim()) {
-  //         id = districts[i].id.toString();
-  //       }
-  //     }
-  //     return id;
-  //   } catch (e) {}
-  // }
-
-  // void getVideo(ImageSource source) async {
-  //   final XFile? pickedFile = await ImagePicker().pickVideo(
-  //     source: source,
-  //   );
-
-  //   if (pickedFile == null) {
-  //     Get.snackbar("Error", "No video was reccorded",
-  //         snackPosition: SnackPosition.BOTTOM,
-  //         backgroundColor: Colors.red,
-  //         colorText: Colors.white);
-  //   } else {
-  //     selectedVideoPath.value = pickedFile.path;
-  //     selectedImageSize.value =
-  //         ((File(selectedVideoPath.value)).lengthSync() / 1024 / 1024)
-  //                 .toStringAsFixed(2) +
-  //             " mb";
-  //   }
-  // }
-
-  // pickVideoFromCamera(ImageSource source) async {
-  //   XFile? video = await ImagePicker().pickVideo(
-  //     source: source,
-  //   );
-  //   _cameraVideo = video.toString();
-
-  //   _cameraVideoPlayerController =
-  //       VideoPlayerController.file(File(_cameraVideo))
-  //         ..initialize().then((_) {
-  //           _cameraVideoPlayerController.play();
-  //         });
-  // }
-
   Future<void> initPackageInfo() async {
     final _packageInfo = await PackageInfo.fromPlatform();
 
@@ -324,42 +274,13 @@ class HomeController extends GetxController {
     AppVersion.value = _packageInfo.version;
   }
 
-  // currentStepperType() {
-  //   return stepperType == StepperType.vertical
-  //       ? stepperType = StepperType.horizontal
-  //       : stepperType = StepperType.vertical;
-  // }
-
-  // tapped(int step) {
-  //   currentStep.value = step;
-  // }
-
-  // continued() {
-  //   log(">>> $currentStep");
-
-  //   if (currentStep < 2) {
-  //     currentStep.value += 1;
-  //   } else {
-  //     //   _submitRequest();
-  //     //  _formSubmitted = true;
-  //   }
-  //   if (currentStep == 3) {
-  //     log("Make Payment");
-  //   }
-  // }
-
-  // cancel() {
-  //   currentStep.value > 0 ? currentStep.value -= 1 : null;
-  // }
-
   Future<void> getAvailableServices(serviceAreaId) async {
     final String apiUrl = Constants.SERVICES_AVAILABLE_API_URL;
     final Map<String, String> params = {
-      'serviceAreaId': '1' // serviceAreaId.toString()
+      'serviceAreaId': serviceAreaId.toString()
     };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
-
     try {
       final response = await http.get(uri);
 

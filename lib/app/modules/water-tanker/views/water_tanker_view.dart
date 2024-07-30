@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -16,6 +18,7 @@ import 'package:icesspool/widgets/progress-button.dart';
 import 'package:icesspool/widgets/small-text-box.dart';
 import 'package:icesspool/widgets/solid-button.dart';
 import 'package:intl/intl.dart';
+import 'package:logger_plus/logger_plus.dart';
 
 import '../controllers/water_tanker_controller.dart';
 
@@ -28,6 +31,8 @@ class WaterTankerView extends StatelessWidget {
   final formKey4 = new GlobalKey<FormState>();
   final formKey5 = new GlobalKey<FormState>();
   final formKey6 = new GlobalKey<FormState>();
+
+  var logger = new Logger();
 
   WaterTankerView({Key? key}) : super(key: key);
   @override
@@ -142,7 +147,8 @@ class WaterTankerView extends StatelessWidget {
                                     : controller.currentStep == 2
                                         ? SolidButton(
                                             onPressed: () {
-                                              if (controller.selectedWaterTypeId
+                                              if (controller
+                                                      .selectedWaterVolumeId
                                                       .value !=
                                                   "") {
                                                 controller.continued();
@@ -232,59 +238,7 @@ class WaterTankerView extends StatelessWidget {
                                             : controller.currentStep == 4
                                                 ? SolidButton(
                                                     onPressed: () {
-                                                      if (controller
-                                                              .selectedTimeRangeId
-                                                              .value ==
-                                                          0) {
-                                                        return showToast(
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .red.shade800,
-                                                          alignment:
-                                                              Alignment.center,
-                                                          'Please select time frame for the job',
-                                                          context: context,
-                                                          animation:
-                                                              StyledToastAnimation
-                                                                  .scale,
-                                                          duration: Duration(
-                                                              seconds: 4),
-                                                          position:
-                                                              StyledToastPosition
-                                                                  .center,
-                                                        );
-                                                      }
-                                                      if (Utils.calculateHoursDifference(
-                                                              controller
-                                                                  .selectedDate
-                                                                  .value,
-                                                              controller
-                                                                  .selectedStartTime
-                                                                  .value) <
-                                                          4) {
-                                                        return showToast(
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .red.shade800,
-                                                          alignment:
-                                                              Alignment.center,
-                                                          'Please select date and time at least 4 hrs from now',
-                                                          context: context,
-                                                          animation:
-                                                              StyledToastAnimation
-                                                                  .scale,
-                                                          duration: Duration(
-                                                              seconds: 4),
-                                                          position:
-                                                              StyledToastPosition
-                                                                  .center,
-                                                        );
-                                                      }
-                                                      // controller.continued();
-
-                                                      if (formKey2.currentState!
-                                                          .validate())
-                                                        controller.continued();
+                                                      controller.continued();
                                                     },
                                                     showLoading: false,
                                                     label: Text('Next'),
@@ -723,6 +677,7 @@ class WaterTankerView extends StatelessWidget {
                                 AutovalidateMode.onUserInteraction,
                             key: formKey5,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -753,16 +708,13 @@ class WaterTankerView extends StatelessWidget {
                                       decoration: InputDecoration(
                                         contentPadding: EdgeInsets.symmetric(
                                             vertical: 0, horizontal: 15),
-                                        // errorText: widget.errorText,
                                         labelText:
                                             'Search for service provider',
                                         filled: true,
                                         fillColor: Colors.white,
-
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(5),
-                                          //borderSide: BorderSide.none,
                                         ),
                                       ),
                                       child: Obx(
@@ -770,7 +722,12 @@ class WaterTankerView extends StatelessWidget {
                                           popupProps: PopupProps.menu(
                                             showSearchBox: true,
                                             showSelectedItems: true,
-                                            // disabledItemFn: (String s) => s.startsWith('I'),
+                                            itemBuilder:
+                                                (context, item, isSelected) {
+                                              return ListTile(
+                                                title: Text(item),
+                                              );
+                                            },
                                           ),
                                           items: controller.serviceProviders
                                               .map((element) => element.spName)
@@ -781,33 +738,149 @@ class WaterTankerView extends StatelessWidget {
                                                 InputDecoration(
                                               labelText: "",
                                               hintText:
-                                                  "Select service provider ",
+                                                  "Select service provider",
                                             ),
                                           ),
                                           onChanged: (value) {
+                                            controller.showCancelButton.value =
+                                                true;
                                             controller.serviceProviderName
                                                 .value = value.toString();
                                             controller.serviceProviderId.value =
                                                 controller.getServiceProviderId(
                                                     value.toString().trim());
+
+                                            controller.companyName.value =
+                                                controller
+                                                    .getServiceProviderCompany(
+                                                        value
+                                                            .toString()
+                                                            .trim());
+
+                                            controller.spPicture.value =
+                                                controller
+                                                    .getServiceProviderPicture(
+                                                        value
+                                                            .toString()
+                                                            .trim());
+
+                                            controller.spPhoneNumber.value =
+                                                controller
+                                                    .getServiceProviderPhoneNumber(
+                                                        value
+                                                            .toString()
+                                                            .trim());
                                           },
                                           selectedItem: controller
                                               .serviceProviderName.value,
-                                          // validator: (String? item) {
-                                          //   inspect(item.toString());
-                                          //   if (item == null || item == "")
-                                          //     return "Required field";
-
-                                          //   return null;
-                                          // },
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                controller.showCancelButton.value
+                                    ? Obx(() {
+                                        return controller.showCancelButton.value
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  padding: EdgeInsets.all(
+                                                      16.0), // Padding inside the container
+                                                  decoration: BoxDecoration(
+                                                    color: Colors
+                                                        .white, // Background color
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0), // Rounded corners
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(
+                                                                0.5), // Shadow color with opacity
+                                                        spreadRadius:
+                                                            2, // Spread radius of shadow
+                                                        blurRadius:
+                                                            5, // Blur radius of shadow
+                                                        offset: Offset(0,
+                                                            3), // Offset of the shadow
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: Stack(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Row(
+                                                          children: [
+                                                            CircleAvatar(
+                                                              radius:
+                                                                  20.0, // Adjust the size as needed
+                                                              backgroundImage:
+                                                                  NetworkImage(
+                                                                '${Constants.AWS_S3_URL}${controller.spPicture.value}', // Replace with dynamic URL
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                                width:
+                                                                    8.0), // Space between avatar and text
+                                                            Expanded(
+                                                              child: Text(
+                                                                controller
+                                                                        .serviceProviderName
+                                                                        .value +
+                                                                    "\n" +
+                                                                    controller
+                                                                        .companyName
+                                                                        .value,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      16.0, // Adjust the font size as needed
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        top: 0,
+                                                        right: 0,
+                                                        child: IconButton(
+                                                          icon: Icon(Icons
+                                                              .cancel_outlined),
+                                                          color: Colors.red,
+                                                          iconSize: 20.0,
+                                                          tooltip: 'Clear',
+                                                          onPressed: () {
+                                                            controller
+                                                                    .showCancelButton
+                                                                    .value =
+                                                                false; // Hide the widget
+                                                            controller
+                                                                .companyName
+                                                                .value = "";
+                                                            controller
+                                                                .serviceProviderName
+                                                                .value = "";
+
+                                                            controller
+                                                                .spPhoneNumber
+                                                                .value = "";
+                                                            controller.spPicture
+                                                                .value = "";
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(); // Empty container when showCancelButton is false
+                                      })
+                                    : SizedBox.shrink(),
                               ],
                             )),
                         isActive: controller.currentStep >= 4,
@@ -819,26 +892,44 @@ class WaterTankerView extends StatelessWidget {
                         title: new Text('Submit'),
                         subtitle: Text('Submit request'),
                         content: Form(
-                          key: formKey6,
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Invoice for Service',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                            key: formKey6,
+                            child: Container(
+                              padding: EdgeInsets.all(
+                                  16.0), // Optional: Add padding inside the container
+                              decoration: BoxDecoration(
+                                color: Colors.white, // Background color
+                                borderRadius: BorderRadius.circular(
+                                    8.0), // Rounded corners
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(
+                                        0.5), // Shadow color with opacity
+                                    spreadRadius: 2, // Spread radius of shadow
+                                    blurRadius: 5, // Blur radius of shadow
+                                    offset:
+                                        Offset(0, 3), // Offset of the shadow
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                  "Water Type ${controller.selectedWaterTypeName.value.toUpperCase()}"),
-                              Text(
-                                  "Water Volume ${controller.selectedWaterVolumeName.value.toUpperCase()}")
-                            ],
-                          ),
-                        ),
-                        isActive: controller.currentStep >= 4,
-                        state: controller.currentStep >= 4
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Invoice for Service',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                      "Water Type ${controller.selectedWaterTypeName.value.toUpperCase()}"),
+                                  Text(
+                                      "Water Volume ${controller.selectedWaterVolumeName.value.toUpperCase()}"),
+                                ],
+                              ),
+                            )),
+                        isActive: controller.currentStep >= 5,
+                        state: controller.currentStep >= 5
                             ? StepState.complete
                             : StepState.disabled,
                       ),
