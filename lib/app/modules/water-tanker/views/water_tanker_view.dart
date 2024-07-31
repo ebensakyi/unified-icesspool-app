@@ -306,6 +306,8 @@ class WaterTankerView extends StatelessWidget {
                                   },
 
                                   itemClick: (Prediction prediction) {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                     controller.googlePlacesController.text =
                                         prediction.description ?? "";
                                     controller

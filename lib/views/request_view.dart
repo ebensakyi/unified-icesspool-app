@@ -1141,6 +1141,8 @@ class RequestView extends StatelessWidget {
         return confirmWorkCompleted(context, controller);
       case Constants.WORK_COMPLETED:
         return rateSp(context, controller);
+      case Constants.OFFER_COMPLETED:
+        return rateSp(context, controller);
       case Constants.OFFER_CLOSED:
         return rateSp(context, controller);
       case Constants.WORK_NOT_COMPLETED:

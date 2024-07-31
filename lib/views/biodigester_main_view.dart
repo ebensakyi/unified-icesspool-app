@@ -96,8 +96,9 @@ class BioDigesterMainView extends StatelessWidget {
                                       if (controller
                                               .selectedLocation.value.lat !=
                                           null) {
-                                        controller.selectedRequestType.value =
-                                            "";
+                                        controller
+                                            .selectedBiodigesterRequestType
+                                            .value = "";
                                         controller.continued();
                                       } else {
                                         showToast(
@@ -122,7 +123,8 @@ class BioDigesterMainView extends StatelessWidget {
                                     ? SolidButton(
                                         onPressed: () {
                                           if (controller
-                                                  .selectedRequestType.value ==
+                                                  .selectedBiodigesterRequestType
+                                                  .value ==
                                               "") {
                                             showToast(
                                               backgroundColor:
@@ -139,7 +141,8 @@ class BioDigesterMainView extends StatelessWidget {
                                           }
 
                                           if (controller
-                                                  .selectedRequestType.value ==
+                                                  .selectedBiodigesterRequestType
+                                                  .value ==
                                               "2") {
                                             if (controller.adultsNumber.text
                                                     .toString() ==
@@ -179,7 +182,8 @@ class BioDigesterMainView extends StatelessWidget {
 
                                           if (formKey2.currentState!
                                               .validate()) {
-                                            if (controller.selectedRequestType
+                                            if (controller
+                                                    .selectedBiodigesterRequestType
                                                     .value ==
                                                 "1") {
                                               controller.addService({
@@ -204,7 +208,8 @@ class BioDigesterMainView extends StatelessWidget {
                                               controller.continued();
                                             }
 
-                                            if (controller.selectedRequestType
+                                            if (controller
+                                                    .selectedBiodigesterRequestType
                                                     .value ==
                                                 "2") {
                                               controller.calcUsers();
@@ -500,13 +505,17 @@ class BioDigesterMainView extends StatelessWidget {
                                       onChangedCallback: (newValue) {
                                         controller.selectedServices.value = [];
 
-                                        controller.selectedRequestType.value =
-                                            newValue;
+                                        controller
+                                            .selectedBiodigesterRequestType
+                                            .value = newValue;
                                       },
-                                      value: controller.returnValue(
-                                          controller.selectedRequestType.value),
+                                      value: controller.returnValue(controller
+                                          .selectedBiodigesterRequestType
+                                          .value),
                                       initialValue: controller.returnValue(
-                                          controller.selectedRequestType.value),
+                                          controller
+                                              .selectedBiodigesterRequestType
+                                              .value),
                                       dropdownItems: [
                                         DropdownMenuItem(
                                           child:
@@ -529,7 +538,8 @@ class BioDigesterMainView extends StatelessWidget {
                                   ),
                                   Obx(() => Visibility(
                                         visible: controller
-                                                .selectedRequestType.value ==
+                                                .selectedBiodigesterRequestType
+                                                .value ==
                                             "2",
                                         child: Text(
                                             "How many people will be using the toilet?"),
@@ -537,7 +547,8 @@ class BioDigesterMainView extends StatelessWidget {
                                   Obx(
                                     () => Visibility(
                                       visible: controller
-                                              .selectedRequestType.value ==
+                                              .selectedBiodigesterRequestType
+                                              .value ==
                                           "2",
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -592,7 +603,9 @@ class BioDigesterMainView extends StatelessWidget {
                             key: formKey2,
                             child: Column(
                               children: [
-                                controller.selectedRequestType.value == "1"
+                                controller.selectedBiodigesterRequestType
+                                            .value ==
+                                        "1"
                                     ? biodigesterServicing()
                                     : biodigesterConstruction(),
                               ],

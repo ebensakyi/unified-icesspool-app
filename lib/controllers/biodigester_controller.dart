@@ -38,7 +38,7 @@ class BiodigesterController extends GetxController {
 
   final transactionId = "".obs;
 
-  final selectedRequestType = "".obs;
+  final selectedBiodigesterRequestType = "".obs;
   final selectedImagePath = "".obs;
   final selectedImageSize = "".obs;
   final userId = 0.obs;
@@ -117,7 +117,7 @@ class BiodigesterController extends GetxController {
   }
 
   Future<void> selectDate(context) async {
-    var lastDate = selectedRequestType == "1" ? 5 : 7;
+    var lastDate = selectedBiodigesterRequestType == "1" ? 5 : 7;
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate.value,
