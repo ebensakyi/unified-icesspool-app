@@ -882,7 +882,7 @@ class RequestView extends StatelessWidget {
     );
   }
 
-  confirmWorkStarted(context, controller) {
+  Widget confirmWorkStarted(context, controller) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

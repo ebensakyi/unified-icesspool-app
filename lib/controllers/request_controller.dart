@@ -420,17 +420,16 @@ class RequestController extends GetxController {
   // }
 
   Future<void> confirmJobStartedClaim() async {
-    log("confirmJobStartedClaim");
     try {
       var client = http.Client();
 
       await client.post(
-        Uri.parse(Constants.UPDATE_TRANSACTION_STATUS_API_URL),
+        Uri.parse(Constants.UPDATE_TRANSACTION_SUB_STATUS_API_URL),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-          'status': Constants.WORK_STARTED.toString(),
+          'txSubStatus': Constants.WORK_STARTED.toString(),
           'transactionId': transactionId.value,
           'userId': userId.value.toString(),
         }),
@@ -438,21 +437,21 @@ class RequestController extends GetxController {
     } catch (e) {}
   }
 
-  Future<void> denyJobStartedClaim() async {
-    var client = http.Client();
+  // Future<void> denyJobStartedClaim() async {
+  //   var client = http.Client();
 
-    await client.post(
-      Uri.parse(Constants.UPDATE_TRANSACTION_STATUS_API_URL),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'status': Constants.WORK_NOT_STARTED.toString(),
-        'transactionId': transactionId.value,
-        'userId': userId.value.toString(),
-      }),
-    );
-  }
+  //   await client.post(
+  //     Uri.parse(Constants.UPDATE_TRANSACTION_STATUS_API_URL),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, String>{
+  //       'status': Constants.WORK_NOT_STARTED.toString(),
+  //       'transactionId': transactionId.value,
+  //       'userId': userId.value.toString(),
+  //     }),
+  //   );
+  // }
 
   Future<void> confirmJobCompletedClaim() async {
     log("confirmJobCompletedClaim");

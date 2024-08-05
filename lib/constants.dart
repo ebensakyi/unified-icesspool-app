@@ -4,7 +4,7 @@ class Constants {
   // static const String BASE_URL = "http://10.0.2.2:3000/api";
   //static const String BASE_URL = "http://192.168.8.100:3000/api";
   //static const String BASE_URL = "http://172.30.13.241:3000/api";
-  // static const String BASE_URL = "http://192.168.8.100:3000/api";
+  //static const String BASE_URL = "http://192.168.8.100:3000/api";
 
   static String LOGIN_API_URL = BASE_URL + "/auth/login/mobile";
 
@@ -98,4 +98,7 @@ class Constants {
   static String WATER_TANKER_SP_API_URL = BASE_URL + "/user/service-provider";
 
   static var DEVICE = "MOBILE";
+
+  static String UPDATE_TRANSACTION_SUB_STATUS_API_URL =
+      BASE_URL + "/service-request/update-transaction/client/tx-substatus";
 }
