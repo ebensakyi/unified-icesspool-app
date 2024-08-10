@@ -459,7 +459,8 @@ class ToiletTruckView extends StatelessWidget {
                                           ),
                                           child: ListTile(
                                             subtitle: Text(controller
-                                                .truckTypes[index].tankVolume),
+                                                .truckTypes[index].tankVolume
+                                                .toString()),
                                             title: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -473,7 +474,8 @@ class ToiletTruckView extends StatelessWidget {
                                                 ),
                                                 Text(controller
                                                         .truckTypes[index]
-                                                        .tankVolume +
+                                                        .tankVolume
+                                                        .toString() +
                                                     "m3"),
                                               ],
                                             ),

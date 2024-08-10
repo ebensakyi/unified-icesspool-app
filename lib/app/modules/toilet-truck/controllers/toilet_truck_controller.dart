@@ -95,7 +95,7 @@ class ToiletTruckController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getTruckTypes(context!);
+    await getTruckTypes();
     await getServiceProviders();
   }
 
@@ -314,37 +314,37 @@ class ToiletTruckController extends GetxController {
     }
   }
 
-  Future<void> getTruckTypes(BuildContext context) async {
+  Future<void> getTruckTypes() async {
     final String apiUrl = Constants.TOILET_TRUCK_AVAILABLE_API_URL;
+
     final Map<String, String> params = {
-      'serviceArea': controller.serviceAreaId.value.toString(),
+      'serviceId': '2',
+      'serviceAreaId': controller.serviceAreaId.value.toString(),
+      'device': Constants.DEVICE,
       'userLatitude': controller.latitude.value.toString(),
       'userLongitude': controller.longitude.value.toString(),
     };
 
     final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+    // try {
+    final response = await http.get(uri);
+    inspect(response);
 
-    try {
-      final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
 
-      if (response.statusCode == 200) {
-        // Successful response
-        final data = json.decode(response.body);
-        truckTypes.value = data["price"];
+      truckTypes.value =
+          List<TruckType>.from(data.map((x) => TruckType.fromJson(x)));
 
-        print(data);
-
-        for (var i = 0; i < truckTypes.length; i++) {
-          isSelectedList.add(false);
-        }
-      } else {
-        // Handle error
-        print('Error: ${response.statusCode}');
-      }
-    } catch (error) {
-      // Handle exception
-      print('Exception getAvailableToiletPricing: $error');
+      inspect(response);
+    } else {
+      // Handle error
+      print('Error: ${response.statusCode}');
     }
+    // } catch (error) {
+    //   // Handle exception
+    //   print('Exception>>: $error');
+    // }
   }
 
   void updateSelectedIndex(int index) {
