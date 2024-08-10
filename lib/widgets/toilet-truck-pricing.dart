@@ -62,19 +62,25 @@ class ToiletTruckPricing extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(FontAwesome.truck_droplet_solid),
-                    SizedBox(width: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 9.0),
+                      child: Icon(FontAwesome.truck_moving_solid),
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
                                 title,
                                 style: TextStyle(color: Colors.black87),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: description,
                               ),
                               SizedBox(width: 24.0),
                               Visibility(
@@ -85,7 +91,7 @@ class ToiletTruckPricing extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
                             price,
                             style: TextStyle(
@@ -93,10 +99,6 @@ class ToiletTruckPricing extends StatelessWidget {
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: description,
                         ),
                       ],
                     ),

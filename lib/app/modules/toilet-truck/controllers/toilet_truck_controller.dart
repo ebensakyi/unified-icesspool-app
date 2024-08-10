@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
+import 'package:icesspool/app/modules/water-tanker/controllers/water_tanker_controller.dart';
 import 'package:icesspool/constants.dart';
 import 'package:icesspool/controllers/home_controller.dart';
 import 'package:icesspool/controllers/request_controller.dart';
@@ -45,10 +46,11 @@ class ToiletTruckController extends GetxController {
   final latitude = 0.0.obs;
   final accuracy = 0.0.obs;
 
-  var pricing = [].obs;
+  var truckTypes = <TruckType>[].obs;
 
   final isSelectedList = [].obs;
 
+  final serviceProviders = <ServiceProvider>[].obs;
   // final biodigesterServicesAvailable = [].obs;
   // final RxList<BiodigesterPricing> biodigesterPricings =
   //     <BiodigesterPricing>[].obs;
@@ -75,11 +77,26 @@ class ToiletTruckController extends GetxController {
   BuildContext? context = Get.context;
 
   var selectedPrice = {}.obs;
+  var serviceProviderName = ''.obs;
+  var serviceProviderId = ''.obs;
+  var spPicture = ''.obs;
+  var spPhoneNumber = ''.obs;
+
+  var companyName = ''.obs;
+
+  var showCancelButton = false.obs;
+  var truckVolumes = <TruckType>[].obs;
+
+  var selectedTruckTypeIndex = (-1).obs;
+  var selectedTruckTypeId = ''.obs;
+  var selectedTruckTypeName = ''.obs;
+  var selectedTruckVolume = ''.obs;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    getPricing(context!);
+    await getTruckTypes(context!);
+    await getServiceProviders();
   }
 
   @override
@@ -90,6 +107,55 @@ class ToiletTruckController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void selectTruckType(int index) {
+    selectedTruckTypeIndex.value = index;
+    selectedTruckTypeId.value = truckTypes[index].id.toString();
+    selectedTruckTypeName.value = truckTypes[index].name.toString();
+    selectedTruckVolume.value = truckTypes[index].tankVolume.toString();
+  }
+
+  Future getServiceProviders() async {
+    final String apiUrl = Constants.SP_API_URL;
+
+    final Map<String, String> params = {
+      'serviceId': '1',
+      'serviceAreaId': controller.serviceAreaId.value.toString(),
+      'device': Constants.DEVICE
+    };
+
+    final Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        // inspect(data);
+
+        serviceProviders.value = List<ServiceProvider>.from(
+            data.map((x) => ServiceProvider.fromJson(x)));
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception>>: $error');
+    }
+  }
+
+  Future<void> selectDate(context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate.value,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now()
+          .add(Duration(days: 7)), // Set lastDate to 5 days from current date
+    );
+    if (picked != null) {
+      selectedDate.value = picked;
+    }
   }
 
   currentStepperType() {
@@ -104,7 +170,7 @@ class ToiletTruckController extends GetxController {
 
   continued() {
     log(currentStep.toString());
-    if (currentStep < 4) {
+    if (currentStep < 6) {
       currentStep.value += 1;
     } else {}
   }
@@ -248,7 +314,7 @@ class ToiletTruckController extends GetxController {
     }
   }
 
-  Future<void> getPricing(BuildContext context) async {
+  Future<void> getTruckTypes(BuildContext context) async {
     final String apiUrl = Constants.TOILET_TRUCK_AVAILABLE_API_URL;
     final Map<String, String> params = {
       'serviceArea': controller.serviceAreaId.value.toString(),
@@ -264,9 +330,11 @@ class ToiletTruckController extends GetxController {
       if (response.statusCode == 200) {
         // Successful response
         final data = json.decode(response.body);
-        pricing.value = data["price"];
+        truckTypes.value = data["price"];
 
-        for (var i = 0; i < pricing.length; i++) {
+        print(data);
+
+        for (var i = 0; i < truckTypes.length; i++) {
           isSelectedList.add(false);
         }
       } else {
@@ -275,11 +343,87 @@ class ToiletTruckController extends GetxController {
       }
     } catch (error) {
       // Handle exception
-      print('Exception getAvailableBiodigesterPricing: $error');
+      print('Exception getAvailableToiletPricing: $error');
     }
   }
 
   void updateSelectedIndex(int index) {
-    isSelectedList.value = List.generate(pricing.length, (i) => i == index);
+    isSelectedList.value = List.generate(truckTypes.length, (i) => i == index);
+  }
+
+  getServiceProviderId(value) {
+    try {
+      var id;
+      for (var i = 0; i < serviceProviders.length; i++) {
+        // log(primaryDataController.communities[i].name);
+
+        if (serviceProviders[i].spName.trim() == value.trim()) {
+          id = serviceProviders[i].id.toString();
+        }
+      }
+      return id;
+    } catch (e) {}
+  }
+
+  String getServiceProviderCompany(String value) {
+    try {
+      for (var i = 0; i < serviceProviders.length; i++) {
+        // log(primaryDataController.communities[i].name);
+
+        if (serviceProviders[i].spName.trim() == value.trim()) {
+          companyName.value = serviceProviders[i].companyName.toString();
+        }
+      }
+      return companyName.value;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  getServiceProviderPhoneNumber(String value) {
+    try {
+      for (var i = 0; i < serviceProviders.length; i++) {
+        // log(primaryDataController.communities[i].name);
+
+        if (serviceProviders[i].spName.trim() == value.trim()) {
+          spPhoneNumber.value = serviceProviders[i].spPhoneNumber.toString();
+        }
+      }
+      return spPhoneNumber.value;
+    } catch (e) {}
+  }
+
+  getServiceProviderPicture(String value) {
+    try {
+      for (var i = 0; i < serviceProviders.length; i++) {
+        // log(primaryDataController.communities[i].name);
+
+        if (serviceProviders[i].spName.trim() == value.trim()) {
+          spPicture.value = serviceProviders[i].avatar.toString();
+        }
+      }
+      return spPicture.value;
+    } catch (e) {}
+  }
+}
+
+class TruckType {
+  int id;
+  String name;
+  String price;
+  String tankVolume;
+  TruckType(
+      {required this.id,
+      required this.name,
+      required this.tankVolume,
+      required this.price});
+
+  factory TruckType.fromJson(Map<String, dynamic> json) {
+    return TruckType(
+      id: json['id'],
+      name: json['name'],
+      tankVolume: json['tankVolume'],
+      price: json['price'],
+    );
   }
 }

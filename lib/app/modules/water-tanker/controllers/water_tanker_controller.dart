@@ -39,6 +39,7 @@ class WaterTankerController extends GetxController {
   var waterTypes = <WaterType>[].obs;
   var selectedWaterTypeIndex = (-1).obs;
   var selectedWaterTypeId = ''.obs;
+  var selectedWaterTypeName = ''.obs;
 
   var waterVolumes = <WaterVolume>[].obs;
   var selectedWaterVolumeIndex = (-1).obs;
@@ -49,7 +50,6 @@ class WaterTankerController extends GetxController {
   var serviceProviderId = ''.obs;
   var spPicture = ''.obs;
   var spPhoneNumber = ''.obs;
-  var selectedWaterTypeName = ''.obs;
 
   var companyName = ''.obs;
 
@@ -59,8 +59,6 @@ class WaterTankerController extends GetxController {
     selectedWaterTypeIndex.value = index;
     selectedWaterTypeId.value = waterTypes[index].id.toString();
     selectedWaterTypeName.value = waterTypes[index].name.toString();
-
-    print("Selected ID: ${selectedWaterTypeId.value}");
   }
 
   void selectWaterVolume(int index) {
@@ -296,7 +294,7 @@ class WaterTankerController extends GetxController {
   }
 
   Future getServiceProviders() async {
-    final String apiUrl = Constants.WATER_TANKER_SP_API_URL;
+    final String apiUrl = Constants.SP_API_URL;
 
     final Map<String, String> params = {
       'serviceId': '2',
