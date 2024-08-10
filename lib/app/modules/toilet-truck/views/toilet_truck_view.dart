@@ -157,7 +157,7 @@ class ToiletTruckView extends StatelessWidget {
                                                   backgroundColor:
                                                       Colors.yellow.shade800,
                                                   alignment: Alignment.center,
-                                                  'Please select tanker volume',
+                                                  'Please select truck type',
                                                   context: context,
                                                   animation:
                                                       StyledToastAnimation
@@ -235,64 +235,133 @@ class ToiletTruckView extends StatelessWidget {
                                                 buttonColor: MyColors.secondary,
                                                 textColor: Colors.white,
                                               )
-                                            : Obx(() => ProgressButton(
-                                                  onPressed: () {
-                                                    if (controller
-                                                            .selectedTimeRangeId
-                                                            .value ==
-                                                        0) {
-                                                      showToast(
-                                                        backgroundColor:
-                                                            Colors.red.shade800,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        'Please select time frame for the job',
-                                                        context: context,
-                                                        animation:
-                                                            StyledToastAnimation
-                                                                .scale,
-                                                        duration: Duration(
-                                                            seconds: 4),
-                                                        position:
-                                                            StyledToastPosition
+                                            : controller.currentStep == 4
+                                                ? SolidButton(
+                                                    onPressed: () {
+                                                      if (controller
+                                                              .selectedTimeRangeId
+                                                              .value ==
+                                                          0) {
+                                                        return showToast(
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .red.shade800,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          'Please select time frame for the job',
+                                                          context: context,
+                                                          animation:
+                                                              StyledToastAnimation
+                                                                  .scale,
+                                                          duration: Duration(
+                                                              seconds: 4),
+                                                          position:
+                                                              StyledToastPosition
+                                                                  .center,
+                                                        );
+                                                      }
+                                                      if (Utils.calculateHoursDifference(
+                                                              controller
+                                                                  .selectedDate
+                                                                  .value,
+                                                              controller
+                                                                  .selectedStartTime
+                                                                  .value) <
+                                                          4) {
+                                                        return showToast(
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .red.shade800,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          'Please select date and time at least 4 hrs from now',
+                                                          context: context,
+                                                          animation:
+                                                              StyledToastAnimation
+                                                                  .scale,
+                                                          duration: Duration(
+                                                              seconds: 4),
+                                                          position:
+                                                              StyledToastPosition
+                                                                  .center,
+                                                        );
+                                                      }
+                                                      // controller.continued();
+
+                                                      if (formKey2.currentState!
+                                                          .validate())
+                                                        controller.continued();
+                                                    },
+                                                    showLoading: false,
+                                                    label: Text('Next'),
+                                                    buttonColor:
+                                                        MyColors.secondary,
+                                                    textColor: Colors.white,
+                                                  )
+                                                : Obx(() => ProgressButton(
+                                                      onPressed: () {
+                                                        if (controller
+                                                                .selectedTimeRangeId
+                                                                .value ==
+                                                            0) {
+                                                          showToast(
+                                                            backgroundColor:
+                                                                Colors.red
+                                                                    .shade800,
+                                                            alignment: Alignment
                                                                 .center,
-                                                      );
-                                                    }
-                                                    if (controller
-                                                            .calculateHoursDifference() <
-                                                        4) {
-                                                      showToast(
-                                                        backgroundColor:
-                                                            Colors.red.shade800,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        'Please select date and time at least 4 hrs from now',
-                                                        context: context,
-                                                        animation:
-                                                            StyledToastAnimation
-                                                                .scale,
-                                                        duration: Duration(
-                                                            seconds: 4),
-                                                        position:
-                                                            StyledToastPosition
+                                                            'Please select time frame for the job',
+                                                            context: context,
+                                                            animation:
+                                                                StyledToastAnimation
+                                                                    .scale,
+                                                            duration: Duration(
+                                                                seconds: 4),
+                                                            position:
+                                                                StyledToastPosition
+                                                                    .center,
+                                                          );
+                                                        }
+                                                        if (controller
+                                                                .calculateHoursDifference() <
+                                                            4) {
+                                                          showToast(
+                                                            backgroundColor:
+                                                                Colors.red
+                                                                    .shade800,
+                                                            alignment: Alignment
                                                                 .center,
-                                                      );
-                                                    }
-                                                    controller
-                                                        .sendRequest(context);
-                                                  },
-                                                  isLoading: controller
-                                                      .isLoading.value,
-                                                  label: 'Submit',
-                                                  progressColor: Colors.white,
-                                                  textColor: Colors.white,
-                                                  backgroundColor:
-                                                      controller.isLoading.value
-                                                          ? MyColors.secondary
-                                                          : MyColors.secondary,
-                                                  borderColor:
-                                                      MyColors.secondary,
-                                                )),
+                                                            'Please select date and time at least 4 hrs from now',
+                                                            context: context,
+                                                            animation:
+                                                                StyledToastAnimation
+                                                                    .scale,
+                                                            duration: Duration(
+                                                                seconds: 4),
+                                                            position:
+                                                                StyledToastPosition
+                                                                    .center,
+                                                          );
+                                                        }
+                                                        controller.sendRequest(
+                                                            context);
+                                                      },
+                                                      isLoading: controller
+                                                          .isLoading.value,
+                                                      label: 'Submit',
+                                                      progressColor:
+                                                          Colors.white,
+                                                      textColor: Colors.white,
+                                                      backgroundColor:
+                                                          controller.isLoading
+                                                                  .value
+                                                              ? MyColors
+                                                                  .secondary
+                                                              : MyColors
+                                                                  .secondary,
+                                                      borderColor:
+                                                          MyColors.secondary,
+                                                    )),
                           ],
                         ),
                       );
@@ -433,7 +502,7 @@ class ToiletTruckView extends StatelessWidget {
                               child: Obx(
                                 () {
                                   if (controller.truckTypes.isEmpty) {
-                                    return CircularProgressIndicator(); // Show a loading indicator while data is being fetched
+                                    return CircularProgressIndicator();
                                   } else {
                                     return Column(
                                       mainAxisAlignment:
@@ -458,9 +527,14 @@ class ToiletTruckView extends StatelessWidget {
                                                 BorderRadius.circular(8.0),
                                           ),
                                           child: ListTile(
-                                            subtitle: Text(controller
-                                                .truckTypes[index].tankVolume
-                                                .toString()),
+                                            subtitle: Text(
+                                                "GHS " +
+                                                    controller
+                                                        .truckTypes[index].price
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                             title: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -470,7 +544,7 @@ class ToiletTruckView extends StatelessWidget {
                                                       .truckTypes[index].name,
                                                   style: TextStyle(
                                                       fontWeight:
-                                                          FontWeight.bold),
+                                                          FontWeight.normal),
                                                 ),
                                                 Text(controller
                                                         .truckTypes[index]
@@ -960,123 +1034,11 @@ class ToiletTruckView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.yellow.withOpacity(
-                                        0.3), // Light yellow background
-                                    borderRadius: BorderRadius.circular(
-                                        10.0), // Adjust the radius as needed
-                                  ),
-                                  child: InkWell(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Text(
-                                        "Choose a time at least 4hrs from current time",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // controller.selectDate(context);
-                                },
-                                child: Text("Select date"),
-                              ),
-                              Obx(() {
-                                final selectedDate =
-                                    controller.selectedDate.value;
-
-                                final formattedDate =
-                                    DateFormat('EEEE, MMMM d, y')
-                                        .format(selectedDate);
-
-                                return Text(' $formattedDate');
-                              }),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Divider(),
-                              ),
-                              Obx(() {
-                                if (controller.timeRanges.isEmpty) {
-                                  return CircularProgressIndicator();
-                                } else {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color:
-                                              Colors.grey), // Set border color
-                                      borderRadius: BorderRadius.circular(
-                                          100), // Set border radius
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8),
-                                      child: DropdownButton<int>(
-                                        alignment: Alignment.center,
-                                        hint: Text('Select Time Range'),
-                                        value: controller
-                                            .selectedTimeRangeId.value,
-                                        onChanged: (int? value) {
-                                          if (value != null) {
-                                            TimeRange selectedTimeRange =
-                                                controller
-                                                    .timeRanges
-                                                    .firstWhere(
-                                                        (ts) => ts.id == value);
-
-                                            controller.selectedTimeRangeId
-                                                .value = value;
-                                            controller.selectedStartTime.value =
-                                                selectedTimeRange.start_time;
-                                          }
-                                        },
-                                        underline: Container(),
-                                        items: controller.timeRanges
-                                            .map<DropdownMenuItem<int>>((ts) {
-                                          return DropdownMenuItem<int>(
-                                            value: ts.id,
-                                            child: Text(ts.time_schedule),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              }),
-
                               Text(
-                                'Invoice for Selected Services',
+                                'Invoice',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 10),
-                              // ListView.builder(
-                              //   shrinkWrap: true,
-                              //   itemCount: controller.selectedServices.length,
-                              //   itemBuilder: (context, index) {
-                              //     final item =
-                              //         controller.selectedServices[index];
-                              //     return Column(
-                              //       children: [
-                              //         ListTile(
-                              //           title: Text('${item["name"]}'),
-                              //           subtitle:
-                              //               Text('GHS ${item["unitCost"]}'),
-                              //         ),
-                              //         Divider(
-                              //           height: 1,
-                              //           color: Colors.grey,
-                              //         ),
-                              //       ],
-                              //     );
-                              //   },
-                              // ),
                               Align(
                                 alignment: Alignment.topRight,
                                 child: Text(
@@ -1089,8 +1051,8 @@ class ToiletTruckView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        isActive: controller.currentStep >= 3,
-                        state: controller.currentStep >= 3
+                        isActive: controller.currentStep >= 5,
+                        state: controller.currentStep >= 5
                             ? StepState.complete
                             : StepState.disabled,
                       ),

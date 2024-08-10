@@ -85,7 +85,6 @@ class ToiletTruckController extends GetxController {
   var companyName = ''.obs;
 
   var showCancelButton = false.obs;
-  var truckVolumes = <TruckType>[].obs;
 
   var selectedTruckTypeIndex = (-1).obs;
   var selectedTruckTypeId = ''.obs;
@@ -97,6 +96,7 @@ class ToiletTruckController extends GetxController {
     super.onInit();
     await getTruckTypes();
     await getServiceProviders();
+    await getTimeRanges();
   }
 
   @override
@@ -107,6 +107,60 @@ class ToiletTruckController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  Future<void> getTimeRanges() async {
+    final String apiUrl = Constants.TIME_SCHEDULE_API_URL;
+
+    final Uri uri = Uri.parse(apiUrl);
+
+    try {
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        // List data = json.decode(response.body);
+
+        // List<Map<String, dynamic>> typedData =
+        //     List<Map<String, dynamic>>.from(data);
+
+        // // Successful response
+        // final data = json.decode(response.body);
+        // var timeSchedules = jsonDecode(data);
+
+        final List<dynamic> data = jsonDecode(response.body);
+
+        timeRanges.add(TimeRange(
+          id: 0,
+          time_schedule: "Select time frame",
+          start_time: '',
+          end_time: '',
+        ));
+        // timeRanges.assignAll(data.map((item) {
+        //   return TimeRange(
+        //     id: item['id'],
+        //     time_schedule: item['time_schedule'],
+        //     start_time: item['start_time'],
+        //     end_time: item['end_time'],
+        //   );
+        // }).toList());
+        data.forEach((item) {
+          timeRanges.add(TimeRange(
+            id: item['id'],
+            time_schedule: item['time_schedule'],
+            start_time: item['start_time'],
+            end_time: item['end_time'],
+          ));
+        });
+
+        // biodigesterServicesAvailable.value = data;
+      } else {
+        // Handle error
+        print('Error: ${response.statusCode}');
+      }
+    } catch (error) {
+      // Handle exception
+      print('Exception getTimeSchedules: $error');
+    }
   }
 
   void selectTruckType(int index) {
@@ -169,7 +223,6 @@ class ToiletTruckController extends GetxController {
   }
 
   continued() {
-    log(currentStep.toString());
     if (currentStep < 6) {
       currentStep.value += 1;
     } else {}
@@ -332,11 +385,12 @@ class ToiletTruckController extends GetxController {
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
+      inspect(data);
 
       truckTypes.value =
           List<TruckType>.from(data.map((x) => TruckType.fromJson(x)));
 
-      inspect(response);
+      inspect(truckTypes);
     } else {
       // Handle error
       print('Error: ${response.statusCode}');
