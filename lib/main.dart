@@ -47,8 +47,11 @@ Future<void> main() async {
 
   isLogin = box.read('isLogin') ?? false;
   onboardingViewed = box.read('onboardingViewed') ?? false;
-
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // Lock to portrait mode
+  ]).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

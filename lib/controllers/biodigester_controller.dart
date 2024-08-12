@@ -430,7 +430,7 @@ class BiodigesterController extends GetxController {
   Future getBiodigesterPricing() async {
     final String apiUrl = Constants.BIODIGESTER_PRICING_API_URL;
     final Map<String, String> params = {
-      'platform': '2',
+      'device': Constants.DEVICE,
       'serviceAreaId': controller.serviceAreaId.value.toString(),
     };
 

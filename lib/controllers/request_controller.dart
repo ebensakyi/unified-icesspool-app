@@ -111,8 +111,6 @@ class RequestController extends GetxController {
 
     // startCountdown();
     // await checkAvailableRequest1();
-
-    // await checkUserTransactionStates();
   }
 
   Future<void> getCurrentLocation() async {
@@ -187,43 +185,43 @@ class RequestController extends GetxController {
     // box.remove('countdownDuration');
   }
 
-  Future checkUserTransactionStates() async {
-    try {
-      _firestore
-          .collection('transaction')
-          .where('customerId', isEqualTo: userId.value)
-          .where('deleted', isEqualTo: false)
-          .snapshots()
-          .listen((snapshot) {
-        // documents.assignAll(snapshot.docs);
-        documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
+  // Future checkUserTransactionStates() async {
+  //   try {
+  //     _firestore
+  //         .collection('transaction')
+  //         .where('customerId', isEqualTo: userId.value)
+  //         .where('deleted', isEqualTo: false)
+  //         .snapshots()
+  //         .listen((snapshot) {
+  //       // documents.assignAll(snapshot.docs);
+  //       documents.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
 
-        var data = documents[0];
+  //       var data = documents[0];
 
-        logger.d(data);
+  //       logger.d(data);
 
-        spImageUrl.value = data['spImageUrl'] ?? "";
-        spCompany.value = data["spCompany"];
-        scheduleTime.value =
-            data["scheduledDate"].split('T')[0] + " " + data["scheduledTime"];
+  //       spImageUrl.value = data['spImageUrl'] ?? "";
+  //       spCompany.value = data["spCompany"];
+  //       scheduleTime.value =
+  //           data["scheduledDate"].split('T')[0] + " " + data["scheduledTime"];
 
-        spName.value = data["spName"];
-        spPhoneNumber.value = data["spPhoneNumber"];
+  //       spName.value = data["spName"];
+  //       spPhoneNumber.value = data["spPhoneNumber"];
 
-        transactionStatus.value = data["txStatusCode"]!;
-        paymentStatus.value = data["paymentStatus"]!;
-        totalCost.value = data['discountedTotalCost'];
-        scheduleTime.value =
-            data["scheduledDate"].split('T')[0]! + " " + data["scheduledTime"]!;
+  //       transactionStatus.value = data["txStatusCode"]!;
+  //       paymentStatus.value = data["paymentStatus"]!;
+  //       totalCost.value = data['discountedTotalCost'];
+  //       scheduleTime.value =
+  //           data["scheduledDate"].split('T')[0]! + " " + data["scheduledTime"]!;
 
-        isDeleted.value = data["deleted"]!;
-      });
-    } catch (e) {
-      log(e.toString());
-    }
-  }
+  //       isDeleted.value = data["deleted"]!;
+  //     });
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  // }
 
-  Future<void> checkAvailableRequest() async {
+  Future checkAvailableRequest() async {
     try {
       // Listen to changes in the Firestore collection
       _firestore
@@ -246,12 +244,12 @@ class RequestController extends GetxController {
           if (data != null) {
             isPendingTrxnAvailable.value = true;
 
-            int? txStatusCode = data['txStatusCode'];
+            int txStatusCode = data['txStatusCode'];
             String _transactionId = data['transactionId'];
             // bool _isDeleted = data['deleted'];
 
-            transactionStatus.value = txStatusCode!;
-            transactionId.value = _transactionId;
+            // transactionStatus.value = txStatusCode!;
+            // transactionId.value = _transactionId;
 
             // logger.d(data);
 

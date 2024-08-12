@@ -83,11 +83,13 @@ class RequestView extends StatelessWidget {
                         key: contentKey,
                         children: [
                           controller.customerHasTransaction.value == 1
-                              ? Column(
-                                  children: [
-                                    displayViewByStatus(context, controller)
-                                  ],
-                                )
+                              ? Obx(() {
+                                  return Column(
+                                    children: [
+                                      displayViewByStatus(context, controller)
+                                    ],
+                                  );
+                                })
                               : controller.customerHasTransaction.value == 2
                                   ? servicesView()
                                   : servicesView(),

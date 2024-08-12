@@ -576,83 +576,6 @@ class ToiletTruckView extends StatelessWidget {
                                   }
                                 },
                               ),
-
-                              // Column(
-                              //   children: [
-                              //     Form(
-                              //       key: formKey3,
-                              //       autovalidateMode:
-                              //           AutovalidateMode.onUserInteraction,
-                              //       child: Column(
-                              //         children: controller.pricing
-                              //             .asMap()
-                              //             .entries
-                              //             .map((entry) {
-                              //           int index = entry.key;
-
-                              //           Map<String, dynamic> element = entry.value;
-
-                              //           return ToiletTruckPricing(
-                              //             activeBgColor: MyColors.primary,
-                              //             inactiveBgColor: MyColors.SubServiceColor2,
-                              //             isAvailable: false,
-                              //             path: "assets/images/biodigester.png",
-                              //             size: 32,
-                              //             title: element["name"],
-                              //             subTitle: "",
-                              //             onPressed: () {
-                              //               controller.updateSelectedIndex(index);
-                              //             },
-                              //             price: "GHS ${element["price"]}",
-                              //             isSelected:
-                              //                 controller.isSelectedList[index],
-                              //             description: RichText(
-                              //               text: TextSpan(
-                              //                 text: element["tankVolume"].toString(),
-                              //                 style: TextStyle(
-                              //                   fontSize: 16,
-                              //                   color: MyColors.primary,
-                              //                   fontWeight: FontWeight.normal,
-                              //                 ),
-                              //                 children: <TextSpan>[
-                              //                   TextSpan(
-                              //                     text: ' m',
-                              //                     style: TextStyle(
-                              //                       fontSize:
-                              //                           12, // Adjust the size for superscript
-                              //                       color: Colors.black,
-                              //                       fontWeight: FontWeight.bold,
-                              //                       textBaseline:
-                              //                           TextBaseline.alphabetic,
-                              //                       // Move the superscript text up by half its font size
-                              //                       // You can adjust this value based on your font and size
-                              //                       //baseline: TextBaseline.ideographic,
-                              //                       letterSpacing: -1,
-                              //                     ),
-                              //                   ),
-                              //                   TextSpan(
-                              //                     text: '3',
-                              //                     style: TextStyle(
-                              //                       fontSize:
-                              //                           12, // Adjust the size for superscript
-                              //                       color: Colors.black,
-                              //                       fontWeight: FontWeight.bold,
-                              //                       textBaseline:
-                              //                           TextBaseline.alphabetic,
-                              //                       // Move the superscript text up by half its font size
-                              //                       // You can adjust this value based on your font and size
-                              //                       //baseline: TextBaseline.ideographic,
-                              //                       letterSpacing: -1,
-                              //                     ),
-                              //                   ),
-                              //                 ],
-                              //               ),
-                              //             ),
-
-                              //             //  Text(element["tankVolume"].toString()+" m"),
-                              //           );
-                              //         }).toList(),
-                              //       ),
                             ),
                           ],
                         ),
@@ -1029,28 +952,51 @@ class ToiletTruckView extends StatelessWidget {
                         title: new Text('Submit'),
                         subtitle: Text('Submit request'),
                         content: Form(
-                          key: formKey6,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Invoice',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  "Total Bill: GHS ",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
+                            key: formKey6,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey, // Border color
+                                  width: 1.0, // Border width
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
+                                borderRadius: BorderRadius.circular(
+                                    8.0), // Optional: Add rounded corners
+                              ),
+                              padding: const EdgeInsets.all(
+                                  8.0), // Optional: Add padding inside the border
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Invoice',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  // You can add your ListView.builder here to loop through your array and display items
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Total Fee: ",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Obx(() => Text(
+                                            "GHS ${controller.selectedPrice.value}",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
                         isActive: controller.currentStep >= 5,
                         state: controller.currentStep >= 5
                             ? StepState.complete

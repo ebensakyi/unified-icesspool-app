@@ -237,8 +237,6 @@ class WaterTankerController extends GetxController {
         isLoading.value = false;
         requestController.isPendingTrxnAvailable.value = true;
 
-        requestController.transactionStatus.value = 1;
-        requestController.transactionId.value = transactionId;
         var response = jsonDecode(json);
 
         //var totalCost = double.tryParse(response["totalCost"]);
@@ -326,7 +324,7 @@ class WaterTankerController extends GetxController {
   Future getWaterTypes() async {
     final String apiUrl = Constants.WATER_TYPES_API_URL;
     final Map<String, String> params = {
-      'platform': '2',
+      'device': Constants.DEVICE,
       'serviceAreaId': controller.serviceAreaId.value.toString(),
     };
 

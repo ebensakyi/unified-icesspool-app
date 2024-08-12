@@ -76,7 +76,7 @@ class ToiletTruckController extends GetxController {
   var phoneNumberController = TextEditingController();
   BuildContext? context = Get.context;
 
-  var selectedPrice = {}.obs;
+  var selectedPrice = ''.obs;
   var serviceProviderName = ''.obs;
   var serviceProviderId = ''.obs;
   var spPicture = ''.obs;
@@ -168,6 +168,7 @@ class ToiletTruckController extends GetxController {
     selectedTruckTypeId.value = truckTypes[index].id.toString();
     selectedTruckTypeName.value = truckTypes[index].name.toString();
     selectedTruckVolume.value = truckTypes[index].tankVolume.toString();
+    selectedPrice.value = truckTypes[index].price.toString();
   }
 
   Future getServiceProviders() async {
@@ -319,10 +320,16 @@ class ToiletTruckController extends GetxController {
         'placeLng': selectedLocation.value.lng,
         'placeId': selectedLocation.value.placeId,
         'accuracy': controller.accuracy.value,
-        'totalCost': "calculateTotalCost(selectedServices)",
+        'totalCost': selectedPrice.value,
         'serviceAreaId': controller.serviceAreaId.value,
         'scheduledDate': selectedDate.value.toIso8601String(),
-        'timeFrame': selectedTimeRangeId.value
+        'timeFrame': selectedTimeRangeId.value,
+        'spName': serviceProviderName.value,
+        'spCompany': companyName.value,
+        'spPhoneNumber': spPhoneNumber.value,
+        'spImageUrl': spPicture.value,
+        'spId': serviceProviderId.value,
+        'requestType': serviceProviderId.value != "" ? "DIRECT" : "BROADCAST"
       };
 
       final response = await http.post(
@@ -339,8 +346,6 @@ class ToiletTruckController extends GetxController {
         isLoading.value = false;
         requestController.isPendingTrxnAvailable.value = true;
 
-        requestController.transactionStatus.value = 1;
-        requestController.transactionId.value = transactionId;
         var response = jsonDecode(json);
 
         var totalCost = double.tryParse(response["totalCost"]);
